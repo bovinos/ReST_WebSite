@@ -1,0 +1,33 @@
+How to implement the hint functionality:
+    1) get the list of the user series
+            x = getSeriesByUser(User user);
+
+    2) use the list of series to obtain users that follow all the series in the list
+            2.1) For each user get the list of the series that he follows
+                        y = getSeriesByUser(User user);
+                2.1.1) if y contains x   =>   get the series that are only in y and save them in a new variable z 
+            2.2) order z by "most followed series"
+            2.3) return the ordered z 
+
+Domande al prof:
+        1) come inserisco un record di una relazione sul db? 
+                R) 2 modi: o lo fai fare sempre dall'"utente" (ma chi è? xD) oppure quando fai la store salvi anche tutte le relazioni.
+                              ma ATTENZIONE! salva solo quei dati che non sono nè stati modificati (dirty = false) nè caricati (cioè sono null)
+        2) la password va criptata nel controller? o lascio che se ne occupi il db?
+                R) Nel controller perché altrimenti passo "in chiaro" la password dall'applicazione al DB e potrebbero leggerla
+                    inoltre facendo in questo modo posso anche "fare una cosa più strong" (cit. by prof)
+        3) Come gestire il fatto che solo un admin può postare una news? È compito del controller?
+        4) i metodi editComment(), editMessage() ed editNews() va inserito in UserMySQL?
+        5) se prima chiamo la addXXX() e poi la getXXX() non mi viene caricato nulla dal DB
+                R) nessuna risposta! ho cappellato io! xD infatti faccio sempre e comunque la getXXX() anche nella addXXX()
+        6) come fare test su questa parte?
+                R) Fai un'applicazione random inutile, popoli un po' il DB e provi xD
+
+
+
+Data una serie X suggerire una serie Y se il 20% di chi ha X ha anche Y:
+    1) getUsersBySeries(Series series)
+    2) Per ogni User:
+        2.1) getSeriesByUser();
+        2.2) salva in una lista x tutte le serie
+    3) conta le occorrenze delle serie e suggerisci solo se n° utenti * 20 / 100 < n° occorrenze
