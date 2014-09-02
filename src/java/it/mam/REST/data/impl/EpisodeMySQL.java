@@ -26,28 +26,28 @@ public class EpisodeMySQL implements Episode {
 
     public EpisodeMySQL(RESTDataLayer dataLayer) {
 
-        this.ID = 0;
-        this.number = -1; // because 0 can be the number of plot 
-        this.season = 0;
-        this.title = "";
-        this.description = "";
-        this.dirty = false;
+        ID = 0;
+        number = -1; // because 0 can be the number of plot 
+        season = 0;
+        title = "";
+        description = "";
+        dirty = false;
 
         this.dataLayer = dataLayer;
 
-        this.series = null;
-        this.seriesID = 0;
+        series = null;
+        seriesID = 0;
     }
 
     public EpisodeMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
-        this.ID = rs.getInt("ID");
-        this.number = rs.getInt("number");
-        this.season = rs.getInt("season");
-        this.title = rs.getString("title");
-        this.description = rs.getString("description");
+        ID = rs.getInt("ID");
+        number = rs.getInt("number");
+        season = rs.getInt("season");
+        title = rs.getString("title");
+        description = rs.getString("description");
 
-        this.seriesID = rs.getInt("ID_series");
+        seriesID = rs.getInt("ID_series");
     }
 
     @Override
@@ -63,7 +63,7 @@ public class EpisodeMySQL implements Episode {
     @Override
     public void setNumber(int number) {
         this.number = number;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class EpisodeMySQL implements Episode {
     @Override
     public void setSeason(int season) {
         this.season = season;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class EpisodeMySQL implements Episode {
     @Override
     public void setTitle(String title) {
         this.title = title;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class EpisodeMySQL implements Episode {
     @Override
     public void setDescription(String description) {
         this.description = description;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -111,26 +111,26 @@ public class EpisodeMySQL implements Episode {
 
     @Override
     public Series getSeries() {
-        if (this.series == null && this.seriesID > 0) {
-            this.series = this.dataLayer.getSeries(seriesID);
+        if (series == null && seriesID > 0) {
+            series = dataLayer.getSeries(seriesID);
         }
 
-        return this.series;
+        return series;
     }
 
     @Override
     public void copyFrom(Episode episode) {
-        this.ID = episode.getID();
-        this.description = episode.getDescription();
-        this.number = episode.getNumber();
-        this.season = episode.getSeason();
-        this.title = episode.getTitle();
+        ID = episode.getID();
+        description = episode.getDescription();
+        number = episode.getNumber();
+        season = episode.getSeason();
+        title = episode.getTitle();
 
         if (episode.getSeries() != null) {
-            this.seriesID = episode.getSeries().getID();
+            seriesID = episode.getSeries().getID();
         }
 
-        this.dirty = true;
+        dirty = true;
     }
 
 }

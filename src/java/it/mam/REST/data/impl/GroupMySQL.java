@@ -26,23 +26,23 @@ public class GroupMySQL implements Group {
 
     public GroupMySQL(RESTDataLayer dataLayer) {
 
-        this.ID = 0;
-        this.name = "";
-        this.description = "";
-        this.dirty = false;
+        ID = 0;
+        name = "";
+        description = "";
+        dirty = false;
 
         this.dataLayer = dataLayer;
 
-        this.users = null;
-        this.services = null;
+        users = null;
+        services = null;
     }
 
     public GroupMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
         this(dataLayer);
-        this.ID = rs.getInt("ID");
-        this.name = rs.getString("name");
-        this.description = rs.getString("desription");
+        ID = rs.getInt("ID");
+        name = rs.getString("name");
+        description = rs.getString("desription");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class GroupMySQL implements Group {
     @Override
     public void setName(String name) {
         this.name = name;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class GroupMySQL implements Group {
     @Override
     public void setDescription(String description) {
         this.description = description;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -84,8 +84,8 @@ public class GroupMySQL implements Group {
 
     @Override
     public List<User> getUsers() {
-        if (this.users == null) {
-            this.users = this.dataLayer.getUsers(this);
+        if (users == null) {
+            users = dataLayer.getUsers(this);
         }
         return users;
     }
@@ -93,13 +93,13 @@ public class GroupMySQL implements Group {
     @Override
     public void setUsers(List<User> users) {
         this.users = users;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public List<Service> getServices() {
-        if (this.services == null) {
-            this.services = this.dataLayer.getServices(this);
+        if (services == null) {
+            services = dataLayer.getServices(this);
         }
         return services;
     }
@@ -107,61 +107,61 @@ public class GroupMySQL implements Group {
     @Override
     public void setServices(List<Service> services) {
         this.services = services;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public void addUser(User user) {
-        if (this.users == null) {
-            this.getUsers();
+        if (users == null) {
+            getUsers();
         }
-        this.users.add(user);
+        users.add(user);
     }
 
     @Override
     public void removeUser(User user) {
-        if (this.users == null) {
+        if (users == null) {
             return;
         }
-        this.users.remove(user);
+        users.remove(user);
     }
 
     @Override
     public void removeAllUsers() {
-        this.users = null;
+        users = null;
     }
 
     @Override
     public void addService(Service service) {
-        if (this.services == null) {
-            this.getServices();
+        if (services == null) {
+            getServices();
         }
-        this.services.add(service);
+        services.add(service);
     }
 
     @Override
     public void removeService(Service service) {
-        if (this.services == null) {
+        if (services == null) {
             return;
         }
-        this.services.remove(service);
+        services.remove(service);
     }
 
     @Override
     public void removeAllServices() {
-        this.services = null;
+        services = null;
     }
 
     @Override
     public void copyFrom(Group group) {
-        this.ID = group.getID();
-        this.description = group.getDescription();
-        this.name = group.getName();
+        ID = group.getID();
+        description = group.getDescription();
+        name = group.getName();
 
-        this.services = null;
-        this.users = null;
+        services = null;
+        users = null;
 
-        this.dirty = true;
+        dirty = true;
     }
 
 }

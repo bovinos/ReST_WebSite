@@ -43,44 +43,44 @@ public class UserMySQL implements User {
 
     public UserMySQL(RESTDataLayer dataLayer) {
 
-        this.ID = 0;
-        this.username = "";
-        this.password = "";
-        this.mail = "";
-        this.name = "";
-        this.surname = "";
-        this.age = 0;
-        this.gender = "u";
-        this.imageURL = "";
-        this.personalMessage = "";
-        this.dirty = false;
+        ID = 0;
+        username = "";
+        password = "";
+        mail = "";
+        name = "";
+        surname = "";
+        age = 0;
+        gender = "u";
+        imageURL = "";
+        personalMessage = "";
+        dirty = false;
 
         this.dataLayer = dataLayer;
 
-        this.group = null;
-        this.groupID = 0;
+        group = null;
+        groupID = 0;
 
-        this.comments = null;
-        this.series = null;
-        this.genres = null;
-        this.messages = null;
-        this.news = null;
+        comments = null;
+        series = null;
+        genres = null;
+        messages = null;
+        news = null;
     }
 
     public UserMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
-        this.ID = rs.getInt("ID");
-        this.username = rs.getString("username");
-        this.password = rs.getString("password");
-        this.mail = rs.getString("mail");
-        this.name = rs.getString("name");
-        this.surname = rs.getString("surname");
-        this.age = rs.getInt("age");
-        this.gender = rs.getString("gender");
-        this.imageURL = rs.getString("image_URL");
-        this.personalMessage = rs.getString("personal_message");
+        ID = rs.getInt("ID");
+        username = rs.getString("username");
+        password = rs.getString("password");
+        mail = rs.getString("mail");
+        name = rs.getString("name");
+        surname = rs.getString("surname");
+        age = rs.getInt("age");
+        gender = rs.getString("gender");
+        imageURL = rs.getString("image_URL");
+        personalMessage = rs.getString("personal_message");
 
-        this.groupID = rs.getInt("ID_group");
+        groupID = rs.getInt("ID_group");
     }
 
     @Override
@@ -96,7 +96,7 @@ public class UserMySQL implements User {
     @Override
     public void setUsername(String username) {
         this.username = username;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class UserMySQL implements User {
     // reminder: encrypt or decript the password
     public void setPassword(String password) {
         this.password = password;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -120,7 +120,7 @@ public class UserMySQL implements User {
     // reminder: check the mail with RegExp
     public void setMail(String mail) {
         this.mail = mail;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -131,7 +131,7 @@ public class UserMySQL implements User {
     @Override
     public void setName(String name) {
         this.name = name;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -142,7 +142,7 @@ public class UserMySQL implements User {
     @Override
     public void setSurname(String surname) {
         this.surname = surname;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -153,7 +153,7 @@ public class UserMySQL implements User {
     @Override
     public void setAge(int age) {
         this.age = age;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -164,7 +164,7 @@ public class UserMySQL implements User {
     @Override
     public void setGender(String gender) {
         this.gender = gender;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -175,7 +175,7 @@ public class UserMySQL implements User {
     @Override
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -186,7 +186,7 @@ public class UserMySQL implements User {
     @Override
     public void setPersonalMessage(String personalMessage) {
         this.personalMessage = personalMessage;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -197,22 +197,22 @@ public class UserMySQL implements User {
     @Override
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public Group getGroup() {
-        if (this.group == null && this.groupID > 0) {
-            this.group = this.dataLayer.getGroup(groupID);
+        if (group == null && groupID > 0) {
+            group = dataLayer.getGroup(groupID);
         }
 
-        return this.group;
+        return group;
     }
 
     @Override
     public List<Comment> getComments() {
-        if (this.comments == null) {
-            this.comments = this.dataLayer.getComments(this);
+        if (comments == null) {
+            comments = dataLayer.getComments(this);
         }
         return comments;
     }
@@ -220,13 +220,13 @@ public class UserMySQL implements User {
     @Override
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public List<Series> getSeries() {
-        if (this.series == null) {
-            this.series = this.dataLayer.getSeries(this);
+        if (series == null) {
+            series = dataLayer.getSeries(this);
         }
         return series;
     }
@@ -234,13 +234,13 @@ public class UserMySQL implements User {
     @Override
     public void setSeries(List<Series> series) {
         this.series = series;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public List<Genre> getGenres() {
-        if (this.genres == null) {
-            this.genres = this.dataLayer.getGenres(this);
+        if (genres == null) {
+            genres = dataLayer.getGenres(this);
         }
         return genres;
     }
@@ -248,13 +248,13 @@ public class UserMySQL implements User {
     @Override
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public List<Message> getMessages() {
-        if (this.messages == null) {
-            this.messages = this.dataLayer.getMessages(this);
+        if (messages == null) {
+            messages = dataLayer.getMessages(this);
         }
         return messages;
     }
@@ -262,14 +262,14 @@ public class UserMySQL implements User {
     @Override
     public void setMessages(List<Message> messages) {
         this.messages = messages;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     // reminder: menage the admin & news question
     public List<News> getNews() {
-        if (this.news == null) {
-            this.news = this.dataLayer.getNews(this);
+        if (news == null) {
+            news = dataLayer.getNews(this);
         }
         return news;
     }
@@ -277,23 +277,23 @@ public class UserMySQL implements User {
     @Override
     public void setNews(List<News> news) {
         this.news = news;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public void addComment(Comment comment) {
-        if (this.comments == null) {
-            this.getComments();
+        if (comments == null) {
+            getComments();
         }
-        this.comments.add(comment);
+        comments.add(comment);
     }
 
     @Override
     public void removeComment(Comment comment) {
-        if (this.comments == null) {
+        if (comments == null) {
             return;
         }
-        this.comments.remove(comment);
+        comments.remove(comment);
     }
 
     @Override
@@ -303,7 +303,7 @@ public class UserMySQL implements User {
 
     @Override
     public void removeAllComment() {
-        this.comments = null;
+        comments = null;
     }
 
     @Override
@@ -315,7 +315,7 @@ public class UserMySQL implements User {
     @Override
     public void addSeries(Series series) {
         if (this.series == null) {
-            this.getSeries();
+            getSeries();
         }
         this.series.add(series);
     }
@@ -330,44 +330,44 @@ public class UserMySQL implements User {
 
     @Override
     public void removeAllSeries() {
-        this.series = null;
+        series = null;
     }
 
     @Override
     public void addGenre(Genre genre) {
-        if (this.genres == null) {
-            this.getGenres();
+        if (genres == null) {
+            getGenres();
         }
         genres.add(genre);
     }
 
     @Override
     public void removeGenre(Genre genre) {
-        if (this.genres == null) {
+        if (genres == null) {
             return;
         }
-        this.genres.remove(genre);
+        genres.remove(genre);
     }
 
     @Override
     public void removeAllGenre() {
-        this.genres = null;
+        genres = null;
     }
 
     @Override
     public void addMessage(Series series, Message message) {
-        if (this.messages == null) {
-            this.getMessages();
+        if (messages == null) {
+            getMessages();
         }
-        this.messages.add(message);
+        messages.add(message);
     }
 
     @Override
     public void removeMessage(Message message) {
-        if (this.messages == null) {
+        if (messages == null) {
             return;
         }
-        this.messages.remove(message);
+        messages.remove(message);
     }
 
     @Override
@@ -378,13 +378,13 @@ public class UserMySQL implements User {
 
     @Override
     public void removeAllMessages() {
-        this.messages = null;
+        messages = null;
     }
 
     @Override
     public void addNews(News news) {
         if (this.news == null) {
-            this.getNews();
+            getNews();
         }
         this.news.add(news);
     }
@@ -405,33 +405,33 @@ public class UserMySQL implements User {
 
     @Override
     public void removeAllNews() {
-        this.news = null;
+        news = null;
     }
 
     @Override
     public void copyFrom(User user) {
-        this.ID = user.getID();
-        this.age = user.getAge();
-        this.gender = user.getGender();
-        this.imageURL = user.getImageURL();
-        this.mail = user.getMail();
-        this.name = user.getName();
-        this.password = user.getPassword();
-        this.personalMessage = user.getPersonalMessage();
-        this.surname = user.getSurname();
-        this.username = user.getUsername();
+        ID = user.getID();
+        age = user.getAge();
+        gender = user.getGender();
+        imageURL = user.getImageURL();
+        mail = user.getMail();
+        name = user.getName();
+        password = user.getPassword();
+        personalMessage = user.getPersonalMessage();
+        surname = user.getSurname();
+        username = user.getUsername();
 
         if (user.getGroup() != null) {
-            this.groupID = user.getGroup().getID();
+            groupID = user.getGroup().getID();
         }
 
-        this.dirty = true;
+        dirty = true;
 
-        this.comments = null;
-        this.genres = null;
-        this.messages = null;
-        this.news = null;
-        this.series = null;
+        comments = null;
+        genres = null;
+        messages = null;
+        news = null;
+        series = null;
     }
 
 }

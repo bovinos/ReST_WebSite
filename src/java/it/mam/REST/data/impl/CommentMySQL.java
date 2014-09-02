@@ -28,31 +28,31 @@ public class CommentMySQL implements Comment {
 
     public CommentMySQL(RESTDataLayer dataLayer) {
 
-        this.ID = 0;
-        this.title = "";
-        this.text = "";
-        this.date = null;
-        this.likes = 0;
-        this.dislikes = 0;
-        this.dirty = false;
+        ID = 0;
+        title = "";
+        text = "";
+        date = null;
+        likes = 0;
+        dislikes = 0;
+        dirty = false;
 
         this.dataLayer = dataLayer;
 
-        this.user = null;
-        this.userID = 0;
+        user = null;
+        userID = 0;
     }
 
     public CommentMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
         this(dataLayer);
-        this.ID = rs.getInt("ID");
-        this.title = rs.getString("title");
-        this.text = rs.getString("text");
-        this.date = rs.getDate("date"); // on DB the type of attribute date is TIMESTAMP
-        this.likes = rs.getInt("likes");
-        this.dislikes = rs.getInt("dislikes");
+        ID = rs.getInt("ID");
+        title = rs.getString("title");
+        text = rs.getString("text");
+        date = rs.getDate("date"); // on DB the type of attribute date is TIMESTAMP
+        likes = rs.getInt("likes");
+        dislikes = rs.getInt("dislikes");
 
-        this.userID = rs.getInt("ID_user");
+        userID = rs.getInt("ID_user");
     }
 
     @Override
@@ -68,7 +68,7 @@ public class CommentMySQL implements Comment {
     @Override
     public void setTitle(String title) {
         this.title = title;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class CommentMySQL implements Comment {
     @Override
     public void setText(String text) {
         this.text = text;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class CommentMySQL implements Comment {
     @Override
     public void setDate(Date date) {
         this.date = date;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -101,7 +101,7 @@ public class CommentMySQL implements Comment {
     @Override
     public void setLikes(int likes) {
         this.likes = likes;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class CommentMySQL implements Comment {
     @Override
     public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -127,27 +127,27 @@ public class CommentMySQL implements Comment {
 
     @Override
     public User getUser() {
-        if (this.user == null && this.userID > 0) {
-            this.user = this.dataLayer.getUser(this.userID);
+        if (user == null && userID > 0) {
+            user = dataLayer.getUser(userID);
         }
 
-        return this.user;
+        return user;
     }
 
     @Override
     public void copyFrom(Comment comment) {
-        this.ID = comment.getID();
-        this.date = comment.getDate();
-        this.dislikes = comment.getDislikes();
-        this.likes = comment.getLikes();
-        this.text = comment.getText();
-        this.title = comment.getTitle();
+        ID = comment.getID();
+        date = comment.getDate();
+        dislikes = comment.getDislikes();
+        likes = comment.getLikes();
+        text = comment.getText();
+        title = comment.getTitle();
 
         if (comment.getUser() != null) {
-            this.userID = comment.getUser().getID();
+            userID = comment.getUser().getID();
         }
 
-        this.dirty = true;
+        dirty = true;
     }
 
 }

@@ -29,30 +29,30 @@ public class MessageMySQL implements Message {
 
     public MessageMySQL(RESTDataLayer dataLayer) {
 
-        this.ID = 0;
-        this.title = "";
-        this.text = "";
-        this.date = null;
-        this.dirty = false;
+        ID = 0;
+        title = "";
+        text = "";
+        date = null;
+        dirty = false;
 
         this.dataLayer = dataLayer;
 
-        this.user = null;
-        this.userID = 0;
-        this.series = null;
-        this.seriesID = 0;
+        user = null;
+        userID = 0;
+        series = null;
+        seriesID = 0;
     }
 
     public MessageMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
         this(dataLayer);
-        this.ID = rs.getInt("ID");
-        this.title = rs.getString("title");
-        this.text = rs.getString("text");
-        this.date = rs.getDate("date"); // on DB the type of attribute date is TIMESTAMP
+        ID = rs.getInt("ID");
+        title = rs.getString("title");
+        text = rs.getString("text");
+        date = rs.getDate("date"); // on DB the type of attribute date is TIMESTAMP
 
-        this.userID = rs.getInt("ID_user");
-        this.seriesID = rs.getInt("ID_series");
+        userID = rs.getInt("ID_user");
+        seriesID = rs.getInt("ID_series");
     }
 
     @Override
@@ -68,7 +68,7 @@ public class MessageMySQL implements Message {
     @Override
     public void setTitle(String title) {
         this.title = title;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class MessageMySQL implements Message {
     @Override
     public void setText(String text) {
         this.text = text;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class MessageMySQL implements Message {
     @Override
     public void setDate(Date date) {
         this.date = date;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -105,37 +105,37 @@ public class MessageMySQL implements Message {
 
     @Override
     public User getUser() {
-        if (this.user == null && this.userID > 0) {
-            this.user = this.dataLayer.getUser(userID);
+        if (user == null && userID > 0) {
+            user = dataLayer.getUser(userID);
         }
 
-        return this.user;
+        return user;
     }
 
     @Override
     public Series getSeries() {
-        if (this.series == null && this.seriesID > 0) {
-            this.series = this.dataLayer.getSeries(seriesID);
+        if (series == null && seriesID > 0) {
+            series = dataLayer.getSeries(seriesID);
         }
 
-        return this.series;
+        return series;
     }
 
     @Override
     public void copyFrom(Message message) {
-        this.ID = message.getID();
-        this.date = message.getDate();
-        this.text = message.getText();
-        this.title = message.getTitle();
+        ID = message.getID();
+        date = message.getDate();
+        text = message.getText();
+        title = message.getTitle();
 
         if (message.getSeries() != null) {
-            this.seriesID = message.getSeries().getID();
+            seriesID = message.getSeries().getID();
         }
         if (message.getUser() != null) {
-            this.userID = message.getUser().getID();
+            userID = message.getUser().getID();
         }
 
-        this.dirty = true;
+        dirty = true;
     }
 
 }

@@ -210,8 +210,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         CastMember result = null;
         try {
-            this.sCastMemberByID.setInt(1, castID);
-            rs = this.sCastMemberByID.executeQuery();
+            sCastMemberByID.setInt(1, castID);
+            rs = sCastMemberByID.executeQuery();
             if (rs.next()) {
                 result = new CastMemberMySQL(this, rs);
             }
@@ -237,7 +237,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         try {
             rs = sCastMembers.executeQuery();
             while (rs.next()) {
-                result.add(this.getCastMember(rs.getInt("ID")));
+                result.add(getCastMember(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -259,10 +259,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<CastMember> result = new ArrayList();
         try {
-            this.sCastMembersBySeries.setInt(1, series.getID());
-            rs = this.sCastMembersBySeries.executeQuery();
+            sCastMembersBySeries.setInt(1, series.getID());
+            rs = sCastMembersBySeries.executeQuery();
             while (rs.next()) {
-                result.add(this.getCastMember(rs.getInt("ID_cast_member")));
+                result.add(getCastMember(rs.getInt("ID_cast_member")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -284,11 +284,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<CastMember> result = new ArrayList();
         try {
-            this.sCastMembersBySeriesAndRole.setInt(1, series.getID());
-            this.sCastMembersBySeriesAndRole.setString(2, role);
-            rs = this.sCastMembersBySeriesAndRole.executeQuery();
+            sCastMembersBySeriesAndRole.setInt(1, series.getID());
+            sCastMembersBySeriesAndRole.setString(2, role);
+            rs = sCastMembersBySeriesAndRole.executeQuery();
             while (rs.next()) {
-                result.add(this.getCastMember(rs.getInt("ID_cast_member")));
+                result.add(getCastMember(rs.getInt("ID_cast_member")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -315,22 +315,22 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                     return;
                 }
                 // else update on DB
-                this.iCastMember.setString(1, castMember.getName());
-                this.iCastMember.setString(2, castMember.getSurname());
-                this.iCastMember.setDate(3, new java.sql.Date(castMember.getBirthDate().getTime()));
-                this.iCastMember.setString(4, castMember.getGender());
-                this.iCastMember.setString(5, castMember.getCountry());
-                this.iCastMember.setString(6, castMember.getImageURL());
-                this.iCastMember.executeUpdate();
+                iCastMember.setString(1, castMember.getName());
+                iCastMember.setString(2, castMember.getSurname());
+                iCastMember.setDate(3, new java.sql.Date(castMember.getBirthDate().getTime()));
+                iCastMember.setString(4, castMember.getGender());
+                iCastMember.setString(5, castMember.getCountry());
+                iCastMember.setString(6, castMember.getImageURL());
+                iCastMember.executeUpdate();
             } else { // Insert
-                this.iCastMember.setString(1, castMember.getName());
-                this.iCastMember.setString(2, castMember.getSurname());
-                this.iCastMember.setDate(3, null);
-                this.iCastMember.setString(4, castMember.getGender());
-                this.iCastMember.setString(5, castMember.getCountry());
-                this.iCastMember.setString(6, castMember.getImageURL());
-                if (this.iCastMember.executeUpdate() == 1) { // query successful
-                    rs = this.iCastMember.getGeneratedKeys(); // to get the key of record inserted
+                iCastMember.setString(1, castMember.getName());
+                iCastMember.setString(2, castMember.getSurname());
+                iCastMember.setDate(3, null);
+                iCastMember.setString(4, castMember.getGender());
+                iCastMember.setString(5, castMember.getCountry());
+                iCastMember.setString(6, castMember.getImageURL());
+                if (iCastMember.executeUpdate() == 1) { // query successful
+                    rs = iCastMember.getGeneratedKeys(); // to get the key of record inserted
                     if (rs.next()) {
                         ID = rs.getInt(1);
                     }
@@ -338,10 +338,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             }
             // now we store the relatoinship only if they are not null
             if (castMember.isSeriesSet()) {
-                this.storeCastMemberSeriesRelationship(ID, castMember.getSeries());
+                storeCastMemberSeriesRelationship(ID, castMember.getSeries());
             }
             if (ID > 0) { // the object is on DB and have a key
-                castMember.copyFrom(this.getCastMember(ID)); // copy the DB object on the current object
+                castMember.copyFrom(getCastMember(ID)); // copy the DB object on the current object
             }
             castMember.setDirty(false);
         } catch (SQLException ex) {
@@ -361,8 +361,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     // dCastMember = "DELETE FROM e_cast_member WHERE ID=?"
     public void removeCastMember(CastMember castMember) {
         try {
-            this.dCastMember.setInt(1, castMember.getID());
-            this.dCastMember.executeUpdate();
+            dCastMember.setInt(1, castMember.getID());
+            dCastMember.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -373,10 +373,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         for (Series s : series) {
             try {
                 if (s.getID() > 0) { // series is on DB already
-                    this.iCastMemberSeriesRel.setInt(1, ID);
-                    this.iCastMemberSeriesRel.setInt(2, s.getID());
-                    this.iCastMemberSeriesRel.setString(3, null); // role?
-                    this.iCastMemberSeriesRel.executeUpdate();
+                    iCastMemberSeriesRel.setInt(1, ID);
+                    iCastMemberSeriesRel.setInt(2, s.getID());
+                    iCastMemberSeriesRel.setString(3, null); // role?
+                    iCastMemberSeriesRel.executeUpdate();
                 } else { //what are we doing if the series isn't on DB?
 
                 }
@@ -401,8 +401,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Channel result = null;
         try {
-            this.sChannelByID.setInt(1, channelID);
-            rs = this.sChannelByID.executeQuery();
+            sChannelByID.setInt(1, channelID);
+            rs = sChannelByID.executeQuery();
             if (rs.next()) {
                 result = new ChannelMySQL(this, rs);
             }
@@ -426,9 +426,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Channel> result = new ArrayList();
         try {
-            rs = this.sChannels.executeQuery();
+            rs = sChannels.executeQuery();
             while (rs.next()) {
-                result.add(this.getChannel(rs.getInt("ID")));
+                result.add(getChannel(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -450,10 +450,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Channel> result = new ArrayList();
         try {
-            this.sChannelsBySeries.setInt(1, series.getID());
-            rs = this.sChannelsBySeries.executeQuery();
+            sChannelsBySeries.setInt(1, series.getID());
+            rs = sChannelsBySeries.executeQuery();
             while (rs.next()) {
-                result.add(this.getChannel(rs.getInt("ID_channel")));
+                result.add(getChannel(rs.getInt("ID_channel")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -475,10 +475,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Channel> result = new ArrayList();
         try {
-            this.sChannelsByType.setString(1, type);
-            rs = this.sChannelsByType.executeQuery();
+            sChannelsByType.setString(1, type);
+            rs = sChannelsByType.executeQuery();
             while (rs.next()) {
-                result.add(this.getChannel(rs.getInt("ID")));
+                result.add(getChannel(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -505,23 +505,23 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 if (!channel.isDirty()) {
                     return;
                 }
-                this.iChannel.setString(1, channel.getName());
-                this.iChannel.setInt(2, channel.getNumber());
-                this.iChannel.setString(3, channel.getType());
-                this.iChannel.executeUpdate();
+                iChannel.setString(1, channel.getName());
+                iChannel.setInt(2, channel.getNumber());
+                iChannel.setString(3, channel.getType());
+                iChannel.executeUpdate();
             } else { // Insert 
-                this.iChannel.setString(1, channel.getName());
-                this.iChannel.setInt(2, channel.getNumber());
-                this.iChannel.setString(3, channel.getType());
-                if (this.iChannel.executeUpdate() == 1) {
-                    rs = this.iChannel.getGeneratedKeys();
+                iChannel.setString(1, channel.getName());
+                iChannel.setInt(2, channel.getNumber());
+                iChannel.setString(3, channel.getType());
+                if (iChannel.executeUpdate() == 1) {
+                    rs = iChannel.getGeneratedKeys();
                     if (rs.next()) {
                         ID = rs.getInt(1);
                     }
                 }
             }
             if (ID > 0) {
-                channel.copyFrom(this.getChannel(ID));
+                channel.copyFrom(getChannel(ID));
             }
             channel.setDirty(false);
         } catch (SQLException ex) {
@@ -541,8 +541,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     //  dChannel = "DELETE FROM e_channel WHERE ID=?"
     public void removeChannel(Channel channel) {
         try {
-            this.dChannel.setInt(1, channel.getID());
-            this.dChannel.executeUpdate();
+            dChannel.setInt(1, channel.getID());
+            dChannel.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -562,8 +562,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Comment result = null;
         try {
-            this.sCommentByID.setInt(1, commentID);
-            rs = this.sCommentByID.executeQuery();
+            sCommentByID.setInt(1, commentID);
+            rs = sCommentByID.executeQuery();
             if (rs.next()) {
                 result = new CommentMySQL(this, rs);
             }
@@ -587,9 +587,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Comment> result = new ArrayList();
         try {
-            rs = this.sComments.executeQuery();
+            rs = sComments.executeQuery();
             while (rs.next()) {
-                result.add(this.getComment(rs.getInt("ID")));
+                result.add(getComment(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -611,10 +611,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Comment> result = new ArrayList();
         try {
-            this.sCommentsBySeries.setInt(1, series.getID());
-            rs = this.sCommentsBySeries.executeQuery();
+            sCommentsBySeries.setInt(1, series.getID());
+            rs = sCommentsBySeries.executeQuery();
             while (rs.next()) {
-                result.add(this.getComment(rs.getInt("ID_comment")));
+                result.add(getComment(rs.getInt("ID_comment")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -636,10 +636,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Comment> result = new ArrayList();
         try {
-            this.sCommentsByNews.setInt(1, news.getID());
-            rs = this.sCommentsByNews.executeQuery();
+            sCommentsByNews.setInt(1, news.getID());
+            rs = sCommentsByNews.executeQuery();
             while (rs.next()) {
-                result.add(this.getComment(rs.getInt("ID_comment")));
+                result.add(getComment(rs.getInt("ID_comment")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -661,10 +661,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Comment> result = new ArrayList();
         try {
-            this.sCommentsByUser.setInt(1, user.getID());
-            rs = this.sCommentsByUser.executeQuery();
+            sCommentsByUser.setInt(1, user.getID());
+            rs = sCommentsByUser.executeQuery();
             while (rs.next()) {
-                result.add(this.getComment(rs.getInt("ID_comment")));
+                result.add(getComment(rs.getInt("ID_comment")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -690,37 +690,37 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 if (!comment.isDirty()) {
                     return;
                 }
-                this.iComment.setString(1, comment.getTitle());
-                this.iComment.setString(2, comment.getText());
-                this.iComment.setDate(3, new java.sql.Date(comment.getDate().getTime()));
-                this.iComment.setInt(4, comment.getLikes());
-                this.iComment.setInt(5, comment.getDislikes());
+                iComment.setString(1, comment.getTitle());
+                iComment.setString(2, comment.getText());
+                iComment.setDate(3, new java.sql.Date(comment.getDate().getTime()));
+                iComment.setInt(4, comment.getLikes());
+                iComment.setInt(5, comment.getDislikes());
                 if (comment.getUser() != null) {
-                    this.iComment.setInt(6, comment.getUser().getID());
+                    iComment.setInt(6, comment.getUser().getID());
                 } else {
-                    this.iComment.setInt(6, 0);
+                    iComment.setInt(6, 0);
                 }
-                this.iComment.executeUpdate();
+                iComment.executeUpdate();
             } else { // Insert
-                this.iComment.setString(1, comment.getTitle());
-                this.iComment.setString(2, comment.getText());
-                this.iComment.setDate(3, null);
-                this.iComment.setInt(4, comment.getLikes());
-                this.iComment.setInt(5, comment.getDislikes());
+                iComment.setString(1, comment.getTitle());
+                iComment.setString(2, comment.getText());
+                iComment.setDate(3, null);
+                iComment.setInt(4, comment.getLikes());
+                iComment.setInt(5, comment.getDislikes());
                 if (comment.getUser() != null) {
-                    this.iComment.setInt(6, comment.getUser().getID());
+                    iComment.setInt(6, comment.getUser().getID());
                 } else {
-                    this.iComment.setInt(6, 0);
+                    iComment.setInt(6, 0);
                 }
-                if (this.iComment.executeUpdate() == 1) {
-                    rs = this.iComment.getGeneratedKeys();
+                if (iComment.executeUpdate() == 1) {
+                    rs = iComment.getGeneratedKeys();
                     if (rs.next()) {
                         ID = rs.getInt(1);
                     }
                 }
             }
             if (ID > 0) {
-                comment.copyFrom(this.getComment(ID));
+                comment.copyFrom(getComment(ID));
             }
             comment.setDirty(false);
         } catch (SQLException ex) {
@@ -740,8 +740,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     // dComment = "DELETE FROM e_comment WHERE ID=?"
     public void removeComment(Comment comment) {
         try {
-            this.dComment.setInt(1, comment.getID());
-            this.dComment.executeUpdate();
+            dComment.setInt(1, comment.getID());
+            dComment.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -761,8 +761,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Episode result = null;
         try {
-            this.sEpisodeByID.setInt(1, episodeID);
-            rs = this.sEpisodeByID.executeQuery();
+            sEpisodeByID.setInt(1, episodeID);
+            rs = sEpisodeByID.executeQuery();
             if (rs.next()) {
                 result = new EpisodeMySQL(this, rs);
             }
@@ -786,10 +786,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Episode result = null;
         try {
-            this.sEpisodeBySeriesAndSeasonAndNumber.setInt(1, series.getID());
-            this.sEpisodeBySeriesAndSeasonAndNumber.setInt(2, season);
-            this.sEpisodeBySeriesAndSeasonAndNumber.setInt(3, number);
-            rs = this.sEpisodeBySeriesAndSeasonAndNumber.executeQuery();
+            sEpisodeBySeriesAndSeasonAndNumber.setInt(1, series.getID());
+            sEpisodeBySeriesAndSeasonAndNumber.setInt(2, season);
+            sEpisodeBySeriesAndSeasonAndNumber.setInt(3, number);
+            rs = sEpisodeBySeriesAndSeasonAndNumber.executeQuery();
             if (rs.next()) {
                 result = new EpisodeMySQL(this, rs);
             }
@@ -813,9 +813,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Episode> result = new ArrayList();
         try {
-            rs = this.sEpisodes.executeQuery();
+            rs = sEpisodes.executeQuery();
             while (rs.next()) {
-                result.add(this.getEpisode(rs.getInt("ID")));
+                result.add(getEpisode(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -837,10 +837,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Episode> result = new ArrayList();
         try {
-            this.sEpisodesBySeries.setInt(1, series.getID());
-            rs = this.sEpisodesBySeries.executeQuery();
+            sEpisodesBySeries.setInt(1, series.getID());
+            rs = sEpisodesBySeries.executeQuery();
             while (rs.next()) {
-                result.add(this.getEpisode(rs.getInt("ID")));
+                result.add(getEpisode(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -862,11 +862,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Episode> result = new ArrayList();
         try {
-            this.sEpisodesBySeriesAndSeason.setInt(1, series.getID());
-            this.sEpisodesBySeriesAndSeason.setInt(2, season);
-            rs = this.sEpisodesBySeriesAndSeason.executeQuery();
+            sEpisodesBySeriesAndSeason.setInt(1, series.getID());
+            sEpisodesBySeriesAndSeason.setInt(2, season);
+            rs = sEpisodesBySeriesAndSeason.executeQuery();
             while (rs.next()) {
-                result.add(this.getEpisode(rs.getInt("ID")));
+                result.add(getEpisode(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -892,28 +892,28 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 if (!episode.isDirty()) {
                     return;
                 }
-                this.iEpisode.setInt(1, episode.getNumber());
-                this.iEpisode.setInt(2, episode.getSeason());
-                this.iEpisode.setString(3, episode.getTitle());
-                this.iEpisode.setString(4, episode.getDescription());
+                iEpisode.setInt(1, episode.getNumber());
+                iEpisode.setInt(2, episode.getSeason());
+                iEpisode.setString(3, episode.getTitle());
+                iEpisode.setString(4, episode.getDescription());
                 if (episode.getSeries() != null) {
-                    this.iEpisode.setInt(5, episode.getSeries().getID());
+                    iEpisode.setInt(5, episode.getSeries().getID());
                 } else {
-                    this.iEpisode.setInt(5, 0);
+                    iEpisode.setInt(5, 0);
                 }
-                this.iEpisode.executeUpdate();
+                iEpisode.executeUpdate();
             } else { // Insert
-                this.iEpisode.setInt(1, episode.getNumber());
-                this.iEpisode.setInt(2, episode.getSeason());
-                this.iEpisode.setString(3, episode.getTitle());
-                this.iEpisode.setString(4, episode.getDescription());
+                iEpisode.setInt(1, episode.getNumber());
+                iEpisode.setInt(2, episode.getSeason());
+                iEpisode.setString(3, episode.getTitle());
+                iEpisode.setString(4, episode.getDescription());
                 if (episode.getSeries() != null) {
-                    this.iEpisode.setInt(5, episode.getSeries().getID());
+                    iEpisode.setInt(5, episode.getSeries().getID());
                 } else {
-                    this.iEpisode.setInt(5, 0);
+                    iEpisode.setInt(5, 0);
                 }
-                if (this.iEpisode.executeUpdate() == 1) {
-                    rs = this.iEpisode.getGeneratedKeys();
+                if (iEpisode.executeUpdate() == 1) {
+                    rs = iEpisode.getGeneratedKeys();
                     if (rs.next()) {
                         ID = rs.getInt(1);
                     }
@@ -921,7 +921,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
             }
             if (ID > 0) {
-                episode.copyFrom(this.getEpisode(ID));
+                episode.copyFrom(getEpisode(ID));
             }
             episode.setDirty(false);
         } catch (SQLException ex) {
@@ -943,11 +943,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Episode result = null;
         try {
-            this.sLastEpisodeSeen.setInt(1, user.getID());
-            this.sLastEpisodeSeen.setInt(2, series.getID());
-            rs = this.sLastEpisodeSeen.executeQuery();
+            sLastEpisodeSeen.setInt(1, user.getID());
+            sLastEpisodeSeen.setInt(2, series.getID());
+            rs = sLastEpisodeSeen.executeQuery();
             if (rs.next()) {
-                result = this.getEpisodeBySeriesAndSeasonAndNumber(series, rs.getInt("season"), rs.getInt("episode"));
+                result = getEpisodeBySeriesAndSeasonAndNumber(series, rs.getInt("season"), rs.getInt("episode"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -967,8 +967,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     // dEpisode = "DELETE FROM e_episode WHERE ID=?"
     public void removeEpisode(Episode episode) {
         try {
-            this.dEpisode.setInt(1, episode.getID());
-            this.dEpisode.executeUpdate();
+            dEpisode.setInt(1, episode.getID());
+            dEpisode.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -988,8 +988,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Genre result = null;
         try {
-            this.sGenreByID.setInt(1, genreID);
-            rs = this.sGenreByID.executeQuery();
+            sGenreByID.setInt(1, genreID);
+            rs = sGenreByID.executeQuery();
             if (rs.next()) {
                 result = new GenreMySQL(this, rs);
             }
@@ -1013,9 +1013,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Genre> result = new ArrayList();
         try {
-            rs = this.sGenres.executeQuery();
+            rs = sGenres.executeQuery();
             while (rs.next()) {
-                result.add(this.getGenre(rs.getInt("ID")));
+                result.add(getGenre(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1037,10 +1037,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Genre> result = new ArrayList();
         try {
-            this.sGenresBySeries.setInt(1, series.getID());
-            rs = this.sGenresBySeries.executeQuery();
+            sGenresBySeries.setInt(1, series.getID());
+            rs = sGenresBySeries.executeQuery();
             while (rs.next()) {
-                result.add(this.getGenre(rs.getInt("ID_genre")));
+                result.add(getGenre(rs.getInt("ID_genre")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1062,10 +1062,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Genre> result = new ArrayList();
         try {
-            this.sGenresByUser.setInt(1, user.getID());
-            rs = this.sGenresByUser.executeQuery();
+            sGenresByUser.setInt(1, user.getID());
+            rs = sGenresByUser.executeQuery();
             while (rs.next()) {
-                result.add(this.getGenre(rs.getInt("ID_genre")));
+                result.add(getGenre(rs.getInt("ID_genre")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1091,12 +1091,12 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 if (!genre.isDirty()) {
                     return;
                 }
-                this.iGenre.setString(1, genre.getName());
-                this.iGenre.executeUpdate();
+                iGenre.setString(1, genre.getName());
+                iGenre.executeUpdate();
             } else { // Insert
-                this.iGenre.setString(1, genre.getName());
-                if (this.iGenre.executeUpdate() == 1) {
-                    rs = this.iGenre.getGeneratedKeys();
+                iGenre.setString(1, genre.getName());
+                if (iGenre.executeUpdate() == 1) {
+                    rs = iGenre.getGeneratedKeys();
                     if (rs.next()) {
                         ID = rs.getInt(1);
                     }
@@ -1104,7 +1104,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
             }
             if (ID > 0) {
-                genre.copyFrom(this.getGenre(ID));
+                genre.copyFrom(getGenre(ID));
             }
             genre.setDirty(false);
         } catch (SQLException ex) {
@@ -1124,8 +1124,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     // dGenre = "DELETE FROM e_genre WHERE ID=?"
     public void removeGenre(Genre genre) {
         try {
-            this.dGenre.setInt(1, genre.getID());
-            this.dGenre.executeUpdate();
+            dGenre.setInt(1, genre.getID());
+            dGenre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1145,8 +1145,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Group result = null;
         try {
-            this.sGroupByID.setInt(1, groupID);
-            rs = this.sGroupByID.executeQuery();
+            sGroupByID.setInt(1, groupID);
+            rs = sGroupByID.executeQuery();
             if (rs.next()) {
                 result = new GroupMySQL(this, rs);
             }
@@ -1170,10 +1170,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Group result = null;
         try {
-            this.sGenresByUser.setInt(1, user.getID());
-            rs = this.sGroupByUser.executeQuery();
+            sGenresByUser.setInt(1, user.getID());
+            rs = sGroupByUser.executeQuery();
             if (rs.next()) {
-                result = this.getGroup(rs.getInt("ID_group"));
+                result = getGroup(rs.getInt("ID_group"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1195,9 +1195,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Group> result = new ArrayList();
         try {
-            rs = this.sGroups.executeQuery();
+            rs = sGroups.executeQuery();
             while (rs.next()) {
-                result.add(this.getGroup(rs.getInt("ID")));
+                result.add(getGroup(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1219,10 +1219,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Group> result = new ArrayList();
         try {
-            this.sGroupsByService.setInt(1, service.getID());
-            rs = this.sGroupsByService.executeQuery();
+            sGroupsByService.setInt(1, service.getID());
+            rs = sGroupsByService.executeQuery();
             while (rs.next()) {
-                result.add(this.getGroup(rs.getInt("ID_group")));
+                result.add(getGroup(rs.getInt("ID_group")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1248,14 +1248,14 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 if (!group.isDirty()) {
                     return;
                 }
-                this.iGroup.setString(1, group.getName());
-                this.iGroup.setString(2, group.getDescription());
-                this.iGroup.executeUpdate();
+                iGroup.setString(1, group.getName());
+                iGroup.setString(2, group.getDescription());
+                iGroup.executeUpdate();
             } else { // Insert
-                this.iGroup.setString(1, group.getName());
-                this.iGroup.setString(2, group.getDescription());
-                if (this.iGroup.executeUpdate() == 1) {
-                    rs = this.iGroup.getGeneratedKeys();
+                iGroup.setString(1, group.getName());
+                iGroup.setString(2, group.getDescription());
+                if (iGroup.executeUpdate() == 1) {
+                    rs = iGroup.getGeneratedKeys();
                     if (rs.next()) {
                         ID = rs.getInt(1);
                     }
@@ -1263,7 +1263,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
             }
             if (ID > 0) {
-                group.copyFrom(this.getGroup(ID));
+                group.copyFrom(getGroup(ID));
             }
             group.setDirty(false);
         } catch (SQLException ex) {
@@ -1283,8 +1283,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     // dGroup = "DELETE FROM e_group WHERE ID=?"
     public void removeGroup(Group group) {
         try {
-            this.dGroup.setInt(1, group.getID());
-            this.dGroup.executeUpdate();
+            dGroup.setInt(1, group.getID());
+            dGroup.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1304,8 +1304,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Message result = null;
         try {
-            this.sMessageByID.setInt(1, messageID);
-            rs = this.sMessageByID.executeQuery();
+            sMessageByID.setInt(1, messageID);
+            rs = sMessageByID.executeQuery();
             if (rs.next()) {
                 result = new MessageMySQL(this, rs);
             }
@@ -1329,9 +1329,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Message> result = new ArrayList();
         try {
-            rs = this.sMessages.executeQuery();
+            rs = sMessages.executeQuery();
             while (rs.next()) {
-                result.add(this.getMessage(rs.getInt("ID")));
+                result.add(getMessage(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1353,10 +1353,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Message> result = new ArrayList();
         try {
-            this.sMessagesByUser.setInt(1, user.getID());
-            rs = this.sMessagesByUser.executeQuery();
+            sMessagesByUser.setInt(1, user.getID());
+            rs = sMessagesByUser.executeQuery();
             while (rs.next()) {
-                result.add(this.getMessage(rs.getInt("ID")));
+                result.add(getMessage(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1378,10 +1378,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Message> result = new ArrayList();
         try {
-            this.sMessagesBySeries.setInt(1, series.getID());
-            rs = this.sMessagesBySeries.executeQuery();
+            sMessagesBySeries.setInt(1, series.getID());
+            rs = sMessagesBySeries.executeQuery();
             while (rs.next()) {
-                result.add(this.getMessage(rs.getInt("ID")));
+                result.add(getMessage(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1403,11 +1403,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Message> result = new ArrayList();
         try {
-            this.sMessagesByUserAndSeries.setInt(1, user.getID());
-            this.sMessagesByUserAndSeries.setInt(2, series.getID());
-            rs = this.sMessagesByUserAndSeries.executeQuery();
+            sMessagesByUserAndSeries.setInt(1, user.getID());
+            sMessagesByUserAndSeries.setInt(2, series.getID());
+            rs = sMessagesByUserAndSeries.executeQuery();
             while (rs.next()) {
-                result.add(this.getMessage(rs.getInt("ID")));
+                result.add(getMessage(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1433,29 +1433,29 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 if (!message.isDirty()) {
                     return;
                 }
-                this.iMessage.setString(1, message.getTitle());
-                this.iMessage.setString(2, message.getText());
-                this.iMessage.setDate(3, new java.sql.Date(message.getDate().getTime()));
-                this.iMessage.setInt(4, message.getUser().getID());
-                this.iMessage.setInt(5, message.getSeries().getID());
-                this.iMessage.executeUpdate();
+                iMessage.setString(1, message.getTitle());
+                iMessage.setString(2, message.getText());
+                iMessage.setDate(3, new java.sql.Date(message.getDate().getTime()));
+                iMessage.setInt(4, message.getUser().getID());
+                iMessage.setInt(5, message.getSeries().getID());
+                iMessage.executeUpdate();
             } else { // Insert
-                this.iMessage.setString(1, message.getTitle());
-                this.iMessage.setString(2, message.getText());
-                this.iMessage.setDate(3, null);
+                iMessage.setString(1, message.getTitle());
+                iMessage.setString(2, message.getText());
+                iMessage.setDate(3, null);
                 if (message.getUser() != null) {
-                    this.iMessage.setInt(4, message.getUser().getID());
+                    iMessage.setInt(4, message.getUser().getID());
                 } else {
-                    this.iMessage.setInt(4, 0);
+                    iMessage.setInt(4, 0);
                 }
                 if (message.getSeries() != null) {
-                    this.iMessage.setInt(5, message.getSeries().getID());
+                    iMessage.setInt(5, message.getSeries().getID());
                 } else {
-                    this.iMessage.setInt(5, 0);
+                    iMessage.setInt(5, 0);
                 }
-                this.iMessage.executeUpdate();
-                if (this.iMessage.executeUpdate() == 1) {
-                    rs = this.iMessage.getGeneratedKeys();
+                iMessage.executeUpdate();
+                if (iMessage.executeUpdate() == 1) {
+                    rs = iMessage.getGeneratedKeys();
                     if (rs.next()) {
                         ID = rs.getInt(1);
                     }
@@ -1463,7 +1463,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
             }
             if (ID > 0) {
-                message.copyFrom(this.getMessage(ID));
+                message.copyFrom(getMessage(ID));
             }
             message.setDirty(false);
         } catch (SQLException ex) {
@@ -1483,8 +1483,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     // dMessage = "DELETE FROM e_message WHERE ID=?"
     public void removeMessage(Message message) {
         try {
-            this.dMessage.setInt(1, message.getID());
-            this.dMessage.executeUpdate();
+            dMessage.setInt(1, message.getID());
+            dMessage.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1504,8 +1504,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         News result = null;
         try {
-            this.sNewsByID.setInt(1, newsID);
-            rs = this.sNewsByID.executeQuery();
+            sNewsByID.setInt(1, newsID);
+            rs = sNewsByID.executeQuery();
             if (rs.next()) {
                 result = new NewsMySQL(this, rs);
             }
@@ -1529,10 +1529,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         News result = null;
         try {
-            this.sNewsByComment.setInt(1, comment.getID());
-            rs = this.sNewsByComment.executeQuery();
+            sNewsByComment.setInt(1, comment.getID());
+            rs = sNewsByComment.executeQuery();
             while (rs.next()) {
-                result = this.getNews(rs.getInt("ID_news"));
+                result = getNews(rs.getInt("ID_news"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1554,9 +1554,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<News> result = new ArrayList();
         try {
-            rs = this.sNews.executeQuery();
+            rs = sNews.executeQuery();
             while (rs.next()) {
-                result.add(this.getNews(rs.getInt("ID")));
+                result.add(getNews(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1578,10 +1578,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<News> result = new ArrayList();
         try {
-            this.sNewsByUser.setInt(1, user.getID());
-            rs = this.sNewsByUser.executeQuery();
+            sNewsByUser.setInt(1, user.getID());
+            rs = sNewsByUser.executeQuery();
             while (rs.next()) {
-                result.add(this.getNews(rs.getInt("ID")));
+                result.add(getNews(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1603,10 +1603,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<News> result = new ArrayList();
         try {
-            this.sNewsbySeries.setInt(1, series.getID());
-            rs = this.sNewsbySeries.executeQuery();
+            sNewsbySeries.setInt(1, series.getID());
+            rs = sNewsbySeries.executeQuery();
             while (rs.next()) {
-                result.add(this.getNews(rs.getInt("ID_news")));
+                result.add(getNews(rs.getInt("ID_news")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1632,30 +1632,30 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 if (!news.isDirty()) {
                     return;
                 }
-                this.iNews.setString(1, news.getTitle());
-                this.iNews.setString(2, news.getText());
-                this.iNews.setDate(3, new java.sql.Date(news.getDate().getTime()));
-                this.iNews.setInt(4, news.getLikes());
-                this.iNews.setInt(5, news.getDislikes());
+                iNews.setString(1, news.getTitle());
+                iNews.setString(2, news.getText());
+                iNews.setDate(3, new java.sql.Date(news.getDate().getTime()));
+                iNews.setInt(4, news.getLikes());
+                iNews.setInt(5, news.getDislikes());
                 if (news.getUser() != null) {
-                    this.iNews.setInt(6, news.getUser().getID());
+                    iNews.setInt(6, news.getUser().getID());
                 } else {
-                    this.iNews.setInt(6, 0);
+                    iNews.setInt(6, 0);
                 }
-                this.iNews.executeUpdate();
+                iNews.executeUpdate();
             } else { // Insert
-                this.iNews.setString(1, news.getTitle());
-                this.iNews.setString(2, news.getText());
-                this.iNews.setDate(3, null);
-                this.iNews.setInt(4, news.getLikes());
-                this.iNews.setInt(5, news.getDislikes());
+                iNews.setString(1, news.getTitle());
+                iNews.setString(2, news.getText());
+                iNews.setDate(3, null);
+                iNews.setInt(4, news.getLikes());
+                iNews.setInt(5, news.getDislikes());
                 if (news.getUser() != null) {
-                    this.iNews.setInt(6, news.getUser().getID());
+                    iNews.setInt(6, news.getUser().getID());
                 } else {
-                    this.iNews.setInt(6, 0);
+                    iNews.setInt(6, 0);
                 }
-                if (this.iNews.executeUpdate() == 1) {
-                    rs = this.iNews.getGeneratedKeys();
+                if (iNews.executeUpdate() == 1) {
+                    rs = iNews.getGeneratedKeys();
                     if (rs.next()) {
                         ID = rs.getInt(1);
                     }
@@ -1663,7 +1663,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
             }
             if (ID > 0) {
-                news.copyFrom(this.getNews(ID));
+                news.copyFrom(getNews(ID));
             }
             news.setDirty(false);
         } catch (SQLException ex) {
@@ -1683,8 +1683,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     // dNews = "DELETE FROM e_news WHERE ID=?"
     public void removeNews(News news) {
         try {
-            this.dNews.setInt(1, news.getID());
-            this.dNews.executeLargeUpdate();
+            dNews.setInt(1, news.getID());
+            dNews.executeLargeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1704,8 +1704,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Series result = null;
         try {
-            this.sSeriesByID.setInt(1, seriesID);
-            rs = this.sSeriesByID.executeQuery();
+            sSeriesByID.setInt(1, seriesID);
+            rs = sSeriesByID.executeQuery();
             if (rs.next()) {
                 result = new SeriesMySQL(this, rs);
             }
@@ -1729,10 +1729,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Series result = null;
         try {
-            this.sSeriesByMessage.setInt(1, message.getID());
-            rs = this.sSeriesByMessage.executeQuery();
+            sSeriesByMessage.setInt(1, message.getID());
+            rs = sSeriesByMessage.executeQuery();
             while (rs.next()) {
-                result = this.getSeries(rs.getInt("ID_series"));
+                result = getSeries(rs.getInt("ID_series"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1754,10 +1754,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Series result = null;
         try {
-            this.sSeriesByEpisode.setInt(1, episode.getID());
-            rs = this.sSeriesByEpisode.executeQuery();
+            sSeriesByEpisode.setInt(1, episode.getID());
+            rs = sSeriesByEpisode.executeQuery();
             while (rs.next()) {
-                result = this.getSeries(rs.getInt("ID_series"));
+                result = getSeries(rs.getInt("ID_series"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1779,10 +1779,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Series result = null;
         try {
-            this.sSeriesByComment.setInt(1, comment.getID());
-            rs = this.sSeriesByComment.executeQuery();
+            sSeriesByComment.setInt(1, comment.getID());
+            rs = sSeriesByComment.executeQuery();
             while (rs.next()) {
-                result = this.getSeries(rs.getInt("ID_series"));
+                result = getSeries(rs.getInt("ID_series"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1804,9 +1804,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Series> result = new ArrayList();
         try {
-            rs = this.sSeries.executeQuery();
+            rs = sSeries.executeQuery();
             while (rs.next()) {
-                result.add(this.getSeries(rs.getInt("ID")));
+                result.add(getSeries(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1828,10 +1828,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Series> result = new ArrayList();
         try {
-            this.sSeriesByNews.setInt(1, news.getID());
-            rs = this.sSeriesByNews.executeQuery();
+            sSeriesByNews.setInt(1, news.getID());
+            rs = sSeriesByNews.executeQuery();
             while (rs.next()) {
-                result.add(this.getSeries(rs.getInt("ID_series")));
+                result.add(getSeries(rs.getInt("ID_series")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1853,10 +1853,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Series> result = new ArrayList();
         try {
-            this.sSeriesByGenre.setInt(1, genre.getID());
-            rs = this.sSeriesByGenre.executeQuery();
+            sSeriesByGenre.setInt(1, genre.getID());
+            rs = sSeriesByGenre.executeQuery();
             while (rs.next()) {
-                result.add(this.getSeries(rs.getInt("ID_series")));
+                result.add(getSeries(rs.getInt("ID_series")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1878,10 +1878,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Series> result = new ArrayList();
         try {
-            this.sSeriesByChannel.setInt(1, channel.getID());
-            rs = this.sSeriesByChannel.executeQuery();
+            sSeriesByChannel.setInt(1, channel.getID());
+            rs = sSeriesByChannel.executeQuery();
             while (rs.next()) {
-                result.add(this.getSeries(rs.getInt("ID_series")));
+                result.add(getSeries(rs.getInt("ID_series")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1903,10 +1903,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Series> result = new ArrayList();
         try {
-            this.sSeriesByCastMember.setInt(1, castMember.getID());
-            rs = this.sSeriesByCastMember.executeQuery();
+            sSeriesByCastMember.setInt(1, castMember.getID());
+            rs = sSeriesByCastMember.executeQuery();
             while (rs.next()) {
-                result.add(this.getSeries(rs.getInt("ID_series")));
+                result.add(getSeries(rs.getInt("ID_series")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1928,11 +1928,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Series> result = new ArrayList();
         try {
-            this.sSeriesByCastMemberAndRole.setInt(1, castMember.getID());
-            this.sSeriesByCastMemberAndRole.setString(2, role);
-            rs = this.sSeriesByCastMemberAndRole.executeQuery();
+            sSeriesByCastMemberAndRole.setInt(1, castMember.getID());
+            sSeriesByCastMemberAndRole.setString(2, role);
+            rs = sSeriesByCastMemberAndRole.executeQuery();
             while (rs.next()) {
-                result.add(this.getSeries(rs.getInt("ID_series")));
+                result.add(getSeries(rs.getInt("ID_series")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1954,10 +1954,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Series> result = new ArrayList();
         try {
-            this.sSeriesByUser.setInt(1, user.getID());
-            rs = this.sSeriesByUser.executeQuery();
+            sSeriesByUser.setInt(1, user.getID());
+            rs = sSeriesByUser.executeQuery();
             while (rs.next()) {
-                result.add(this.getSeries(rs.getInt("ID_series")));
+                result.add(getSeries(rs.getInt("ID_series")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -1983,22 +1983,22 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 if (!series.isDirty()) {
                     return;
                 }
-                this.iSeries.setString(1, series.getName());
-                this.iSeries.setInt(2, series.getYear());
-                this.iSeries.setString(3, series.getDescription());
-                this.iSeries.setString(4, series.getImageURL());
-                this.iSeries.setString(5, series.getState());
-                this.iSeries.setInt(6, series.getAddCount());
-                this.iSeries.executeUpdate();
+                iSeries.setString(1, series.getName());
+                iSeries.setInt(2, series.getYear());
+                iSeries.setString(3, series.getDescription());
+                iSeries.setString(4, series.getImageURL());
+                iSeries.setString(5, series.getState());
+                iSeries.setInt(6, series.getAddCount());
+                iSeries.executeUpdate();
             } else { // Insert
-                this.iSeries.setString(1, series.getName());
-                this.iSeries.setInt(2, series.getYear());
-                this.iSeries.setString(3, series.getDescription());
-                this.iSeries.setString(4, series.getImageURL());
-                this.iSeries.setString(5, series.getState());
-                this.iSeries.setInt(6, series.getAddCount());
-                if (this.iSeries.executeUpdate() == 1) {
-                    rs = this.iSeries.getGeneratedKeys();
+                iSeries.setString(1, series.getName());
+                iSeries.setInt(2, series.getYear());
+                iSeries.setString(3, series.getDescription());
+                iSeries.setString(4, series.getImageURL());
+                iSeries.setString(5, series.getState());
+                iSeries.setInt(6, series.getAddCount());
+                if (iSeries.executeUpdate() == 1) {
+                    rs = iSeries.getGeneratedKeys();
                     if (rs.next()) {
                         ID = rs.getInt(1);
                     }
@@ -2006,7 +2006,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
             }
             if (ID > 0) {
-                series.copyFrom(this.getSeries(ID));
+                series.copyFrom(getSeries(ID));
             }
             series.setDirty(false);
         } catch (SQLException ex) {
@@ -2026,8 +2026,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     // dSeries = "DELETE FROM e_series WHRE ID=?"
     public void removeSeries(Series series) {
         try {
-            this.dSeries.setInt(1, series.getID());
-            this.iSeries.executeUpdate();
+            dSeries.setInt(1, series.getID());
+            iSeries.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -2047,8 +2047,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         Service result = null;
         try {
-            this.sServiceByID.setInt(1, serviceID);
-            rs = this.sServiceByID.executeQuery();
+            sServiceByID.setInt(1, serviceID);
+            rs = sServiceByID.executeQuery();
             if (rs.next()) {
                 result = new ServiceMySQL(this, rs);
             }
@@ -2072,9 +2072,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Service> result = new ArrayList();
         try {
-            rs = this.sServices.executeQuery();
+            rs = sServices.executeQuery();
             while (rs.next()) {
-                result.add(this.getService(rs.getInt("ID")));
+                result.add(getService(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2096,10 +2096,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<Service> result = new ArrayList();
         try {
-            this.sServicesByGroup.setInt(1, group.getID());
-            rs = this.sServicesByGroup.executeQuery();
+            sServicesByGroup.setInt(1, group.getID());
+            rs = sServicesByGroup.executeQuery();
             while (rs.next()) {
-                result.add(this.getService(rs.getInt("ID_service")));
+                result.add(getService(rs.getInt("ID_service")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2125,16 +2125,16 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 if (!service.isDirty()) {
                     return;
                 }
-                this.iService.setString(1, service.getName());
-                this.iService.setString(2, service.getDescription());
-                this.iService.setString(3, service.getScriptName());
-                this.iService.executeUpdate();
+                iService.setString(1, service.getName());
+                iService.setString(2, service.getDescription());
+                iService.setString(3, service.getScriptName());
+                iService.executeUpdate();
             } else { // Insert
-                this.iService.setString(1, service.getName());
-                this.iService.setString(2, service.getDescription());
-                this.iService.setString(3, service.getScriptName());
-                if (this.iService.executeUpdate() == 1) {
-                    rs = this.iService.getGeneratedKeys();
+                iService.setString(1, service.getName());
+                iService.setString(2, service.getDescription());
+                iService.setString(3, service.getScriptName());
+                if (iService.executeUpdate() == 1) {
+                    rs = iService.getGeneratedKeys();
                     if (rs.next()) {
                         ID = rs.getInt(1);
                     }
@@ -2142,7 +2142,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
             }
             if (ID > 0) {
-                service.copyFrom(this.getService(ID));
+                service.copyFrom(getService(ID));
             }
             service.setDirty(false);
         } catch (SQLException ex) {
@@ -2162,8 +2162,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     // dService = "DELETE FROM e_service WHERE ID=?"
     public void removeService(Service service) {
         try {
-            this.dService.setInt(1, service.getID());
-            this.dService.executeUpdate();
+            dService.setInt(1, service.getID());
+            dService.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -2183,8 +2183,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         User result = null;
         try {
-            this.sUserByID.setInt(1, userID);
-            rs = this.sUserByID.executeQuery();
+            sUserByID.setInt(1, userID);
+            rs = sUserByID.executeQuery();
             if (rs.next()) {
                 result = new UserMySQL(this, rs);
             }
@@ -2208,11 +2208,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         User result = null;
         try {
-            this.sUserByUsernameAndPassword.setString(1, username);
-            this.sUserByUsernameAndPassword.setString(2, password);
-            rs = this.sUserByUsernameAndPassword.executeQuery();
+            sUserByUsernameAndPassword.setString(1, username);
+            sUserByUsernameAndPassword.setString(2, password);
+            rs = sUserByUsernameAndPassword.executeQuery();
             if (rs.next()) {
-                result = this.getUser(rs.getInt("ID"));
+                result = getUser(rs.getInt("ID"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2234,10 +2234,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         User result = null;
         try {
-            this.sUserByMessage.setInt(1, message.getID());
-            rs = this.sUserByMessage.executeQuery();
+            sUserByMessage.setInt(1, message.getID());
+            rs = sUserByMessage.executeQuery();
             while (rs.next()) {
-                result = this.getUser(rs.getInt("ID_user"));
+                result = getUser(rs.getInt("ID_user"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2259,10 +2259,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         User result = null;
         try {
-            this.sUserByComment.setInt(1, comment.getID());
-            rs = this.sUserByComment.executeQuery();
+            sUserByComment.setInt(1, comment.getID());
+            rs = sUserByComment.executeQuery();
             while (rs.next()) {
-                result = this.getUser(rs.getInt("ID_user"));
+                result = getUser(rs.getInt("ID_user"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2284,10 +2284,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         User result = null;
         try {
-            this.sUserByNews.setInt(1, news.getID());
-            rs = this.sUserByNews.executeQuery();
+            sUserByNews.setInt(1, news.getID());
+            rs = sUserByNews.executeQuery();
             while (rs.next()) {
-                result = this.getUser(rs.getInt("ID_user"));
+                result = getUser(rs.getInt("ID_user"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2309,9 +2309,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<User> result = new ArrayList();
         try {
-            rs = this.sUsers.executeQuery();
+            rs = sUsers.executeQuery();
             while (rs.next()) {
-                result.add(this.getUser(rs.getInt("ID")));
+                result.add(getUser(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2333,10 +2333,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<User> result = new ArrayList();
         try {
-            this.sUsersBySeries.setInt(1, series.getID());
-            rs = this.sUsersBySeries.executeQuery();
+            sUsersBySeries.setInt(1, series.getID());
+            rs = sUsersBySeries.executeQuery();
             while (rs.next()) {
-                result.add(this.getUser(rs.getInt("ID_user")));
+                result.add(getUser(rs.getInt("ID_user")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2358,10 +2358,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<User> result = new ArrayList();
         try {
-            this.sUsersByGenre.setInt(1, genre.getID());
-            rs = this.sUsersByGenre.executeQuery();
+            sUsersByGenre.setInt(1, genre.getID());
+            rs = sUsersByGenre.executeQuery();
             while (rs.next()) {
-                result.add(this.getUser(rs.getInt("ID_user")));
+                result.add(getUser(rs.getInt("ID_user")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2383,10 +2383,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         List<User> result = new ArrayList();
         try {
-            this.sUsersByGroup.setInt(1, group.getID());
-            rs = this.sUsersByGroup.executeQuery();
+            sUsersByGroup.setInt(1, group.getID());
+            rs = sUsersByGroup.executeQuery();
             while (rs.next()) {
-                result.add(this.getUser(rs.getInt("ID")));
+                result.add(getUser(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2412,38 +2412,38 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 if (!user.isDirty()) {
                     return;
                 }
-                this.iUser.setString(1, user.getUsername());
-                this.iUser.setString(2, user.getPassword());
-                this.iUser.setString(3, user.getMail());
-                this.iUser.setString(4, user.getName());
-                this.iUser.setString(5, user.getSurname());
-                this.iUser.setInt(6, user.getAge());
-                this.iUser.setString(7, user.getGender());
-                this.iUser.setString(8, user.getImageURL());
-                this.iUser.setString(9, user.getPersonalMessage());
+                iUser.setString(1, user.getUsername());
+                iUser.setString(2, user.getPassword());
+                iUser.setString(3, user.getMail());
+                iUser.setString(4, user.getName());
+                iUser.setString(5, user.getSurname());
+                iUser.setInt(6, user.getAge());
+                iUser.setString(7, user.getGender());
+                iUser.setString(8, user.getImageURL());
+                iUser.setString(9, user.getPersonalMessage());
                 if (user.getGroup() != null) {
-                    this.iUser.setInt(10, user.getGroup().getID());
+                    iUser.setInt(10, user.getGroup().getID());
                 } else {
-                    this.iUser.setNull(10, java.sql.Types.INTEGER);
+                    iUser.setNull(10, java.sql.Types.INTEGER);
                 }
-                this.iUser.executeUpdate();
+                iUser.executeUpdate();
             } else { // Insert
-                this.iUser.setString(1, user.getUsername());
-                this.iUser.setString(2, user.getPassword());
-                this.iUser.setString(3, user.getMail());
-                this.iUser.setString(4, user.getName());
-                this.iUser.setString(5, user.getSurname());
-                this.iUser.setInt(6, user.getAge());
-                this.iUser.setString(7, user.getGender());
-                this.iUser.setString(8, user.getImageURL());
-                this.iUser.setString(9, user.getPersonalMessage());
+                iUser.setString(1, user.getUsername());
+                iUser.setString(2, user.getPassword());
+                iUser.setString(3, user.getMail());
+                iUser.setString(4, user.getName());
+                iUser.setString(5, user.getSurname());
+                iUser.setInt(6, user.getAge());
+                iUser.setString(7, user.getGender());
+                iUser.setString(8, user.getImageURL());
+                iUser.setString(9, user.getPersonalMessage());
                 if (user.getGroup() != null) {
-                    this.iUser.setInt(10, user.getGroup().getID());
+                    iUser.setInt(10, user.getGroup().getID());
                 } else {
-                    this.iUser.setNull(10, java.sql.Types.INTEGER);
+                    iUser.setNull(10, java.sql.Types.INTEGER);
                 }
-                if (this.iUser.executeUpdate() == 1) {
-                    rs = this.iUser.getGeneratedKeys();
+                if (iUser.executeUpdate() == 1) {
+                    rs = iUser.getGeneratedKeys();
                     if (rs.next()) {
                         ID = rs.getInt(1);
                     }
@@ -2451,7 +2451,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
             }
             if (ID > 0) {
-                user.copyFrom(this.getUser(ID));
+                user.copyFrom(getUser(ID));
             }
             user.setDirty(false);
         } catch (SQLException ex) {
@@ -2471,8 +2471,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     // dUser = "DELETE FROM e_user WHERE ID=?"
     public void removeUser(User user) {
         try {
-            this.dUser.setInt(1, user.getID());
-            this.dUser.executeUpdate();
+            dUser.setInt(1, user.getID());
+            dUser.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }

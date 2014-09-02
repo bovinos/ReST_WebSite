@@ -34,7 +34,7 @@ public class SeriesMySQL implements Series {
     List<User> users;
     List<Genre> genres;
     List<Episode> episodes;
-    List<CastMember> cast;
+    List<CastMember> castMembers;
     List<Channel> channels;
     List<News> news;
     List<Comment> comments;
@@ -42,36 +42,36 @@ public class SeriesMySQL implements Series {
 
     public SeriesMySQL(RESTDataLayer dataLayer) {
 
-        this.ID = 0;
-        this.name = "";
-        this.year = 0;
-        this.description = "";
-        this.imageURL = "";
-        this.state = "";
-        this.addCount = 0;
-        this.dirty = false;
+        ID = 0;
+        name = "";
+        year = 0;
+        description = "";
+        imageURL = "";
+        state = "";
+        addCount = 0;
+        dirty = false;
 
         this.dataLayer = dataLayer;
 
-        this.users = null;
-        this.genres = null;
-        this.episodes = null;
-        this.cast = null;
-        this.channels = null;
-        this.news = null;
-        this.comments = null;
-        this.messages = null;
+        users = null;
+        genres = null;
+        episodes = null;
+        castMembers = null;
+        channels = null;
+        news = null;
+        comments = null;
+        messages = null;
     }
 
     public SeriesMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
-        this.ID = rs.getInt("ID");
-        this.name = rs.getString("name");
-        this.year = rs.getInt("year");
-        this.description = rs.getString("description");
-        this.imageURL = rs.getString("image_URL");
-        this.state = rs.getString("state");
-        this.addCount = rs.getInt("add_count");
+        ID = rs.getInt("ID");
+        name = rs.getString("name");
+        year = rs.getInt("year");
+        description = rs.getString("description");
+        imageURL = rs.getString("image_URL");
+        state = rs.getString("state");
+        addCount = rs.getInt("add_count");
     }
 
     @Override
@@ -87,7 +87,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void setName(String name) {
         this.name = name;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void setYear(int year) {
         this.year = year;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -109,7 +109,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void setDescription(String description) {
         this.description = description;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -120,7 +120,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -132,7 +132,7 @@ public class SeriesMySQL implements Series {
     public void setState(String state) { // set the state only if the parameter is "ONGOING" or "COMPLETE" otherwise do nothing
         if (state.equalsIgnoreCase("ONGOING") || state.equalsIgnoreCase("COMPLETE")) {
             this.state = state;
-            this.dirty = true;
+            dirty = true;
         }
     }
 
@@ -144,7 +144,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void setAddCount(int addCount) {
         this.addCount = addCount;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -159,8 +159,8 @@ public class SeriesMySQL implements Series {
 
     @Override
     public List<User> getUsers() {
-        if (this.users == null) {
-            this.users = this.dataLayer.getUsers(this);
+        if (users == null) {
+            users = dataLayer.getUsers(this);
         }
         return users;
     }
@@ -168,13 +168,13 @@ public class SeriesMySQL implements Series {
     @Override
     public void setUsers(List<User> users) {
         this.users = users;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public List<Genre> getGenres() {
-        if (this.genres == null) {
-            this.genres = this.dataLayer.getGenres(this);
+        if (genres == null) {
+            genres = dataLayer.getGenres(this);
         }
         return genres;
     }
@@ -182,13 +182,13 @@ public class SeriesMySQL implements Series {
     @Override
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public List<Episode> getEpisodes() {
-        if (this.episodes == null) {
-            this.episodes = this.dataLayer.getEpisodes(this);
+        if (episodes == null) {
+            episodes = dataLayer.getEpisodes(this);
         }
         return episodes;
     }
@@ -196,27 +196,27 @@ public class SeriesMySQL implements Series {
     @Override
     public void setEpisodes(List<Episode> episodes) {
         this.episodes = episodes;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public List<CastMember> getCastMembers() {
-        if (this.cast == null) {
-            this.cast = this.dataLayer.getCastMembers(this);
+        if (castMembers == null) {
+            castMembers = dataLayer.getCastMembers(this);
         }
-        return cast;
+        return castMembers;
     }
 
     @Override
-    public void setCastMembers(List<CastMember> cast) {
-        this.cast = cast;
-        this.dirty = true;
+    public void setCastMembers(List<CastMember> castMembers) {
+        this.castMembers = castMembers;
+        dirty = true;
     }
 
     @Override
     public List<Channel> getChannels() {
-        if (this.channels == null) {
-            this.channels = this.dataLayer.getChannels(this);
+        if (channels == null) {
+            channels = dataLayer.getChannels(this);
         }
         return channels;
     }
@@ -224,13 +224,13 @@ public class SeriesMySQL implements Series {
     @Override
     public void setChannels(List<Channel> channels) {
         this.channels = channels;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public List<News> getNews() {
-        if (this.news == null) {
-            this.news = this.dataLayer.getNews(this);
+        if (news == null) {
+            news = dataLayer.getNews(this);
         }
         return news;
     }
@@ -238,13 +238,13 @@ public class SeriesMySQL implements Series {
     @Override
     public void setNews(List<News> news) {
         this.news = news;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public List<Comment> getComments() {
-        if (this.comments == null) {
-            this.comments = this.dataLayer.getComments(this);
+        if (comments == null) {
+            comments = dataLayer.getComments(this);
         }
         return comments;
     }
@@ -252,13 +252,13 @@ public class SeriesMySQL implements Series {
     @Override
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public List<Message> getMessages() {
-        if (this.messages == null) {
-            this.messages = this.dataLayer.getMessages(this);
+        if (messages == null) {
+            messages = dataLayer.getMessages(this);
         }
         return messages;
     }
@@ -266,118 +266,118 @@ public class SeriesMySQL implements Series {
     @Override
     public void setMessages(List<Message> messages) {
         this.messages = messages;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public void addUser(User user) {
-        if (this.users == null) {
-            this.getUsers();
+        if (users == null) {
+            getUsers();
         }
-        this.users.add(user);
+        users.add(user);
     }
 
     @Override
     public void removeUser(User user) {
-        if (this.users == null) {
+        if (users == null) {
             return;
         }
-        this.users.remove(user);
+        users.remove(user);
     }
 
     @Override
     public void removeAllUsers() {
-        this.users = null;
+        users = null;
     }
 
     @Override
     public void addGenre(Genre genre) {
-        if (this.genres == null) {
-            this.getGenres();
+        if (genres == null) {
+            getGenres();
         }
-        this.genres.add(genre);
+        genres.add(genre);
     }
 
     @Override
     public void removeGenre(Genre genre) {
-        if (this.genres == null) {
+        if (genres == null) {
             return;
         }
-        this.genres.remove(genre);
+        genres.remove(genre);
     }
 
     @Override
     public void removeAllGenre() {
-        this.genres = null;
+        genres = null;
     }
 
     @Override
     public void addEpisode(Episode episode) {
-        if (this.episodes == null) {
-            this.getEpisodes();
+        if (episodes == null) {
+            getEpisodes();
         }
-        this.episodes.add(episode);
+        episodes.add(episode);
     }
 
     @Override
     public void removeEpisode(Episode episode) {
-        if (this.episodes == null) {
+        if (episodes == null) {
             return;
         }
-        this.episodes.remove(episode);
+        episodes.remove(episode);
     }
 
     @Override
     public void removeAllEpisodes() {
-        this.episodes = null;
+        episodes = null;
     }
 
     @Override
     public void addCastMember(CastMember castMember) {
-        if (this.cast == null) {
-            this.getCastMembers();
+        if (castMembers == null) {
+            getCastMembers();
         }
-        this.cast.add(castMember);
+        castMembers.add(castMember);
     }
 
     @Override
     public void removeCastMember(CastMember castMember) {
-        if (this.cast == null) {
+        if (castMembers == null) {
             return;
         }
-        this.cast.remove(castMember);
+        castMembers.remove(castMember);
     }
 
     @Override
     public void removeCastMembers() {
-        this.cast = null;
+        castMembers = null;
     }
 
     @Override
     public void addChannel(Channel channel) {
-        if (this.channels == null) {
-            this.getChannels();
+        if (channels == null) {
+            getChannels();
         }
-        this.channels.add(channel);
+        channels.add(channel);
     }
 
     @Override
     public void removeChannel(Channel channel) {
-        if (this.channels == null) {
+        if (channels == null) {
             return;
         }
-        this.channels.remove(channel);
+        channels.remove(channel);
     }
 
     @Override
     public void removeAllChannels() {
-        this.channels = null;
+        channels = null;
     }
 
     @Override
     public void addNews(News news) {
         if (this.news == null) {
-            this.getNews();
+            getNews();
         }
         this.news.add(news);
     }
@@ -392,76 +392,76 @@ public class SeriesMySQL implements Series {
 
     @Override
     public void removeAllNews() {
-        this.news = null;
+        news = null;
     }
 
     @Override
     public void addComment(Comment comment) {
-        if (this.comments == null) {
-            this.comments = this.getComments();
+        if (comments == null) {
+            comments = getComments();
         }
-        this.comments.add(comment);
+        comments.add(comment);
     }
 
     @Override
     public void removeComment(Comment comment) {
-        if (this.comments == null) {
+        if (comments == null) {
             return;
         }
-        this.comments.remove(comment);
+        comments.remove(comment);
     }
 
     @Override
     public void removeAllComment() {
-        this.comments = null;
+        comments = null;
     }
 
     @Override
     public void addMessage(Series series, Message message) {
-        if (this.messages == null) {
-            this.getMessages();
+        if (messages == null) {
+            getMessages();
         }
-        this.messages.add(message);
+        messages.add(message);
     }
 
     @Override
     public void removeMessage(Message message) {
-        if (this.messages == null) {
+        if (messages == null) {
             return;
         }
-        this.messages.remove(message);
+        messages.remove(message);
     }
 
     @Override
     public void removeAllMessages() {
-        this.messages = null;
+        messages = null;
     }
 
     @Override
     public void copyFrom(Series series) {
-        this.ID = series.getID();
-        this.addCount = series.getAddCount();
-        this.description = series.getDescription();
-        this.imageURL = series.getImageURL();
-        this.name = series.getName();
-        this.state = series.getState();
-        this.year = series.getYear();
+        ID = series.getID();
+        addCount = series.getAddCount();
+        description = series.getDescription();
+        imageURL = series.getImageURL();
+        name = series.getName();
+        state = series.getState();
+        year = series.getYear();
 
-        this.cast = null;
-        this.channels = null;
-        this.comments = null;
-        this.episodes = null;
-        this.genres = null;
-        this.messages = null;
-        this.news = null;
-        this.users = null;
+        castMembers = null;
+        channels = null;
+        comments = null;
+        episodes = null;
+        genres = null;
+        messages = null;
+        news = null;
+        users = null;
 
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public void increaseAddCount() {
-        this.addCount++;
+        addCount++;
     }
 
 }

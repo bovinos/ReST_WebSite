@@ -25,24 +25,24 @@ public class ServiceMySQL implements Service {
 
     public ServiceMySQL(RESTDataLayer dataLayer) {
 
-        this.ID = 0;
-        this.name = "";
-        this.description = "";
-        this.scriptName = "";
-        this.dirty = false;
+        ID = 0;
+        name = "";
+        description = "";
+        scriptName = "";
+        dirty = false;
 
         this.dataLayer = dataLayer;
 
-        this.groups = null;
+        groups = null;
     }
 
     public ServiceMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
         this(dataLayer);
-        this.ID = rs.getInt("ID");
-        this.name = rs.getString("name");
-        this.description = rs.getString("description");
-        this.scriptName = rs.getString("script_name");
+        ID = rs.getInt("ID");
+        name = rs.getString("name");
+        description = rs.getString("description");
+        scriptName = rs.getString("script_name");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ServiceMySQL implements Service {
     @Override
     public void setName(String name) {
         this.name = name;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class ServiceMySQL implements Service {
     @Override
     public void setDescription(String description) {
         this.description = description;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ServiceMySQL implements Service {
     @Override
     public void setScriptName(String scriptName) {
         this.scriptName = scriptName;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -95,8 +95,8 @@ public class ServiceMySQL implements Service {
 
     @Override
     public List<Group> getGroups() {
-        if (this.groups == null) {
-            this.groups = this.dataLayer.getGroups(this);
+        if (groups == null) {
+            groups = dataLayer.getGroups(this);
         }
         return groups;
     }
@@ -104,42 +104,42 @@ public class ServiceMySQL implements Service {
     @Override
     public void setGroups(List<Group> groups) {
         this.groups = groups;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     // ask to prof: if i first add a group and then i want to getGroups()? they aren't loaded from DB!!!
     // ask to prof: where are the List<> initialized?
     public void addGroup(Group group) {
-        if (this.groups == null) {
-            this.getGroups();
+        if (groups == null) {
+            getGroups();
         }
-        this.groups.add(group);
+        groups.add(group);
     }
 
     @Override
     public void removeGroup(Group group) {
-        if (this.groups == null) {
+        if (groups == null) {
             return;
         }
-        this.groups.remove(group);
+        groups.remove(group);
     }
 
     @Override
     public void removeAllGroup() {
-        this.groups = null;
+        groups = null;
     }
 
     @Override
     public void copyFrom(Service service) {
-        this.ID = service.getID();
-        this.description = service.getDescription();
-        this.name = service.getName();
-        this.scriptName = service.getScriptName();
+        ID = service.getID();
+        description = service.getDescription();
+        name = service.getName();
+        scriptName = service.getScriptName();
 
-        this.groups = null;
+        groups = null;
 
-        this.dirty = true;
+        dirty = true;
     }
 
 }

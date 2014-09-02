@@ -33,32 +33,32 @@ public class NewsMySQL implements News {
 
     public NewsMySQL(RESTDataLayer dataLayer) {
 
-        this.ID = 0;
-        this.title = "";
-        this.text = "";
-        this.date = null;
-        this.likes = 0;
-        this.dislikes = 0;
-        this.dirty = false;
+        ID = 0;
+        title = "";
+        text = "";
+        date = null;
+        likes = 0;
+        dislikes = 0;
+        dirty = false;
 
         this.dataLayer = dataLayer;
 
-        this.user = null;
-        this.userID = 0;
-        this.comments = null;
-        this.series = null;
+        user = null;
+        userID = 0;
+        comments = null;
+        series = null;
     }
 
     public NewsMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
-        this.ID = rs.getInt("ID");
-        this.title = rs.getString("title");
-        this.text = rs.getString("text");
-        this.date = rs.getDate("date");
-        this.likes = rs.getInt("likes");
-        this.dislikes = rs.getInt("dislikes");
+        ID = rs.getInt("ID");
+        title = rs.getString("title");
+        text = rs.getString("text");
+        date = rs.getDate("date");
+        likes = rs.getInt("likes");
+        dislikes = rs.getInt("dislikes");
 
-        this.userID = rs.getInt("ID_user");
+        userID = rs.getInt("ID_user");
     }
 
     @Override
@@ -74,7 +74,7 @@ public class NewsMySQL implements News {
     @Override
     public void setTitle(String title) {
         this.title = title;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class NewsMySQL implements News {
     @Override
     public void setText(String text) {
         this.text = text;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class NewsMySQL implements News {
     @Override
     public void setDate(Date date) {
         this.date = date;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -107,7 +107,7 @@ public class NewsMySQL implements News {
     @Override
     public void setLikes(int likes) {
         this.likes = likes;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -118,7 +118,7 @@ public class NewsMySQL implements News {
     @Override
     public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -133,17 +133,17 @@ public class NewsMySQL implements News {
 
     @Override
     public User getUser() {
-        if (this.user == null && this.userID > 0) {
-            this.user = this.dataLayer.getUser(userID);
+        if (user == null && userID > 0) {
+            user = dataLayer.getUser(userID);
         }
 
-        return this.user;
+        return user;
     }
 
     @Override
     public List<Comment> getComments() {
-        if (this.comments == null) {
-            this.comments = this.dataLayer.getComments(this);
+        if (comments == null) {
+            comments = dataLayer.getComments(this);
         }
         return comments;
     }
@@ -151,13 +151,13 @@ public class NewsMySQL implements News {
     @Override
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public List<Series> getSeries() {
-        if (this.series == null) {
-            this.series = this.dataLayer.getSeries(this);
+        if (series == null) {
+            series = dataLayer.getSeries(this);
         }
         return series;
     }
@@ -165,34 +165,34 @@ public class NewsMySQL implements News {
     @Override
     public void setSeries(List<Series> series) {
         this.series = series;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public void addComment(Comment comment) {
-        if (this.comments == null) {
-            this.getComments();
+        if (comments == null) {
+            getComments();
         }
-        this.comments.add(comment);
+        comments.add(comment);
     }
 
     @Override
     public void removeComment(Comment comment) {
-        if (this.comments == null) {
+        if (comments == null) {
             return;
         }
-        this.comments.remove(comment);
+        comments.remove(comment);
     }
 
     @Override
     public void removeAllComment() {
-        this.comments = null;
+        comments = null;
     }
 
     @Override
     public void addSeries(Series series) {
         if (this.series == null) {
-            this.getSeries();
+            getSeries();
         }
         this.series.add(series);
     }
@@ -207,26 +207,26 @@ public class NewsMySQL implements News {
 
     @Override
     public void removeAllSeries() {
-        this.series = null;
+        series = null;
     }
 
     @Override
     public void copyFrom(News news) {
-        this.ID = news.getID();
-        this.date = news.getDate();
-        this.dislikes = news.getDislikes();
-        this.likes = news.getLikes();
-        this.text = news.getText();
-        this.title = news.getTitle();
+        ID = news.getID();
+        date = news.getDate();
+        dislikes = news.getDislikes();
+        likes = news.getLikes();
+        text = news.getText();
+        title = news.getTitle();
 
         if (news.getUser() != null) {
-            this.userID = news.getUser().getID();
+            userID = news.getUser().getID();
         }
 
-        this.comments = null;
-        this.series = null;
+        comments = null;
+        series = null;
 
-        this.dirty = true;
+        dirty = true;
     }
 
 }

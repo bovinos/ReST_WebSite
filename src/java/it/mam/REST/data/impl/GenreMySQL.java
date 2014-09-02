@@ -23,20 +23,20 @@ public class GenreMySQL implements Genre {
 
     public GenreMySQL(RESTDataLayer dataLayer) {
 
-        this.ID = 0;
-        this.name = "";
-        this.dirty = false;
+        ID = 0;
+        name = "";
+        dirty = false;
 
         this.dataLayer = dataLayer;
 
-        this.series = null;
+        series = null;
     }
 
     public GenreMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
         this(dataLayer);
-        this.ID = rs.getInt("ID");
-        this.name = rs.getString("name");
+        ID = rs.getInt("ID");
+        name = rs.getString("name");
     }
 
     @Override
@@ -52,7 +52,7 @@ public class GenreMySQL implements Genre {
     @Override
     public void setName(String name) {
         this.name = name;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -67,8 +67,8 @@ public class GenreMySQL implements Genre {
 
     @Override
     public List<Series> getSeries() {
-        if (this.series == null) {
-            this.series = this.dataLayer.getSeries(this);
+        if (series == null) {
+            series = dataLayer.getSeries(this);
         }
         return series;
     }
@@ -76,14 +76,15 @@ public class GenreMySQL implements Genre {
     @Override
     public void setSeries(List<Series> series) {
         this.series = series;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
     public void addSeries(Series series) {
         if (this.series == null) {
-            this.getSeries();
+            getSeries();
         }
+        this.series.add(series);
     }
 
     @Override
@@ -96,17 +97,17 @@ public class GenreMySQL implements Genre {
 
     @Override
     public void removeAllSeries() {
-        this.series = null;
+        series = null;
     }
 
     @Override
     public void copyFrom(Genre genre) {
-        this.ID = genre.getID();
-        this.name = genre.getName();
+        ID = genre.getID();
+        name = genre.getName();
 
-        this.series = null;
+        series = null;
 
-        this.dirty = true;
+        dirty = true;
     }
 
 }

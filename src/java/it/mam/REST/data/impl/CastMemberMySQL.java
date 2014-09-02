@@ -29,30 +29,30 @@ public class CastMemberMySQL implements CastMember {
 
     public CastMemberMySQL(RESTDataLayer dataLayer) {
 
-        this.ID = 0;
-        this.name = "";
-        this.surname = "";
-        this.birthDate = null;
-        this.gender = "";
-        this.country = "";
-        this.imageURL = "";
-        this.dirty = false;
+        ID = 0;
+        name = "";
+        surname = "";
+        birthDate = null;
+        gender = "";
+        country = "";
+        imageURL = "";
+        dirty = false;
 
         this.dataLayer = dataLayer;
 
-        this.series = null;
+        series = null;
     }
 
     public CastMemberMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
         this(dataLayer);
-        this.ID = rs.getInt("ID");
-        this.name = rs.getString("name");
-        this.surname = rs.getString("surname");
-        this.birthDate = rs.getDate("birth_date");
-        this.gender = rs.getString("gender");
-        this.country = rs.getString("country");
-        this.imageURL = rs.getString("image_URL");
+        ID = rs.getInt("ID");
+        name = rs.getString("name");
+        surname = rs.getString("surname");
+        birthDate = rs.getDate("birth_date");
+        gender = rs.getString("gender");
+        country = rs.getString("country");
+        imageURL = rs.getString("image_URL");
     }
 
     @Override
@@ -68,7 +68,7 @@ public class CastMemberMySQL implements CastMember {
     @Override
     public void setName(String name) {
         this.name = name;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class CastMemberMySQL implements CastMember {
     @Override
     public void setSurname(String surname) {
         this.surname = surname;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class CastMemberMySQL implements CastMember {
     @Override
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class CastMemberMySQL implements CastMember {
     public void setGender(String gender) { // gender is set only if the parameter is the string "M" or "F" otherwise do nothing
         if (gender.equalsIgnoreCase("M") || gender.equalsIgnoreCase("F")) {
             this.gender = gender;
-            this.dirty = true;
+            dirty = true;
         }
     }
 
@@ -114,7 +114,7 @@ public class CastMemberMySQL implements CastMember {
     @Override
     public void setCountry(String country) {
         this.country = country;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -125,7 +125,7 @@ public class CastMemberMySQL implements CastMember {
     @Override
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -140,8 +140,8 @@ public class CastMemberMySQL implements CastMember {
 
     @Override
     public List<Series> getSeries() {
-        if (this.series == null) {
-            this.series = this.dataLayer.getSeries(this);
+        if (series == null) {
+            series = dataLayer.getSeries(this);
         }
         return series;
     }
@@ -149,7 +149,7 @@ public class CastMemberMySQL implements CastMember {
     @Override
     public void setSeries(List<Series> series) {
         this.series = series;
-        this.dirty = true;
+        dirty = true;
     }
 
     @Override
@@ -161,7 +161,7 @@ public class CastMemberMySQL implements CastMember {
     @Override
     public void addSeries(Series series) {
         if (this.series == null) {
-            this.getSeries();
+            getSeries();
         }
         this.series.add(series);
     }
@@ -176,27 +176,27 @@ public class CastMemberMySQL implements CastMember {
 
     @Override
     public void removeAllSeries() {
-        this.series = null;
+        series = null;
     }
 
     @Override
     public boolean isSeriesSet() {
-        return this.series == null;
+        return series == null;
     }
 
     @Override
     public void copyFrom(CastMember castMember) {
-        this.ID = castMember.getID();
-        this.birthDate = castMember.getBirthDate();
-        this.country = castMember.getCountry();
-        this.gender = castMember.getGender();
-        this.imageURL = castMember.getImageURL();
-        this.name = castMember.getName();
-        this.surname = castMember.getSurname();
+        ID = castMember.getID();
+        birthDate = castMember.getBirthDate();
+        country = castMember.getCountry();
+        gender = castMember.getGender();
+        imageURL = castMember.getImageURL();
+        name = castMember.getName();
+        surname = castMember.getSurname();
 
-        this.series = null;
+        series = null;
 
-        this.dirty = true;
+        dirty = true;
     }
 
 }
