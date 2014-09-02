@@ -1,8 +1,8 @@
 package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.Channel;
+import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.RESTDataLayer;
-import it.mam.REST.data.model.Series;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,7 +21,7 @@ public class ChannelMySQL implements Channel {
 
     protected RESTDataLayer dataLayer;
 
-    List<Series> series;
+    List<Episode> episodes;
 
     public ChannelMySQL(RESTDataLayer dataLayer) {
 
@@ -33,7 +33,7 @@ public class ChannelMySQL implements Channel {
 
         this.dataLayer = dataLayer;
 
-        series = null;
+        episodes = null;
     }
 
     public ChannelMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
@@ -95,38 +95,49 @@ public class ChannelMySQL implements Channel {
     }
 
     @Override
-    public List<Series> getSeries() {
-        if (series == null) {
-            series = dataLayer.getSeries(this);
+    public List<Episode> getEpisodes() {
+        if (episodes == null) {
+            episodes = dataLayer.getEpisodes(this);
         }
-        return series;
+        return episodes;
     }
 
     @Override
-    public void setSeries(List<Series> series) {
-        this.series = series;
+    public void setEpisodes(List<Episode> episodes) {
+        this.episodes = episodes;
         dirty = true;
     }
 
     @Override
-    public void addSeries(Series series) {
-        if (this.series == null) {
-            getSeries();
+    public void addEpisode(Episode episode) {
+        if (episodes == null) {
+            episodes = dataLayer.getEpisodes(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
-        this.series.add(series);
+        episodes.add(episode);
     }
 
     @Override
-    public void removeSeries(Series series) {
-        if (this.series == null) {
+    public void removeEpisode(Episode episode) {
+        if (episodes == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
-        this.series.remove(series);
+        episodes.remove(episode);
     }
 
     @Override
-    public void removeAllSeries() {
-        series = null;
+    public void removeAllEpisodes() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
+        episodes = null;
     }
 
     @Override
@@ -136,7 +147,7 @@ public class ChannelMySQL implements Channel {
         number = channel.getNumber();
         type = channel.getType();
 
-        series = null;
+        episodes = null;
 
         dirty = true;
     }

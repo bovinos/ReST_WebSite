@@ -112,7 +112,11 @@ public class ServiceMySQL implements Service {
     // ask to prof: where are the List<> initialized?
     public void addGroup(Group group) {
         if (groups == null) {
-            getGroups();
+            groups = dataLayer.getGroups(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         groups.add(group);
     }
@@ -121,6 +125,9 @@ public class ServiceMySQL implements Service {
     public void removeGroup(Group group) {
         if (groups == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         groups.remove(group);
     }
@@ -128,6 +135,10 @@ public class ServiceMySQL implements Service {
     @Override
     public void removeAllGroup() {
         groups = null;
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
     }
 
     @Override

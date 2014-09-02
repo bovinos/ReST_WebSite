@@ -69,6 +69,7 @@ public class UserMySQL implements User {
 
     public UserMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
+        this(dataLayer);
         ID = rs.getInt("ID");
         username = rs.getString("username");
         password = rs.getString("password");
@@ -283,7 +284,11 @@ public class UserMySQL implements User {
     @Override
     public void addComment(Comment comment) {
         if (comments == null) {
-            getComments();
+            comments = dataLayer.getComments(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         comments.add(comment);
     }
@@ -292,6 +297,9 @@ public class UserMySQL implements User {
     public void removeComment(Comment comment) {
         if (comments == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         comments.remove(comment);
     }
@@ -304,6 +312,10 @@ public class UserMySQL implements User {
     @Override
     public void removeAllComment() {
         comments = null;
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
     }
 
     @Override
@@ -315,7 +327,11 @@ public class UserMySQL implements User {
     @Override
     public void addSeries(Series series) {
         if (this.series == null) {
-            getSeries();
+            this.series = dataLayer.getSeries(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         this.series.add(series);
     }
@@ -324,6 +340,9 @@ public class UserMySQL implements User {
     public void removeSeries(Series series) {
         if (this.series == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         this.series.remove(series);
     }
@@ -331,12 +350,20 @@ public class UserMySQL implements User {
     @Override
     public void removeAllSeries() {
         series = null;
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
     }
 
     @Override
     public void addGenre(Genre genre) {
         if (genres == null) {
-            getGenres();
+            genres = dataLayer.getGenres(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         genres.add(genre);
     }
@@ -345,6 +372,9 @@ public class UserMySQL implements User {
     public void removeGenre(Genre genre) {
         if (genres == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         genres.remove(genre);
     }
@@ -352,12 +382,20 @@ public class UserMySQL implements User {
     @Override
     public void removeAllGenre() {
         genres = null;
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
     }
 
     @Override
     public void addMessage(Series series, Message message) {
         if (messages == null) {
-            getMessages();
+            messages = dataLayer.getMessages(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         messages.add(message);
     }
@@ -366,6 +404,9 @@ public class UserMySQL implements User {
     public void removeMessage(Message message) {
         if (messages == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         messages.remove(message);
     }
@@ -379,12 +420,20 @@ public class UserMySQL implements User {
     @Override
     public void removeAllMessages() {
         messages = null;
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
     }
 
     @Override
     public void addNews(News news) {
         if (this.news == null) {
-            getNews();
+            this.news = dataLayer.getNews(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         this.news.add(news);
     }
@@ -393,6 +442,9 @@ public class UserMySQL implements User {
     public void removeNews(News news) {
         if (this.news == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         this.news.remove(news);
     }
@@ -406,6 +458,10 @@ public class UserMySQL implements User {
     @Override
     public void removeAllNews() {
         news = null;
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
     }
 
     @Override

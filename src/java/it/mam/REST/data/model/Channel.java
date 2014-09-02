@@ -31,14 +31,14 @@ public interface Channel {
     //====================================
     //                 RELATIONSHIP                //
     //====================================
-    List<Series> getSeries();
+    List<Episode> getEpisodes();
 
-    void setSeries(List<Series> series);
+    void setEpisodes(List<Episode> episodes);
 
-    void addSeries(Series series);
+    void addEpisode(Episode episode);
 
-    void removeSeries(Series series);
+    void removeEpisode(Episode episode);
 
-    void removeAllSeries();
+    void removeAllEpisodes();
 
 }

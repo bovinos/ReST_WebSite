@@ -29,7 +29,7 @@ public interface RESTDataLayer extends DataLayer {
 
     List<Channel> getChannels();
 
-    List<Channel> getChannels(Series series);
+    List<Channel> getChannels(Episode episode);
 
     List<Channel> getChannels(String type);
 
@@ -65,12 +65,15 @@ public interface RESTDataLayer extends DataLayer {
 
     List<Episode> getEpisodes(Series series, int season);
 
+    List<Episode> getEpisodes(Channel channel);
+
     void storeEpisode(Episode episode);
 
     void removeEpisode(Episode episode);
 
     //**************************************************
     Episode getLastEpisodeSeen(User user, Series series);
+    //**************************************************
 
     Genre createGenre();
 
@@ -147,8 +150,6 @@ public interface RESTDataLayer extends DataLayer {
     List<Series> getSeries(News news);
 
     List<Series> getSeries(Genre genre);
-
-    List<Series> getSeries(Channel channel);
 
     List<Series> getSeries(CastMember castMember);
 

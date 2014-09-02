@@ -161,7 +161,11 @@ public class CastMemberMySQL implements CastMember {
     @Override
     public void addSeries(Series series) {
         if (this.series == null) {
-            getSeries();
+            this.series = dataLayer.getSeries(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         this.series.add(series);
     }
@@ -170,12 +174,19 @@ public class CastMemberMySQL implements CastMember {
     public void removeSeries(Series series) {
         if (this.series == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         this.series.remove(series);
     }
 
     @Override
     public void removeAllSeries() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
         series = null;
     }
 

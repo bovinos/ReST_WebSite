@@ -1,7 +1,6 @@
 package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.CastMember;
-import it.mam.REST.data.model.Channel;
 import it.mam.REST.data.model.Comment;
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Genre;
@@ -35,7 +34,6 @@ public class SeriesMySQL implements Series {
     List<Genre> genres;
     List<Episode> episodes;
     List<CastMember> castMembers;
-    List<Channel> channels;
     List<News> news;
     List<Comment> comments;
     List<Message> messages;
@@ -57,7 +55,6 @@ public class SeriesMySQL implements Series {
         genres = null;
         episodes = null;
         castMembers = null;
-        channels = null;
         news = null;
         comments = null;
         messages = null;
@@ -65,6 +62,7 @@ public class SeriesMySQL implements Series {
 
     public SeriesMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
+        this(dataLayer);
         ID = rs.getInt("ID");
         name = rs.getString("name");
         year = rs.getInt("year");
@@ -214,20 +212,6 @@ public class SeriesMySQL implements Series {
     }
 
     @Override
-    public List<Channel> getChannels() {
-        if (channels == null) {
-            channels = dataLayer.getChannels(this);
-        }
-        return channels;
-    }
-
-    @Override
-    public void setChannels(List<Channel> channels) {
-        this.channels = channels;
-        dirty = true;
-    }
-
-    @Override
     public List<News> getNews() {
         if (news == null) {
             news = dataLayer.getNews(this);
@@ -272,7 +256,11 @@ public class SeriesMySQL implements Series {
     @Override
     public void addUser(User user) {
         if (users == null) {
-            getUsers();
+            users = dataLayer.getUsers(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         users.add(user);
     }
@@ -281,19 +269,30 @@ public class SeriesMySQL implements Series {
     public void removeUser(User user) {
         if (users == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         users.remove(user);
     }
 
     @Override
     public void removeAllUsers() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
         users = null;
     }
 
     @Override
     public void addGenre(Genre genre) {
         if (genres == null) {
-            getGenres();
+            genres = dataLayer.getGenres(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         genres.add(genre);
     }
@@ -302,19 +301,30 @@ public class SeriesMySQL implements Series {
     public void removeGenre(Genre genre) {
         if (genres == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         genres.remove(genre);
     }
 
     @Override
     public void removeAllGenre() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
         genres = null;
     }
 
     @Override
     public void addEpisode(Episode episode) {
         if (episodes == null) {
-            getEpisodes();
+            episodes = dataLayer.getEpisodes(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         episodes.add(episode);
     }
@@ -323,19 +333,30 @@ public class SeriesMySQL implements Series {
     public void removeEpisode(Episode episode) {
         if (episodes == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         episodes.remove(episode);
     }
 
     @Override
     public void removeAllEpisodes() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
         episodes = null;
     }
 
     @Override
     public void addCastMember(CastMember castMember) {
         if (castMembers == null) {
-            getCastMembers();
+            castMembers = dataLayer.getCastMembers(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         castMembers.add(castMember);
     }
@@ -344,40 +365,30 @@ public class SeriesMySQL implements Series {
     public void removeCastMember(CastMember castMember) {
         if (castMembers == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         castMembers.remove(castMember);
     }
 
     @Override
-    public void removeCastMembers() {
+    public void removeAllCastMembers() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
         castMembers = null;
-    }
-
-    @Override
-    public void addChannel(Channel channel) {
-        if (channels == null) {
-            getChannels();
-        }
-        channels.add(channel);
-    }
-
-    @Override
-    public void removeChannel(Channel channel) {
-        if (channels == null) {
-            return;
-        }
-        channels.remove(channel);
-    }
-
-    @Override
-    public void removeAllChannels() {
-        channels = null;
     }
 
     @Override
     public void addNews(News news) {
         if (this.news == null) {
-            getNews();
+            this.news = dataLayer.getNews(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         this.news.add(news);
     }
@@ -386,19 +397,30 @@ public class SeriesMySQL implements Series {
     public void removeNews(News news) {
         if (this.news == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         this.news.remove(news);
     }
 
     @Override
     public void removeAllNews() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
         news = null;
     }
 
     @Override
     public void addComment(Comment comment) {
         if (comments == null) {
-            comments = getComments();
+            comments = dataLayer.getComments(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         comments.add(comment);
     }
@@ -407,19 +429,30 @@ public class SeriesMySQL implements Series {
     public void removeComment(Comment comment) {
         if (comments == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         comments.remove(comment);
     }
 
     @Override
     public void removeAllComment() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
         comments = null;
     }
 
     @Override
-    public void addMessage(Series series, Message message) {
+    public void addMessage(Message message) {
         if (messages == null) {
-            getMessages();
+            messages = dataLayer.getMessages(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         messages.add(message);
     }
@@ -428,12 +461,19 @@ public class SeriesMySQL implements Series {
     public void removeMessage(Message message) {
         if (messages == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         messages.remove(message);
     }
 
     @Override
     public void removeAllMessages() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
         messages = null;
     }
 
@@ -448,7 +488,6 @@ public class SeriesMySQL implements Series {
         year = series.getYear();
 
         castMembers = null;
-        channels = null;
         comments = null;
         episodes = null;
         genres = null;

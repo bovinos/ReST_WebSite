@@ -81,17 +81,7 @@ public interface Series {
 
     void removeCastMember(CastMember castMember);
 
-    void removeCastMembers();
-
-    List<Channel> getChannels();
-
-    void setChannels(List<Channel> channels);
-
-    void addChannel(Channel channel);
-
-    void removeChannel(Channel channel);
-
-    void removeAllChannels();
+    void removeAllCastMembers();
 
     List<News> getNews();
 
@@ -117,7 +107,7 @@ public interface Series {
 
     void setMessages(List<Message> messages);
 
-    void addMessage(Series series, Message message);
+    void addMessage(Message message);
 
     void removeMessage(Message message);
 

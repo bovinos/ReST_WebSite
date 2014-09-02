@@ -48,7 +48,7 @@ public class CommentMySQL implements Comment {
         ID = rs.getInt("ID");
         title = rs.getString("title");
         text = rs.getString("text");
-        date = rs.getDate("date"); // on DB the type of attribute date is TIMESTAMP
+        date = new Date(rs.getTimestamp("date").getTime()); // on DB the type of attribute date is TIMESTAMP
         likes = rs.getInt("likes");
         dislikes = rs.getInt("dislikes");
 

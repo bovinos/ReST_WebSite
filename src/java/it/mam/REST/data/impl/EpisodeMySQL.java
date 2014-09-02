@@ -41,6 +41,7 @@ public class EpisodeMySQL implements Episode {
 
     public EpisodeMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
+        this(dataLayer);
         ID = rs.getInt("ID");
         number = rs.getInt("number");
         season = rs.getInt("season");

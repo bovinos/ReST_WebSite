@@ -113,7 +113,11 @@ public class GroupMySQL implements Group {
     @Override
     public void addUser(User user) {
         if (users == null) {
-            getUsers();
+            users = dataLayer.getUsers(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         users.add(user);
     }
@@ -122,6 +126,9 @@ public class GroupMySQL implements Group {
     public void removeUser(User user) {
         if (users == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         users.remove(user);
     }
@@ -129,12 +136,20 @@ public class GroupMySQL implements Group {
     @Override
     public void removeAllUsers() {
         users = null;
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
     }
 
     @Override
     public void addService(Service service) {
         if (services == null) {
-            getServices();
+            services = dataLayer.getServices(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         services.add(service);
     }
@@ -143,6 +158,9 @@ public class GroupMySQL implements Group {
     public void removeService(Service service) {
         if (services == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         services.remove(service);
     }
@@ -150,6 +168,10 @@ public class GroupMySQL implements Group {
     @Override
     public void removeAllServices() {
         services = null;
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
     }
 
     @Override

@@ -51,6 +51,7 @@ public class NewsMySQL implements News {
 
     public NewsMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
+        this(dataLayer);
         ID = rs.getInt("ID");
         title = rs.getString("title");
         text = rs.getString("text");
@@ -171,7 +172,11 @@ public class NewsMySQL implements News {
     @Override
     public void addComment(Comment comment) {
         if (comments == null) {
-            getComments();
+            comments = dataLayer.getComments(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         comments.add(comment);
     }
@@ -180,19 +185,30 @@ public class NewsMySQL implements News {
     public void removeComment(Comment comment) {
         if (comments == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         comments.remove(comment);
     }
 
     @Override
     public void removeAllComment() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
         comments = null;
     }
 
     @Override
     public void addSeries(Series series) {
         if (this.series == null) {
-            getSeries();
+            this.series = dataLayer.getSeries(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
         }
         this.series.add(series);
     }
@@ -201,12 +217,19 @@ public class NewsMySQL implements News {
     public void removeSeries(Series series) {
         if (this.series == null) {
             return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
         }
         this.series.remove(series);
     }
 
     @Override
     public void removeAllSeries() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
         series = null;
     }
 
