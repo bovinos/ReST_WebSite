@@ -73,15 +73,15 @@ public interface Series {
 
     void removeAllEpisodes();
 
-    List<Cast> getCast();
+    List<CastMember> getCastMembers();
 
-    void setCast(List<Cast> cast);
+    void setCastMembers(List<CastMember> castMembers);
 
-    void addCastMember(Cast castMember);
+    void addCastMember(CastMember castMember);
 
-    void removeCastMember(Cast castMember);
+    void removeCastMember(CastMember castMember);
 
-    void removeCast();
+    void removeCastMembers();
 
     List<Channel> getChannels();
 

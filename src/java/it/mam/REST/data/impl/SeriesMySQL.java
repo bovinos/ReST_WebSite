@@ -1,6 +1,6 @@
 package it.mam.REST.data.impl;
 
-import it.mam.REST.data.model.Cast;
+import it.mam.REST.data.model.CastMember;
 import it.mam.REST.data.model.Channel;
 import it.mam.REST.data.model.Comment;
 import it.mam.REST.data.model.Episode;
@@ -34,7 +34,7 @@ public class SeriesMySQL implements Series {
     List<User> users;
     List<Genre> genres;
     List<Episode> episodes;
-    List<Cast> cast;
+    List<CastMember> cast;
     List<Channel> channels;
     List<News> news;
     List<Comment> comments;
@@ -200,15 +200,15 @@ public class SeriesMySQL implements Series {
     }
 
     @Override
-    public List<Cast> getCast() {
+    public List<CastMember> getCastMembers() {
         if (this.cast == null) {
-            this.cast = this.dataLayer.getCast(this);
+            this.cast = this.dataLayer.getCastMembers(this);
         }
         return cast;
     }
 
     @Override
-    public void setCast(List<Cast> cast) {
+    public void setCastMembers(List<CastMember> cast) {
         this.cast = cast;
         this.dirty = true;
     }
@@ -333,15 +333,15 @@ public class SeriesMySQL implements Series {
     }
 
     @Override
-    public void addCastMember(Cast castMember) {
+    public void addCastMember(CastMember castMember) {
         if (this.cast == null) {
-            this.getCast();
+            this.getCastMembers();
         }
         this.cast.add(castMember);
     }
 
     @Override
-    public void removeCastMember(Cast castMember) {
+    public void removeCastMember(CastMember castMember) {
         if (this.cast == null) {
             return;
         }
@@ -349,7 +349,7 @@ public class SeriesMySQL implements Series {
     }
 
     @Override
-    public void removeCast() {
+    public void removeCastMembers() {
         this.cast = null;
     }
 

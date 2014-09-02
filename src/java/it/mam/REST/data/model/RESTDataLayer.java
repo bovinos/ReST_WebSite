@@ -9,19 +9,19 @@ import java.util.List;
  */
 public interface RESTDataLayer extends DataLayer {
 
-    Cast createCastMember();
+    CastMember createCastMember();
 
-    Cast getCastMember(int castID);
+    CastMember getCastMember(int castMemberID);
 
-    List<Cast> getCast();
+    List<CastMember> getCastMembers();
 
-    List<Cast> getCast(Series series);
+    List<CastMember> getCastMembers(Series series);
 
-    List<Cast> getCast(Series series, String role);
+    List<CastMember> getCastMembers(Series series, String role);
 
-    void storeCastMember(Cast castMember);
+    void storeCastMember(CastMember castMember);
 
-    void removeCastMember(Cast castMember);
+    void removeCastMember(CastMember castMember);
 
     Channel createChannel();
 
@@ -150,9 +150,9 @@ public interface RESTDataLayer extends DataLayer {
 
     List<Series> getSeries(Channel channel);
 
-    List<Series> getSeries(Cast castMember);
+    List<Series> getSeries(CastMember castMember);
 
-    List<Series> getSeries(Cast castMember, String role);
+    List<Series> getSeries(CastMember castMember, String role);
 
     List<Series> getSeries(User user);
 

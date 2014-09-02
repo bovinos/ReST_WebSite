@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author alex
  */
-public interface Cast {
+public interface CastMember {
 
     int getID();
 
@@ -39,7 +39,7 @@ public interface Cast {
 
     void setDirty(boolean dirty);
 
-    void copyFrom(Cast castMember);
+    void copyFrom(CastMember castMember);
 
     //====================================
     //                 RELATIONSHIP                //

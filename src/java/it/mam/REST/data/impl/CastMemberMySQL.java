@@ -1,6 +1,6 @@
 package it.mam.REST.data.impl;
 
-import it.mam.REST.data.model.Cast;
+import it.mam.REST.data.model.CastMember;
 import it.mam.REST.data.model.RESTDataLayer;
 import it.mam.REST.data.model.Series;
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author alex
  */
-public class CastMySQL implements Cast {
+public class CastMemberMySQL implements CastMember {
 
     private int ID;
     private String name;
@@ -27,7 +27,7 @@ public class CastMySQL implements Cast {
 
     List<Series> series;
 
-    public CastMySQL(RESTDataLayer dataLayer) {
+    public CastMemberMySQL(RESTDataLayer dataLayer) {
 
         this.ID = 0;
         this.name = "";
@@ -43,7 +43,7 @@ public class CastMySQL implements Cast {
         this.series = null;
     }
 
-    public CastMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
+    public CastMemberMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
         this(dataLayer);
         this.ID = rs.getInt("ID");
@@ -185,7 +185,7 @@ public class CastMySQL implements Cast {
     }
 
     @Override
-    public void copyFrom(Cast castMember) {
+    public void copyFrom(CastMember castMember) {
         this.ID = castMember.getID();
         this.birthDate = castMember.getBirthDate();
         this.country = castMember.getCountry();

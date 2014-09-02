@@ -1,6 +1,6 @@
 package it.mam.REST.data.impl;
 
-import it.mam.REST.data.model.Cast;
+import it.mam.REST.data.model.CastMember;
 import it.mam.REST.data.model.Channel;
 import it.mam.REST.data.model.Comment;
 import it.mam.REST.data.model.Episode;
@@ -31,7 +31,7 @@ import javax.sql.DataSource;
  */
 public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLayer {
 
-    private PreparedStatement sCastMemberByID, sCast, sCastBySeries, sCastBySeriesAndRole,
+    private PreparedStatement sCastMemberByID, sCastMembers, sCastMembersBySeries, sCastMembersBySeriesAndRole,
             iCastMember,
             dCastMember;
     private PreparedStatement sChannelByID, sChannels, sChannelsBySeries, sChannelsByType,
@@ -70,7 +70,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sUsers, sUsersBySeries, sUsersByGenre, sUsersByGroup,
             iUser,
             dUser;
-    private PreparedStatement iCastSeriesRel;
+    private PreparedStatement iCastMemberSeriesRel;
     private PreparedStatement sLastEpisodeSeen;
 
     public RESTDataLayerMySQL(DataSource datasource) throws SQLException, NamingException {
@@ -82,13 +82,13 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         try {
             super.init();
 
-            // Cast
-            sCastMemberByID = connection.prepareStatement("SELECT * FROM e_cast WHERE ID=?");
-            sCast = connection.prepareStatement("SELECT ID FROM e_cast");
-            sCastBySeries = connection.prepareStatement("SELECT ID_cast FROM r_cast_series WHERE ID_series=?");
-            sCastBySeriesAndRole = connection.prepareStatement("SELECT ID_cast FROM r_cast_series WHERE ID_series=? AND role=?");
-            iCastMember = connection.prepareStatement("INSERT INTO e_cast (name, surname, birth_date, gender, country, image_URL) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            dCastMember = connection.prepareStatement("DELETE FROM e_cast WHERE ID=?");
+            // CastMember
+            sCastMemberByID = connection.prepareStatement("SELECT * FROM e_cast_member WHERE ID=?");
+            sCastMembers = connection.prepareStatement("SELECT ID FROM e_cast_member");
+            sCastMembersBySeries = connection.prepareStatement("SELECT ID_cast_member FROM r_cast_member_series WHERE ID_series=?");
+            sCastMembersBySeriesAndRole = connection.prepareStatement("SELECT ID_cast_member FROM r_cast_member_series WHERE ID_series=? AND role=?");
+            iCastMember = connection.prepareStatement("INSERT INTO e_cast_member (name, surname, birth_date, gender, country, image_URL) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            dCastMember = connection.prepareStatement("DELETE FROM e_cast_member WHERE ID=?");
 
             // Channel
             sChannelByID = connection.prepareStatement("SELECT * FROM e_channel WHERE ID=?");
@@ -159,8 +159,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sSeriesByNews = connection.prepareStatement("SELECT ID_series FROM r_news_series WHERE ID_news=?");
             sSeriesByGenre = connection.prepareStatement("SELECT ID_series FROM r_genre_series WHERE ID_genre=?");
             sSeriesByChannel = connection.prepareStatement("SELECT ID_series FROM r_channel_series WHERE ID_channel=?");
-            sSeriesByCastMember = connection.prepareStatement("SELECT ID_series FROM r_cast_series WHERE ID_cast=?");
-            sSeriesByCastMemberAndRole = connection.prepareStatement("SELECT ID_series FROM r_cast_series WHERE ID_cast=? AND role=?");
+            sSeriesByCastMember = connection.prepareStatement("SELECT ID_series FROM r_cast_member_series WHERE ID_cast_member=?");
+            sSeriesByCastMemberAndRole = connection.prepareStatement("SELECT ID_series FROM r_cast_member_series WHERE ID_cast_member=? AND role=?");
             sSeriesByUser = connection.prepareStatement("SELECT ID_series FROM r_user_series WHERE ID_user=?");
             iSeries = connection.prepareStatement("INSERT INTO e_series (name, year, description, image_URL, state, add_count) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             dSeries = connection.prepareStatement("DELETE FROM e_series WHRE ID=?");
@@ -186,7 +186,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             dUser = connection.prepareStatement("DELETE FROM e_user WHERE ID=?");
 
             // Relationship
-            iCastSeriesRel = connection.prepareStatement("INSERT INTO r_cast_series (ID_cast, ID_series, role) VALUES(?, ?, ?)"); // role?
+            iCastMemberSeriesRel = connection.prepareStatement("INSERT INTO r_cast_member_series (ID_cast_member, ID_series, role) VALUES(?, ?, ?)"); // role?
 
             // Other
             sLastEpisodeSeen = connection.prepareStatement("SELECT season, episode FROM r_user_series WHERE  ID_user=? AND ID_series=?");
@@ -197,23 +197,23 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     // ============================================================================================
-    // Cast
+    // CastMember
     // ============================================================================================
     @Override
-    public Cast createCastMember() {
-        return new CastMySQL(this);
+    public CastMember createCastMember() {
+        return new CastMemberMySQL(this);
     }
 
     @Override
-    // sCastMemberByID = connection.prepareStatement("SELECT * FROM e_cast WHERE ID=?");
-    public Cast getCastMember(int castID) {
+    // sCastMemberByID = "SELECT * FROM e_cast_member WHERE ID=?"
+    public CastMember getCastMember(int castID) {
         ResultSet rs = null;
-        Cast result = null;
+        CastMember result = null;
         try {
             this.sCastMemberByID.setInt(1, castID);
             rs = this.sCastMemberByID.executeQuery();
             if (rs.next()) {
-                result = new CastMySQL(this, rs);
+                result = new CastMemberMySQL(this, rs);
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -230,12 +230,12 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sCast = connection.prepareStatement("SELECT ID FROM e_cast"); 
-    public List<Cast> getCast() {
+    // sCastMembers = "SELECT ID FROM e_cast_member"
+    public List<CastMember> getCastMembers() {
         ResultSet rs = null;
-        List<Cast> result = new ArrayList();
+        List<CastMember> result = new ArrayList();
         try {
-            rs = sCast.executeQuery();
+            rs = sCastMembers.executeQuery();
             while (rs.next()) {
                 result.add(this.getCastMember(rs.getInt("ID")));
             }
@@ -254,15 +254,15 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sCastBySeries = connection.prepareStatement("SELECT ID_cast FROM r_cast_series WHERE ID_series=?");
-    public List<Cast> getCast(Series series) {
+    // sCastMembersBySeries = "SELECT ID_cast_member FROM r_cast_member_series WHERE ID_series=?"
+    public List<CastMember> getCastMembers(Series series) {
         ResultSet rs = null;
-        List<Cast> result = new ArrayList();
+        List<CastMember> result = new ArrayList();
         try {
-            this.sCastBySeries.setInt(1, series.getID());
-            rs = this.sCastBySeries.executeQuery();
+            this.sCastMembersBySeries.setInt(1, series.getID());
+            rs = this.sCastMembersBySeries.executeQuery();
             while (rs.next()) {
-                result.add(this.getCastMember(rs.getInt("ID_cast")));
+                result.add(this.getCastMember(rs.getInt("ID_cast_member")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -279,16 +279,16 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sCastBySeriesAndRole = connection.prepareStatement("SELECT ID_cast FROM r_cast_series WHERE ID_series=? AND role=?");
-    public List<Cast> getCast(Series series, String role) {
+    // sCastMembersBySeriesAndRole = "SELECT ID_cast_member FROM r_cast_member_series WHERE ID_series=? AND role=?"
+    public List<CastMember> getCastMembers(Series series, String role) {
         ResultSet rs = null;
-        List<Cast> result = new ArrayList();
+        List<CastMember> result = new ArrayList();
         try {
-            this.sCastBySeriesAndRole.setInt(1, series.getID());
-            this.sCastBySeriesAndRole.setString(2, role);
-            rs = this.sCastBySeriesAndRole.executeQuery();
+            this.sCastMembersBySeriesAndRole.setInt(1, series.getID());
+            this.sCastMembersBySeriesAndRole.setString(2, role);
+            rs = this.sCastMembersBySeriesAndRole.executeQuery();
             while (rs.next()) {
-                result.add(this.getCastMember(rs.getInt("ID_cast")));
+                result.add(this.getCastMember(rs.getInt("ID_cast_member")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -305,8 +305,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iCastMember = connection.prepareStatement("INSERT INTO e_cast (name, surname, birth_date, gender, country, image_URL) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-    public void storeCastMember(Cast castMember) {
+    // iCastMember = "INSERT INTO e_cast_member (name, surname, birth_date, gender, country, image_URL) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
+    public void storeCastMember(CastMember castMember) {
         ResultSet rs = null;
         int ID = castMember.getID();
         try {
@@ -338,7 +338,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             }
             // now we store the relatoinship only if they are not null
             if (castMember.isSeriesSet()) {
-                this.storeCastMemberToSeriesRelationship(ID, castMember.getSeries());
+                this.storeCastMemberSeriesRelationship(ID, castMember.getSeries());
             }
             if (ID > 0) { // the object is on DB and have a key
                 castMember.copyFrom(this.getCastMember(ID)); // copy the DB object on the current object
@@ -358,8 +358,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // dCastMember = connection.prepareStatement("DELETE FROM e_cast WHERE ID=?");
-    public void removeCastMember(Cast castMember) {
+    // dCastMember = "DELETE FROM e_cast_member WHERE ID=?"
+    public void removeCastMember(CastMember castMember) {
         try {
             this.dCastMember.setInt(1, castMember.getID());
             this.dCastMember.executeUpdate();
@@ -368,14 +368,15 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         }
     }
 
-    private void storeCastMemberToSeriesRelationship(int ID, List<Series> series) {
+    private void storeCastMemberSeriesRelationship(int ID, List<Series> series) {
+        // iCastMemberSeriesRel = "INSERT INTO r_cast_member_series (ID_cast_member, ID_series, role) VALUES(?, ?, ?)"
         for (Series s : series) {
             try {
                 if (s.getID() > 0) { // series is on DB already
-                    this.iCastSeriesRel.setInt(1, ID);
-                    this.iCastSeriesRel.setInt(2, s.getID());
-                    this.iCastSeriesRel.setString(3, null); // role?
-                    this.iCastSeriesRel.executeUpdate();
+                    this.iCastMemberSeriesRel.setInt(1, ID);
+                    this.iCastMemberSeriesRel.setInt(2, s.getID());
+                    this.iCastMemberSeriesRel.setString(3, null); // role?
+                    this.iCastMemberSeriesRel.executeUpdate();
                 } else { //what are we doing if the series isn't on DB?
 
                 }
@@ -395,7 +396,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sChannelByID = connection.prepareStatement("SELECT * FROM e_channel WHERE ID=?");
+    // sChannelByID = "SELECT * FROM e_channel WHERE ID=?"
     public Channel getChannel(int channelID) {
         ResultSet rs = null;
         Channel result = null;
@@ -420,7 +421,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sChannels = connection.prepareStatement("SELECT ID FROM e_channel");
+    // sChannels = "SELECT ID FROM e_channel"
     public List<Channel> getChannels() {
         ResultSet rs = null;
         List<Channel> result = new ArrayList();
@@ -444,7 +445,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sChannelsBySeries = connection.prepareStatement("SELECT ID_channel FROM r_channel_series WHERE ID_series=?");
+    // sChannelsBySeries = "SELECT ID_channel FROM r_channel_series WHERE ID_series=?"
     public List<Channel> getChannels(Series series) {
         ResultSet rs = null;
         List<Channel> result = new ArrayList();
@@ -469,7 +470,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sChannelsByType = connection.prepareStatement("SELECT ID FROM e_channel WHERE type=?");
+    // sChannelsByType = "SELECT ID FROM e_channel WHERE type=?"
     public List<Channel> getChannels(String type) {
         ResultSet rs = null;
         List<Channel> result = new ArrayList();
@@ -494,7 +495,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iChannel = connection.prepareStatement("INSERT INTO e_channel (name, number, type) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+    // iChannel = "INSERT INTO e_channel (name, number, type) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS
     public void storeChannel(Channel channel) {
         ResultSet rs = null;
         int ID = channel.getID();
@@ -537,7 +538,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    //  dChannel = connection.prepareStatement("DELETE FROM e_channel WHERE ID=?");
+    //  dChannel = "DELETE FROM e_channel WHERE ID=?"
     public void removeChannel(Channel channel) {
         try {
             this.dChannel.setInt(1, channel.getID());
@@ -556,7 +557,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sCommentByID = connection.prepareStatement("SELECT * FROM e_comment WHERE ID=?");
+    // sCommentByID = "SELECT * FROM e_comment WHERE ID=?"
     public Comment getComment(int commentID) {
         ResultSet rs = null;
         Comment result = null;
@@ -581,7 +582,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sComments = connection.prepareStatement("SELECT ID FROM e_comment");
+    // sComments = "SELECT ID FROM e_comment"
     public List<Comment> getComments() {
         ResultSet rs = null;
         List<Comment> result = new ArrayList();
@@ -605,7 +606,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sCommentsBySeries = connection.prepareStatement("SELECT ID_comment FROM r_comment_series WHERE ID_series=?");
+    // sCommentsBySeries = "SELECT ID_comment FROM r_comment_series WHERE ID_series=?"
     public List<Comment> getComments(Series series) {
         ResultSet rs = null;
         List<Comment> result = new ArrayList();
@@ -630,7 +631,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sCommentsByNews = connection.prepareStatement("SELECT ID_comment FROM r_news_comment WHERE ID_news=?");
+    // sCommentsByNews = "SELECT ID_comment FROM r_news_comment WHERE ID_news=?"
     public List<Comment> getComments(News news) {
         ResultSet rs = null;
         List<Comment> result = new ArrayList();
@@ -655,7 +656,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sCommentsByUser = connection.prepareStatement("SELECT ID_comment FROM e_comment WHERE ID_user=?");
+    // sCommentsByUser = "SELECT ID_comment FROM e_comment WHERE ID_user=?"
     public List<Comment> getComments(User user) {
         ResultSet rs = null;
         List<Comment> result = new ArrayList();
@@ -680,7 +681,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iComment = connection.prepareStatement("INSERT INTO e_comment (title, text, date, likes, dislikes, ID_user) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+    // iComment = "INSERT INTO e_comment (title, text, date, likes, dislikes, ID_user) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
     public void storeComment(Comment comment) {
         ResultSet rs = null;
         int ID = comment.getID();
@@ -736,7 +737,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // dComment = connection.prepareStatement("DELETE FROM e_comment WHERE ID=?");
+    // dComment = "DELETE FROM e_comment WHERE ID=?"
     public void removeComment(Comment comment) {
         try {
             this.dComment.setInt(1, comment.getID());
@@ -755,7 +756,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sEpisodeByID = connection.prepareStatement("SELECT * FROM e_episode WHERE ID=?");
+    // sEpisodeByID = "SELECT * FROM e_episode WHERE ID=?"
     public Episode getEpisode(int episodeID) {
         ResultSet rs = null;
         Episode result = null;
@@ -780,7 +781,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sEpisodeBySeriesAndSeasonAndNumber = connection.prepareStatement("SELECT * FROM e_episode WHERE ID_series=? AND season=? AND number=?");
+    // sEpisodeBySeriesAndSeasonAndNumber = "SELECT * FROM e_episode WHERE ID_series=? AND season=? AND number=?"
     public Episode getEpisodeBySeriesAndSeasonAndNumber(Series series, int season, int number) {
         ResultSet rs = null;
         Episode result = null;
@@ -807,7 +808,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sEpisodes = connection.prepareStatement("SELECT ID FROM e_episode");
+    // sEpisodes = "SELECT ID FROM e_episode"
     public List<Episode> getEpisodes() {
         ResultSet rs = null;
         List<Episode> result = new ArrayList();
@@ -831,7 +832,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sEpisodesBySeries = connection.prepareStatement("SELECT ID DROM e_episode WHERE ID_series=?");
+    // sEpisodesBySeries = "SELECT ID DROM e_episode WHERE ID_series=?"
     public List<Episode> getEpisodes(Series series) {
         ResultSet rs = null;
         List<Episode> result = new ArrayList();
@@ -856,7 +857,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sEpisodesBySeriesAndSeason = connection.prepareStatement("SELECT ID FROM e_episode WHERE ID_series=? AND season=?");
+    // sEpisodesBySeriesAndSeason = "SELECT ID FROM e_episode WHERE ID_series=? AND season=?"
     public List<Episode> getEpisodes(Series series, int season) {
         ResultSet rs = null;
         List<Episode> result = new ArrayList();
@@ -882,7 +883,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iEpisode = connection.prepareStatement("INSERT INTO e_episode (number, season, title, description, ID_series) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+    // iEpisode = "INSERT INTO e_episode (number, season, title, description, ID_series) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
     public void storeEpisode(Episode episode) {
         ResultSet rs = null;
         int ID = episode.getID();
@@ -937,7 +938,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sLastEpisodeSeen = connection.prepareStatement("SELECT season, episode FROM r_user_series WHERE  ID_user=? AND ID_series=?");
+    // sLastEpisodeSeen = "SELECT season, episode FROM r_user_series WHERE  ID_user=? AND ID_series=?"
     public Episode getLastEpisodeSeen(User user, Series series) {
         ResultSet rs = null;
         Episode result = null;
@@ -963,7 +964,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // dEpisode = connection.prepareStatement("DELETE FROM e_episode WHERE ID=?");
+    // dEpisode = "DELETE FROM e_episode WHERE ID=?"
     public void removeEpisode(Episode episode) {
         try {
             this.dEpisode.setInt(1, episode.getID());
@@ -982,7 +983,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sGenreByID = connection.prepareStatement("SELECT * FROM e_genre WHERE ID=?");
+    // sGenreByID = "SELECT * FROM e_genre WHERE ID=?"
     public Genre getGenre(int genreID) {
         ResultSet rs = null;
         Genre result = null;
@@ -1007,7 +1008,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sGenres = connection.prepareStatement("SELECT ID FROM e_genre");
+    // sGenres = "SELECT ID FROM e_genre"
     public List<Genre> getGenres() {
         ResultSet rs = null;
         List<Genre> result = new ArrayList();
@@ -1031,7 +1032,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sGenresBySeries = connection.prepareStatement("SELECT ID_genre FROM r_genre_series WHERE ID_series=?");
+    // sGenresBySeries = "SELECT ID_genre FROM r_genre_series WHERE ID_series=?"
     public List<Genre> getGenres(Series series) {
         ResultSet rs = null;
         List<Genre> result = new ArrayList();
@@ -1056,7 +1057,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sGenresByUser = connection.prepareStatement("SELECT ID_genre FROM r_user_genre WHERE ID_user=?");
+    // sGenresByUser = "SELECT ID_genre FROM r_user_genre WHERE ID_user=?"
     public List<Genre> getGenres(User user) {
         ResultSet rs = null;
         List<Genre> result = new ArrayList();
@@ -1081,7 +1082,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iGenre = connection.prepareStatement("INSERT INTO e_genre (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+    // iGenre = "INSERT INTO e_genre (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS
     public void storeGenre(Genre genre) {
         ResultSet rs = null;
         int ID = genre.getID();
@@ -1120,7 +1121,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // dGenre = connection.prepareStatement("DELETE FROM e_genre WHERE ID=?");
+    // dGenre = "DELETE FROM e_genre WHERE ID=?"
     public void removeGenre(Genre genre) {
         try {
             this.dGenre.setInt(1, genre.getID());
@@ -1139,7 +1140,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sGroupByID = connection.prepareStatement("SELECT * FROM e_group WHERE ID=?");
+    // sGroupByID = "SELECT * FROM e_group WHERE ID=?"
     public Group getGroup(int groupID) {
         ResultSet rs = null;
         Group result = null;
@@ -1164,7 +1165,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sGroupByUser = connection.prepareStatement("SELECT ID_group FROM e_user WHERE ID=?");
+    // sGroupByUser = "SELECT ID_group FROM e_user WHERE ID=?"
     public Group getGroup(User user) {
         ResultSet rs = null;
         Group result = null;
@@ -1189,7 +1190,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sGroups = connection.prepareStatement("SELECT ID FROM e_groups");
+    // sGroups = "SELECT ID FROM e_groups"
     public List<Group> getGroups() {
         ResultSet rs = null;
         List<Group> result = new ArrayList();
@@ -1213,7 +1214,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sGroupsByService = connection.prepareStatement("SELECT ID_group FROM r_service_group WHERE ID_service=?");
+    // sGroupsByService = "SELECT ID_group FROM r_service_group WHERE ID_service=?"
     public List<Group> getGroups(Service service) {
         ResultSet rs = null;
         List<Group> result = new ArrayList();
@@ -1238,7 +1239,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iGroup = connection.prepareStatement("INSERT INTO e_group (name, description) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+    // iGroup = "INSERT INTO e_group (name, description) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS
     public void storeGroup(Group group) {
         ResultSet rs = null;
         int ID = group.getID();
@@ -1279,7 +1280,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // dGroup = connection.prepareStatement("DELETE FROM e_group WHERE ID=?");
+    // dGroup = "DELETE FROM e_group WHERE ID=?"
     public void removeGroup(Group group) {
         try {
             this.dGroup.setInt(1, group.getID());
@@ -1298,7 +1299,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sMessageByID = connection.prepareStatement("SELECT FROM e_message WHERE ID=?");
+    // sMessageByID = "SELECT FROM e_message WHERE ID=?"
     public Message getMessage(int messageID) {
         ResultSet rs = null;
         Message result = null;
@@ -1323,7 +1324,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sMessages = connection.prepareStatement("SELECT ID FROM e_message");
+    // sMessages = "SELECT ID FROM e_message"
     public List<Message> getMessages() {
         ResultSet rs = null;
         List<Message> result = new ArrayList();
@@ -1347,7 +1348,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sMessagesByUser = connection.prepareStatement("SELECT ID FROM e_message WHERE ID_user=?");
+    // sMessagesByUser = "SELECT ID FROM e_message WHERE ID_user=?"
     public List<Message> getMessages(User user) {
         ResultSet rs = null;
         List<Message> result = new ArrayList();
@@ -1372,7 +1373,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sMessagesBySeries = connection.prepareStatement("SELECT ID FROM e_message WHERE ID_series=?");
+    // sMessagesBySeries = "SELECT ID FROM e_message WHERE ID_series=?"
     public List<Message> getMessages(Series series) {
         ResultSet rs = null;
         List<Message> result = new ArrayList();
@@ -1397,7 +1398,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sMessagesByUserAndSeries = connection.prepareStatement("SELECT ID FROM e_message WHERE ID_user=? AND ID_series=?");
+    // sMessagesByUserAndSeries = "SELECT ID FROM e_message WHERE ID_user=? AND ID_series=?"
     public List<Message> getMessages(Series series, User user) {
         ResultSet rs = null;
         List<Message> result = new ArrayList();
@@ -1423,7 +1424,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iMessage = connection.prepareStatement("INSERT INTO e_message (title, text, date, ID_user, ID_series) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+    // iMessage = "INSERT INTO e_message (title, text, date, ID_user, ID_series) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
     public void storeMessage(Message message) {
         ResultSet rs = null;
         int ID = message.getID();
@@ -1479,7 +1480,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // dMessage = connection.prepareStatement("DELETE FROM e_message WHERE ID=?");
+    // dMessage = "DELETE FROM e_message WHERE ID=?"
     public void removeMessage(Message message) {
         try {
             this.dMessage.setInt(1, message.getID());
@@ -1498,7 +1499,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sNewsByID = connection.prepareStatement("SELECT * FROM e_news");
+    // sNewsByID = "SELECT * FROM e_news"
     public News getNews(int newsID) {
         ResultSet rs = null;
         News result = null;
@@ -1523,7 +1524,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sNewsByComment = connection.prepareStatement("SELECT ID_news FROM r_news_comment WHERE ID_comment=?");
+    // sNewsByComment = "SELECT ID_news FROM r_news_comment WHERE ID_comment=?"
     public News getNews(Comment comment) {
         ResultSet rs = null;
         News result = null;
@@ -1548,7 +1549,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sNews = connection.prepareStatement("SELECT ID FROM e_news");
+    // sNews = "SELECT ID FROM e_news"
     public List<News> getNews() {
         ResultSet rs = null;
         List<News> result = new ArrayList();
@@ -1572,7 +1573,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sNewsByUser = connection.prepareStatement("SELECT ID FROM e_news WHERE ID_user=?");
+    // sNewsByUser = "SELECT ID FROM e_news WHERE ID_user=?"
     public List<News> getNews(User user) {
         ResultSet rs = null;
         List<News> result = new ArrayList();
@@ -1597,7 +1598,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sNewsbySeries = connection.prepareStatement("SELECT ID_news FROM r_news_series WHERE ID_series=?");
+    // sNewsbySeries = "SELECT ID_news FROM r_news_series WHERE ID_series=?"
     public List<News> getNews(Series series) {
         ResultSet rs = null;
         List<News> result = new ArrayList();
@@ -1622,7 +1623,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iNews = connection.prepareStatement("INSERT INTO e_news (title, text, date, likes, dislikes, ID_user) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+    // iNews = "INSERT INTO e_news (title, text, date, likes, dislikes, ID_user) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
     public void storeNews(News news) {
         ResultSet rs = null;
         int ID = news.getID();
@@ -1679,7 +1680,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // dNews = connection.prepareStatement("DELETE FROM e_news WHERE ID=?");
+    // dNews = "DELETE FROM e_news WHERE ID=?"
     public void removeNews(News news) {
         try {
             this.dNews.setInt(1, news.getID());
@@ -1698,7 +1699,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sSeriesByID = connection.prepareStatement("SELECT * FROM e_series WHERE ID=?");
+    // sSeriesByID = "SELECT * FROM e_series WHERE ID=?"
     public Series getSeries(int seriesID) {
         ResultSet rs = null;
         Series result = null;
@@ -1723,7 +1724,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sSeriesByMessage = connection.prepareStatement("SELECT ID_series FROM e_message WHERE ID=?");
+    // sSeriesByMessage = "SELECT ID_series FROM e_message WHERE ID=?"
     public Series getSeries(Message message) {
         ResultSet rs = null;
         Series result = null;
@@ -1748,7 +1749,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sSeriesByEpisode = connection.prepareStatement("SELECT ID_series FROM e_episode WHERE ID=?");
+    // sSeriesByEpisode = "SELECT ID_series FROM e_episode WHERE ID=?"
     public Series getSeries(Episode episode) {
         ResultSet rs = null;
         Series result = null;
@@ -1773,7 +1774,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sSeriesByComment = connection.prepareStatement("SELECT ID_series FROM r_comment_series WHERE ID_comment=?");
+    // sSeriesByComment = "SELECT ID_series FROM r_comment_series WHERE ID_comment=?"
     public Series getSeries(Comment comment) {
         ResultSet rs = null;
         Series result = null;
@@ -1798,7 +1799,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sSeries = connection.prepareStatement("SELECT ID FROM e_series");
+    // sSeries = "SELECT ID FROM e_series"
     public List<Series> getSeries() {
         ResultSet rs = null;
         List<Series> result = new ArrayList();
@@ -1822,7 +1823,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sSeriesByNews = connection.prepareStatement("SELECT ID_series FROM r_news_series WHERE ID_news=?");
+    // sSeriesByNews = "SELECT ID_series FROM r_news_series WHERE ID_news=?"
     public List<Series> getSeries(News news) {
         ResultSet rs = null;
         List<Series> result = new ArrayList();
@@ -1847,7 +1848,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sSeriesByGenre = connection.prepareStatement("SELECT ID_series FROM r_genre_series WHERE ID_genre=?");
+    // sSeriesByGenre = "SELECT ID_series FROM r_genre_series WHERE ID_genre=?"
     public List<Series> getSeries(Genre genre) {
         ResultSet rs = null;
         List<Series> result = new ArrayList();
@@ -1872,7 +1873,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sSeriesByChannel = connection.prepareStatement("SELECT ID_series FROM r_channel_series WHERE ID_channel=?");
+    // sSeriesByChannel = "SELECT ID_series FROM r_channel_series WHERE ID_channel=?"
     public List<Series> getSeries(Channel channel) {
         ResultSet rs = null;
         List<Series> result = new ArrayList();
@@ -1897,8 +1898,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sSeriesByCastMember = connection.prepareStatement("SELECT ID_series FROM r_cast_series WHERE ID_cast=?");
-    public List<Series> getSeries(Cast castMember) {
+    // sSeriesByCastMember = "SELECT ID_series FROM r_cast_member_series WHERE ID_cast_member=?"
+    public List<Series> getSeries(CastMember castMember) {
         ResultSet rs = null;
         List<Series> result = new ArrayList();
         try {
@@ -1922,8 +1923,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sSeriesByCastMemberAndRole = connection.prepareStatement("SELECT ID_series FROM r_cast_series WHERE ID_cast=? AND role=?");
-    public List<Series> getSeries(Cast castMember, String role) {
+    // sSeriesByCastMemberAndRole = "SELECT ID_series FROM r_cast_member_series WHERE ID_cast_member=? AND role=?"
+    public List<Series> getSeries(CastMember castMember, String role) {
         ResultSet rs = null;
         List<Series> result = new ArrayList();
         try {
@@ -1948,7 +1949,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sSeriesByUser = connection.prepareStatement("SELECT ID_series FROM r_user_series WHERE ID_user=?");
+    // sSeriesByUser = "SELECT ID_series FROM r_user_series WHERE ID_user=?"
     public List<Series> getSeries(User user) {
         ResultSet rs = null;
         List<Series> result = new ArrayList();
@@ -1973,7 +1974,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iSeries = connection.prepareStatement("INSERT INTO e_series (name, year, description, image_URL, state, add_count) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+    // iSeries = "INSERT INTO e_series (name, year, description, image_URL, state, add_count) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
     public void storeSeries(Series series) {
         ResultSet rs = null;
         int ID = series.getID();
@@ -2022,7 +2023,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // dSeries = connection.prepareStatement("DELETE FROM e_series WHRE ID=?");
+    // dSeries = "DELETE FROM e_series WHRE ID=?"
     public void removeSeries(Series series) {
         try {
             this.dSeries.setInt(1, series.getID());
@@ -2041,7 +2042,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sServiceByID = connection.prepareStatement("SELECT * FROM e_service WHERE ID=?");
+    // sServiceByID = "SELECT * FROM e_service WHERE ID=?"
     public Service getService(int serviceID) {
         ResultSet rs = null;
         Service result = null;
@@ -2066,7 +2067,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sServices = connection.prepareStatement("SELECT ID FROM e_service");
+    // sServices = "SELECT ID FROM e_service"
     public List<Service> getServices() {
         ResultSet rs = null;
         List<Service> result = new ArrayList();
@@ -2090,7 +2091,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sServicesByGroup = connection.prepareStatement("SELECT ID_service FROM r_service_group WHERE ID_group=?");
+    // sServicesByGroup = "SELECT ID_service FROM r_service_group WHERE ID_group=?"
     public List<Service> getServices(Group group) {
         ResultSet rs = null;
         List<Service> result = new ArrayList();
@@ -2115,7 +2116,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iService = connection.prepareStatement("INSERT INTO e_service (name, description, script_name) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+    // iService = "INSERT INTO e_service (name, description, script_name) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS
     public void storeService(Service service) {
         ResultSet rs = null;
         int ID = service.getID();
@@ -2158,7 +2159,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // dService = connection.prepareStatement("DELETE FROM e_service WHERE ID=?");
+    // dService = "DELETE FROM e_service WHERE ID=?"
     public void removeService(Service service) {
         try {
             this.dService.setInt(1, service.getID());
@@ -2177,7 +2178,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sUserByID = connection.prepareStatement("SELECT * FROM e_user WHERE ID=?");
+    // sUserByID = "SELECT * FROM e_user WHERE ID=?"
     public User getUser(int userID) {
         ResultSet rs = null;
         User result = null;
@@ -2202,7 +2203,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sUserByUsernameAndPassword = connection.prepareStatement("SELECT * FROM e_user WHERE username=? AND password=?");
+    // sUserByUsernameAndPassword = "SELECT * FROM e_user WHERE username=? AND password=?"
     public User getUser(String username, String password) {
         ResultSet rs = null;
         User result = null;
@@ -2228,7 +2229,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sUserByMessage = connection.prepareStatement("Select ID_user FROM e_message WHERE ID=?");
+    // sUserByMessage = "Select ID_user FROM e_message WHERE ID=?"
     public User getUser(Message message) {
         ResultSet rs = null;
         User result = null;
@@ -2253,7 +2254,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sUserByComment = connection.prepareStatement("SELECT ID_user FROM e_comment WHERE ID=?");
+    // sUserByComment = "SELECT ID_user FROM e_comment WHERE ID=?"
     public User getUser(Comment comment) {
         ResultSet rs = null;
         User result = null;
@@ -2278,7 +2279,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sUserByNews = connection.prepareStatement("SELECT ID_user FROM e_news WHERE ID=?");
+    // sUserByNews = "SELECT ID_user FROM e_news WHERE ID=?"
     public User getUser(News news) {
         ResultSet rs = null;
         User result = null;
@@ -2303,7 +2304,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sUsers = connection.prepareStatement("SELECT ID FROM e_user");
+    // sUsers = "SELECT ID FROM e_user"
     public List<User> getUsers() {
         ResultSet rs = null;
         List<User> result = new ArrayList();
@@ -2327,7 +2328,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sUsersBySeries = connection.prepareStatement("SELECT ID_user FROM r_user_series WHERE ID_series=?");
+    // sUsersBySeries = "SELECT ID_user FROM r_user_series WHERE ID_series=?"
     public List<User> getUsers(Series series) {
         ResultSet rs = null;
         List<User> result = new ArrayList();
@@ -2352,7 +2353,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sUsersByGenre = connection.prepareStatement("SELECT ID_user FROM r_user_genre WHERE ID_genre=?");
+    // sUsersByGenre = "SELECT ID_user FROM r_user_genre WHERE ID_genre=?"
     public List<User> getUsers(Genre genre) {
         ResultSet rs = null;
         List<User> result = new ArrayList();
@@ -2377,7 +2378,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sUsersByGroup = connection.prepareStatement("SELECT ID FROM e_user WHERE ID_group=?");
+    // sUsersByGroup = "SELECT ID FROM e_user WHERE ID_group=?"
     public List<User> getUsers(Group group) {
         ResultSet rs = null;
         List<User> result = new ArrayList();
@@ -2402,7 +2403,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iUser = connection.prepareStatement("INSERT INTO e_user (username, password, mail, name, surname, age, gender, image_URL, presonal_message, ID_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+    // iUser = "INSERT INTO e_user (username, password, mail, name, surname, age, gender, image_URL, presonal_message, ID_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
     public void storeUser(User user) {
         ResultSet rs = null;
         int ID = user.getID();
@@ -2467,7 +2468,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // dUser = connection.prepareStatement("DELETE FROM e_user WHERE ID=?");
+    // dUser = "DELETE FROM e_user WHERE ID=?"
     public void removeUser(User user) {
         try {
             this.dUser.setInt(1, user.getID());
