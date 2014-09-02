@@ -46,12 +46,7 @@ public interface User {
 
     void setPersonalMessage(String personalMessage);
 
-    /**
-     * foreign key with group
-     *
-     * @return
-     */
-    int getGroupID();
+    Group getGroup();
 
     boolean isDirty();
 

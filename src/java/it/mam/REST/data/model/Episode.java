@@ -24,12 +24,7 @@ public interface Episode {
 
     void setDescription(String description);
 
-    /**
-     * primary key with series
-     *
-     * @return
-     */
-    int getSeriesID();
+    Series getSeries();
 
     boolean isDirty();
 

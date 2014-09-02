@@ -1,7 +1,9 @@
-package it.mam.REST.dat.impl;
+package it.mam.REST.data.impl;
 
-import it.mam.REST.data.model.Comment;
+import it.mam.REST.data.model.Message;
 import it.mam.REST.data.model.RESTDataLayer;
+import it.mam.REST.data.model.Series;
+import it.mam.REST.data.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -10,46 +12,47 @@ import java.util.Date;
  *
  * @author alex
  */
-public class CommentMySQL implements Comment {
+public class MessageMySQL implements Message {
 
     private int ID;
     private String title;
     private String text;
     private Date date;
-    private int likes;
-    private int dislikes;
     protected boolean dirty;
 
     protected RESTDataLayer dataLayer;
 
+    private User user;
     private int userID;
+    private Series series;
+    private int seriesID;
 
-    public CommentMySQL(RESTDataLayer dataLayer) {
+    public MessageMySQL(RESTDataLayer dataLayer) {
 
         this.ID = 0;
         this.title = "";
         this.text = "";
         this.date = null;
-        this.likes = 0;
-        this.dislikes = 0;
         this.dirty = false;
 
         this.dataLayer = dataLayer;
 
+        this.user = null;
         this.userID = 0;
+        this.series = null;
+        this.seriesID = 0;
     }
 
-    public CommentMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
+    public MessageMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
         this(dataLayer);
         this.ID = rs.getInt("ID");
         this.title = rs.getString("title");
         this.text = rs.getString("text");
         this.date = rs.getDate("date"); // on DB the type of attribute date is TIMESTAMP
-        this.likes = rs.getInt("likes");
-        this.dislikes = rs.getInt("dislikes");
 
         this.userID = rs.getInt("ID_user");
+        this.seriesID = rs.getInt("ID_series");
     }
 
     @Override
@@ -91,28 +94,6 @@ public class CommentMySQL implements Comment {
     }
 
     @Override
-    public int getLikes() {
-        return likes;
-    }
-
-    @Override
-    public void setLikes(int likes) {
-        this.likes = likes;
-        this.dirty = true;
-    }
-
-    @Override
-    public int getDislikes() {
-        return dislikes;
-    }
-
-    @Override
-    public void setDislikes(int dislikes) {
-        this.dislikes = dislikes;
-        this.dirty = true;
-    }
-
-    @Override
     public boolean isDirty() {
         return dirty;
     }
@@ -123,20 +104,36 @@ public class CommentMySQL implements Comment {
     }
 
     @Override
-    public int getUserID() {
-        return userID;
+    public User getUser() {
+        if (this.user == null && this.userID > 0) {
+            this.user = this.dataLayer.getUser(userID);
+        }
+
+        return this.user;
     }
 
     @Override
-    public void copyFrom(Comment comment) {
-        this.ID = comment.getID();
-        this.date = comment.getDate();
-        this.dislikes = comment.getDislikes();
-        this.likes = comment.getLikes();
-        this.text = comment.getText();
-        this.title = comment.getTitle();
+    public Series getSeries() {
+        if (this.series == null && this.seriesID > 0) {
+            this.series = this.dataLayer.getSeries(seriesID);
+        }
 
-        this.userID = comment.getUserID();
+        return this.series;
+    }
+
+    @Override
+    public void copyFrom(Message message) {
+        this.ID = message.getID();
+        this.date = message.getDate();
+        this.text = message.getText();
+        this.title = message.getTitle();
+
+        if (message.getSeries() != null) {
+            this.seriesID = message.getSeries().getID();
+        }
+        if (message.getUser() != null) {
+            this.userID = message.getUser().getID();
+        }
 
         this.dirty = true;
     }

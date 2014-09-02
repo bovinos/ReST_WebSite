@@ -1,12 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	 version="3.1">
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <!-- Per non riscrivere ogni volta la stringa -->
+    <context-param>
+        <description>
+        </description>
+        <param-name>data.source</param-name>
+        <param-value>java:comp/env/jdbc/REST</param-value>
+    </context-param>
+    <!-- Per rendere il Connection Pooling globale -->
+    <context-param>
+        <param-name>view.date_format</param-name>
+        <param-value>dd/MM/yyyy hh:mm:ss</param-value>
+    </context-param>
+    <context-param>
+        <param-name>view.debug</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>view.template_directory</param-name>
+        <param-value>template</param-value>
+    </context-param>
+    <context-param>
+        <param-name>view.data.author</param-name>
+        <param-value>M &amp; A &amp; M</param-value>
+    </context-param>
+    <context-param>
+        <param-name>view.encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </context-param>
+    <context-param>
+        <param-name>view.outline_template</param-name>
+        <param-value>outline_front.ftl.html</param-value>
+    </context-param>
+    <listener>
+        <listener-class>it.mam.REST.listener.ContextInitializer</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>RESTBaseController</servlet-name>
+        <servlet-class>it.mam.REST.controller.RESTBaseController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreaNews</servlet-name>
+        <servlet-class>it.mam.REST.controller.CreaNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListaNews</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.ListaNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListaSerie</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.ListaSerie</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SchedaSerie</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.SchedaSerie</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CerchiaSerie</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.CerchiaSerie</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InserisciNews</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.InserisciNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SalvaNews</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.SalvaNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Registrazione</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.Registrazione</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SalvaUtente</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.SalvaUtente</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RESTBaseController</servlet-name>
+        <url-pattern>/RESTBaseController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreaNews</servlet-name>
+        <url-pattern>/CreaNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListaNews</servlet-name>
+        <url-pattern>/ListaNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListaSerie</servlet-name>
+        <url-pattern>/ListaSerie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SchedaSerie</servlet-name>
+        <url-pattern>/SchedaSerie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CerchiaSerie</servlet-name>
+        <url-pattern>/CerchiaSerie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciNews</servlet-name>
+        <url-pattern>/InserisciNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SalvaNews</servlet-name>
+        <url-pattern>/SalvaNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Registrazione</servlet-name>
+        <url-pattern>/Registrazione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SalvaUtente</servlet-name>
+        <url-pattern>/SalvaUtente</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <!-- Qui inseriamo il riferimento alla risorsa (vedi il tag <Resource> in context.xml in "META-INF")  -->
+    <welcome-file-list>
+        <welcome-file>ListaNews</welcome-file>
+    </welcome-file-list>
+    <resource-ref>
+        <res-ref-name>jdbc/REST</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
 </web-app>

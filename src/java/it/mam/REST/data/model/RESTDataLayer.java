@@ -176,6 +176,8 @@ public interface RESTDataLayer extends DataLayer {
 
     User getUser(int userID);
 
+    User getUser(String username, String password);
+
     User getUser(Message message);
 
     User getUser(Comment comment);

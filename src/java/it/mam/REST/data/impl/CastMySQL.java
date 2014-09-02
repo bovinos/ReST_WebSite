@@ -1,4 +1,4 @@
-package it.mam.REST.dat.impl;
+package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.Cast;
 import it.mam.REST.data.model.RESTDataLayer;
@@ -177,6 +177,11 @@ public class CastMySQL implements Cast {
     @Override
     public void removeAllSeries() {
         this.series = null;
+    }
+
+    @Override
+    public boolean isSeriesSet() {
+        return this.series == null;
     }
 
     @Override

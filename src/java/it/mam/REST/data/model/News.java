@@ -31,12 +31,7 @@ public interface News {
 
     void setDislikes(int dislikes);
 
-    /**
-     * foreign key with user. The user must be an admin
-     *
-     * @return
-     */
-    int getUserID();
+    User getUser();
 
     boolean isDirty();
 

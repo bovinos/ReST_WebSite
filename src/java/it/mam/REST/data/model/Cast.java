@@ -56,4 +56,6 @@ public interface Cast {
 
     void removeAllSeries();
 
+    boolean isSeriesSet();
+
 }

@@ -1,7 +1,8 @@
-package it.mam.REST.dat.impl;
+package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.RESTDataLayer;
+import it.mam.REST.data.model.Series;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -20,6 +21,7 @@ public class EpisodeMySQL implements Episode {
 
     protected RESTDataLayer dataLayer;
 
+    private Series series;
     private int seriesID;
 
     public EpisodeMySQL(RESTDataLayer dataLayer) {
@@ -33,6 +35,7 @@ public class EpisodeMySQL implements Episode {
 
         this.dataLayer = dataLayer;
 
+        this.series = null;
         this.seriesID = 0;
     }
 
@@ -107,8 +110,12 @@ public class EpisodeMySQL implements Episode {
     }
 
     @Override
-    public int getSeriesID() {
-        return seriesID;
+    public Series getSeries() {
+        if (this.series == null && this.seriesID > 0) {
+            this.series = this.dataLayer.getSeries(seriesID);
+        }
+
+        return this.series;
     }
 
     @Override
@@ -119,7 +126,9 @@ public class EpisodeMySQL implements Episode {
         this.season = episode.getSeason();
         this.title = episode.getTitle();
 
-        this.seriesID = episode.getSeriesID();
+        if (episode.getSeries() != null) {
+            this.seriesID = episode.getSeries().getID();
+        }
 
         this.dirty = true;
     }

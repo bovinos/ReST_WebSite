@@ -22,19 +22,9 @@ public interface Message {
 
     void setDate(Date date);
 
-    /**
-     * foreign key with user
-     *
-     * @return
-     */
-    int getUserID();
+    User getUser();
 
-    /**
-     * foreign key with series
-     *
-     * @return
-     */
-    int getSeriesID();
+    Series getSeries();
 
     boolean isDirty();
 

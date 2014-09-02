@@ -1,4 +1,4 @@
-package it.mam.REST.dat.impl;
+package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.Cast;
 import it.mam.REST.data.model.Channel;
@@ -66,10 +66,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     private PreparedStatement sServiceByID, sServices, sServicesByGroup,
             iService,
             dService;
-    private PreparedStatement sUserByID, sUserByComment, sUserByMessage, sUserByNews,
+    private PreparedStatement sUserByID, sUserByUsernameAndPassword, sUserByComment, sUserByMessage, sUserByNews,
             sUsers, sUsersBySeries, sUsersByGenre, sUsersByGroup,
             iUser,
             dUser;
+    private PreparedStatement iCastSeriesRel;
     private PreparedStatement sLastEpisodeSeen;
 
     public RESTDataLayerMySQL(DataSource datasource) throws SQLException, NamingException {
@@ -110,7 +111,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sEpisodeByID = connection.prepareStatement("SELECT * FROM e_episode WHERE ID=?");
             sEpisodeBySeriesAndSeasonAndNumber = connection.prepareStatement("SELECT * FROM e_episode WHERE ID_series=? AND season=? AND number=?");
             sEpisodes = connection.prepareStatement("SELECT ID FROM e_episode");
-            sEpisodesBySeries = connection.prepareStatement("SELECT ID DROM e_episode WHERE ID_series=?");
+            sEpisodesBySeries = connection.prepareStatement("SELECT ID FROM e_episode WHERE ID_series=?");
             sEpisodesBySeriesAndSeason = connection.prepareStatement("SELECT ID FROM e_episode WHERE ID_series=? AND season=?");
             iEpisode = connection.prepareStatement("INSERT INTO e_episode (number, season, title, description, ID_series) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             dEpisode = connection.prepareStatement("DELETE FROM e_episode WHERE ID=?");
@@ -173,6 +174,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
             // User
             sUserByID = connection.prepareStatement("SELECT * FROM e_user WHERE ID=?");
+            sUserByUsernameAndPassword = connection.prepareStatement("SELECT ID FROM e_user WHERE username=? AND password=?");
             sUserByComment = connection.prepareStatement("SELECT ID_user FROM e_comment WHERE ID=?");
             sUserByMessage = connection.prepareStatement("Select ID_user FROM e_message WHERE ID=?");
             sUserByNews = connection.prepareStatement("SELECT ID_user FROM e_news WHERE ID=?");
@@ -180,8 +182,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sUsersBySeries = connection.prepareStatement("SELECT ID_user FROM r_user_series WHERE ID_series=?");
             sUsersByGenre = connection.prepareStatement("SELECT ID_user FROM r_user_genre WHERE ID_genre=?");
             sUsersByGroup = connection.prepareStatement("SELECT ID FROM e_user WHERE ID_group=?");
-            iUser = connection.prepareStatement("INSERT INTO e_user (username, password, mail, name, surname, age, gender, image_URL, presonal_message, ID_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            iUser = connection.prepareStatement("INSERT INTO e_user (username, password, mail, name, surname, age, gender, image_URL, personal_message, ID_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             dUser = connection.prepareStatement("DELETE FROM e_user WHERE ID=?");
+
+            // Relationship
+            iCastSeriesRel = connection.prepareStatement("INSERT INTO r_cast_series (ID_cast, ID_series, role) VALUES(?, ?, ?)"); // role?
 
             // Other
             sLastEpisodeSeen = connection.prepareStatement("SELECT season, episode FROM r_user_series WHERE  ID_user=? AND ID_series=?");
@@ -331,6 +336,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                     }
                 }
             }
+            // now we store the relatoinship only if they are not null
+            if (castMember.isSeriesSet()) {
+                this.storeCastMemberToSeriesRelationship(ID, castMember.getSeries());
+            }
             if (ID > 0) { // the object is on DB and have a key
                 castMember.copyFrom(this.getCastMember(ID)); // copy the DB object on the current object
             }
@@ -356,6 +365,24 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             this.dCastMember.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void storeCastMemberToSeriesRelationship(int ID, List<Series> series) {
+        for (Series s : series) {
+            try {
+                if (s.getID() > 0) { // series is on DB already
+                    this.iCastSeriesRel.setInt(1, ID);
+                    this.iCastSeriesRel.setInt(2, s.getID());
+                    this.iCastSeriesRel.setString(3, null); // role?
+                    this.iCastSeriesRel.executeUpdate();
+                } else { //what are we doing if the series isn't on DB?
+
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
 
@@ -667,7 +694,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 this.iComment.setDate(3, new java.sql.Date(comment.getDate().getTime()));
                 this.iComment.setInt(4, comment.getLikes());
                 this.iComment.setInt(5, comment.getDislikes());
-                this.iComment.setInt(6, comment.getUserID());
+                if (comment.getUser() != null) {
+                    this.iComment.setInt(6, comment.getUser().getID());
+                } else {
+                    this.iComment.setInt(6, 0);
+                }
                 this.iComment.executeUpdate();
             } else { // Insert
                 this.iComment.setString(1, comment.getTitle());
@@ -675,7 +706,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 this.iComment.setDate(3, null);
                 this.iComment.setInt(4, comment.getLikes());
                 this.iComment.setInt(5, comment.getDislikes());
-                this.iComment.setInt(6, comment.getUserID());
+                if (comment.getUser() != null) {
+                    this.iComment.setInt(6, comment.getUser().getID());
+                } else {
+                    this.iComment.setInt(6, 0);
+                }
                 if (this.iComment.executeUpdate() == 1) {
                     rs = this.iComment.getGeneratedKeys();
                     if (rs.next()) {
@@ -860,14 +895,22 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 this.iEpisode.setInt(2, episode.getSeason());
                 this.iEpisode.setString(3, episode.getTitle());
                 this.iEpisode.setString(4, episode.getDescription());
-                this.iEpisode.setInt(5, episode.getSeriesID());
+                if (episode.getSeries() != null) {
+                    this.iEpisode.setInt(5, episode.getSeries().getID());
+                } else {
+                    this.iEpisode.setInt(5, 0);
+                }
                 this.iEpisode.executeUpdate();
             } else { // Insert
                 this.iEpisode.setInt(1, episode.getNumber());
                 this.iEpisode.setInt(2, episode.getSeason());
                 this.iEpisode.setString(3, episode.getTitle());
                 this.iEpisode.setString(4, episode.getDescription());
-                this.iEpisode.setInt(5, episode.getSeriesID());
+                if (episode.getSeries() != null) {
+                    this.iEpisode.setInt(5, episode.getSeries().getID());
+                } else {
+                    this.iEpisode.setInt(5, 0);
+                }
                 if (this.iEpisode.executeUpdate() == 1) {
                     rs = this.iEpisode.getGeneratedKeys();
                     if (rs.next()) {
@@ -1392,15 +1435,23 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 this.iMessage.setString(1, message.getTitle());
                 this.iMessage.setString(2, message.getText());
                 this.iMessage.setDate(3, new java.sql.Date(message.getDate().getTime()));
-                this.iMessage.setInt(4, message.getUserID());
-                this.iMessage.setInt(5, message.getSeriesID());
+                this.iMessage.setInt(4, message.getUser().getID());
+                this.iMessage.setInt(5, message.getSeries().getID());
                 this.iMessage.executeUpdate();
             } else { // Insert
                 this.iMessage.setString(1, message.getTitle());
                 this.iMessage.setString(2, message.getText());
                 this.iMessage.setDate(3, null);
-                this.iMessage.setInt(4, message.getUserID());
-                this.iMessage.setInt(5, message.getSeriesID());
+                if (message.getUser() != null) {
+                    this.iMessage.setInt(4, message.getUser().getID());
+                } else {
+                    this.iMessage.setInt(4, 0);
+                }
+                if (message.getSeries() != null) {
+                    this.iMessage.setInt(5, message.getSeries().getID());
+                } else {
+                    this.iMessage.setInt(5, 0);
+                }
                 this.iMessage.executeUpdate();
                 if (this.iMessage.executeUpdate() == 1) {
                     rs = this.iMessage.getGeneratedKeys();
@@ -1585,7 +1636,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 this.iNews.setDate(3, new java.sql.Date(news.getDate().getTime()));
                 this.iNews.setInt(4, news.getLikes());
                 this.iNews.setInt(5, news.getDislikes());
-                this.iNews.setInt(6, news.getUserID());
+                if (news.getUser() != null) {
+                    this.iNews.setInt(6, news.getUser().getID());
+                } else {
+                    this.iNews.setInt(6, 0);
+                }
                 this.iNews.executeUpdate();
             } else { // Insert
                 this.iNews.setString(1, news.getTitle());
@@ -1593,7 +1648,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 this.iNews.setDate(3, null);
                 this.iNews.setInt(4, news.getLikes());
                 this.iNews.setInt(5, news.getDislikes());
-                this.iNews.setInt(6, news.getUserID());
+                if (news.getUser() != null) {
+                    this.iNews.setInt(6, news.getUser().getID());
+                } else {
+                    this.iNews.setInt(6, 0);
+                }
                 if (this.iNews.executeUpdate() == 1) {
                     rs = this.iNews.getGeneratedKeys();
                     if (rs.next()) {
@@ -2123,10 +2182,36 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         ResultSet rs = null;
         User result = null;
         try {
-            this.sChannelByID.setInt(1, userID);
-            rs = this.sChannelByID.executeQuery();
+            this.sUserByID.setInt(1, userID);
+            rs = this.sUserByID.executeQuery();
             if (rs.next()) {
                 result = new UserMySQL(this, rs);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // sUserByUsernameAndPassword = connection.prepareStatement("SELECT * FROM e_user WHERE username=? AND password=?");
+    public User getUser(String username, String password) {
+        ResultSet rs = null;
+        User result = null;
+        try {
+            this.sUserByUsernameAndPassword.setString(1, username);
+            this.sUserByUsernameAndPassword.setString(2, password);
+            rs = this.sUserByUsernameAndPassword.executeQuery();
+            if (rs.next()) {
+                result = this.getUser(rs.getInt("ID"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2335,7 +2420,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 this.iUser.setString(7, user.getGender());
                 this.iUser.setString(8, user.getImageURL());
                 this.iUser.setString(9, user.getPersonalMessage());
-                this.iUser.setInt(10, user.getGroupID());
+                if (user.getGroup() != null) {
+                    this.iUser.setInt(10, user.getGroup().getID());
+                } else {
+                    this.iUser.setNull(10, java.sql.Types.INTEGER);
+                }
                 this.iUser.executeUpdate();
             } else { // Insert
                 this.iUser.setString(1, user.getUsername());
@@ -2347,7 +2436,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 this.iUser.setString(7, user.getGender());
                 this.iUser.setString(8, user.getImageURL());
                 this.iUser.setString(9, user.getPersonalMessage());
-                this.iUser.setInt(10, user.getGroupID());
+                if (user.getGroup() != null) {
+                    this.iUser.setInt(10, user.getGroup().getID());
+                } else {
+                    this.iUser.setNull(10, java.sql.Types.INTEGER);
+                }
                 if (this.iUser.executeUpdate() == 1) {
                     rs = this.iUser.getGeneratedKeys();
                     if (rs.next()) {

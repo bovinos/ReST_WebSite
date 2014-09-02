@@ -30,12 +30,7 @@ public interface Comment {
 
     void setDislikes(int dislikes);
 
-    /**
-     * foreign key with user
-     *
-     * @return
-     */
-    int getUserID();
+    User getUser();
 
     boolean isDirty();
 

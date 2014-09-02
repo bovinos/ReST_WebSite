@@ -1,4 +1,4 @@
-package it.mam.REST.dat.impl;
+package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.Group;
 import it.mam.REST.data.model.RESTDataLayer;

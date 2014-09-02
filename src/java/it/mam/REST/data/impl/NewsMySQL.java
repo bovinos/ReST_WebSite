@@ -1,9 +1,10 @@
-package it.mam.REST.dat.impl;
+package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.Comment;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.RESTDataLayer;
 import it.mam.REST.data.model.Series;
+import it.mam.REST.data.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -25,9 +26,10 @@ public class NewsMySQL implements News {
 
     protected RESTDataLayer dataLayer;
 
+    private User user;
     private int userID;
-    List<Comment> comments;
-    List<Series> series;
+    private List<Comment> comments;
+    private List<Series> series;
 
     public NewsMySQL(RESTDataLayer dataLayer) {
 
@@ -41,6 +43,7 @@ public class NewsMySQL implements News {
 
         this.dataLayer = dataLayer;
 
+        this.user = null;
         this.userID = 0;
         this.comments = null;
         this.series = null;
@@ -129,8 +132,12 @@ public class NewsMySQL implements News {
     }
 
     @Override
-    public int getUserID() {
-        return userID;
+    public User getUser() {
+        if (this.user == null && this.userID > 0) {
+            this.user = this.dataLayer.getUser(userID);
+        }
+
+        return this.user;
     }
 
     @Override
@@ -212,7 +219,9 @@ public class NewsMySQL implements News {
         this.text = news.getText();
         this.title = news.getTitle();
 
-        this.userID = news.getUserID();
+        if (news.getUser() != null) {
+            this.userID = news.getUser().getID();
+        }
 
         this.comments = null;
         this.series = null;

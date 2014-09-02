@@ -1,7 +1,8 @@
-package it.mam.REST.dat.impl;
+package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.Comment;
 import it.mam.REST.data.model.Genre;
+import it.mam.REST.data.model.Group;
 import it.mam.REST.data.model.Message;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.RESTDataLayer;
@@ -31,13 +32,14 @@ public class UserMySQL implements User {
 
     protected RESTDataLayer dataLayer;
 
+    private Group group;
     private int groupID;
 
-    List<Comment> comments;
-    List<Series> series;
-    List<Genre> genres;
-    List<Message> messages;
-    List<News> news; // is not null only if the user is an admin
+    private List<Comment> comments;
+    private List<Series> series;
+    private List<Genre> genres;
+    private List<Message> messages;
+    private List<News> news; // is not null only if the user is an admin
 
     public UserMySQL(RESTDataLayer dataLayer) {
 
@@ -48,13 +50,14 @@ public class UserMySQL implements User {
         this.name = "";
         this.surname = "";
         this.age = 0;
-        this.gender = "";
+        this.gender = "u";
         this.imageURL = "";
         this.personalMessage = "";
         this.dirty = false;
 
         this.dataLayer = dataLayer;
 
+        this.group = null;
         this.groupID = 0;
 
         this.comments = null;
@@ -198,8 +201,12 @@ public class UserMySQL implements User {
     }
 
     @Override
-    public int getGroupID() {
-        return groupID;
+    public Group getGroup() {
+        if (this.group == null && this.groupID > 0) {
+            this.group = this.dataLayer.getGroup(groupID);
+        }
+
+        return this.group;
     }
 
     @Override
@@ -414,7 +421,9 @@ public class UserMySQL implements User {
         this.surname = user.getSurname();
         this.username = user.getUsername();
 
-        this.groupID = user.getGroupID();
+        if (user.getGroup() != null) {
+            this.groupID = user.getGroup().getID();
+        }
 
         this.dirty = true;
 

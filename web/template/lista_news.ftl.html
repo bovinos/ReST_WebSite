@@ -1,0 +1,30 @@
+
+<h1>News</h1>
+<!-- controlliamo se esistono liste -->
+<#if (news?size > 0)>
+<!-- se esistono stampiamole tutte -->
+<#list news as n>
+<div>
+    <div class="news header">
+        <h1>${n.title}</h1>
+    </div>
+    <div class="news body">
+        <p>${n.text}</p>
+    </div>
+    <div class="news footer">
+        <div class="left">
+            <p>${n.user.username}, ${n.date}</p>
+        </div>
+        <div class="right">
+            <p>Like: ${n.likes}&nbsp;&nbsp;Dislike: ${n.dislikes}</p>
+        </div>
+    </div>
+</div>
+</#list>
+<#else>
+<!-- altrimenti diciamo che non sono ancora presenti news -->
+<div>
+    <p>Purtroppo non sono ancora presenti delle news.</p>
+</div>
+</#if>
+
