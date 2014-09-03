@@ -3,6 +3,7 @@ package it.mam.REST.data.impl;
 import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.RESTDataLayer;
 import it.mam.REST.data.model.Series;
+import it.mam.REST.data.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -20,6 +21,7 @@ public class GenreMySQL implements Genre {
     protected RESTDataLayer dataLayer;
 
     List<Series> series;
+    List<User> users;
 
     public GenreMySQL(RESTDataLayer dataLayer) {
 
@@ -30,6 +32,7 @@ public class GenreMySQL implements Genre {
         this.dataLayer = dataLayer;
 
         series = null;
+        users = null;
     }
 
     public GenreMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
@@ -89,6 +92,7 @@ public class GenreMySQL implements Genre {
              */
         }
         this.series.add(series);
+        dirty = true;
     }
 
     @Override
@@ -100,6 +104,7 @@ public class GenreMySQL implements Genre {
              */
         }
         this.series.remove(series);
+        dirty = true;
     }
 
     @Override
@@ -109,6 +114,56 @@ public class GenreMySQL implements Genre {
          * al momento della store?>
          */
         series = null;
+        dirty = true;
+    }
+
+    @Override
+    public List<User> getUsers() {
+        if (users == null) {
+            users = dataLayer.getUsers(this);
+        }
+        return users;
+    }
+
+    @Override
+    public void setUsers(List<User> users) {
+        this.users = users;
+        dirty = true;
+    }
+
+    @Override
+    public void addUser(User user) {
+        if (users == null) {
+            users = dataLayer.getUsers(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
+        }
+        users.add(user);
+        dirty = true;
+    }
+
+    @Override
+    public void removeUser(User user) {
+        if (users == null) {
+            return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
+        }
+        users.remove(user);
+        dirty = true;
+    }
+
+    @Override
+    public void removeAllUser() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
+        users = null;
+        dirty = true;
     }
 
     @Override
@@ -117,6 +172,7 @@ public class GenreMySQL implements Genre {
         name = genre.getName();
 
         series = null;
+        users = null;
 
         dirty = true;
     }

@@ -31,8 +31,6 @@ public interface News {
 
     void setDislikes(int dislikes);
 
-    User getUser();
-
     boolean isDirty();
 
     void setDirty(boolean dirty);
@@ -61,5 +59,9 @@ public interface News {
     void removeSeries(Series series);
 
     void removeAllSeries();
+
+    User getUser();
+
+    void setUser(User user);
 
 }

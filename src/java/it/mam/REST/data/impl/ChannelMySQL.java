@@ -118,6 +118,7 @@ public class ChannelMySQL implements Channel {
              */
         }
         episodes.add(episode);
+        dirty = true;
     }
 
     @Override
@@ -129,6 +130,7 @@ public class ChannelMySQL implements Channel {
              */
         }
         episodes.remove(episode);
+        dirty = true;
     }
 
     @Override
@@ -138,6 +140,7 @@ public class ChannelMySQL implements Channel {
          * al momento della store?>
          */
         episodes = null;
+        dirty = true;
     }
 
     @Override

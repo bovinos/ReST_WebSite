@@ -1,7 +1,9 @@
 package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.Comment;
+import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.RESTDataLayer;
+import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +27,10 @@ public class CommentMySQL implements Comment {
 
     private User user;
     private int userID;
+    private News news;
+    private int newsID;
+    private Series series;
+    private int seriesID;
 
     public CommentMySQL(RESTDataLayer dataLayer) {
 
@@ -40,6 +46,10 @@ public class CommentMySQL implements Comment {
 
         user = null;
         userID = 0;
+        news = null;
+        newsID = 0;
+        series = null;
+        seriesID = 0;
     }
 
     public CommentMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
@@ -53,6 +63,8 @@ public class CommentMySQL implements Comment {
         dislikes = rs.getInt("dislikes");
 
         userID = rs.getInt("ID_user");
+        newsID = rs.getInt("ID_news");
+        seriesID = rs.getInt("ID_series");
     }
 
     @Override
@@ -135,6 +147,45 @@ public class CommentMySQL implements Comment {
     }
 
     @Override
+    public void setUser(User user) {
+        this.user = user;
+        userID = user.getID();
+        dirty = true;
+    }
+
+    @Override
+    public News getNews() {
+        if (news == null && newsID > 0) {
+            news = dataLayer.getNews(newsID);
+        }
+
+        return news;
+    }
+
+    @Override
+    public void setNews(News news) {
+        this.news = news;
+        newsID = news.getID();
+        dirty = true;
+    }
+
+    @Override
+    public Series getSeries() {
+        if (series == null && seriesID > 0) {
+            series = dataLayer.getSeries(seriesID);
+        }
+
+        return series;
+    }
+
+    @Override
+    public void setSeries(Series series) {
+        this.series = series;
+        seriesID = series.getID();
+        dirty = true;
+    }
+
+    @Override
     public void copyFrom(Comment comment) {
         ID = comment.getID();
         date = comment.getDate();
@@ -145,6 +196,12 @@ public class CommentMySQL implements Comment {
 
         if (comment.getUser() != null) {
             userID = comment.getUser().getID();
+        }
+        if (comment.getNews() != null) {
+            newsID = comment.getNews().getID();
+        }
+        if (comment.getSeries() != null) {
+            seriesID = comment.getSeries().getID();
         }
 
         dirty = true;

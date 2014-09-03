@@ -120,6 +120,7 @@ public class GroupMySQL implements Group {
              */
         }
         users.add(user);
+        dirty = true;
     }
 
     @Override
@@ -131,11 +132,13 @@ public class GroupMySQL implements Group {
              */
         }
         users.remove(user);
+        dirty = true;
     }
 
     @Override
     public void removeAllUsers() {
         users = null;
+        dirty = true;
         /**
          * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
          * al momento della store?>
@@ -152,6 +155,7 @@ public class GroupMySQL implements Group {
              */
         }
         services.add(service);
+        dirty = true;
     }
 
     @Override
@@ -163,11 +167,13 @@ public class GroupMySQL implements Group {
              */
         }
         services.remove(service);
+        dirty = true;
     }
 
     @Override
     public void removeAllServices() {
         services = null;
+        dirty = true;
         /**
          * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
          * al momento della store?>

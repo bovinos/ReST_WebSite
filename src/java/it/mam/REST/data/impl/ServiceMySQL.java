@@ -119,6 +119,7 @@ public class ServiceMySQL implements Service {
              */
         }
         groups.add(group);
+        dirty = true;
     }
 
     @Override
@@ -130,11 +131,13 @@ public class ServiceMySQL implements Service {
              */
         }
         groups.remove(group);
+        dirty = true;
     }
 
     @Override
     public void removeAllGroup() {
         groups = null;
+        dirty = true;
         /**
          * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
          * al momento della store?>

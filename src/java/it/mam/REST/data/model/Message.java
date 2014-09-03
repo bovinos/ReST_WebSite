@@ -22,10 +22,6 @@ public interface Message {
 
     void setDate(Date date);
 
-    User getUser();
-
-    Series getSeries();
-
     boolean isDirty();
 
     void setDirty(boolean dirty);
@@ -35,4 +31,12 @@ public interface Message {
     //====================================
     //                 RELATIONSHIP                //
     //====================================
+    User getUser();
+
+    void setUser(User user);
+
+    Series getSeries();
+
+    void setSeries(Series series);
+
 }

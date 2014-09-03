@@ -1,5 +1,7 @@
 package it.mam.REST.data.model;
 
+import java.util.List;
+
 /**
  *
  * @author alex
@@ -24,8 +26,6 @@ public interface Episode {
 
     void setDescription(String description);
 
-    Series getSeries();
-
     boolean isDirty();
 
     void setDirty(boolean dirty);
@@ -35,4 +35,18 @@ public interface Episode {
     //====================================
     //                 RELATIONSHIP                //
     //====================================
+    List<Channel> getChannels();
+
+    void setChannels(List<Channel> channels);
+
+    void addChannel(Channel channel);
+
+    void removeChannel(Channel channel);
+
+    void removeAllChannels();
+
+    Series getSeries();
+
+    void setSeries(Series series);
+
 }

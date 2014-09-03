@@ -46,8 +46,6 @@ public interface User {
 
     void setPersonalMessage(String personalMessage);
 
-    Group getGroup();
-
     boolean isDirty();
 
     void setDirty(boolean dirty);
@@ -119,5 +117,9 @@ public interface User {
     News editNews(News news);
 
     void removeAllNews();
+
+    Group getGroup();
+
+    void setGroup(Group group);
 
 }

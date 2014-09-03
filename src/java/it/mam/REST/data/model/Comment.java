@@ -30,8 +30,6 @@ public interface Comment {
 
     void setDislikes(int dislikes);
 
-    User getUser();
-
     boolean isDirty();
 
     void setDirty(boolean dirty);
@@ -41,4 +39,16 @@ public interface Comment {
     //====================================
     //                 RELATIONSHIP                //
     //====================================
+    News getNews();
+
+    void setNews(News news);
+
+    User getUser();
+
+    void setUser(User user);
+
+    Series getSeries();
+
+    void setSeries(Series series);
+
 }

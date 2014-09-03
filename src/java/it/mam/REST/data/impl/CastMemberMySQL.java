@@ -168,6 +168,7 @@ public class CastMemberMySQL implements CastMember {
              */
         }
         this.series.add(series);
+        dirty = true;
     }
 
     @Override
@@ -179,6 +180,7 @@ public class CastMemberMySQL implements CastMember {
              */
         }
         this.series.remove(series);
+        dirty = true;
     }
 
     @Override
@@ -188,6 +190,7 @@ public class CastMemberMySQL implements CastMember {
          * al momento della store?>
          */
         series = null;
+        dirty = true;
     }
 
     @Override

@@ -198,7 +198,6 @@ public class UserMySQL implements User {
     @Override
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
-        dirty = true;
     }
 
     @Override
@@ -208,6 +207,13 @@ public class UserMySQL implements User {
         }
 
         return group;
+    }
+
+    @Override
+    public void setGroup(Group group) {
+        this.group = group;
+        groupID = group.getID();
+        dirty = true;
     }
 
     @Override
@@ -291,6 +297,7 @@ public class UserMySQL implements User {
              */
         }
         comments.add(comment);
+        dirty = true;
     }
 
     @Override
@@ -302,6 +309,7 @@ public class UserMySQL implements User {
              */
         }
         comments.remove(comment);
+        dirty = true;
     }
 
     @Override
@@ -312,6 +320,7 @@ public class UserMySQL implements User {
     @Override
     public void removeAllComment() {
         comments = null;
+        dirty = true;
         /**
          * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
          * al momento della store?>
@@ -334,6 +343,7 @@ public class UserMySQL implements User {
              */
         }
         this.series.add(series);
+        dirty = true;
     }
 
     @Override
@@ -345,11 +355,13 @@ public class UserMySQL implements User {
              */
         }
         this.series.remove(series);
+        dirty = true;
     }
 
     @Override
     public void removeAllSeries() {
         series = null;
+        dirty = true;
         /**
          * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
          * al momento della store?>
@@ -366,6 +378,7 @@ public class UserMySQL implements User {
              */
         }
         genres.add(genre);
+        dirty = true;
     }
 
     @Override
@@ -377,11 +390,13 @@ public class UserMySQL implements User {
              */
         }
         genres.remove(genre);
+        dirty = true;
     }
 
     @Override
     public void removeAllGenre() {
         genres = null;
+        dirty = true;
         /**
          * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
          * al momento della store?>
@@ -398,6 +413,7 @@ public class UserMySQL implements User {
              */
         }
         messages.add(message);
+        dirty = true;
     }
 
     @Override
@@ -409,6 +425,7 @@ public class UserMySQL implements User {
              */
         }
         messages.remove(message);
+        dirty = true;
     }
 
     @Override
@@ -420,6 +437,7 @@ public class UserMySQL implements User {
     @Override
     public void removeAllMessages() {
         messages = null;
+        dirty = true;
         /**
          * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
          * al momento della store?>
@@ -436,6 +454,7 @@ public class UserMySQL implements User {
              */
         }
         this.news.add(news);
+        dirty = true;
     }
 
     @Override
@@ -447,6 +466,7 @@ public class UserMySQL implements User {
              */
         }
         this.news.remove(news);
+        dirty = true;
     }
 
     @Override
@@ -458,6 +478,7 @@ public class UserMySQL implements User {
     @Override
     public void removeAllNews() {
         news = null;
+        dirty = true;
         /**
          * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
          * al momento della store?>

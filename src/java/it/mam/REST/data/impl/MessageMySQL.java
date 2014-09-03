@@ -113,12 +113,26 @@ public class MessageMySQL implements Message {
     }
 
     @Override
+    public void setUser(User user) {
+        this.user = user;
+        userID = user.getID();
+        dirty = true;
+    }
+
+    @Override
     public Series getSeries() {
         if (series == null && seriesID > 0) {
             series = dataLayer.getSeries(seriesID);
         }
 
         return series;
+    }
+
+    @Override
+    public void setSeries(Series series) {
+        this.series = series;
+        seriesID = series.getID();
+        dirty = true;
     }
 
     @Override

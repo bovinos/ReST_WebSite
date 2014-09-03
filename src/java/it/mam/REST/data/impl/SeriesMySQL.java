@@ -263,6 +263,7 @@ public class SeriesMySQL implements Series {
              */
         }
         users.add(user);
+        dirty = true;
     }
 
     @Override
@@ -274,6 +275,7 @@ public class SeriesMySQL implements Series {
              */
         }
         users.remove(user);
+        dirty = true;
     }
 
     @Override
@@ -283,6 +285,7 @@ public class SeriesMySQL implements Series {
          * al momento della store?>
          */
         users = null;
+        dirty = true;
     }
 
     @Override
@@ -295,6 +298,7 @@ public class SeriesMySQL implements Series {
              */
         }
         genres.add(genre);
+        dirty = true;
     }
 
     @Override
@@ -306,6 +310,7 @@ public class SeriesMySQL implements Series {
              */
         }
         genres.remove(genre);
+        dirty = true;
     }
 
     @Override
@@ -315,6 +320,7 @@ public class SeriesMySQL implements Series {
          * al momento della store?>
          */
         genres = null;
+        dirty = true;
     }
 
     @Override
@@ -327,6 +333,7 @@ public class SeriesMySQL implements Series {
              */
         }
         episodes.add(episode);
+        dirty = true;
     }
 
     @Override
@@ -338,6 +345,7 @@ public class SeriesMySQL implements Series {
              */
         }
         episodes.remove(episode);
+        dirty = true;
     }
 
     @Override
@@ -347,6 +355,7 @@ public class SeriesMySQL implements Series {
          * al momento della store?>
          */
         episodes = null;
+        dirty = true;
     }
 
     @Override
@@ -359,6 +368,7 @@ public class SeriesMySQL implements Series {
              */
         }
         castMembers.add(castMember);
+        dirty = true;
     }
 
     @Override
@@ -370,6 +380,7 @@ public class SeriesMySQL implements Series {
              */
         }
         castMembers.remove(castMember);
+        dirty = true;
     }
 
     @Override
@@ -379,6 +390,7 @@ public class SeriesMySQL implements Series {
          * al momento della store?>
          */
         castMembers = null;
+        dirty = true;
     }
 
     @Override
@@ -391,6 +403,7 @@ public class SeriesMySQL implements Series {
              */
         }
         this.news.add(news);
+        dirty = true;
     }
 
     @Override
@@ -402,6 +415,7 @@ public class SeriesMySQL implements Series {
              */
         }
         this.news.remove(news);
+        dirty = true;
     }
 
     @Override
@@ -411,6 +425,7 @@ public class SeriesMySQL implements Series {
          * al momento della store?>
          */
         news = null;
+        dirty = true;
     }
 
     @Override
@@ -423,6 +438,7 @@ public class SeriesMySQL implements Series {
              */
         }
         comments.add(comment);
+        dirty = true;
     }
 
     @Override
@@ -434,6 +450,7 @@ public class SeriesMySQL implements Series {
              */
         }
         comments.remove(comment);
+        dirty = true;
     }
 
     @Override
@@ -443,6 +460,7 @@ public class SeriesMySQL implements Series {
          * al momento della store?>
          */
         comments = null;
+        dirty = true;
     }
 
     @Override
@@ -455,6 +473,7 @@ public class SeriesMySQL implements Series {
              */
         }
         messages.add(message);
+        dirty = true;
     }
 
     @Override
@@ -466,6 +485,7 @@ public class SeriesMySQL implements Series {
              */
         }
         messages.remove(message);
+        dirty = true;
     }
 
     @Override
@@ -475,6 +495,7 @@ public class SeriesMySQL implements Series {
          * al momento della store?>
          */
         messages = null;
+        dirty = true;
     }
 
     @Override
@@ -501,6 +522,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void increaseAddCount() {
         addCount++;
+        dirty = true;
     }
 
 }

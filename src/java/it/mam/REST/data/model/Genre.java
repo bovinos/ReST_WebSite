@@ -33,4 +33,14 @@ public interface Genre {
 
     void removeAllSeries();
 
+    List<User> getUsers();
+
+    void setUsers(List<User> users);
+
+    void addUser(User user);
+
+    void removeUser(User user);
+
+    void removeAllUser();
+
 }

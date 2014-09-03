@@ -1,10 +1,12 @@
 package it.mam.REST.data.impl;
 
+import it.mam.REST.data.model.Channel;
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.RESTDataLayer;
 import it.mam.REST.data.model.Series;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -23,6 +25,7 @@ public class EpisodeMySQL implements Episode {
 
     private Series series;
     private int seriesID;
+    private List<Channel> channels;
 
     public EpisodeMySQL(RESTDataLayer dataLayer) {
 
@@ -37,6 +40,7 @@ public class EpisodeMySQL implements Episode {
 
         series = null;
         seriesID = 0;
+        channels = null;
     }
 
     public EpisodeMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
@@ -120,6 +124,62 @@ public class EpisodeMySQL implements Episode {
     }
 
     @Override
+    public void setSeries(Series series) {
+        this.series = series;
+        seriesID = series.getID();
+        dirty = true;
+    }
+
+    @Override
+    public List<Channel> getChannels() {
+        if (channels == null) {
+            channels = dataLayer.getChannels(this);
+        }
+        return channels;
+    }
+
+    @Override
+    public void setChannels(List<Channel> channels) {
+        this.channels = channels;
+        dirty = true;
+    }
+
+    @Override
+    public void addChannel(Channel channel) {
+        if (channels == null) {
+            channels = dataLayer.getChannels(this);
+            /**
+             * <ma se dopo questa chiamata series è ancora null perché il membro
+             * del cast non ha partecipato a serie?>
+             */
+        }
+        channels.add(channel);
+        dirty = true;
+    }
+
+    @Override
+    public void removeChannel(Channel channel) {
+        if (channels == null) {
+            return;
+            /**
+             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
+             */
+        }
+        channels.remove(channel);
+        dirty = true;
+    }
+
+    @Override
+    public void removeAllChannels() {
+        /**
+         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
+         * al momento della store?>
+         */
+        channels = null;
+        dirty = true;
+    }
+
+    @Override
     public void copyFrom(Episode episode) {
         ID = episode.getID();
         description = episode.getDescription();
@@ -130,6 +190,8 @@ public class EpisodeMySQL implements Episode {
         if (episode.getSeries() != null) {
             seriesID = episode.getSeries().getID();
         }
+
+        channels = null;
 
         dirty = true;
     }
