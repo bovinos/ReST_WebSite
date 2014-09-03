@@ -257,10 +257,6 @@ public class SeriesMySQL implements Series {
     public void addUser(User user) {
         if (users == null) {
             users = dataLayer.getUsers(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         users.add(user);
         dirty = true;
@@ -269,10 +265,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void removeUser(User user) {
         if (users == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            users = dataLayer.getUsers(this);
         }
         users.remove(user);
         dirty = true;
@@ -292,10 +285,6 @@ public class SeriesMySQL implements Series {
     public void addGenre(Genre genre) {
         if (genres == null) {
             genres = dataLayer.getGenres(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         genres.add(genre);
         dirty = true;
@@ -304,10 +293,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void removeGenre(Genre genre) {
         if (genres == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            genres = dataLayer.getGenres(this);
         }
         genres.remove(genre);
         dirty = true;
@@ -327,10 +313,6 @@ public class SeriesMySQL implements Series {
     public void addEpisode(Episode episode) {
         if (episodes == null) {
             episodes = dataLayer.getEpisodes(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         episodes.add(episode);
         dirty = true;
@@ -339,10 +321,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void removeEpisode(Episode episode) {
         if (episodes == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            episodes = dataLayer.getEpisodes(this);
         }
         episodes.remove(episode);
         dirty = true;
@@ -362,10 +341,6 @@ public class SeriesMySQL implements Series {
     public void addCastMember(CastMember castMember) {
         if (castMembers == null) {
             castMembers = dataLayer.getCastMembers(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         castMembers.add(castMember);
         dirty = true;
@@ -374,10 +349,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void removeCastMember(CastMember castMember) {
         if (castMembers == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            castMembers = dataLayer.getCastMembers(this);
         }
         castMembers.remove(castMember);
         dirty = true;
@@ -397,10 +369,6 @@ public class SeriesMySQL implements Series {
     public void addNews(News news) {
         if (this.news == null) {
             this.news = dataLayer.getNews(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         this.news.add(news);
         dirty = true;
@@ -409,10 +377,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void removeNews(News news) {
         if (this.news == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            this.news = dataLayer.getNews(this);
         }
         this.news.remove(news);
         dirty = true;
@@ -432,10 +397,6 @@ public class SeriesMySQL implements Series {
     public void addComment(Comment comment) {
         if (comments == null) {
             comments = dataLayer.getComments(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         comments.add(comment);
         dirty = true;
@@ -444,10 +405,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void removeComment(Comment comment) {
         if (comments == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            comments = dataLayer.getComments(this);
         }
         comments.remove(comment);
         dirty = true;
@@ -467,10 +425,6 @@ public class SeriesMySQL implements Series {
     public void addMessage(Message message) {
         if (messages == null) {
             messages = dataLayer.getMessages(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         messages.add(message);
         dirty = true;
@@ -479,10 +433,7 @@ public class SeriesMySQL implements Series {
     @Override
     public void removeMessage(Message message) {
         if (messages == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            messages = dataLayer.getMessages(this);
         }
         messages.remove(message);
         dirty = true;

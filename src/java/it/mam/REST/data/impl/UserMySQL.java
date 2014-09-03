@@ -291,10 +291,6 @@ public class UserMySQL implements User {
     public void addComment(Comment comment) {
         if (comments == null) {
             comments = dataLayer.getComments(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         comments.add(comment);
         dirty = true;
@@ -303,10 +299,7 @@ public class UserMySQL implements User {
     @Override
     public void removeComment(Comment comment) {
         if (comments == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            comments = dataLayer.getComments(this);
         }
         comments.remove(comment);
         dirty = true;
@@ -337,10 +330,6 @@ public class UserMySQL implements User {
     public void addSeries(Series series) {
         if (this.series == null) {
             this.series = dataLayer.getSeries(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         this.series.add(series);
         dirty = true;
@@ -349,10 +338,7 @@ public class UserMySQL implements User {
     @Override
     public void removeSeries(Series series) {
         if (this.series == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            this.series = dataLayer.getSeries(this);
         }
         this.series.remove(series);
         dirty = true;
@@ -372,10 +358,6 @@ public class UserMySQL implements User {
     public void addGenre(Genre genre) {
         if (genres == null) {
             genres = dataLayer.getGenres(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         genres.add(genre);
         dirty = true;
@@ -384,10 +366,7 @@ public class UserMySQL implements User {
     @Override
     public void removeGenre(Genre genre) {
         if (genres == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            genres = dataLayer.getGenres(this);
         }
         genres.remove(genre);
         dirty = true;
@@ -407,10 +386,6 @@ public class UserMySQL implements User {
     public void addMessage(Series series, Message message) {
         if (messages == null) {
             messages = dataLayer.getMessages(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         messages.add(message);
         dirty = true;
@@ -419,10 +394,7 @@ public class UserMySQL implements User {
     @Override
     public void removeMessage(Message message) {
         if (messages == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            messages = dataLayer.getMessages(this);
         }
         messages.remove(message);
         dirty = true;
@@ -448,10 +420,6 @@ public class UserMySQL implements User {
     public void addNews(News news) {
         if (this.news == null) {
             this.news = dataLayer.getNews(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         this.news.add(news);
         dirty = true;
@@ -460,10 +428,7 @@ public class UserMySQL implements User {
     @Override
     public void removeNews(News news) {
         if (this.news == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            this.news = dataLayer.getNews(this);
         }
         this.news.remove(news);
         dirty = true;

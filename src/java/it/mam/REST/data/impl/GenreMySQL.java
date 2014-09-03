@@ -86,10 +86,6 @@ public class GenreMySQL implements Genre {
     public void addSeries(Series series) {
         if (this.series == null) {
             this.series = dataLayer.getSeries(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         this.series.add(series);
         dirty = true;
@@ -98,10 +94,7 @@ public class GenreMySQL implements Genre {
     @Override
     public void removeSeries(Series series) {
         if (this.series == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            this.series = dataLayer.getSeries(this);
         }
         this.series.remove(series);
         dirty = true;
@@ -135,10 +128,6 @@ public class GenreMySQL implements Genre {
     public void addUser(User user) {
         if (users == null) {
             users = dataLayer.getUsers(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         users.add(user);
         dirty = true;
@@ -147,10 +136,7 @@ public class GenreMySQL implements Genre {
     @Override
     public void removeUser(User user) {
         if (users == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            users = dataLayer.getUsers(this);
         }
         users.remove(user);
         dirty = true;

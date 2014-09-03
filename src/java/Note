@@ -17,7 +17,7 @@ Domande al prof:
                 R) Nel controller perché altrimenti passo "in chiaro" la password dall'applicazione al DB e potrebbero leggerla
                     inoltre facendo in questo modo posso anche "fare una cosa più strong" (cit. by prof)
         3) Come gestire il fatto che solo un admin può postare una news? È compito del controller?
-        4) i metodi editComment(), editMessage() ed editNews() va inserito in UserMySQL?
+        4) i metodi editComment(), editMessage() ed editNews() vanno inseriti in UserMySQL?
         5) se prima chiamo la addXXX() e poi la getXXX() non mi viene caricato nulla dal DB
                 R) nessuna risposta! ho cappellato io! xD infatti faccio sempre e comunque la getXXX() anche nella addXXX()
         6) come fare test su questa parte?

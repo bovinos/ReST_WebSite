@@ -113,10 +113,6 @@ public class ServiceMySQL implements Service {
     public void addGroup(Group group) {
         if (groups == null) {
             groups = dataLayer.getGroups(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         groups.add(group);
         dirty = true;
@@ -125,10 +121,7 @@ public class ServiceMySQL implements Service {
     @Override
     public void removeGroup(Group group) {
         if (groups == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            groups = dataLayer.getGroups(this);
         }
         groups.remove(group);
         dirty = true;

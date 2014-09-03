@@ -181,10 +181,6 @@ public class NewsMySQL implements News {
     public void addComment(Comment comment) {
         if (comments == null) {
             comments = dataLayer.getComments(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         comments.add(comment);
         dirty = true;
@@ -193,10 +189,7 @@ public class NewsMySQL implements News {
     @Override
     public void removeComment(Comment comment) {
         if (comments == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            comments = dataLayer.getComments(this);
         }
         comments.remove(comment);
         dirty = true;
@@ -216,10 +209,6 @@ public class NewsMySQL implements News {
     public void addSeries(Series series) {
         if (this.series == null) {
             this.series = dataLayer.getSeries(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         this.series.add(series);
         dirty = true;
@@ -228,10 +217,7 @@ public class NewsMySQL implements News {
     @Override
     public void removeSeries(Series series) {
         if (this.series == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            this.series = dataLayer.getSeries(this);
         }
         this.series.remove(series);
         dirty = true;

@@ -112,10 +112,6 @@ public class ChannelMySQL implements Channel {
     public void addEpisode(Episode episode) {
         if (episodes == null) {
             episodes = dataLayer.getEpisodes(this);
-            /**
-             * <ma se dopo questa chiamata series è ancora null perché il membro
-             * del cast non ha partecipato a serie?>
-             */
         }
         episodes.add(episode);
         dirty = true;
@@ -124,10 +120,7 @@ public class ChannelMySQL implements Channel {
     @Override
     public void removeEpisode(Episode episode) {
         if (episodes == null) {
-            return;
-            /**
-             * <oppure dobbiamo prima caricarlo dal DB e poi vedere se è null?>
-             */
+            episodes = dataLayer.getEpisodes(this);
         }
         episodes.remove(episode);
         dirty = true;

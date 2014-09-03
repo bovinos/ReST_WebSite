@@ -9,6 +9,9 @@ import java.util.List;
  */
 public interface RESTDataLayer extends DataLayer {
 
+    // =============================================================
+    // CAST MEMBER
+    // =============================================================
     CastMember createCastMember();
 
     CastMember getCastMember(int castMemberID);
@@ -23,6 +26,9 @@ public interface RESTDataLayer extends DataLayer {
 
     void removeCastMember(CastMember castMember);
 
+    // =============================================================
+    // CHANNEL
+    // =============================================================
     Channel createChannel();
 
     Channel getChannel(int channelID);
@@ -37,6 +43,9 @@ public interface RESTDataLayer extends DataLayer {
 
     void removeChannel(Channel channel);
 
+    // =============================================================
+    // COMMENT
+    // =============================================================
     Comment createComment();
 
     Comment getComment(int commentID);
@@ -53,6 +62,9 @@ public interface RESTDataLayer extends DataLayer {
 
     void removeComment(Comment comment);
 
+    // =============================================================
+    // EPISODE
+    // =============================================================
     Episode createEpisode();
 
     Episode getEpisode(int episodeID);
@@ -75,6 +87,9 @@ public interface RESTDataLayer extends DataLayer {
     Episode getLastEpisodeSeen(User user, Series series);
     //**************************************************
 
+    // =============================================================
+    // GENRE
+    // =============================================================
     Genre createGenre();
 
     Genre getGenre(int genreID);
@@ -89,6 +104,9 @@ public interface RESTDataLayer extends DataLayer {
 
     void removeGenre(Genre genre);
 
+    // =============================================================
+    // GROUP
+    // =============================================================
     Group createGroup();
 
     Group getGroup(int groupID);
@@ -103,6 +121,9 @@ public interface RESTDataLayer extends DataLayer {
 
     void removeGroup(Group group);
 
+    // =============================================================
+    // MESSAGE
+    // =============================================================
     Message createMessage();
 
     Message getMessage(int messageID);
@@ -119,6 +140,9 @@ public interface RESTDataLayer extends DataLayer {
 
     void removeMessage(Message message);
 
+    // =============================================================
+    // NEWS
+    // =============================================================
     News createNews();
 
     News getNews(int newsID);
@@ -135,6 +159,9 @@ public interface RESTDataLayer extends DataLayer {
 
     void removeNews(News news);
 
+    // =============================================================
+    // SERIES
+    // =============================================================
     Series createSeries();
 
     Series getSeries(int seriesID);
@@ -161,6 +188,9 @@ public interface RESTDataLayer extends DataLayer {
 
     void removeSeries(Series series);
 
+    // =============================================================
+    // SERVICE
+    // =============================================================
     Service createService();
 
     Service getService(int serviceID);
@@ -173,6 +203,9 @@ public interface RESTDataLayer extends DataLayer {
 
     void removeService(Service service);
 
+    // =============================================================
+    // USER
+    // =============================================================
     User createUser();
 
     User getUser(int userID);
