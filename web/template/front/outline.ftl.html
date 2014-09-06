@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <title>REST</title>
+        <link rel="stylesheet" href="css/reset.css" type="text/css"/>
+        <link rel="stylesheet" href="css/gird.css" type="text/css"/>
+        <link rel="stylesheet" href="lib/ElegantFonts/ElegantFonts.css" type="text/css"/>
+        <link rel="stylesheet" href="css/provando_SASS.css" type="text/css"/>
+    </head>
+
+    <body>
+        <div id="outlineContainer" class="container">
+
+            <div id="topBarPlaceholder">&nbsp;</div>
+
+            <div id="topBar">
+                <!-- controllo sulla sessione dell'utente -->
+                <#if (sessionUsername??)>
+                <p>Welcome, ${sessionUsername}</p>
+                <#else>
+                <button href="#" id="singUpButton" >Sign up</button>
+                </#if>
+
+                <nav id="menu">
+                    <ul>
+                        <li><a href="ListaNews" class="active">News</a></li>
+                        <li><a href="ListaSerie">Serie TV</a></li>
+                    </ul>
+                </nav>
+
+                <div id="search">
+                    <span id="searchSpan" data-icon="&#x55;"></span> 
+                    <form id="searchForm">
+                        <input type="search"></input>
+                    </form>
+                </div>
+            </div>
+
+            <div id="outlineHeader" class="row">
+                <!-- sarà sempre lo stesso -->
+                <div id="logo">LOGO REST</div>
+            </div><!-- FINE header -->
+
+            <div id="outlineBody" class="row ">
+
+                <div id="content" class="container" >
+                    <!-- Sarà diverso a seconda della pagina in cui siamo -->
+                    <#include content_tpl>
+                </div><!-- FINE contenuto -->
+            </div><!-- FINE body -->
+
+
+            <div id="outlineFooter" class="row">
+                <!-- sarà sempre lo stesso -->
+                <div id="footerImage" class="two columns alpha">
+                    <img src="img/placeholder.jpg" />
+                </div>
+                <div id="ReSTDescription" class="four columns">
+                    <h1>ReST</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ..</p>
+                </div>
+                <div id="social" class="three columns">
+                    <h1>Follow us</h1>
+                    <ul>
+                        <li><a href="#" id="facebook" data-icon="&#xe093">Facebook</a></li>
+                        <li><a href="#" id="twitter" data-icon="&#xe094">Twitter</a></li>
+                        <li><a href="#" id="linkedIn" data-icon="&#xe09d;">LinkedIn</a></li>
+                        <li><a href="#" id="googlePlus" data-icon="&#xe096">Google+</a></li>
+                    </ul>
+                </div>
+                <div id="ReSTMobileApp" class="four columns">
+                    <h1>ReST mobile App</h1>
+                    <p>Scarica la nostra applicazione per smartphone sul play store</p>
+                    <a href="#" id="googlePlay">Download</a>
+                </div>
+                <div id="aboutUs&Credits" class="three columns omega">
+                    <div id="aboutUS">
+                        <h1>About us</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ..</p>
+                    </div>
+                    <div id="credits">
+                        <h1>Credits</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod ..</p>
+                    </div>
+                </div>
+            </div><!-- FINE footer -->
+        </div><!-- FINE container body -->
+
+        <script src="js/outline.js" type="text/javascript"></script>
+    </body>
+</html>

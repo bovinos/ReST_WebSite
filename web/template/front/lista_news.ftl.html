@@ -1,0 +1,122 @@
+<!-- SLIDER
+============================================================================================= -->
+<div id="slider" class="row">
+    <div id="slideshow-wrap">
+        <input type="radio" id="button-1" name="controls" checked="checked"/>
+        <label for="button-1"></label>
+        <input type="radio" id="button-2" name="controls"/>
+        <label for="button-2"></label>
+        <input type="radio" id="button-3" name="controls"/>
+        <label for="button-3"></label>
+        <input type="radio" id="button-4" name="controls"/>
+        <label for="button-4"></label>
+        <input type="radio" id="button-5" name="controls"/>
+        <label for="button-5"></label>
+        <label for="button-1" class="arrows" id="arrow-1"><span class="arrow_carrot-right"></span></label>
+        <label for="button-2" class="arrows" id="arrow-2"><span class="arrow_carrot-right"></span></label>
+        <label for="button-3" class="arrows" id="arrow-3"><span class="arrow_carrot-right"></span></label>
+        <label for="button-4" class="arrows" id="arrow-4"><span class="arrow_carrot-right"></span></label>
+        <label for="button-5" class="arrows" id="arrow-5"><span class="arrow_carrot-right"></span></label>
+        <div id="slideshow-inner">
+            <ul>
+                <li id="slide1"><img src="http://img2.wikia.nocookie.net/__cb20130603145612/nonciclopedia/images/1/1c/How_I_met_your_mother_cast.png" /></li>
+                <li id="slide2"> <img src="http://www.glama.it/wp-content/uploads/2013/12/fringe-why-the-fourth-season-actually-mattered-and-what-exactly-rewriting-time-means-anyway.jpg" /></li>
+                <li id="slide3"><img src="http://chiazzetta.it/blog/wp-content/uploads/2013/04/The-Walking-Dead-55.jpeg" /></li>
+                <li id="slide4"><img src="http://www.hdwallpapers.in/walls/arrow_tv_series-wide.jpg" /></li>
+                <li id="slide5"><img src="http://images8.alphacoders.com/431/431311.jpg" /></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<!-- COLONNA SINISTRA
+============================================================================================= -->
+<div id="leftColNews" class="four columns alpha">
+    <!-- Filtri -->
+    <div id="newsFilter">
+        <h1>Filtra per</h1>
+        <form id="newsFilterForm">
+            <div>
+                <span id="searchSpanNewsFilter" data-icon="&#x55;"></span> <input type="search" />
+            </div>
+            <div>
+                <div class="selectContainer">
+                    <select>
+                        <option>Serie 1</option>
+                        <option>Serie 1</option>
+                        <option>Serie 1</option>
+                        <option>Serie 1</option>
+                        <option>Serie 1</option>
+                        <option>Serie 1</option>
+                        <option>Serie 1</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <span id="mySeriesFilter">
+                    <input type="checkbox" name="mySeriesFilter" id="mySeriesFilterCheckbox" value="true" />
+                    <label for="mySeriesFilterCheckbox">Solo news relative alle mie serie</label>
+                </span>
+            </div>
+            <div>
+                <input type="date"/>
+            </div>
+        </form>
+    </div><!-- FINE filtri -->
+    <!-- Ordinamenti -->
+    <div id="newsSorting">
+        <h1>Ordina per</h1>
+        <div>
+            <div>
+                <input type="radio" name="sortOption" id="sortForCommentsRadio">
+                <label for="sortForCommentsRadio">Pi&ugrave; commentate</label>
+            </div>
+            <div>
+                <input type="radio" name="sortOption" id="sortForLikeRadio">
+                <label for="sortForLikeRadio">Numero di Like</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LISTA NEWS
+============================================================================================= -->
+<!-- controlliamo se esistono liste -->
+<#if (news?size > 0)>
+<!-- se esistono stampiamole tutte -->
+<div id="newsList" class="twelve columns">
+    <#list news as n>
+    <div class="news row">
+        <div class="imgContainer two columns">
+            <img src="${n.imageURL}" alt="News image"/>
+        </div>
+        <div class="notImgContainer fourteen columns">
+            <div class="header">
+                <h1>${n.title}</h1>
+            </div>
+            <div class="body">
+                <p>${n.text}</p>
+            </div>
+            <div class="footer">
+                <div class="left">
+                    <p>${n.user.username}, ${n.date}</p>
+                </div>
+                <div class="right">
+                    <p>
+                        <span class="like" data-icon="&#xe0dd;">${n.likes}</span>
+                        <span class="dislike" data-icon="&#xe0f1;">${n.dislikes}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </#list>
+</div>
+<#else>
+<!-- altrimenti diciamo che non sono ancora presenti news -->
+<div>
+    <p>Purtroppo non sono ancora presenti delle news.</p>
+</div>
+</#if>
+

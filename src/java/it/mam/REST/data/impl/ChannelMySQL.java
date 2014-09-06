@@ -78,8 +78,8 @@ public class ChannelMySQL implements Channel {
 
     @Override
     public void setType(String type) { // set type onli if the string type is "FREE" or "PAY" otherwise do nothing
-        if (type.equalsIgnoreCase("FREE") || type.equalsIgnoreCase("PAY")) {
-            this.type = type;
+        if (type.equalsIgnoreCase(FREE) || type.equalsIgnoreCase(PAY)) {
+            this.type = type.toUpperCase();
             dirty = true;
         }
     }

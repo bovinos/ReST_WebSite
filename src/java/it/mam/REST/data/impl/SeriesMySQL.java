@@ -11,6 +11,7 @@ import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -95,8 +96,12 @@ public class SeriesMySQL implements Series {
 
     @Override
     public void setYear(int year) {
-        this.year = year;
-        dirty = true;
+        // controllo che l'anno sia un numero compreso tra la nascita del primo televisore italiano xD
+        // e l'anno corrente + 3 ( per serie annunciate )
+        if (year >= 1936 && year <= Calendar.getInstance().get(Calendar.YEAR) + 3) {
+            this.year = year;
+            dirty = true;
+        }
     }
 
     @Override
@@ -128,8 +133,8 @@ public class SeriesMySQL implements Series {
 
     @Override
     public void setState(String state) { // set the state only if the parameter is "ONGOING" or "COMPLETE" otherwise do nothing
-        if (state.equalsIgnoreCase("ONGOING") || state.equalsIgnoreCase("COMPLETE")) {
-            this.state = state;
+        if (state.equalsIgnoreCase(ONGOING) || state.equalsIgnoreCase(COMPLETE)) {
+            this.state = state.toUpperCase();
             dirty = true;
         }
     }

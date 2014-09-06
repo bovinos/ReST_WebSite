@@ -23,6 +23,10 @@ public interface News {
 
     void setDate(Date date);
 
+    String getImageURL();
+
+    void setImageURL(String imageURL);
+
     int getLikes();
 
     void setLikes(int likes);

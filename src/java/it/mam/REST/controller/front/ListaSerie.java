@@ -1,7 +1,6 @@
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
-import it.mam.REST.controller.RESTBaseController;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import java.io.IOException;
@@ -25,6 +24,7 @@ public class ListaSerie extends RESTBaseController {
     private void action_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("series", getDataLayer().getSeries());
+        request.setAttribute("sessionUsername", request.getSession().getAttribute("username"));
         result.activate("lista_serie.ftl.html", request, response);
     }
 

@@ -143,12 +143,12 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             dMessage = connection.prepareStatement("DELETE FROM e_message WHERE ID=?");
 
             // News
-            sNewsByID = connection.prepareStatement("SELECT * FROM e_news");
+            sNewsByID = connection.prepareStatement("SELECT * FROM e_news WHERE ID=?");
             sNewsByComment = connection.prepareStatement("SELECT ID_news FROM r_news_comment WHERE ID_comment=?");
             sNews = connection.prepareStatement("SELECT ID FROM e_news");
             sNewsByUser = connection.prepareStatement("SELECT ID FROM e_news WHERE ID_user=?");
             sNewsbySeries = connection.prepareStatement("SELECT ID_news FROM r_news_series WHERE ID_series=?");
-            iNews = connection.prepareStatement("INSERT INTO e_news (title, text, date, likes, dislikes, ID_user) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            iNews = connection.prepareStatement("INSERT INTO e_news (title, text, date, image_URL, likes, dislikes, ID_user) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             dNews = connection.prepareStatement("DELETE FROM e_news WHERE ID=?");
 
             // Series
@@ -1648,7 +1648,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iNews = "INSERT INTO e_news (title, text, date, likes, dislikes, ID_user) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
+    // iNews = "INSERT INTO e_news (title, text, date, image_URL, likes, dislikes, ID_user) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
     public void storeNews(News news) {
         ResultSet rs = null;
         int ID = news.getID();
@@ -1660,24 +1660,26 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 iNews.setString(1, news.getTitle());
                 iNews.setString(2, news.getText());
                 iNews.setDate(3, new java.sql.Date(news.getDate().getTime()));
-                iNews.setInt(4, news.getLikes());
-                iNews.setInt(5, news.getDislikes());
+                iNews.setString(4, news.getImageURL());
+                iNews.setInt(5, news.getLikes());
+                iNews.setInt(6, news.getDislikes());
                 if (news.getUser() != null) {
-                    iNews.setInt(6, news.getUser().getID());
+                    iNews.setInt(7, news.getUser().getID());
                 } else {
-                    iNews.setInt(6, 0);
+                    iNews.setInt(7, 0);
                 }
                 iNews.executeUpdate();
             } else { // Insert
                 iNews.setString(1, news.getTitle());
                 iNews.setString(2, news.getText());
                 iNews.setDate(3, null);
-                iNews.setInt(4, news.getLikes());
-                iNews.setInt(5, news.getDislikes());
+                iNews.setString(4, news.getImageURL());
+                iNews.setInt(5, news.getLikes());
+                iNews.setInt(6, news.getDislikes());
                 if (news.getUser() != null) {
-                    iNews.setInt(6, news.getUser().getID());
+                    iNews.setInt(7, news.getUser().getID());
                 } else {
-                    iNews.setInt(6, 0);
+                    iNews.setInt(7, 0);
                 }
                 if (iNews.executeUpdate() == 1) {
                     rs = iNews.getGeneratedKeys();

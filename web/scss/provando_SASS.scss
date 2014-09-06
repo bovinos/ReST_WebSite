@@ -1,0 +1,767 @@
+/* VARIABILI
+=============================================================================================== */
+
+/* colori palette */
+$orange: #EB7F00;
+$white: #F3FFE2;
+$skyBlue: #ACF0F2;
+$turquoise: #1695A3; /* rgba(22, 149, 163, 1) */
+$blue: #225378;
+
+$primaryTextColor: #444444;
+$secondaryTextColor: #999999;
+
+
+/* altro */
+$topBarHeight: 50px;
+
+
+
+
+
+/* MIXINS
+=============================================================================================== */
+@mixin transition($property, $time){
+    transition: $property $time ease-in-out;
+    -webkit-transition: $property $time ease-in-out;
+    -moz-transition: $property $time ease-in-out;
+}
+
+@mixin transform($string){
+    -webkit-transform: $string;
+    -moz-transform: $string;
+    transform: $string;
+}
+
+@mixin borderRadius($value){
+    border-radius: $value;
+    -webkit-border-radius: $value;
+    -moz-border-radius: $value;
+}
+
+@mixin boxShadow($x, $y, $blur, $color){
+    -webkit-box-shadow: $x $y $blur $color;
+    -moz-box-shadow: $x $y $blur $color;
+    box-shadow: $x $y $blur $color;
+}
+
+
+
+/* FONT
+=============================================================================================== */
+@font-face{
+    font-family: 'OpenSans';
+    src: url(../font/OpenSans-Regular.ttf) format('truetype');
+}
+
+@font-face{
+    font-family: 'Lato';
+    src: url(../font/Lato-Regular.ttf) format('truetype');
+}
+
+@font-face{
+    font-family: 'Roboto';
+    src: url(../font/Roboto-Regular.ttf) format('truetype');
+}
+
+@font-face{
+    font-family: 'Laila';
+    src: url(../font/Laila-Regular.ttf) format('truetype');
+}
+
+/* REGOLE DI STILE
+===============================================================================================
+=============================================================================================== */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+html, body{
+    font-family: OpenSans, Verdana, Arial, Helvetica; /* più in là inserire web font e gestire la tipografia in generale */
+    font-size: 10px;
+    background: #FFFFFF;
+    height: 100%;
+}
+
+a{
+    text-decoration: none;
+    color: $turquoise;
+    @include transition(color, 0.3s);
+
+    &:hover{
+        color: $orange;
+        @include transition(color, 0.3s);
+    }
+
+    &:before{
+        color: $turquoise;
+        @include transition(color, 0.3s);
+    }
+
+    &:before:hover{
+        @include transition(color, 0.3s);
+    }
+}
+
+
+/* TOPBAR
+=============================================================================================== */
+#topBarPlaceholder{
+    height: $topBarHeight;
+}
+
+#topBar{
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: $topBarHeight;
+    line-height: $topBarHeight;
+    background: #333333;
+    color: $skyBlue;
+    padding: 0 1%;
+
+
+    #singUpButton{
+        float: right;
+        padding: 0 15px;
+        line-height: $topBarHeight;
+        border: none;
+        font-size: 1.5rem;
+        color: white;
+        background: $turquoise;
+        cursor: pointer;
+        @include transition(background, 0.3s);
+
+        &:hover{
+            background: $orange;
+            @include transition(background, 0.3s);
+        }
+
+    }
+
+    #menu{
+        ul{
+
+            li{
+                color: #FFFFFF;
+                float: left;
+                font-size: 1.6rem;
+
+                @include transition(background, 0.3s);
+
+                a{
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                    padding: 0 10px;
+                    color: #FFFFFF;
+                    @include transition(background, 0.3s);
+
+                    &:hover{
+                        background: $orange;
+                        @include transition(background, 0.3s);
+                    }
+
+                    &.active{
+                        background: $orange;
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    #search{
+        float: right;
+        margin-right: 20px;
+
+        #searchSpan{
+            margin-right: 10px;
+            font-size: 2.7rem;
+            line-height: $topBarHeight;
+            color: $turquoise;
+            float: left;
+            cursor: pointer;
+            @include transition(color, 0.3s);
+
+
+            &:hover{
+                color: $orange;
+                @include transition(color, 0.3s);
+            }
+        }
+
+        #searchForm{
+            float: left;
+            display: inline-block;
+            overflow: hidden;
+            width: 0;
+            @include transition(width, 0.5s);
+
+            input{
+                background: transparent;
+                border-bottom: 1px solid $turquoise;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                color: $skyBlue;
+                font-size: 1.5rem;
+                width: 100%;
+                @include transition(border-bottom-color, 0.3s);
+
+                &:focus{
+                    border-bottom-color: $orange;
+                    @include transition(border-bottom-color, 0.3s);
+                }
+            }
+
+            &.show{
+                width: 200px;
+                @include transition(width, 0.5s);
+            }
+        }
+    }
+
+}
+
+
+/* HEADER
+=============================================================================================== */
+#outlineHeader{
+
+    #logo{
+        background: transparent url('../img/placeholder.jpg') no-repeat;
+        background-size: cover;
+        height: 300px;
+    }
+}
+
+/* FOOTER
+=============================================================================================== */
+#outlineFooter{
+    background: #333333;
+    color: $skyBlue;
+    font-size: 150%;
+    padding: 1%;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 0;
+
+    h1{
+        margin-bottom: 10px;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
+
+    p{
+        margin-bottom: 10px;
+    }
+
+    a{
+
+
+        &:before{
+            margin-right: 10px;
+        }
+
+    }
+
+    #footerImage{
+
+
+        img{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    }
+
+    #social{
+
+        li{
+            margin-bottom: 10px;
+        }
+
+        #facebook{
+
+            &:hover:before{
+                color: #3B5998; /* blu di facebook */
+            }
+        }
+
+        #twitter{
+
+            &:hover:before{
+                color: #00ACED; /* azzurro di twitter */
+            }
+        }
+
+        #linkedIn{
+
+            &:hover:before{
+                color: #FFFFFF; /* bianco di linked in */
+            }
+        }
+
+        #googlePlus{
+
+            &:hover:before{
+                color: #dd4b39; /* rosso google+ */
+            }
+        }
+    }
+
+    #googlePlay{
+        display: block;
+
+        &:hover{
+
+        }
+
+
+        &:after{
+            content: ' ';
+            background: transparent url('../img/google_play.png') no-repeat center center;
+            background-size: contain;
+            height: 50px;
+            width: 50px;
+            display: block;
+            overflow: hidden;
+            margin: 10px auto;
+            opacity: 0.3;
+            @include transition(opacity, 0.3s);
+        }
+
+        &:hover:after{
+            opacity: 1;
+            @include transition(opacity, 0.3s);
+        }
+
+    }
+
+}
+
+/* NEWS PAGE
+=============================================================================================== */
+#slider{
+    margin: 60px 0 90px 0;
+    width: 100%;
+
+    #slideshow-wrap {
+        display: block;
+        height: 320px;
+        min-width: 260px;
+        max-width: 640px;
+        margin: auto;
+        border: 6px solid #FFFFFF;
+        @include boxShadow(0px, 0px, 5px, $turquoise);
+        position: relative;
+
+        input[type=radio] {
+            position: absolute;
+            left: 50%;
+            bottom: 15px;
+            z-index: 100;
+            visibility: hidden;
+
+            /* coloro i le label ( che fingono da radio button ) nel momento in cui il radio button è attivo */
+            &#button-1:checked~label[for=button-1],
+                &#button-2:checked~label[for=button-2],
+                &#button-3:checked~label[for=button-3],
+                &#button-4:checked~label[for=button-4],
+                &#button-5:checked~label[for=button-5]{ 
+                background-color: $orange; 
+                @include boxShadow(0px, 0px, 3px, $orange);}
+
+            /* sposto la lista a seconda dell'immagine che scelgo: */
+            /* immagine 1: left: 0 ( in questo modo si visualizza l'immagine 1 ) */
+            /* immagine 1: left: -100% ( in questo modo si visualizza l'immagine 2 ) */
+            /* etc. */
+            &#button-1:checked~#slideshow-inner>ul { left: 0; }
+            &#button-2:checked~#slideshow-inner>ul { left: -100%; }
+            &#button-3:checked~#slideshow-inner>ul { left: -200%; }
+            &#button-4:checked~#slideshow-inner>ul { left: -300%; }
+            &#button-5:checked~#slideshow-inner>ul { left: -400%; }
+
+            /* al click sul bottone compare la giusta freccia a destra */
+            /* bottone1/fraccia1 -> freccia2 */
+            /* bottone2/freccia2 -> freccia3 */
+            /* bottone3/freccia3 -> freccia4 */
+            /* bottone4/freccia4 -> freccia5 */
+            &#button-1:checked~.arrows#arrow-2, 
+                &#button-2:checked~.arrows#arrow-3, 
+                &#button-3:checked~.arrows#arrow-4, 
+                &#button-4:checked~.arrows#arrow-5 {
+                right: -55px;
+                display: block;
+            }
+
+            /* al click sul bottone compare la giusta freccia a sinistra */
+            /* bottone2/fraccia2 -> freccia1 */
+            /* bottone3/freccia3 -> freccia2 */
+            /* bottone4/freccia4 -> freccia3 */
+            /* bottone5/freccia5 -> freccia4 */
+            &#button-2:checked~.arrows#arrow-1, 
+                &#button-3:checked~.arrows#arrow-2, 
+                &#button-4:checked~.arrows#arrow-3, 
+                &#button-5:checked~.arrows#arrow-4 {
+                left: -55px;
+                display: block;
+                @include transform(scale(-1));
+
+            }
+
+            /* per fixare la posizione della freccia sinistra */
+            &#button-2:checked~.arrows#arrow-1 { left: -19px }
+            &#button-3:checked~.arrows#arrow-2 { left: -37px }
+            &#button-5:checked~.arrows#arrow-4 { left: -73px }
+
+        }
+
+        /* i finti radio button */
+        label:not(.arrows) {
+            position: absolute;
+            left: 50%;
+            bottom: -45px;
+            z-index: 100;
+            width: 12px;
+            height: 12px;
+            background: $turquoise;
+            @include borderRadius(50%);
+            @include transition(background, 0.2s);
+            cursor: pointer;
+
+            &:active { bottom: -46px; }
+        }
+
+        /* posiziono orizzontalmente le label */
+        label[for=button-1] { margin-left: -36px; }
+        label[for=button-2] { margin-left: -18px; }
+        label[for=button-4] { margin-left: 18px; }
+        label[for=button-5] { margin-left: 36px; }
+
+        #slideshow-inner {
+            width: 100%;
+            height: 100%;
+            background-color: rgb(0,0,0);
+            overflow: hidden;
+            position: relative;
+
+            ul {
+                list-style: none;
+                height: 100%;
+                width: 500%; /* perchè la lista contiene 5 immagini, se ne contenesse 7 avrei messo 700% */
+                overflow: hidden;
+                position: relative;
+                left: 0px; /* la posiziono alla prima immagine */
+                @include transition(left, 0.8s);
+
+
+                li {
+                    width: 20%; /* 20% perché la width totale era il 500%, quindi viene il 100%. ma se fosse stata del 1000% (cioè 10 immagini) qui ci andava 10%*/
+                    height: 320px;
+                    float: left; /* così le immagini sono affiancate */
+                    position: relative;
+
+                    img {
+                        margin: auto;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+
+        /* le frecce per scorrere le immagini dello slider */
+        label.arrows {
+            font-size: 5rem;
+            color: $turquoise;
+            position: absolute;
+            top: 50%;
+            margin-top: -25px;
+            display: none;
+            opacity: 0.7;
+            cursor: pointer;
+            z-index: 1000;
+            background-color: transparent;
+            @include transition(opacity, 0.2s);
+            text-shadow: 0px 0px 3px $turquoise;
+
+            &:hover { opacity: 1 }
+
+            &:active { margin-top: -23px }
+        }
+    }
+}
+
+
+#leftColNews{
+
+    margin-top: 25px;
+    margin-bottom: 10px;
+
+
+
+    h1{
+        font-family: Laila;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 10px 0;
+        background: $turquoise;
+        color: #FFFFFF;
+    }
+
+    #newsFilter{
+
+        div{
+            margin-bottom: 50px;
+            padding-left: 10%;
+        }
+
+        input[type="search"]{
+            display: inline-block;
+            background: transparent;
+            border-bottom: 1px solid $turquoise;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            color: $primaryTextColor;
+            font-size: 1.5rem;
+            width: 70%;
+            @include transition(border-bottom-color, 0.3s);
+
+            &:focus{
+                border-bottom-color: $orange;
+                @include transition(border-bottom-color, 0.3s);
+            }
+        }
+
+        #searchSpanNewsFilter{
+            font-size: 1.8rem;
+            color: $turquoise;
+        }
+
+        .selectContainer{
+            width: 80%;
+            overflow: hidden;
+            padding-left: 0;
+            position: relative;
+
+            &:after{
+                position: absolute;
+                right: 0;
+                top: 0;
+                line-height: 2; /* per piazzarla al centro verticalmente */
+                color: $turquoise;
+                border-right: 1px solid $turquoise;
+                font-family: 'ElegantIcons';
+                font-size: 1.5rem;
+                content: '\43';
+                pointer-events: none; /* per far aprire la select anche cliccando sulla freccia */
+            }
+
+            select{
+                @include borderRadius(5px);
+                border: 1px solid $turquoise;
+                width: 120%; /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
+                cursor: pointer;
+
+                option{
+                    padding: 5px;
+                }
+            }
+        }
+
+
+        #mySeriesFilter{
+
+            /* nascondiamo la checkbox originale */
+            input[type="checkbox"]{
+                position: absolute;
+                left: -9999px;
+
+                & + label{
+                    position: relative;
+                    cursor: pointer;
+                    font-size: 1.5rem;
+                }
+
+                &:checked + label:before{
+                    font-family: 'ElegantIcons';
+                    content: '\5a';
+                    margin-right: 10px;
+                    position: relative;
+                    top: 5px;
+                    font-size: 2.5rem;
+                    color: $turquoise;
+                }
+
+                &:not(:checked) + label:before{
+                    font-family: 'ElegantIcons';
+                    content: '\56';
+                    margin-right: 10px;
+                    position: relative;
+                    top: 5px;
+                    font-size: 2.5rem;
+                    color: $turquoise;
+                }
+            }
+        }
+
+        input[type="date"]{
+            padding: 5px;
+            width: 75%;
+            @include borderRadius(5px);
+            border: 1px solid $turquoise;
+            /* DA FARE!!! */
+            /* è impossibile fare il date picker senza JS xD */
+        }
+
+    }
+
+
+
+    /**************************** ORDINAMENTO **************************************/
+
+    #newsSorting{
+
+        div{
+            margin-bottom: 20px;
+            padding-left: 10%;
+        }
+
+        input[type="radio"]{
+
+            position: absolute;
+            left: -9999px;
+
+            & + label{
+                position: relative;
+                cursor: pointer;
+                font-size: 1.5rem;
+            }
+
+            &:checked + label:before{
+                font-family: 'ElegantIcons';
+                content: '\5c';
+                margin-right: 10px;
+                position: relative;
+                top: 5px;
+                font-size: 2.5rem;
+                color: $turquoise;
+            }
+
+            &:not(:checked) + label:before{
+                font-family: 'ElegantIcons';
+                content: '\5b';
+                margin-right: 10px;
+                position: relative;
+                top: 5px;
+                font-size: 2.5rem;
+                color: $turquoise;
+            }
+        }
+    }
+
+
+
+}
+
+
+#newsList{
+
+    img{
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+
+    .news{
+        padding: 25px 0;
+        border-bottom: 1px solid rgba(22, 149, 163, 0.4);
+
+        &:last-of-type{ /* l'ultimo elemento che ha classe news */
+            border-bottom: none;
+        }
+    }
+
+    .imgContainer{
+        display: inline-block;
+        width: 75px;
+        height: 75px;
+    }
+
+    .header{
+
+        h1{
+            font-family: Laila;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            color: $turquoise;
+        }
+
+    }
+
+    .body{
+
+        p{
+            color: $primaryTextColor;
+            font-size: 1.5rem;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+    }
+
+    .footer{
+        font-size: 1.2rem;
+        color: $secondaryTextColor;
+
+        .left{
+            float: left;
+        }
+
+        .right{
+            float: right;
+
+            .like{
+                margin-right: 10px;
+
+                &:before{
+                    margin-right: 3px;
+                }
+            }
+
+            .dislike{
+
+                &:before{
+                    margin-right: 3px;
+                }
+            }
+        }
+    }
+
+}
+
+
+
+

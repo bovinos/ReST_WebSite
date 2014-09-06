@@ -8,6 +8,9 @@ import java.util.List;
  */
 public interface Channel {
 
+    String FREE = "FREE";
+    String PAY = "PAY";
+
     int getID();
 
     String getName();

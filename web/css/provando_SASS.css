@@ -1,0 +1,548 @@
+@charset "UTF-8";
+/* VARIABILI
+=============================================================================================== */
+/* colori palette */
+/* rgba(22, 149, 163, 1) */
+/* altro */
+/* MIXINS
+=============================================================================================== */
+/* FONT
+=============================================================================================== */
+@font-face {
+  font-family: 'OpenSans';
+  src: url(../font/OpenSans-Regular.ttf) format("truetype"); }
+@font-face {
+  font-family: 'Lato';
+  src: url(../font/Lato-Regular.ttf) format("truetype"); }
+@font-face {
+  font-family: 'Roboto';
+  src: url(../font/Roboto-Regular.ttf) format("truetype"); }
+@font-face {
+  font-family: 'Laila';
+  src: url(../font/Laila-Regular.ttf) format("truetype"); }
+/* REGOLE DI STILE
+===============================================================================================
+=============================================================================================== */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+
+html, body {
+  font-family: OpenSans, Verdana, Arial, Helvetica;
+  /* pi├╣ in l├á inserire web font e gestire la tipografia in generale */
+  font-size: 10px;
+  background: #FFFFFF;
+  height: 100%; }
+
+a {
+  text-decoration: none;
+  color: #1695A3;
+  transition: color 0.3s ease-in-out;
+  -webkit-transition: color 0.3s ease-in-out;
+  -moz-transition: color 0.3s ease-in-out; }
+  a:hover {
+    color: #EB7F00;
+    transition: color 0.3s ease-in-out;
+    -webkit-transition: color 0.3s ease-in-out;
+    -moz-transition: color 0.3s ease-in-out; }
+  a:before {
+    color: #1695A3;
+    transition: color 0.3s ease-in-out;
+    -webkit-transition: color 0.3s ease-in-out;
+    -moz-transition: color 0.3s ease-in-out; }
+  a:before:hover {
+    transition: color 0.3s ease-in-out;
+    -webkit-transition: color 0.3s ease-in-out;
+    -moz-transition: color 0.3s ease-in-out; }
+
+/* TOPBAR
+=============================================================================================== */
+#topBarPlaceholder {
+  height: 50px; }
+
+#topBar {
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  line-height: 50px;
+  background: #333333;
+  color: #ACF0F2;
+  padding: 0 1%; }
+  #topBar #singUpButton {
+    float: right;
+    padding: 0 15px;
+    line-height: 50px;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    background: #1695A3;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    -webkit-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out; }
+    #topBar #singUpButton:hover {
+      background: #EB7F00;
+      transition: background 0.3s ease-in-out;
+      -webkit-transition: background 0.3s ease-in-out;
+      -moz-transition: background 0.3s ease-in-out; }
+  #topBar #menu ul li {
+    color: #FFFFFF;
+    float: left;
+    font-size: 1.6rem;
+    transition: background 0.3s ease-in-out;
+    -webkit-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out; }
+    #topBar #menu ul li a {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      padding: 0 10px;
+      color: #FFFFFF;
+      transition: background 0.3s ease-in-out;
+      -webkit-transition: background 0.3s ease-in-out;
+      -moz-transition: background 0.3s ease-in-out; }
+      #topBar #menu ul li a:hover {
+        background: #EB7F00;
+        transition: background 0.3s ease-in-out;
+        -webkit-transition: background 0.3s ease-in-out;
+        -moz-transition: background 0.3s ease-in-out; }
+      #topBar #menu ul li a.active {
+        background: #EB7F00; }
+  #topBar #search {
+    float: right;
+    margin-right: 20px; }
+    #topBar #search #searchSpan {
+      margin-right: 10px;
+      font-size: 2.7rem;
+      line-height: 50px;
+      color: #1695A3;
+      float: left;
+      cursor: pointer;
+      transition: color 0.3s ease-in-out;
+      -webkit-transition: color 0.3s ease-in-out;
+      -moz-transition: color 0.3s ease-in-out; }
+      #topBar #search #searchSpan:hover {
+        color: #EB7F00;
+        transition: color 0.3s ease-in-out;
+        -webkit-transition: color 0.3s ease-in-out;
+        -moz-transition: color 0.3s ease-in-out; }
+    #topBar #search #searchForm {
+      float: left;
+      display: inline-block;
+      overflow: hidden;
+      width: 0;
+      transition: width 0.5s ease-in-out;
+      -webkit-transition: width 0.5s ease-in-out;
+      -moz-transition: width 0.5s ease-in-out; }
+      #topBar #search #searchForm input {
+        background: transparent;
+        border-bottom: 1px solid #1695A3;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        color: #ACF0F2;
+        font-size: 1.5rem;
+        width: 100%;
+        transition: border-bottom-color 0.3s ease-in-out;
+        -webkit-transition: border-bottom-color 0.3s ease-in-out;
+        -moz-transition: border-bottom-color 0.3s ease-in-out; }
+        #topBar #search #searchForm input:focus {
+          border-bottom-color: #EB7F00;
+          transition: border-bottom-color 0.3s ease-in-out;
+          -webkit-transition: border-bottom-color 0.3s ease-in-out;
+          -moz-transition: border-bottom-color 0.3s ease-in-out; }
+      #topBar #search #searchForm.show {
+        width: 200px;
+        transition: width 0.5s ease-in-out;
+        -webkit-transition: width 0.5s ease-in-out;
+        -moz-transition: width 0.5s ease-in-out; }
+
+/* HEADER
+=============================================================================================== */
+#outlineHeader #logo {
+  background: transparent url("../img/placeholder.jpg") no-repeat;
+  background-size: cover;
+  height: 300px; }
+
+/* FOOTER
+=============================================================================================== */
+#outlineFooter {
+  background: #333333;
+  color: #ACF0F2;
+  font-size: 150%;
+  padding: 1%;
+  text-align: center;
+  line-height: 1.2;
+  margin-bottom: 0; }
+  #outlineFooter h1 {
+    margin-bottom: 10px;
+    color: #FFFFFF;
+    font-weight: bold; }
+  #outlineFooter p {
+    margin-bottom: 10px; }
+  #outlineFooter a:before {
+    margin-right: 10px; }
+  #outlineFooter #footerImage img {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; }
+  #outlineFooter #social li {
+    margin-bottom: 10px; }
+  #outlineFooter #social #facebook:hover:before {
+    color: #3B5998;
+    /* blu di facebook */ }
+  #outlineFooter #social #twitter:hover:before {
+    color: #00ACED;
+    /* azzurro di twitter */ }
+  #outlineFooter #social #linkedIn:hover:before {
+    color: #FFFFFF;
+    /* bianco di linked in */ }
+  #outlineFooter #social #googlePlus:hover:before {
+    color: #dd4b39;
+    /* rosso google+ */ }
+  #outlineFooter #googlePlay {
+    display: block; }
+    #outlineFooter #googlePlay:after {
+      content: ' ';
+      background: transparent url("../img/google_play.png") no-repeat center center;
+      background-size: contain;
+      height: 50px;
+      width: 50px;
+      display: block;
+      overflow: hidden;
+      margin: 10px auto;
+      opacity: 0.3;
+      transition: opacity 0.3s ease-in-out;
+      -webkit-transition: opacity 0.3s ease-in-out;
+      -moz-transition: opacity 0.3s ease-in-out; }
+    #outlineFooter #googlePlay:hover:after {
+      opacity: 1;
+      transition: opacity 0.3s ease-in-out;
+      -webkit-transition: opacity 0.3s ease-in-out;
+      -moz-transition: opacity 0.3s ease-in-out; }
+
+/* NEWS PAGE
+=============================================================================================== */
+#slider {
+  margin: 60px 0 90px 0;
+  width: 100%; }
+  #slider #slideshow-wrap {
+    display: block;
+    height: 320px;
+    min-width: 260px;
+    max-width: 640px;
+    margin: auto;
+    border: 6px solid #FFFFFF;
+    -webkit-box-shadow: 0px 0px 5px #1695A3;
+    -moz-box-shadow: 0px 0px 5px #1695A3;
+    box-shadow: 0px 0px 5px #1695A3;
+    position: relative;
+    /* i finti radio button */
+    /* posiziono orizzontalmente le label */
+    /* le frecce per scorrere le immagini dello slider */ }
+    #slider #slideshow-wrap input[type=radio] {
+      position: absolute;
+      left: 50%;
+      bottom: 15px;
+      z-index: 100;
+      visibility: hidden;
+      /* coloro i le label ( che fingono da radio button ) nel momento in cui il radio button ├¿ attivo */
+      /* sposto la lista a seconda dell'immagine che scelgo: */
+      /* immagine 1: left: 0 ( in questo modo si visualizza l'immagine 1 ) */
+      /* immagine 1: left: -100% ( in questo modo si visualizza l'immagine 2 ) */
+      /* etc. */
+      /* al click sul bottone compare la giusta freccia a destra */
+      /* bottone1/fraccia1 -> freccia2 */
+      /* bottone2/freccia2 -> freccia3 */
+      /* bottone3/freccia3 -> freccia4 */
+      /* bottone4/freccia4 -> freccia5 */
+      /* al click sul bottone compare la giusta freccia a sinistra */
+      /* bottone2/fraccia2 -> freccia1 */
+      /* bottone3/freccia3 -> freccia2 */
+      /* bottone4/freccia4 -> freccia3 */
+      /* bottone5/freccia5 -> freccia4 */
+      /* per fixare la posizione della freccia sinistra */ }
+      #slider #slideshow-wrap input[type=radio]#button-1:checked ~ label[for=button-1], #slider #slideshow-wrap input[type=radio]#button-2:checked ~ label[for=button-2], #slider #slideshow-wrap input[type=radio]#button-3:checked ~ label[for=button-3], #slider #slideshow-wrap input[type=radio]#button-4:checked ~ label[for=button-4], #slider #slideshow-wrap input[type=radio]#button-5:checked ~ label[for=button-5] {
+        background-color: #EB7F00;
+        -webkit-box-shadow: 0px 0px 3px #EB7F00;
+        -moz-box-shadow: 0px 0px 3px #EB7F00;
+        box-shadow: 0px 0px 3px #EB7F00; }
+      #slider #slideshow-wrap input[type=radio]#button-1:checked ~ #slideshow-inner > ul {
+        left: 0; }
+      #slider #slideshow-wrap input[type=radio]#button-2:checked ~ #slideshow-inner > ul {
+        left: -100%; }
+      #slider #slideshow-wrap input[type=radio]#button-3:checked ~ #slideshow-inner > ul {
+        left: -200%; }
+      #slider #slideshow-wrap input[type=radio]#button-4:checked ~ #slideshow-inner > ul {
+        left: -300%; }
+      #slider #slideshow-wrap input[type=radio]#button-5:checked ~ #slideshow-inner > ul {
+        left: -400%; }
+      #slider #slideshow-wrap input[type=radio]#button-1:checked ~ .arrows#arrow-2, #slider #slideshow-wrap input[type=radio]#button-2:checked ~ .arrows#arrow-3, #slider #slideshow-wrap input[type=radio]#button-3:checked ~ .arrows#arrow-4, #slider #slideshow-wrap input[type=radio]#button-4:checked ~ .arrows#arrow-5 {
+        right: -55px;
+        display: block; }
+      #slider #slideshow-wrap input[type=radio]#button-2:checked ~ .arrows#arrow-1, #slider #slideshow-wrap input[type=radio]#button-3:checked ~ .arrows#arrow-2, #slider #slideshow-wrap input[type=radio]#button-4:checked ~ .arrows#arrow-3, #slider #slideshow-wrap input[type=radio]#button-5:checked ~ .arrows#arrow-4 {
+        left: -55px;
+        display: block;
+        -webkit-transform: scale(-1);
+        -moz-transform: scale(-1);
+        transform: scale(-1); }
+      #slider #slideshow-wrap input[type=radio]#button-2:checked ~ .arrows#arrow-1 {
+        left: -19px; }
+      #slider #slideshow-wrap input[type=radio]#button-3:checked ~ .arrows#arrow-2 {
+        left: -37px; }
+      #slider #slideshow-wrap input[type=radio]#button-5:checked ~ .arrows#arrow-4 {
+        left: -73px; }
+    #slider #slideshow-wrap label:not(.arrows) {
+      position: absolute;
+      left: 50%;
+      bottom: -45px;
+      z-index: 100;
+      width: 12px;
+      height: 12px;
+      background: #1695A3;
+      border-radius: 50%;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      transition: background 0.2s ease-in-out;
+      -webkit-transition: background 0.2s ease-in-out;
+      -moz-transition: background 0.2s ease-in-out;
+      cursor: pointer; }
+      #slider #slideshow-wrap label:not(.arrows):active {
+        bottom: -46px; }
+    #slider #slideshow-wrap label[for=button-1] {
+      margin-left: -36px; }
+    #slider #slideshow-wrap label[for=button-2] {
+      margin-left: -18px; }
+    #slider #slideshow-wrap label[for=button-4] {
+      margin-left: 18px; }
+    #slider #slideshow-wrap label[for=button-5] {
+      margin-left: 36px; }
+    #slider #slideshow-wrap #slideshow-inner {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      overflow: hidden;
+      position: relative; }
+      #slider #slideshow-wrap #slideshow-inner ul {
+        list-style: none;
+        height: 100%;
+        width: 500%;
+        /* perch├¿ la lista contiene 5 immagini, se ne contenesse 7 avrei messo 700% */
+        overflow: hidden;
+        position: relative;
+        left: 0px;
+        /* la posiziono alla prima immagine */
+        transition: left 0.8s ease-in-out;
+        -webkit-transition: left 0.8s ease-in-out;
+        -moz-transition: left 0.8s ease-in-out; }
+        #slider #slideshow-wrap #slideshow-inner ul li {
+          width: 20%;
+          /* 20% perch├® la width totale era il 500%, quindi viene il 100%. ma se fosse stata del 1000% (cio├¿ 10 immagini) qui ci andava 10%*/
+          height: 320px;
+          float: left;
+          /* cos├¼ le immagini sono affiancate */
+          position: relative; }
+          #slider #slideshow-wrap #slideshow-inner ul li img {
+            margin: auto;
+            width: 100%;
+            height: 100%; }
+    #slider #slideshow-wrap label.arrows {
+      font-size: 5rem;
+      color: #1695A3;
+      position: absolute;
+      top: 50%;
+      margin-top: -25px;
+      display: none;
+      opacity: 0.7;
+      cursor: pointer;
+      z-index: 1000;
+      background-color: transparent;
+      transition: opacity 0.2s ease-in-out;
+      -webkit-transition: opacity 0.2s ease-in-out;
+      -moz-transition: opacity 0.2s ease-in-out;
+      text-shadow: 0px 0px 3px #1695A3; }
+      #slider #slideshow-wrap label.arrows:hover {
+        opacity: 1; }
+      #slider #slideshow-wrap label.arrows:active {
+        margin-top: -23px; }
+
+#leftColNews {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  /**************************** ORDINAMENTO **************************************/ }
+  #leftColNews h1 {
+    font-family: Laila;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 10px 0;
+    background: #1695A3;
+    color: #FFFFFF; }
+  #leftColNews #newsFilter div {
+    margin-bottom: 50px;
+    padding-left: 10%; }
+  #leftColNews #newsFilter input[type="search"] {
+    display: inline-block;
+    background: transparent;
+    border-bottom: 1px solid #1695A3;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: #444444;
+    font-size: 1.5rem;
+    width: 70%;
+    transition: border-bottom-color 0.3s ease-in-out;
+    -webkit-transition: border-bottom-color 0.3s ease-in-out;
+    -moz-transition: border-bottom-color 0.3s ease-in-out; }
+    #leftColNews #newsFilter input[type="search"]:focus {
+      border-bottom-color: #EB7F00;
+      transition: border-bottom-color 0.3s ease-in-out;
+      -webkit-transition: border-bottom-color 0.3s ease-in-out;
+      -moz-transition: border-bottom-color 0.3s ease-in-out; }
+  #leftColNews #newsFilter #searchSpanNewsFilter {
+    font-size: 1.8rem;
+    color: #1695A3; }
+  #leftColNews #newsFilter .selectContainer {
+    width: 80%;
+    overflow: hidden;
+    padding-left: 0;
+    position: relative; }
+    #leftColNews #newsFilter .selectContainer:after {
+      position: absolute;
+      right: 0;
+      top: 0;
+      line-height: 2;
+      /* per piazzarla al centro verticalmente */
+      color: #1695A3;
+      border-right: 1px solid #1695A3;
+      font-family: 'ElegantIcons';
+      font-size: 1.5rem;
+      content: '\43';
+      pointer-events: none;
+      /* per far aprire la select anche cliccando sulla freccia */ }
+    #leftColNews #newsFilter .selectContainer select {
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border: 1px solid #1695A3;
+      width: 120%;
+      /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
+      cursor: pointer; }
+      #leftColNews #newsFilter .selectContainer select option {
+        padding: 5px; }
+  #leftColNews #newsFilter #mySeriesFilter {
+    /* nascondiamo la checkbox originale */ }
+    #leftColNews #newsFilter #mySeriesFilter input[type="checkbox"] {
+      position: absolute;
+      left: -9999px; }
+      #leftColNews #newsFilter #mySeriesFilter input[type="checkbox"] + label {
+        position: relative;
+        cursor: pointer;
+        font-size: 1.5rem; }
+      #leftColNews #newsFilter #mySeriesFilter input[type="checkbox"]:checked + label:before {
+        font-family: 'ElegantIcons';
+        content: '\5a';
+        margin-right: 10px;
+        position: relative;
+        top: 5px;
+        font-size: 2.5rem;
+        color: #1695A3; }
+      #leftColNews #newsFilter #mySeriesFilter input[type="checkbox"]:not(:checked) + label:before {
+        font-family: 'ElegantIcons';
+        content: '\56';
+        margin-right: 10px;
+        position: relative;
+        top: 5px;
+        font-size: 2.5rem;
+        color: #1695A3; }
+  #leftColNews #newsFilter input[type="date"] {
+    padding: 5px;
+    width: 75%;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border: 1px solid #1695A3;
+    /* DA FARE!!! */
+    /* ├¿ impossibile fare il date picker senza JS xD */ }
+  #leftColNews #newsSorting div {
+    margin-bottom: 20px;
+    padding-left: 10%; }
+  #leftColNews #newsSorting input[type="radio"] {
+    position: absolute;
+    left: -9999px; }
+    #leftColNews #newsSorting input[type="radio"] + label {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.5rem; }
+    #leftColNews #newsSorting input[type="radio"]:checked + label:before {
+      font-family: 'ElegantIcons';
+      content: '\5c';
+      margin-right: 10px;
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
+    #leftColNews #newsSorting input[type="radio"]:not(:checked) + label:before {
+      font-family: 'ElegantIcons';
+      content: '\5b';
+      margin-right: 10px;
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
+
+#newsList img {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+#newsList .news {
+  padding: 25px 0;
+  border-bottom: 1px solid rgba(22, 149, 163, 0.4); }
+  #newsList .news:last-of-type {
+    /* l'ultimo elemento che ha classe news */
+    border-bottom: none; }
+#newsList .imgContainer {
+  display: inline-block;
+  width: 75px;
+  height: 75px; }
+#newsList .header h1 {
+  font-family: Laila;
+  margin-bottom: 10px;
+  font-size: 2.5rem;
+  color: #1695A3; }
+#newsList .body p {
+  color: #444444;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  margin-bottom: 10px; }
+#newsList .footer {
+  font-size: 1.2rem;
+  color: #999999; }
+  #newsList .footer .left {
+    float: left; }
+  #newsList .footer .right {
+    float: right; }
+    #newsList .footer .right .like {
+      margin-right: 10px; }
+      #newsList .footer .right .like:before {
+        margin-right: 3px; }
+    #newsList .footer .right .dislike:before {
+      margin-right: 3px; }
+
+/*# sourceMappingURL=provando_SASS.css.map */

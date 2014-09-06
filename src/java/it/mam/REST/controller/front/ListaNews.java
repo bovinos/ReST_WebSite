@@ -24,6 +24,7 @@ public class ListaNews extends RESTBaseController {
     private void action_news_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("news", getDataLayer().getNews());
+        System.out.println(getDataLayer().getNews());
         request.setAttribute("sessionUsername", request.getSession().getAttribute("username"));
         result.activate("lista_news.ftl.html", request, response);
     }

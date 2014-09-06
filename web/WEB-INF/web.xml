@@ -30,7 +30,7 @@
     </context-param>
     <context-param>
         <param-name>view.outline_template</param-name>
-        <param-value>outline_front.ftl.html</param-value>
+        <param-value>front/outline.ftl.html</param-value>
     </context-param>
     <listener>
         <listener-class>it.mam.REST.listener.ContextInitializer</listener-class>

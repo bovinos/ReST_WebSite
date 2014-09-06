@@ -100,8 +100,8 @@ public class CastMemberMySQL implements CastMember {
 
     @Override
     public void setGender(String gender) { // gender is set only if the parameter is the string "M" or "F" otherwise do nothing
-        if (gender.equalsIgnoreCase("M") || gender.equalsIgnoreCase("F")) {
-            this.gender = gender;
+        if (gender.equalsIgnoreCase(MALE) || gender.equalsIgnoreCase(FEMALE)) {
+            this.gender = gender.toUpperCase();
             dirty = true;
         }
     }

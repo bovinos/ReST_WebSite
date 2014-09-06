@@ -20,6 +20,7 @@ public class NewsMySQL implements News {
     private String title;
     private String text;
     private Date date;
+    private String imageURL;
     private int likes;
     private int dislikes;
     protected boolean dirty;
@@ -37,6 +38,7 @@ public class NewsMySQL implements News {
         title = "";
         text = "";
         date = null;
+        imageURL = "";
         likes = 0;
         dislikes = 0;
         dirty = false;
@@ -56,6 +58,7 @@ public class NewsMySQL implements News {
         title = rs.getString("title");
         text = rs.getString("text");
         date = rs.getDate("date");
+        imageURL = rs.getString("image_URL");
         likes = rs.getInt("likes");
         dislikes = rs.getInt("dislikes");
 
@@ -97,6 +100,17 @@ public class NewsMySQL implements News {
     @Override
     public void setDate(Date date) {
         this.date = date;
+        dirty = true;
+    }
+
+    @Override
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    @Override
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
         dirty = true;
     }
 

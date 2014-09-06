@@ -22,17 +22,17 @@ html, body{
     height: 100%;
 }
 
-#header{
+#outlineHeader{
 
 }
 
-#footer{
+#outlineFooter{
     background: #333333;
     color: #00ffff;
     font-size: 150%;
     padding: 1%;
 }
 
-#body{
+#outlineBody{
 
 }

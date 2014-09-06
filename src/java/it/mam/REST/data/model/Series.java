@@ -8,6 +8,9 @@ import java.util.List;
  */
 public interface Series {
 
+    String ONGOING = "ONGOING";
+    String COMPLETE = "COMPLETE";
+
     int getID();
 
     String getName();

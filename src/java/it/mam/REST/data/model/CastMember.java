@@ -9,6 +9,9 @@ import java.util.List;
  */
 public interface CastMember {
 
+    String MALE = "M";
+    String FEMALE = "F";
+
     int getID();
 
     String getName();
