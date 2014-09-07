@@ -509,7 +509,7 @@ a {
       -webkit-transition: opacity 0.3s ease-in-out;
       -moz-transition: opacity 0.3s ease-in-out; }
 
-/* NEWS PAGE
+/* NEWS LIST PAGE
 =============================================================================================== */
 #newsFilter div {
   margin-bottom: 50px;
@@ -557,7 +557,7 @@ a {
     #newsList .footer .right .dislike:before {
       margin-right: 3px; }
 
-/* SERIES PAGE
+/* SERIES LIST PAGE
 =============================================================================================== */
 #seriesFilter div {
   margin-bottom: 50px;
@@ -624,5 +624,16 @@ a {
           transition: opacity 0.8s ease-in-out;
           -webkit-transition: opacity 0.8s ease-in-out;
           -moz-transition: opacity 0.8s ease-in-out; }
+
+/* SERIES CARD PAGE
+=============================================================================================== */
+#seriesCard {
+  margin-top: 30px;
+  margin-bottom: 30px; }
+  #seriesCard h1 {
+    text-align: center;
+    font-family: Laila;
+    color: #1695A3;
+    font-size: 4rem; }
 
 /*# sourceMappingURL=provando_SASS.css.map */
