@@ -12,23 +12,27 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author alex
  */
-public class Registrazione extends RESTBaseController {
+public class NewsList extends RESTBaseController {
 
     // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
-
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
 
-    private void action_registrazione(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // prende tutte le news e le passa al template lista_news.ftl.html
+    private void action_news_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
-        result.activate("registrazione_utente.ftl.html", request, response);
+        request.setAttribute("news", getDataLayer().getNews());
+        System.out.println(getDataLayer().getNews());
+        request.setAttribute("sessionUsername", request.getSession().getAttribute("username"));
+        result.activate("lista_news.ftl.html", request, response);
     }
 
+    @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            action_registrazione(request, response);
+            action_news_list(request, response);
         } catch (IOException ex) {
             action_error(request, response, ex.getMessage());
         }

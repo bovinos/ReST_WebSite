@@ -45,27 +45,27 @@
     </servlet>
     <servlet>
         <servlet-name>ListaNews</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.ListaNews</servlet-class>
+        <servlet-class>it.mam.REST.controller.front.NewsList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListaSerie</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.ListaSerie</servlet-class>
+        <servlet-class>it.mam.REST.controller.front.SeriesList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SchedaSerie</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.SchedaSerie</servlet-class>
+        <servlet-class>it.mam.REST.controller.front.SeriesCard</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CerchiaSerie</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.CerchiaSerie</servlet-class>
+        <servlet-class>it.mam.REST.controller.front.SeriesCircle</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>InserisciNews</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.InserisciNews</servlet-class>
+        <servlet-class>it.mam.REST.controller.back.InsertNews</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SalvaNews</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.SalvaNews</servlet-class>
+        <servlet-class>it.mam.REST.controller.back.SaveNews</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Login</servlet-name>
@@ -77,7 +77,7 @@
     </servlet>
     <servlet>
         <servlet-name>SalvaUtente</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.SalvaUtente</servlet-class>
+        <servlet-class>it.mam.REST.controller.front.SaveUser</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RESTBaseController</servlet-name>

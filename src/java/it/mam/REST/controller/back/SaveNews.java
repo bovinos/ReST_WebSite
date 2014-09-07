@@ -1,8 +1,8 @@
 package it.mam.REST.controller.back;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.News;
 import it.univaq.f4i.iw.framework.result.FailureResult;
-import it.univaq.f4i.iw.framework.result.TemplateResult;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author alex
  */
-public class InserisciNews extends RESTBaseController {
+public class SaveNews extends RESTBaseController {
 
     // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
@@ -22,23 +22,26 @@ public class InserisciNews extends RESTBaseController {
     }
 
     // prende tutte le news e le passa al template lista_news.ftl.html
-    private void action_news_insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void action_news_save(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("series", getDataLayer().getSeries());
-        // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
-        //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
-        result.activate("inserisci_news.ftl", request, response);
+        News news = getDataLayer().createNews();
+        // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection ecc
+        if (request.getParameter("title") != null && request.getParameter("title").length() > 0
+                && request.getParameter("text") != null && request.getParameter("text").length() > 0) {
+            news.setTitle(request.getParameter("title"));
+            news.setText(request.getParameter("text"));
+            if (request.getParameterValues("series") != null) {
+                /* e qua? xD */
+            }
+            // settare l'autore prendendolo dalla sessione
+        } else {
+            action_error(request, response, "Inserire i campi obbligatori");
+        }
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
-        try {
-            action_news_insert(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-        }
     }
 
     @Override
