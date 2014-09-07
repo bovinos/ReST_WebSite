@@ -29,7 +29,7 @@ public class SeriesCircle extends RESTBaseController {
         request.setAttribute("messages", getDataLayer().getMessages(getDataLayer().getSeries(id_series)));
         // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
         //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
-        result.activate("cerchia_serie.ftl", request, response);
+        result.activate("seriesCircle.ftl", request, response);
     }
 
     @Override

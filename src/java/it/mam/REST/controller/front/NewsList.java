@@ -26,7 +26,7 @@ public class NewsList extends RESTBaseController {
         request.setAttribute("news", getDataLayer().getNews());
         System.out.println(getDataLayer().getNews());
         request.setAttribute("sessionUsername", request.getSession().getAttribute("username"));
-        result.activate("lista_news.ftl.html", request, response);
+        result.activate("newsList.ftl.html", request, response);
     }
 
     @Override

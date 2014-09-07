@@ -25,7 +25,7 @@ public class SeriesList extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("series", getDataLayer().getSeries());
         request.setAttribute("sessionUsername", request.getSession().getAttribute("username"));
-        result.activate("lista_serie.ftl.html", request, response);
+        result.activate("seriesList.ftl.html", request, response);
     }
 
     @Override
