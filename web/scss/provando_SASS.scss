@@ -46,6 +46,10 @@ $topBarHeight: 50px;
 }
 
 
+/* ANIMAZIONI
+=============================================================================================== */
+
+
 
 /* FONT
 =============================================================================================== */
@@ -91,6 +95,10 @@ time, mark, audio, video{
     -webkit-box-sizing: border-box;
 }
 
+input:focus, select:focus{
+    outline: none;
+}
+
 html, body{
     font-family: OpenSans, Verdana, Arial, Helvetica; /* più in là inserire web font e gestire la tipografia in generale */
     font-size: 10px;
@@ -119,247 +127,9 @@ a{
 }
 
 
-/* TOPBAR
-=============================================================================================== */
-#topBarPlaceholder{
-    height: $topBarHeight;
-}
-
-#topBar{
-    z-index: 9999;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: $topBarHeight;
-    line-height: $topBarHeight;
-    background: #333333;
-    color: $skyBlue;
-    padding: 0 1%;
 
 
-    #singUpButton{
-        float: right;
-        padding: 0 15px;
-        line-height: $topBarHeight;
-        border: none;
-        font-size: 1.5rem;
-        color: white;
-        background: $turquoise;
-        cursor: pointer;
-        @include transition(background, 0.3s);
-
-        &:hover{
-            background: $orange;
-            @include transition(background, 0.3s);
-        }
-
-    }
-
-    #menu{
-        ul{
-
-            li{
-                color: #FFFFFF;
-                float: left;
-                font-size: 1.6rem;
-
-                @include transition(background, 0.3s);
-
-                a{
-                    display: inline-block;
-                    width: 100%;
-                    height: 100%;
-                    padding: 0 10px;
-                    color: #FFFFFF;
-                    @include transition(background, 0.3s);
-
-                    &:hover{
-                        background: $orange;
-                        @include transition(background, 0.3s);
-                    }
-
-                    &.active{
-                        background: $orange;
-                    }
-                }
-
-
-            }
-        }
-    }
-
-    #search{
-        float: right;
-        margin-right: 20px;
-
-        #searchSpan{
-            margin-right: 10px;
-            font-size: 2.7rem;
-            line-height: $topBarHeight;
-            color: $turquoise;
-            float: left;
-            cursor: pointer;
-            @include transition(color, 0.3s);
-
-
-            &:hover{
-                color: $orange;
-                @include transition(color, 0.3s);
-            }
-        }
-
-        #searchForm{
-            float: left;
-            display: inline-block;
-            overflow: hidden;
-            width: 0;
-            @include transition(width, 0.5s);
-
-            input{
-                background: transparent;
-                border-bottom: 1px solid $turquoise;
-                border-top: none;
-                border-left: none;
-                border-right: none;
-                color: $skyBlue;
-                font-size: 1.5rem;
-                width: 100%;
-                @include transition(border-bottom-color, 0.3s);
-
-                &:focus{
-                    border-bottom-color: $orange;
-                    @include transition(border-bottom-color, 0.3s);
-                }
-            }
-
-            &.show{
-                width: 200px;
-                @include transition(width, 0.5s);
-            }
-        }
-    }
-
-}
-
-
-/* HEADER
-=============================================================================================== */
-#outlineHeader{
-
-    #logo{
-        background: transparent url('../img/placeholder.jpg') no-repeat;
-        background-size: cover;
-        height: 300px;
-    }
-}
-
-/* FOOTER
-=============================================================================================== */
-#outlineFooter{
-    background: #333333;
-    color: $skyBlue;
-    font-size: 150%;
-    padding: 1%;
-    text-align: center;
-    line-height: 1.2;
-    margin-bottom: 0;
-
-    h1{
-        margin-bottom: 10px;
-        color: #FFFFFF;
-        font-weight: bold;
-    }
-
-    p{
-        margin-bottom: 10px;
-    }
-
-    a{
-
-
-        &:before{
-            margin-right: 10px;
-        }
-
-    }
-
-    #footerImage{
-
-
-        img{
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-    }
-
-    #social{
-
-        li{
-            margin-bottom: 10px;
-        }
-
-        #facebook{
-
-            &:hover:before{
-                color: #3B5998; /* blu di facebook */
-            }
-        }
-
-        #twitter{
-
-            &:hover:before{
-                color: #00ACED; /* azzurro di twitter */
-            }
-        }
-
-        #linkedIn{
-
-            &:hover:before{
-                color: #FFFFFF; /* bianco di linked in */
-            }
-        }
-
-        #googlePlus{
-
-            &:hover:before{
-                color: #dd4b39; /* rosso google+ */
-            }
-        }
-    }
-
-    #googlePlay{
-        display: block;
-
-        &:hover{
-
-        }
-
-
-        &:after{
-            content: ' ';
-            background: transparent url('../img/google_play.png') no-repeat center center;
-            background-size: contain;
-            height: 50px;
-            width: 50px;
-            display: block;
-            overflow: hidden;
-            margin: 10px auto;
-            opacity: 0.3;
-            @include transition(opacity, 0.3s);
-        }
-
-        &:hover:after{
-            opacity: 1;
-            @include transition(opacity, 0.3s);
-        }
-
-    }
-
-}
-
-/* NEWS PAGE
+/* SLIDER
 =============================================================================================== */
 #slider{
     margin: 60px 0 90px 0;
@@ -395,7 +165,7 @@ a{
             /* immagine 1: left: 0 ( in questo modo si visualizza l'immagine 1 ) */
             /* immagine 1: left: -100% ( in questo modo si visualizza l'immagine 2 ) */
             /* etc. */
-            &#button-1:checked~#slideshow-inner>ul { left: 0; }
+            &#button-1:checked~#slideshow-inner>ul { left: 0;}
             &#button-2:checked~#slideshow-inner>ul { left: -100%; }
             &#button-3:checked~#slideshow-inner>ul { left: -200%; }
             &#button-4:checked~#slideshow-inner>ul { left: -300%; }
@@ -473,7 +243,7 @@ a{
                 position: relative;
                 left: 0px; /* la posiziono alla prima immagine */
                 @include transition(left, 0.8s);
-
+                -webkit-animation: slide infinite alternate 60s ease;
 
                 li {
                     width: 20%; /* 20% perché la width totale era il 500%, quindi viene il 100%. ma se fosse stata del 1000% (cioè 10 immagini) qui ci andava 10%*/
@@ -513,12 +283,14 @@ a{
 }
 
 
-#leftColNews{
+
+
+/* LEFT COL
+=============================================================================================== */
+#leftCol{
 
     margin-top: 25px;
     margin-bottom: 10px;
-
-
 
     h1{
         font-family: Laila;
@@ -530,162 +302,403 @@ a{
         color: #FFFFFF;
     }
 
-    #newsFilter{
+    #searchSpanFilter{
+        font-size: 1.8rem;
+        color: $turquoise;
+    }
 
-        div{
-            margin-bottom: 50px;
-            padding-left: 10%;
+    input[type="search"]{
+        display: inline-block;
+        background: transparent;
+        border-bottom: 1px solid $turquoise;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        color: $primaryTextColor;
+        font-size: 1.5rem;
+        width: 70%;
+        @include transition(border-bottom-color, 0.3s);
+
+        &:focus{
+            border-bottom-color: $orange;
+            @include transition(border-bottom-color, 0.3s);
+        }
+    }
+
+    .selectContainer{
+        width: 80%;
+        overflow: hidden;
+        padding-left: 0;
+        position: relative;
+
+        &:after{
+            position: absolute;
+            right: 0;
+            top: 0;
+            line-height: 2; /* per piazzarla al centro verticalmente */
+            color: $turquoise;
+            border-right: 1px solid $turquoise;
+            font-family: 'ElegantIcons';
+            font-size: 1.5rem;
+            content: '\43';
+            pointer-events: none; /* per far aprire la select anche cliccando sulla freccia */
         }
 
-        input[type="search"]{
-            display: inline-block;
-            background: transparent;
-            border-bottom: 1px solid $turquoise;
-            border-top: none;
-            border-left: none;
-            border-right: none;
-            color: $primaryTextColor;
-            font-size: 1.5rem;
-            width: 70%;
-            @include transition(border-bottom-color, 0.3s);
+        select{
+            padding: 5px;
+            @include borderRadius(5px);
+            border: 1px solid $turquoise;
+            width: 120%; /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
+            cursor: pointer;
 
-            &:focus{
-                border-bottom-color: $orange;
-                @include transition(border-bottom-color, 0.3s);
+
+            option{
+
             }
         }
+    }
 
-        #searchSpanNewsFilter{
-            font-size: 1.8rem;
+    /* nascondiamo la checkbox originale */
+    input[type="checkbox"]{
+        position: absolute;
+        left: -9999px;
+
+        & + label{
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        &:checked + label:before{
+            font-family: 'ElegantIcons';
+            content: '\5a';
+            margin-right: 10px;
+            position: relative;
+            top: 5px;
+            font-size: 2.5rem;
             color: $turquoise;
         }
 
-        .selectContainer{
-            width: 80%;
-            overflow: hidden;
-            padding-left: 0;
+        &:not(:checked) + label:before{
+            font-family: 'ElegantIcons';
+            content: '\56';
+            margin-right: 10px;
             position: relative;
+            top: 5px;
+            font-size: 2.5rem;
+            color: $turquoise;
+        }
+    }
 
-            &:after{
-                position: absolute;
-                right: 0;
-                top: 0;
-                line-height: 2; /* per piazzarla al centro verticalmente */
-                color: $turquoise;
-                border-right: 1px solid $turquoise;
-                font-family: 'ElegantIcons';
-                font-size: 1.5rem;
-                content: '\43';
-                pointer-events: none; /* per far aprire la select anche cliccando sulla freccia */
-            }
+    input[type="date"]{
+        padding: 5px;
+        width: 75%;
+        @include borderRadius(5px);
+        border: 1px solid $turquoise;
+        /* DA FARE!!! */
+        /* è impossibile fare il date picker senza JS xD */
+    }
 
-            select{
-                @include borderRadius(5px);
-                border: 1px solid $turquoise;
-                width: 120%; /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
-                cursor: pointer;
+    input[type="radio"]{
 
-                option{
-                    padding: 5px;
-                }
-            }
+        position: absolute;
+        left: -9999px;
+
+        & + label{
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
         }
 
-
-        #mySeriesFilter{
-
-            /* nascondiamo la checkbox originale */
-            input[type="checkbox"]{
-                position: absolute;
-                left: -9999px;
-
-                & + label{
-                    position: relative;
-                    cursor: pointer;
-                    font-size: 1.5rem;
-                }
-
-                &:checked + label:before{
-                    font-family: 'ElegantIcons';
-                    content: '\5a';
-                    margin-right: 10px;
-                    position: relative;
-                    top: 5px;
-                    font-size: 2.5rem;
-                    color: $turquoise;
-                }
-
-                &:not(:checked) + label:before{
-                    font-family: 'ElegantIcons';
-                    content: '\56';
-                    margin-right: 10px;
-                    position: relative;
-                    top: 5px;
-                    font-size: 2.5rem;
-                    color: $turquoise;
-                }
-            }
+        &:checked + label:before{
+            font-family: 'ElegantIcons';
+            content: '\5c';
+            margin-right: 10px;
+            position: relative;
+            top: 5px;
+            font-size: 2.5rem;
+            color: $turquoise;
         }
 
-        input[type="date"]{
-            padding: 5px;
-            width: 75%;
-            @include borderRadius(5px);
-            border: 1px solid $turquoise;
-            /* DA FARE!!! */
-            /* è impossibile fare il date picker senza JS xD */
+        &:not(:checked) + label:before{
+            font-family: 'ElegantIcons';
+            content: '\5b';
+            margin-right: 10px;
+            position: relative;
+            top: 5px;
+            font-size: 2.5rem;
+            color: $turquoise;
+        }
+    }
+}
+
+
+
+
+/* TOPBAR
+=============================================================================================== */
+#topBarPlaceholder{
+    height: $topBarHeight;
+}
+
+#topBar{
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: $topBarHeight;
+    line-height: $topBarHeight;
+    background: #333333;
+    color: $skyBlue;
+    padding: 0 1%;
+
+
+    #signUpButton{
+        float: right;
+        padding: 0 15px;
+        margin: 0;
+        line-height: $topBarHeight;
+        border: none;
+        font-size: 1.5rem;
+        color: white;
+        background: $turquoise;
+        cursor: pointer;
+        @include transition(background, 0.3s);
+
+        &:hover{
+            background: $orange;
+            @include transition(background, 0.3s);
         }
 
     }
 
+    #menu{
+        ul{
+
+            li{
+                color: #FFFFFF;
+                float: left;
+                font-size: 1.6rem;
+
+                @include transition(background, 0.3s);
+
+                a{
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                    padding: 0 10px;
+                    color: #FFFFFF;
+                    @include transition(background, 0.3s);
+
+                    &:hover{
+                        background: $orange;
+                        @include transition(background, 0.3s);
+                    }
+
+                    &.active{
+                        background: $orange;
+                    }
+                }
 
 
-    /**************************** ORDINAMENTO **************************************/
-
-    #newsSorting{
-
-        div{
-            margin-bottom: 20px;
-            padding-left: 10%;
-        }
-
-        input[type="radio"]{
-
-            position: absolute;
-            left: -9999px;
-
-            & + label{
-                position: relative;
-                cursor: pointer;
-                font-size: 1.5rem;
-            }
-
-            &:checked + label:before{
-                font-family: 'ElegantIcons';
-                content: '\5c';
-                margin-right: 10px;
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
-                color: $turquoise;
-            }
-
-            &:not(:checked) + label:before{
-                font-family: 'ElegantIcons';
-                content: '\5b';
-                margin-right: 10px;
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
-                color: $turquoise;
             }
         }
     }
 
+    #search{
+        float: right;
+        margin-right: 20px;
 
+        #searchSpan{
+            float: left;
+            margin-right: 10px;
+            font-size: 2.7rem;
+            line-height: $topBarHeight;
+            color: $turquoise;
+            cursor: pointer;
+            @include transition(color, 0.3s);
+
+
+            &:hover{
+                color: $orange;
+                @include transition(color, 0.3s);
+            }
+        }
+
+        #searchForm{
+            display: inline-block;
+            overflow: hidden;
+            @include transition(width, 0.5s);
+
+            input{
+                background: transparent;
+                border-bottom: 1px solid $turquoise;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                color: $skyBlue;
+                font-size: 1.5rem;
+                width: 100%;
+                @include transition(border-bottom-color, 0.3s);
+
+                &:focus{
+                    border-bottom-color: $orange;
+                    @include transition(border-bottom-color, 0.3s);
+                }
+            }
+
+            &.show{
+                width: 200px;
+                @include transition(width, 0.5s);
+            }
+
+            &.hide{
+                width: 0;
+            }
+        }
+    }
 
 }
 
+
+/* HEADER
+=============================================================================================== */
+#outlineHeader{
+
+    #logo{
+        background: transparent url('../img/placeholder.jpg') no-repeat;
+        background-size: cover;
+        height: 300px;
+    }
+}
+
+/* BODY
+=============================================================================================== */
+
+
+/* FOOTER
+=============================================================================================== */
+#outlineFooter{
+    background: #333333;
+    color: $skyBlue;
+    font-size: 150%;
+    padding: 1%;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 0;
+
+    h1{
+        margin-bottom: 10px;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
+
+    p{
+        margin-bottom: 10px;
+    }
+
+    a{
+
+
+        &:before{
+            margin-right: 10px;
+        }
+
+    }
+
+    #footerImage{
+
+
+        img{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    }
+
+    #social{
+
+        li{
+            margin-bottom: 10px;
+        }
+
+        #facebook{
+
+            &:hover:before{
+                color: #3B5998; /* blu di facebook */
+            }
+        }
+
+        #twitter{
+
+            &:hover:before{
+                color: #00ACED; /* azzurro di twitter */
+            }
+        }
+
+        #linkedIn{
+
+            &:hover:before{
+                color: #FFFFFF; /* bianco di linked in */
+            }
+        }
+
+        #googlePlus{
+
+            &:hover:before{
+                color: #dd4b39; /* rosso google+ */
+            }
+        }
+    }
+
+    #googlePlay{
+        display: inline-block;
+
+        &:hover{
+
+        }
+
+
+        &:after{
+            content: ' ';
+            background: transparent url('../img/google_play.png') no-repeat center center;
+            background-size: contain;
+            height: 50px;
+            width: 50px;
+            display: block;
+            overflow: hidden;
+            margin: 10px auto;
+            opacity: 0.3;
+            @include transition(opacity, 0.3s);
+        }
+
+        &:hover:after{
+            opacity: 1;
+            @include transition(opacity, 0.3s);
+        }
+
+    }
+
+}
+
+/* NEWS PAGE
+=============================================================================================== */
+#newsFilter{
+
+    div{
+        margin-bottom: 50px;
+        padding-left: 10%;
+    }
+}
+
+#newsSorting{
+
+    div{
+        margin-bottom: 20px;
+        padding-left: 10%;
+    }
+}
 
 #newsList{
 
@@ -694,7 +707,6 @@ a{
         height: 100%;
         overflow: hidden;
     }
-
 
     .news{
         padding: 25px 0;
@@ -761,6 +773,106 @@ a{
     }
 
 }
+
+/* SERIES PAGE
+=============================================================================================== */
+
+#seriesFilter{
+
+    div{
+        margin-bottom: 50px;
+        padding-left: 10%;
+    }
+}
+
+#SeriesSorting{
+
+    div{
+        margin-bottom: 20px;
+        padding-left: 10%;
+    }
+}
+
+#seriesList{
+    margin-top: 25px;
+    margin-bottom: 25px;
+
+    .seriesBox{
+        margin-bottom: 30px;
+        text-align: center;
+        position: relative;
+
+        a{
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+
+            &:hover{
+
+                &  img{
+                    @include transform(scale(1.3) rotate(5deg));
+
+                }
+
+                & > .seriesDescription{
+                    max-height: 25px;
+                    @include transition(max-height, 0.5s);
+
+                    & > h1{
+                        opacity: 1;
+                        @include transition(opacity, 0.8s);
+                    }
+                }
+            }
+
+
+
+            .imgContainer{
+                display: inline-block;
+                width: 100%;
+                height: 135px;
+                overflow: hidden;
+
+                img{
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    @include transition(all, 0.5s);
+                }
+            }
+
+            .seriesDescription{
+                background-color: rgba(0, 0, 0, 0.7);
+                height: 25px;
+                line-height: 25px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                max-height: 0px;
+                @include transition(max-height, 0.5s);
+
+
+                h1{
+                    font-family: Laila;
+                    color: #FFFFFF;
+                    font-size: 1.5rem;
+                    opacity: 0;
+                    @include transition(opacity, 0.8s);
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
 

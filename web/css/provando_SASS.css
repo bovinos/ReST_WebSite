@@ -6,6 +6,8 @@
 /* altro */
 /* MIXINS
 =============================================================================================== */
+/* ANIMAZIONI
+=============================================================================================== */
 /* FONT
 =============================================================================================== */
 @font-face {
@@ -40,6 +42,9 @@ time, mark, audio, video {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box; }
 
+input:focus, select:focus {
+  outline: none; }
+
 html, body {
   font-family: OpenSans, Verdana, Arial, Helvetica;
   /* pi├╣ in l├á inserire web font e gestire la tipografia in generale */
@@ -68,176 +73,7 @@ a {
     -webkit-transition: color 0.3s ease-in-out;
     -moz-transition: color 0.3s ease-in-out; }
 
-/* TOPBAR
-=============================================================================================== */
-#topBarPlaceholder {
-  height: 50px; }
-
-#topBar {
-  z-index: 9999;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50px;
-  line-height: 50px;
-  background: #333333;
-  color: #ACF0F2;
-  padding: 0 1%; }
-  #topBar #singUpButton {
-    float: right;
-    padding: 0 15px;
-    line-height: 50px;
-    border: none;
-    font-size: 1.5rem;
-    color: white;
-    background: #1695A3;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-    -webkit-transition: background 0.3s ease-in-out;
-    -moz-transition: background 0.3s ease-in-out; }
-    #topBar #singUpButton:hover {
-      background: #EB7F00;
-      transition: background 0.3s ease-in-out;
-      -webkit-transition: background 0.3s ease-in-out;
-      -moz-transition: background 0.3s ease-in-out; }
-  #topBar #menu ul li {
-    color: #FFFFFF;
-    float: left;
-    font-size: 1.6rem;
-    transition: background 0.3s ease-in-out;
-    -webkit-transition: background 0.3s ease-in-out;
-    -moz-transition: background 0.3s ease-in-out; }
-    #topBar #menu ul li a {
-      display: inline-block;
-      width: 100%;
-      height: 100%;
-      padding: 0 10px;
-      color: #FFFFFF;
-      transition: background 0.3s ease-in-out;
-      -webkit-transition: background 0.3s ease-in-out;
-      -moz-transition: background 0.3s ease-in-out; }
-      #topBar #menu ul li a:hover {
-        background: #EB7F00;
-        transition: background 0.3s ease-in-out;
-        -webkit-transition: background 0.3s ease-in-out;
-        -moz-transition: background 0.3s ease-in-out; }
-      #topBar #menu ul li a.active {
-        background: #EB7F00; }
-  #topBar #search {
-    float: right;
-    margin-right: 20px; }
-    #topBar #search #searchSpan {
-      margin-right: 10px;
-      font-size: 2.7rem;
-      line-height: 50px;
-      color: #1695A3;
-      float: left;
-      cursor: pointer;
-      transition: color 0.3s ease-in-out;
-      -webkit-transition: color 0.3s ease-in-out;
-      -moz-transition: color 0.3s ease-in-out; }
-      #topBar #search #searchSpan:hover {
-        color: #EB7F00;
-        transition: color 0.3s ease-in-out;
-        -webkit-transition: color 0.3s ease-in-out;
-        -moz-transition: color 0.3s ease-in-out; }
-    #topBar #search #searchForm {
-      float: left;
-      display: inline-block;
-      overflow: hidden;
-      width: 0;
-      transition: width 0.5s ease-in-out;
-      -webkit-transition: width 0.5s ease-in-out;
-      -moz-transition: width 0.5s ease-in-out; }
-      #topBar #search #searchForm input {
-        background: transparent;
-        border-bottom: 1px solid #1695A3;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        color: #ACF0F2;
-        font-size: 1.5rem;
-        width: 100%;
-        transition: border-bottom-color 0.3s ease-in-out;
-        -webkit-transition: border-bottom-color 0.3s ease-in-out;
-        -moz-transition: border-bottom-color 0.3s ease-in-out; }
-        #topBar #search #searchForm input:focus {
-          border-bottom-color: #EB7F00;
-          transition: border-bottom-color 0.3s ease-in-out;
-          -webkit-transition: border-bottom-color 0.3s ease-in-out;
-          -moz-transition: border-bottom-color 0.3s ease-in-out; }
-      #topBar #search #searchForm.show {
-        width: 200px;
-        transition: width 0.5s ease-in-out;
-        -webkit-transition: width 0.5s ease-in-out;
-        -moz-transition: width 0.5s ease-in-out; }
-
-/* HEADER
-=============================================================================================== */
-#outlineHeader #logo {
-  background: transparent url("../img/placeholder.jpg") no-repeat;
-  background-size: cover;
-  height: 300px; }
-
-/* FOOTER
-=============================================================================================== */
-#outlineFooter {
-  background: #333333;
-  color: #ACF0F2;
-  font-size: 150%;
-  padding: 1%;
-  text-align: center;
-  line-height: 1.2;
-  margin-bottom: 0; }
-  #outlineFooter h1 {
-    margin-bottom: 10px;
-    color: #FFFFFF;
-    font-weight: bold; }
-  #outlineFooter p {
-    margin-bottom: 10px; }
-  #outlineFooter a:before {
-    margin-right: 10px; }
-  #outlineFooter #footerImage img {
-    width: 100%;
-    height: 100%;
-    overflow: hidden; }
-  #outlineFooter #social li {
-    margin-bottom: 10px; }
-  #outlineFooter #social #facebook:hover:before {
-    color: #3B5998;
-    /* blu di facebook */ }
-  #outlineFooter #social #twitter:hover:before {
-    color: #00ACED;
-    /* azzurro di twitter */ }
-  #outlineFooter #social #linkedIn:hover:before {
-    color: #FFFFFF;
-    /* bianco di linked in */ }
-  #outlineFooter #social #googlePlus:hover:before {
-    color: #dd4b39;
-    /* rosso google+ */ }
-  #outlineFooter #googlePlay {
-    display: block; }
-    #outlineFooter #googlePlay:after {
-      content: ' ';
-      background: transparent url("../img/google_play.png") no-repeat center center;
-      background-size: contain;
-      height: 50px;
-      width: 50px;
-      display: block;
-      overflow: hidden;
-      margin: 10px auto;
-      opacity: 0.3;
-      transition: opacity 0.3s ease-in-out;
-      -webkit-transition: opacity 0.3s ease-in-out;
-      -moz-transition: opacity 0.3s ease-in-out; }
-    #outlineFooter #googlePlay:hover:after {
-      opacity: 1;
-      transition: opacity 0.3s ease-in-out;
-      -webkit-transition: opacity 0.3s ease-in-out;
-      -moz-transition: opacity 0.3s ease-in-out; }
-
-/* NEWS PAGE
+/* SLIDER
 =============================================================================================== */
 #slider {
   margin: 60px 0 90px 0;
@@ -350,7 +186,8 @@ a {
         /* la posiziono alla prima immagine */
         transition: left 0.8s ease-in-out;
         -webkit-transition: left 0.8s ease-in-out;
-        -moz-transition: left 0.8s ease-in-out; }
+        -moz-transition: left 0.8s ease-in-out;
+        -webkit-animation: slide infinite alternate 60s ease; }
         #slider #slideshow-wrap #slideshow-inner ul li {
           width: 20%;
           /* 20% perch├® la width totale era il 500%, quindi viene il 100%. ma se fosse stata del 1000% (cio├¿ 10 immagini) qui ci andava 10%*/
@@ -382,11 +219,13 @@ a {
       #slider #slideshow-wrap label.arrows:active {
         margin-top: -23px; }
 
-#leftColNews {
+/* LEFT COL
+=============================================================================================== */
+#leftCol {
   margin-top: 25px;
   margin-bottom: 10px;
-  /**************************** ORDINAMENTO **************************************/ }
-  #leftColNews h1 {
+  /* nascondiamo la checkbox originale */ }
+  #leftCol h1 {
     font-family: Laila;
     font-size: 2.5rem;
     text-align: center;
@@ -394,10 +233,10 @@ a {
     padding: 10px 0;
     background: #1695A3;
     color: #FFFFFF; }
-  #leftColNews #newsFilter div {
-    margin-bottom: 50px;
-    padding-left: 10%; }
-  #leftColNews #newsFilter input[type="search"] {
+  #leftCol #searchSpanFilter {
+    font-size: 1.8rem;
+    color: #1695A3; }
+  #leftCol input[type="search"] {
     display: inline-block;
     background: transparent;
     border-bottom: 1px solid #1695A3;
@@ -410,20 +249,17 @@ a {
     transition: border-bottom-color 0.3s ease-in-out;
     -webkit-transition: border-bottom-color 0.3s ease-in-out;
     -moz-transition: border-bottom-color 0.3s ease-in-out; }
-    #leftColNews #newsFilter input[type="search"]:focus {
+    #leftCol input[type="search"]:focus {
       border-bottom-color: #EB7F00;
       transition: border-bottom-color 0.3s ease-in-out;
       -webkit-transition: border-bottom-color 0.3s ease-in-out;
       -moz-transition: border-bottom-color 0.3s ease-in-out; }
-  #leftColNews #newsFilter #searchSpanNewsFilter {
-    font-size: 1.8rem;
-    color: #1695A3; }
-  #leftColNews #newsFilter .selectContainer {
+  #leftCol .selectContainer {
     width: 80%;
     overflow: hidden;
     padding-left: 0;
     position: relative; }
-    #leftColNews #newsFilter .selectContainer:after {
+    #leftCol .selectContainer:after {
       position: absolute;
       right: 0;
       top: 0;
@@ -436,7 +272,8 @@ a {
       content: '\43';
       pointer-events: none;
       /* per far aprire la select anche cliccando sulla freccia */ }
-    #leftColNews #newsFilter .selectContainer select {
+    #leftCol .selectContainer select {
+      padding: 5px;
       border-radius: 5px;
       -webkit-border-radius: 5px;
       -moz-border-radius: 5px;
@@ -444,34 +281,30 @@ a {
       width: 120%;
       /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
       cursor: pointer; }
-      #leftColNews #newsFilter .selectContainer select option {
-        padding: 5px; }
-  #leftColNews #newsFilter #mySeriesFilter {
-    /* nascondiamo la checkbox originale */ }
-    #leftColNews #newsFilter #mySeriesFilter input[type="checkbox"] {
-      position: absolute;
-      left: -9999px; }
-      #leftColNews #newsFilter #mySeriesFilter input[type="checkbox"] + label {
-        position: relative;
-        cursor: pointer;
-        font-size: 1.5rem; }
-      #leftColNews #newsFilter #mySeriesFilter input[type="checkbox"]:checked + label:before {
-        font-family: 'ElegantIcons';
-        content: '\5a';
-        margin-right: 10px;
-        position: relative;
-        top: 5px;
-        font-size: 2.5rem;
-        color: #1695A3; }
-      #leftColNews #newsFilter #mySeriesFilter input[type="checkbox"]:not(:checked) + label:before {
-        font-family: 'ElegantIcons';
-        content: '\56';
-        margin-right: 10px;
-        position: relative;
-        top: 5px;
-        font-size: 2.5rem;
-        color: #1695A3; }
-  #leftColNews #newsFilter input[type="date"] {
+  #leftCol input[type="checkbox"] {
+    position: absolute;
+    left: -9999px; }
+    #leftCol input[type="checkbox"] + label {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.5rem; }
+    #leftCol input[type="checkbox"]:checked + label:before {
+      font-family: 'ElegantIcons';
+      content: '\5a';
+      margin-right: 10px;
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
+    #leftCol input[type="checkbox"]:not(:checked) + label:before {
+      font-family: 'ElegantIcons';
+      content: '\56';
+      margin-right: 10px;
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
+  #leftCol input[type="date"] {
     padding: 5px;
     width: 75%;
     border-radius: 5px;
@@ -480,17 +313,14 @@ a {
     border: 1px solid #1695A3;
     /* DA FARE!!! */
     /* ├¿ impossibile fare il date picker senza JS xD */ }
-  #leftColNews #newsSorting div {
-    margin-bottom: 20px;
-    padding-left: 10%; }
-  #leftColNews #newsSorting input[type="radio"] {
+  #leftCol input[type="radio"] {
     position: absolute;
     left: -9999px; }
-    #leftColNews #newsSorting input[type="radio"] + label {
+    #leftCol input[type="radio"] + label {
       position: relative;
       cursor: pointer;
       font-size: 1.5rem; }
-    #leftColNews #newsSorting input[type="radio"]:checked + label:before {
+    #leftCol input[type="radio"]:checked + label:before {
       font-family: 'ElegantIcons';
       content: '\5c';
       margin-right: 10px;
@@ -498,7 +328,7 @@ a {
       top: 5px;
       font-size: 2.5rem;
       color: #1695A3; }
-    #leftColNews #newsSorting input[type="radio"]:not(:checked) + label:before {
+    #leftCol input[type="radio"]:not(:checked) + label:before {
       font-family: 'ElegantIcons';
       content: '\5b';
       margin-right: 10px;
@@ -506,6 +336,188 @@ a {
       top: 5px;
       font-size: 2.5rem;
       color: #1695A3; }
+
+/* TOPBAR
+=============================================================================================== */
+#topBarPlaceholder {
+  height: 50px; }
+
+#topBar {
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  line-height: 50px;
+  background: #333333;
+  color: #ACF0F2;
+  padding: 0 1%; }
+  #topBar #signUpButton {
+    float: right;
+    padding: 0 15px;
+    margin: 0;
+    line-height: 50px;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    background: #1695A3;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    -webkit-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out; }
+    #topBar #signUpButton:hover {
+      background: #EB7F00;
+      transition: background 0.3s ease-in-out;
+      -webkit-transition: background 0.3s ease-in-out;
+      -moz-transition: background 0.3s ease-in-out; }
+  #topBar #menu ul li {
+    color: #FFFFFF;
+    float: left;
+    font-size: 1.6rem;
+    transition: background 0.3s ease-in-out;
+    -webkit-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out; }
+    #topBar #menu ul li a {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      padding: 0 10px;
+      color: #FFFFFF;
+      transition: background 0.3s ease-in-out;
+      -webkit-transition: background 0.3s ease-in-out;
+      -moz-transition: background 0.3s ease-in-out; }
+      #topBar #menu ul li a:hover {
+        background: #EB7F00;
+        transition: background 0.3s ease-in-out;
+        -webkit-transition: background 0.3s ease-in-out;
+        -moz-transition: background 0.3s ease-in-out; }
+      #topBar #menu ul li a.active {
+        background: #EB7F00; }
+  #topBar #search {
+    float: right;
+    margin-right: 20px; }
+    #topBar #search #searchSpan {
+      float: left;
+      margin-right: 10px;
+      font-size: 2.7rem;
+      line-height: 50px;
+      color: #1695A3;
+      cursor: pointer;
+      transition: color 0.3s ease-in-out;
+      -webkit-transition: color 0.3s ease-in-out;
+      -moz-transition: color 0.3s ease-in-out; }
+      #topBar #search #searchSpan:hover {
+        color: #EB7F00;
+        transition: color 0.3s ease-in-out;
+        -webkit-transition: color 0.3s ease-in-out;
+        -moz-transition: color 0.3s ease-in-out; }
+    #topBar #search #searchForm {
+      display: inline-block;
+      overflow: hidden;
+      transition: width 0.5s ease-in-out;
+      -webkit-transition: width 0.5s ease-in-out;
+      -moz-transition: width 0.5s ease-in-out; }
+      #topBar #search #searchForm input {
+        background: transparent;
+        border-bottom: 1px solid #1695A3;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        color: #ACF0F2;
+        font-size: 1.5rem;
+        width: 100%;
+        transition: border-bottom-color 0.3s ease-in-out;
+        -webkit-transition: border-bottom-color 0.3s ease-in-out;
+        -moz-transition: border-bottom-color 0.3s ease-in-out; }
+        #topBar #search #searchForm input:focus {
+          border-bottom-color: #EB7F00;
+          transition: border-bottom-color 0.3s ease-in-out;
+          -webkit-transition: border-bottom-color 0.3s ease-in-out;
+          -moz-transition: border-bottom-color 0.3s ease-in-out; }
+      #topBar #search #searchForm.show {
+        width: 200px;
+        transition: width 0.5s ease-in-out;
+        -webkit-transition: width 0.5s ease-in-out;
+        -moz-transition: width 0.5s ease-in-out; }
+      #topBar #search #searchForm.hide {
+        width: 0; }
+
+/* HEADER
+=============================================================================================== */
+#outlineHeader #logo {
+  background: transparent url("../img/placeholder.jpg") no-repeat;
+  background-size: cover;
+  height: 300px; }
+
+/* BODY
+=============================================================================================== */
+/* FOOTER
+=============================================================================================== */
+#outlineFooter {
+  background: #333333;
+  color: #ACF0F2;
+  font-size: 150%;
+  padding: 1%;
+  text-align: center;
+  line-height: 1.2;
+  margin-bottom: 0; }
+  #outlineFooter h1 {
+    margin-bottom: 10px;
+    color: #FFFFFF;
+    font-weight: bold; }
+  #outlineFooter p {
+    margin-bottom: 10px; }
+  #outlineFooter a:before {
+    margin-right: 10px; }
+  #outlineFooter #footerImage img {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; }
+  #outlineFooter #social li {
+    margin-bottom: 10px; }
+  #outlineFooter #social #facebook:hover:before {
+    color: #3B5998;
+    /* blu di facebook */ }
+  #outlineFooter #social #twitter:hover:before {
+    color: #00ACED;
+    /* azzurro di twitter */ }
+  #outlineFooter #social #linkedIn:hover:before {
+    color: #FFFFFF;
+    /* bianco di linked in */ }
+  #outlineFooter #social #googlePlus:hover:before {
+    color: #dd4b39;
+    /* rosso google+ */ }
+  #outlineFooter #googlePlay {
+    display: inline-block; }
+    #outlineFooter #googlePlay:after {
+      content: ' ';
+      background: transparent url("../img/google_play.png") no-repeat center center;
+      background-size: contain;
+      height: 50px;
+      width: 50px;
+      display: block;
+      overflow: hidden;
+      margin: 10px auto;
+      opacity: 0.3;
+      transition: opacity 0.3s ease-in-out;
+      -webkit-transition: opacity 0.3s ease-in-out;
+      -moz-transition: opacity 0.3s ease-in-out; }
+    #outlineFooter #googlePlay:hover:after {
+      opacity: 1;
+      transition: opacity 0.3s ease-in-out;
+      -webkit-transition: opacity 0.3s ease-in-out;
+      -moz-transition: opacity 0.3s ease-in-out; }
+
+/* NEWS PAGE
+=============================================================================================== */
+#newsFilter div {
+  margin-bottom: 50px;
+  padding-left: 10%; }
+
+#newsSorting div {
+  margin-bottom: 20px;
+  padding-left: 10%; }
 
 #newsList img {
   width: 100%;
@@ -544,5 +556,73 @@ a {
         margin-right: 3px; }
     #newsList .footer .right .dislike:before {
       margin-right: 3px; }
+
+/* SERIES PAGE
+=============================================================================================== */
+#seriesFilter div {
+  margin-bottom: 50px;
+  padding-left: 10%; }
+
+#SeriesSorting div {
+  margin-bottom: 20px;
+  padding-left: 10%; }
+
+#seriesList {
+  margin-top: 25px;
+  margin-bottom: 25px; }
+  #seriesList .seriesBox {
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative; }
+    #seriesList .seriesBox a {
+      display: inline-block;
+      width: 100%;
+      height: 100%; }
+      #seriesList .seriesBox a:hover img {
+        -webkit-transform: scale(1.3) rotate(5deg);
+        -moz-transform: scale(1.3) rotate(5deg);
+        transform: scale(1.3) rotate(5deg); }
+      #seriesList .seriesBox a:hover > .seriesDescription {
+        max-height: 25px;
+        transition: max-height 0.5s ease-in-out;
+        -webkit-transition: max-height 0.5s ease-in-out;
+        -moz-transition: max-height 0.5s ease-in-out; }
+        #seriesList .seriesBox a:hover > .seriesDescription > h1 {
+          opacity: 1;
+          transition: opacity 0.8s ease-in-out;
+          -webkit-transition: opacity 0.8s ease-in-out;
+          -moz-transition: opacity 0.8s ease-in-out; }
+      #seriesList .seriesBox a .imgContainer {
+        display: inline-block;
+        width: 100%;
+        height: 135px;
+        overflow: hidden; }
+        #seriesList .seriesBox a .imgContainer img {
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          transition: all 0.5s ease-in-out;
+          -webkit-transition: all 0.5s ease-in-out;
+          -moz-transition: all 0.5s ease-in-out; }
+      #seriesList .seriesBox a .seriesDescription {
+        background-color: rgba(0, 0, 0, 0.7);
+        height: 25px;
+        line-height: 25px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-height: 0px;
+        transition: max-height 0.5s ease-in-out;
+        -webkit-transition: max-height 0.5s ease-in-out;
+        -moz-transition: max-height 0.5s ease-in-out; }
+        #seriesList .seriesBox a .seriesDescription h1 {
+          font-family: Laila;
+          color: #FFFFFF;
+          font-size: 1.5rem;
+          opacity: 0;
+          transition: opacity 0.8s ease-in-out;
+          -webkit-transition: opacity 0.8s ease-in-out;
+          -moz-transition: opacity 0.8s ease-in-out; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

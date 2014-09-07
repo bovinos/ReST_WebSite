@@ -22,10 +22,13 @@ Element.prototype.toggleClass = function(c) {
     } else {
         this.addClass(c);
     }
-}
+};
 
 var searchSpan = document.querySelector("#searchSpan");
 var searchForm = document.querySelector("#searchForm");
+searchForm.addClass("hide");
 searchSpan.addEventListener("click", function(e) {
+    searchForm.toggleClass("hide");
     searchForm.toggleClass("show");
+
 });

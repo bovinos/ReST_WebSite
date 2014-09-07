@@ -1,0 +1,95 @@
+
+<!-- SERIE TV 
+============================================================================================== -->
+<h1>${series.name}</h1>
+
+<div class="imgContainer">
+    <img src="${series.imageURL}" alt="Immagine ${series.name}"/>
+    <div id="seriesRate">
+        <!-- QUI È UNA COSA CONDIZIONALE -.-" -->
+    </div>
+</div>
+
+<div id="buttons">
+    <a>Aggiungi questa serie tra le preferite</a>
+    <!-- <a>Rimuovi questa serie dalle preferite</a> -->
+    <a>Vai alle news della serie</a>
+    <a>Cerca serie simili</a>
+</div>
+
+<h2>Trama</h2>
+
+<p>${series.description}</p>
+
+<!-- Controllo se esistono stagioni per questa serie -->
+<#if (seasons?size > 0)>
+<div id="seasonList">
+    <!-- se esistono stampiamole tutte -->
+    <#list seasons as s>
+    <!-- Controllo se esistono episodi per questa stagione -->
+    <#if (s.episodes?size > 0)>
+    <div class="season">
+        <!-- se esistono stampiamoli tutti -->
+        <#list s.episodes as e>
+        <div class="episode">
+            <h4>${e.number}: ${e.title}</h4>
+            <p>${e.description}</p>
+        </div>
+        </#list>
+    </div>
+    <#else>
+    <!-- altrimenti diciamo che la stagione non ha episodi -->
+    <div>
+        <p>Purtroppo questa stagione non ha ancora episodi.</p>
+    </div>
+    </#if>
+    </#list>
+</div>
+<#else>
+<!-- altrimenti diciamo che la serie non ha episodi -->
+<div>
+    <p>Purtroppo questa serie TV non ha ancora episodi.</p>
+</div>
+</#if> <!-- FINE STAMPA DELLE STAGIONI -->
+
+<!-- COMMENTI 
+============================================================================================== -->
+<!-- Controllo se esistono Commenti per questa serie -->
+<#if (series.comments?size > 0)>
+<div id="commentsList">
+    <!-- se esistono stampiamoli tutti -->
+    <#list series.comments as c>
+    <div class="comment row">
+        <div class="imgContainer two columns">
+            <img src="${c.user.imageURL}" alt="User avatar"/>
+        </div>
+        <div class="notImgContainer fourteen columns">
+            <div class="header">
+                <h1>${c.title}</h1>
+            </div>
+            <div class="body">
+                <p>${c.text}</p>
+            </div>
+            <div class="footer">
+                <div class="left">
+                    <p>${c.user.username}, ${c.date}</p>
+                </div>
+                <div class="right">
+                    <p>
+                        <span class="like" data-icon="&#xe0dd;">${c.likes}</span>
+                        <span class="dislike" data-icon="&#xe0f1;">${c.dislikes}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>    
+    </#list>
+    <#else>
+    <!-- altrimenti diciamo che la serie non ha commenti -->
+    <div>
+        <p>Purtroppo questa serie TV non ha ancora commenti.</p>
+    </div>
+    </#if> <!-- FINE STAMPA DEI COMMENTI -->
+
+
+

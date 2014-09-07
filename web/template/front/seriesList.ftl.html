@@ -32,91 +32,97 @@
 
 <!-- COLONNA SINISTRA
 ============================================================================================= -->
-<div id="leftColNews" class="four columns alpha">
+<div id="leftCol" class="four columns alpha">
     <!-- Filtri -->
-    <div id="newsFilter">
+    <div id="seriesFilter">
         <h1>Filtra per</h1>
-        <form id="newsFilterForm">
+        <form id="seriesFilterForm">
             <div>
-                <span id="searchSpanNewsFilter" data-icon="&#x55;"></span> <input type="search" />
+                <span id="searchSpanFilter" data-icon="&#x55;"></span> <input type="search" />
             </div>
             <div>
                 <div class="selectContainer">
                     <select>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
+                        <option>Genere 1</option>
+                        <option>Genere 1</option>
+                        <option>Genere 1</option>
+                        <option>Genere 1</option>
+                        <option>Genere 1</option>
+                        <option>Genere 1</option>
+                        <option>Genere 1</option>
                     </select>
                 </div>
             </div>
             <div>
-                <span id="mySeriesFilter">
-                    <input type="checkbox" name="mySeriesFilter" id="mySeriesFilterCheckbox" value="true" />
-                    <label for="mySeriesFilterCheckbox">Solo news relative alle mie serie</label>
-                </span>
+                <div class="selectContainer">
+                    <select>
+                        <option>Canale 1</option>
+                        <option>Canale 1</option>
+                        <option>Canale 1</option>
+                        <option>Canale 1</option>
+                        <option>Canale 1</option>
+                        <option>Canale 1</option>
+                    </select>
+                </div>
             </div>
             <div>
-                <input type="date"/>
+                <input type="radio" name="filterOption" id="filterOnGoingSeriesRadio">
+                <label for="filterOnGoingSeriesRadio">In corso</label>
+            </div>
+            <div>
+                <input type="radio" name="filterOption" id="filterCompleteSeriesRadio">
+                <label for="filterCompleteSeriesRadio">Completa</label>
             </div>
         </form>
     </div><!-- FINE filtri -->
     <!-- Ordinamenti -->
-    <div id="newsSorting">
+    <div id="SeriesSorting">
         <h1>Ordina per</h1>
         <div>
-            <div>
-                <input type="radio" name="sortOption" id="sortForCommentsRadio">
-                <label for="sortForCommentsRadio">Pi&ugrave; commentate</label>
-            </div>
-            <div>
-                <input type="radio" name="sortOption" id="sortForLikeRadio">
-                <label for="sortForLikeRadio">Numero di Like</label>
-            </div>
+            <input type="radio" name="sortOption" id="sortForPopularityRadio">
+            <label for="sortForPopularityRadio">Popolarit&agrave;</label>
+        </div>
+        <div>
+            <input type="radio" name="sortOption" id="sortForGenreRadio">
+            <label for="sortForGenreRadio">Genere</label>
+        </div>
+        <div>
+            <input type="radio" name="sortOption" id="sortForRateRadio">
+            <label for="sortForRateRadio">Valutazione</label>
+        </div>
+        <div>
+            <input type="radio" name="sortOption" id="sortForYearRadio">
+            <label for="sortForYearRadio">Anno</label>
+        </div>
+        <div>
+            <input type="radio" name="sortOption" id="sortForNameRadio">
+            <label for="sortForNameRadio">Nome</label>
         </div>
     </div>
 </div>
 
-<!-- LISTA NEWS
+<!-- LISTA SERIE
 ============================================================================================= -->
 <!-- controlliamo se esistono liste -->
-<#if (news?size > 0)>
-<!-- se esistono stampiamole tutte -->
-<div id="newsList" class="twelve columns">
-    <#list news as n>
-    <div class="news row">
-        <div class="imgContainer two columns">
-            <img src="${n.imageURL}" alt="News image"/>
-        </div>
-        <div class="notImgContainer fourteen columns">
-            <div class="header">
-                <h1>${n.title}</h1>
+<#if (series?size > 0)>
+<div id="seriesList" class="twelve columns omega">
+    <!-- se esistono stampiamole tutte -->
+    <#list series as s>
+    <div class="seriesBox four columns">
+        <a href="SchedaSerie?id=${s.ID}">
+            <div class="imgContainer">
+                <img src="${s.imageURL}" alt="immagine ${s.name}"/>
             </div>
-            <div class="body">
-                <p>${n.text}</p>
+            <div class="seriesDescription">
+                <h1>${s.name}</h1>
             </div>
-            <div class="footer">
-                <div class="left">
-                    <p>${n.user.username}, ${n.date}</p>
-                </div>
-                <div class="right">
-                    <p>
-                        <span class="like" data-icon="&#xe0dd;">${n.likes}</span>
-                        <span class="dislike" data-icon="&#xe0f1;">${n.dislikes}</span>
-                    </p>
-                </div>
-            </div>
-        </div>
+        </a>
     </div>
     </#list>
 </div>
 <#else>
 <!-- altrimenti diciamo che non sono ancora presenti news -->
 <div>
-    <p>Purtroppo non sono ancora presenti delle news.</p>
+    <p>Purtroppo non sono ancora state aggiunte Serie TV.</p>
 </div>
 </#if>
-

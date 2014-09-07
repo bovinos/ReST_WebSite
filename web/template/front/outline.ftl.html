@@ -5,7 +5,7 @@
     <head>
         <title>REST</title>
         <link rel="stylesheet" href="css/reset.css" type="text/css"/>
-        <link rel="stylesheet" href="css/gird.css" type="text/css"/>
+        <link rel="stylesheet" href="css/grid.css" type="text/css"/>
         <link rel="stylesheet" href="lib/ElegantFonts/ElegantFonts.css" type="text/css"/>
         <link rel="stylesheet" href="css/provando_SASS.css" type="text/css"/>
     </head>
@@ -20,12 +20,12 @@
                 <#if (sessionUsername??)>
                 <p>Welcome, ${sessionUsername}</p>
                 <#else>
-                <button href="#" id="singUpButton" >Sign up</button>
+                <button href="#" id="signUpButton" >Sign up</button>
                 </#if>
 
                 <nav id="menu">
                     <ul>
-                        <li><a href="ListaNews" class="active">News</a></li>
+                        <li><a href="ListaNews">News</a></li>
                         <li><a href="ListaSerie">Serie TV</a></li>
                     </ul>
                 </nav>
@@ -45,10 +45,10 @@
 
             <div id="outlineBody" class="row ">
 
-                <div id="content" class="container" >
-                    <!-- Sarà diverso a seconda della pagina in cui siamo -->
-                    <#include content_tpl>
-                </div><!-- FINE contenuto -->
+
+                <!-- Sarà diverso a seconda della pagina in cui siamo -->
+                <#include content_tpl>
+
             </div><!-- FINE body -->
 
 
