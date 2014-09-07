@@ -37,13 +37,13 @@ public class SeriesCard extends RESTBaseController {
         Season sn = new Season();
       for(Episode e : episodeList){
       if (sn.getNumber() != e.getSeason()){
-      sn = new Season(e.getSeason(), new ArrayList());
+                sn = new Season(e.getSeason(), new ArrayList());
        sn.getEpisodeList().add(e);
-       seasonList.add(sn);
+                seasonList.add(sn);
         } else {
             seasonList.get(e.getSeason()).getEpisodeList().add(e);
             }
-    }
+        }
         request.setAttribute("seasons", seasonList);
         // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
         //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
