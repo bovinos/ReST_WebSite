@@ -36,35 +36,27 @@
         <listener-class>it.mam.REST.listener.ContextInitializer</listener-class>
     </listener>
     <servlet>
-        <servlet-name>RESTBaseController</servlet-name>
-        <servlet-class>it.mam.REST.controller.RESTBaseController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>CreaNews</servlet-name>
-        <servlet-class>it.mam.REST.controller.CreaNews</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ListaNews</servlet-name>
+        <servlet-name>NewsList</servlet-name>
         <servlet-class>it.mam.REST.controller.front.NewsList</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ListaSerie</servlet-name>
+        <servlet-name>SeriesList</servlet-name>
         <servlet-class>it.mam.REST.controller.front.SeriesList</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SchedaSerie</servlet-name>
+        <servlet-name>SeriesCard</servlet-name>
         <servlet-class>it.mam.REST.controller.front.SeriesCard</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CerchiaSerie</servlet-name>
+        <servlet-name>SeriesCircle</servlet-name>
         <servlet-class>it.mam.REST.controller.front.SeriesCircle</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InserisciNews</servlet-name>
+        <servlet-name>InsertNews</servlet-name>
         <servlet-class>it.mam.REST.controller.back.InsertNews</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SalvaNews</servlet-name>
+        <servlet-name>SaveNews</servlet-name>
         <servlet-class>it.mam.REST.controller.back.SaveNews</servlet-class>
     </servlet>
     <servlet>
@@ -72,11 +64,7 @@
         <servlet-class>it.mam.REST.controller.front.Login</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Registrazione</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.Registrazione</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SalvaUtente</servlet-name>
+        <servlet-name>SaveUser</servlet-name>
         <servlet-class>it.mam.REST.controller.front.SaveUser</servlet-class>
     </servlet>
     <servlet>
@@ -88,39 +76,31 @@
         <servlet-class>it.mam.REST.controller.back.SaveSeries</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SchedaNews</servlet-name>
+        <servlet-name>NewsCard</servlet-name>
         <servlet-class>it.mam.REST.controller.front.NewsCard</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>RESTBaseController</servlet-name>
-        <url-pattern>/RESTBaseController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CreaNews</servlet-name>
-        <url-pattern>/CreaNews</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ListaNews</servlet-name>
+        <servlet-name>NewsList</servlet-name>
         <url-pattern>/ListaNews</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ListaSerie</servlet-name>
+        <servlet-name>SeriesList</servlet-name>
         <url-pattern>/ListaSerie</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SchedaSerie</servlet-name>
+        <servlet-name>SeriesCard</servlet-name>
         <url-pattern>/SchedaSerie</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CerchiaSerie</servlet-name>
+        <servlet-name>SeriesCircle</servlet-name>
         <url-pattern>/CerchiaSerie</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InserisciNews</servlet-name>
+        <servlet-name>InsertNews</servlet-name>
         <url-pattern>/InserisciNews</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SalvaNews</servlet-name>
+        <servlet-name>SaveNews</servlet-name>
         <url-pattern>/SalvaNews</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -128,16 +108,8 @@
         <url-pattern>/Login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Registrazione</servlet-name>
-        <url-pattern>/Registrazione</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SalvaUtente</servlet-name>
+        <servlet-name>SaveUser</servlet-name>
         <url-pattern>/SalvaUtente</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SchedaNews</servlet-name>
-        <url-pattern>/NewsCard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>InsertSeries</servlet-name>
@@ -146,6 +118,10 @@
     <servlet-mapping>
         <servlet-name>SaveSeries</servlet-name>
         <url-pattern>/SalvaSerie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewsCard</servlet-name>
+        <url-pattern>/SchedaNews</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
