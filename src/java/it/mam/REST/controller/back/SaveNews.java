@@ -27,7 +27,7 @@ public class SaveNews extends RESTBaseController {
         fail.activate(message, request, response);
     }
 
-    // prende tutte le news e le passa al template lista_news.ftl.html
+    // controlla l'inserimento corretto di tutti i dati di una news e la salva sul DB
     private void action_news_save(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         News news = getDataLayer().createNews();
