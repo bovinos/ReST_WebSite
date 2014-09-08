@@ -145,7 +145,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewsCard</servlet-name>
-        <url-pattern>/NewsCard</url-pattern>
+        <url-pattern>/SchedaNews</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

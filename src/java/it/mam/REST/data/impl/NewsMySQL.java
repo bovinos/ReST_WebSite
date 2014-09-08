@@ -147,7 +147,7 @@ public class NewsMySQL implements News {
     }
 
     @Override
-    public User getAuthor() {
+    public User getUser() {
         if (user == null && userID > 0) {
             user = dataLayer.getUser(userID);
         }
@@ -157,7 +157,7 @@ public class NewsMySQL implements News {
 
     @Override
     // gestire il fatto che l'utente deve essere un admin per poter postare news
-    public void setAuthor(User user) {
+    public void setUser(User user) {
         this.user = user;
         userID = user.getID();
         dirty = true;
@@ -256,8 +256,8 @@ public class NewsMySQL implements News {
         text = news.getText();
         title = news.getTitle();
 
-        if (news.getAuthor() != null) {
-            userID = news.getAuthor().getID();
+        if (news.getUser() != null) {
+            userID = news.getUser().getID();
         }
 
         comments = null;

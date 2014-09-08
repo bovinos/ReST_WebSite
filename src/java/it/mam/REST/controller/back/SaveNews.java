@@ -53,7 +53,7 @@ public class SaveNews extends RESTBaseController {
             //Mi prendo la sessione dell'utente che ha fatto la richiesta e se esiste, mi prendo l'utente, altrimenti errore.
             HttpSession session = request.getSession(false);
             if(session != null){
-                news.setAuthor((User)session.getAttribute("Author"));
+                news.setUser((User)session.getAttribute("Author"));
             } else {
                 action_error(request, response, "Invalid Session - Please login!");
                 response.sendRedirect("Login");

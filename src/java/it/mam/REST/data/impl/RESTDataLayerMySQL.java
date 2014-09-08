@@ -1663,8 +1663,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 iNews.setString(4, news.getImageURL());
                 iNews.setInt(5, news.getLikes());
                 iNews.setInt(6, news.getDislikes());
-                if (news.getAuthor() != null) {
-                    iNews.setInt(7, news.getAuthor().getID());
+                if (news.getUser() != null) {
+                    iNews.setInt(7, news.getUser().getID());
                 } else {
                     iNews.setInt(7, 0);
                 }
@@ -1676,8 +1676,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 iNews.setString(4, news.getImageURL());
                 iNews.setInt(5, news.getLikes());
                 iNews.setInt(6, news.getDislikes());
-                if (news.getAuthor() != null) {
-                    iNews.setInt(7, news.getAuthor().getID());
+                if (news.getUser() != null) {
+                    iNews.setInt(7, news.getUser().getID());
                 } else {
                     iNews.setInt(7, 0);
                 }
