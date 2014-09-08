@@ -124,9 +124,7 @@
         <url-pattern>/SchedaNews</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
     <!-- Qui inseriamo il riferimento alla risorsa (vedi il tag <Resource> in context.xml in "META-INF")  -->
     <welcome-file-list>

@@ -815,6 +815,7 @@ a{
 
     .footer{
         font-size: 1.2rem;
+        overflow: hidden;
         color: $secondaryTextColor;
 
         .left{
@@ -938,7 +939,7 @@ a{
 =============================================================================================== */
 #seriesCard{
     position: relative;
-    top: -10px; /* perché solo in questa pagina vogliamo che non ci sia il margine tra logo e contenuto */
+    top: -10px; /* perché vogliamo che non ci sia il margine tra logo e contenuto */
     margin-bottom: 30px;
 
     h2{
@@ -1076,6 +1077,7 @@ a{
 
     .footer{
         font-size: 1.2rem;
+        overflow: hidden;
         color: $secondaryTextColor;
 
         .left{
@@ -1103,6 +1105,75 @@ a{
     }
 }
 
+/* NEWS CARD PAGE
+=============================================================================================== */
+#newsCard{
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    h1{
+        text-align: center;
+        font-family: Laila;
+        color: $turquoise;
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+
+    .imgContainer{
+        width: 100%;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 40px;
+
+        img{
+            max-width: 100%;
+            height: auto;
+        }
+    }
+
+    #newsText{
+        margin: 0 3% 10px 3%;
+        text-align: center;
+        font-size: 1.5rem;
+        line-height: 1.3;
+        color: $primaryTextColor;
+    }
+
+    .footer{
+        margin: 0 3% 30px 3%;
+        font-size: 1.2rem;
+        overflow: hidden;
+        color: $secondaryTextColor;
+
+        .left{
+            float: left;
+        }
+
+        .right{
+            float: right;
+
+            .authorAndDate{
+                margin-bottom: 5px;
+            }
+
+            .like{
+                margin-right: 10px;
+
+                &:before{
+                    margin-right: 3px;
+                }
+            }
+
+            .dislike{
+
+                &:before{
+                    margin-right: 3px;
+                }
+            }
+        }
+    }
+}
 
 
 

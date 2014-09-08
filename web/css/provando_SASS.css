@@ -593,6 +593,7 @@ a {
   margin-bottom: 10px; }
 #newsList .footer {
   font-size: 1.2rem;
+  overflow: hidden;
   color: #999999; }
   #newsList .footer .left {
     float: left; }
@@ -678,7 +679,7 @@ a {
 #seriesCard {
   position: relative;
   top: -10px;
-  /* perch├® solo in questa pagina vogliamo che non ci sia il margine tra logo e contenuto */
+  /* perch├® vogliamo che non ci sia il margine tra logo e contenuto */
   margin-bottom: 30px; }
   #seriesCard h2 {
     text-align: center;
@@ -773,6 +774,7 @@ a {
   margin-bottom: 10px; }
 #commentsList .footer {
   font-size: 1.2rem;
+  overflow: hidden;
   color: #999999; }
   #commentsList .footer .left {
     float: left; }
@@ -784,5 +786,49 @@ a {
         margin-right: 3px; }
     #commentsList .footer .right .dislike:before {
       margin-right: 3px; }
+
+/* NEWS CARD PAGE
+=============================================================================================== */
+#newsCard {
+  margin-top: 30px;
+  margin-bottom: 30px; }
+  #newsCard h1 {
+    text-align: center;
+    font-family: Laila;
+    color: #1695A3;
+    font-size: 4rem;
+    margin-bottom: 20px; }
+  #newsCard .imgContainer {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 40px; }
+    #newsCard .imgContainer img {
+      max-width: 100%;
+      height: auto; }
+  #newsCard #newsText {
+    margin: 0 3% 10px 3%;
+    text-align: center;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    color: #444444; }
+  #newsCard .footer {
+    margin: 0 3% 30px 3%;
+    font-size: 1.2rem;
+    overflow: hidden;
+    color: #999999; }
+    #newsCard .footer .left {
+      float: left; }
+    #newsCard .footer .right {
+      float: right; }
+      #newsCard .footer .right .authorAndDate {
+        margin-bottom: 5px; }
+      #newsCard .footer .right .like {
+        margin-right: 10px; }
+        #newsCard .footer .right .like:before {
+          margin-right: 3px; }
+      #newsCard .footer .right .dislike:before {
+        margin-right: 3px; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

@@ -82,27 +82,13 @@
                 <div class="left">
                     <p>${c.user.username}, ${c.date ?datetime} </p>
                 </div>
-                <div class="body">
-                    <p>${c.text}</p>
-                </div>
-                <div class="footer">
-                    <div class="left">
-                        <p>${c.user.username}, ${c.date}</p>
-                    </div>
-                    <div class="right">
-                        <p>
-                            <span class="like" data-icon="&#xe0dd;">${c.likes}</span>
-                            <span class="dislike" data-icon="&#xe0f1;">${c.dislikes}</span>
-                        </p>
-                    </div>
+                <div class="right">
+                    <p>
+                        <span class="like" data-icon="&#xe0dd;">${c.likes}</span>
+                        <span class="dislike" data-icon="&#xe0f1;">${c.dislikes}</span>
+                    </p>
                 </div>
             </div>
-        </div>    
-        </#list>
-        <#else>
-        <!-- altrimenti diciamo che la serie non ha commenti -->
-        <div>
-            <p>Purtroppo questa serie TV non ha ancora commenti.</p>
         </div>
     </div>    
     </#list>
@@ -112,5 +98,6 @@
 <div>
     <p>Purtroppo questa serie TV non ha ancora commenti.</p>
 </div>
+
 </#if> <!-- FINE STAMPA DEI COMMENTI -->
 
