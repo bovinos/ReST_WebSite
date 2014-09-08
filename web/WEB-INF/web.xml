@@ -36,10 +36,6 @@
         <listener-class>it.mam.REST.listener.ContextInitializer</listener-class>
     </listener>
     <servlet>
-        <servlet-name>RESTBaseController</servlet-name>
-        <servlet-class>it.mam.REST.controller.RESTBaseController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>CreaNews</servlet-name>
         <servlet-class>it.mam.REST.controller.CreaNews</servlet-class>
     </servlet>
@@ -88,13 +84,9 @@
         <servlet-class>it.mam.REST.controller.back.SaveSeries</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SchedaNews</servlet-name>
+        <servlet-name>NewsCard</servlet-name>
         <servlet-class>it.mam.REST.controller.front.NewsCard</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>RESTBaseController</servlet-name>
-        <url-pattern>/RESTBaseController</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CreaNews</servlet-name>
         <url-pattern>/CreaNews</url-pattern>
@@ -136,10 +128,6 @@
         <url-pattern>/SalvaUtente</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SchedaNews</servlet-name>
-        <url-pattern>/NewsCard</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>InsertSeries</servlet-name>
         <url-pattern>/InserisciSerie</url-pattern>
     </servlet-mapping>
@@ -147,10 +135,12 @@
         <servlet-name>SaveSeries</servlet-name>
         <url-pattern>/SalvaSerie</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewsCard</servlet-name>
+        <url-pattern>/SchedaNews</url-pattern>
+    </servlet-mapping>
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
     <!-- Qui inseriamo il riferimento alla risorsa (vedi il tag <Resource> in context.xml in "META-INF")  -->
     <welcome-file-list>
