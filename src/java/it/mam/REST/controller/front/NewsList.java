@@ -20,13 +20,13 @@ public class NewsList extends RESTBaseController {
         fail.activate(message, request, response);
     }
 
-    // prende tutte le news e le passa al template lista_news.ftl.html
+    // prende tutte le news e le passa al template newsList.ftl.html
     private void action_news_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("news", getDataLayer().getNews());
         System.out.println(getDataLayer().getNews());
         request.setAttribute("sessionUsername", request.getSession().getAttribute("username"));
-        result.activate("lista_news.ftl.html", request, response);
+        result.activate("newsList.ftl.html", request, response);
     }
 
     @Override

@@ -21,14 +21,14 @@ public class InsertNews extends RESTBaseController {
         fail.activate(message, request, response);
     }
 
-    // prende tutte le news e le passa al template lista_news.ftl.html
+    // passa la lista delle serie al template "insert_news.ftl"
     private void action_news_insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("series", getDataLayer().getSeries());
         // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
         //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
-        result.activate("inserisci_news.ftl", request, response);
+        result.activate("insert_news.ftl", request, response);
     }
 
     @Override

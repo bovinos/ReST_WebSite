@@ -2,6 +2,7 @@ package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Episode;
+import it.mam.REST.data.model.Season;
 import it.mam.REST.data.model.Series;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -34,20 +35,18 @@ public class SeriesCard extends RESTBaseController {
         request.setAttribute("series", s);
         List<Season> seasonList = new ArrayList();
         List<Episode> episodeList = s.getEpisodes();
-        Season sn = new Season();
-      for(Episode e : episodeList){
-      if (sn.getNumber() != e.getSeason()){
+        Season sn = null;
+        for (Episode e : episodeList) {
+            if (sn == null || sn.getNumber() != e.getSeason()) {
                 sn = new Season(e.getSeason(), new ArrayList());
-       sn.getEpisodeList().add(e);
                 seasonList.add(sn);
-        } else {
-            seasonList.get(e.getSeason()).getEpisodeList().add(e);
             }
+            sn.getEpisodes().add(e);
         }
         request.setAttribute("seasons", seasonList);
         // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
         //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
-        result.activate("scheda_serie.ftl.html", request, response);
+        result.activate("seriesCard.ftl.html", request, response);
     }
 
     @Override

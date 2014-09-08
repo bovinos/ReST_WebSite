@@ -64,8 +64,8 @@ public interface News {
 
     void removeAllSeries();
 
-    User getUser();
+    User getAuthor();
 
-    void setUser(User user);
+    void setAuthor(User user);
 
 }

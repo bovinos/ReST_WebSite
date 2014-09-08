@@ -22,7 +22,7 @@ public class SaveUser extends RESTBaseController {
         fail.activate(message, request, response);
     }
 
-    // prende tutte le news e le passa al template lista_news.ftl.html
+    // prende tutti i dati necessari a far registrare un utente e se è tutto corretto, lo salva sul DB
     private void action_user_save(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = null;
         String username = request.getParameter("username");

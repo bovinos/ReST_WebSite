@@ -79,6 +79,18 @@
         <servlet-name>SalvaUtente</servlet-name>
         <servlet-class>it.mam.REST.controller.front.SaveUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InsertSeries</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.InsertSeries</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveSeries</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.SaveSeries</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewsCard</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.NewsCard</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RESTBaseController</servlet-name>
         <url-pattern>/RESTBaseController</url-pattern>
@@ -122,6 +134,18 @@
     <servlet-mapping>
         <servlet-name>SalvaUtente</servlet-name>
         <url-pattern>/SalvaUtente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertSeries</servlet-name>
+        <url-pattern>/InsertSeries</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveSeries</servlet-name>
+        <url-pattern>/SaveSeries</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewsCard</servlet-name>
+        <url-pattern>/NewsCard</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

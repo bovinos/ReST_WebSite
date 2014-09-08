@@ -1,19 +1,23 @@
+
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.News;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author alex
+ * @author Mirko
  */
-public class SeriesCircle extends RESTBaseController {
+public class NewsCard extends RESTBaseController{
 
     // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
@@ -21,26 +25,38 @@ public class SeriesCircle extends RESTBaseController {
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response){
+        try {
+            processRequest(request, response);
+        } catch (ServletException ex) {
+            action_error(request, response, "Errore caricamento dati");
+        }
+    }
+    
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response){
+        action_error(request, response, "Errore caricamento dati");
+    }
 
-    // prende tutti i messaggi di una determinata serie e li passa al template seriesCircle.ftl
-    private void action_series_messages(HttpServletRequest request, HttpServletResponse response, int id_series) throws ServletException, IOException {
+    // prende tutte le news e le passa al template lista_news.ftl.html
+    private void action_series_info(HttpServletRequest request, HttpServletResponse response, int id) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("messages", getDataLayer().getMessages(getDataLayer().getSeries(id_series)));
+        News n = getDataLayer().getNews(id);
+        request.setAttribute("news", n);
         // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
         //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
-        result.activate("seriesCircle.ftl", request, response);
+        result.activate("newsCard.ftl.html", request, response);
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-
-        int id_series;
+        int id = SecurityLayer.checkNumeric(request.getParameter("id"));
         try {
-            id_series = SecurityLayer.checkNumeric(request.getParameter("id_series"));
-            action_series_messages(request, response, id_series);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
+            action_series_info(request, response, id);
+        } catch (ServletException | IOException | NumberFormatException ex) {
+            action_error(request, response, "Errore caricamento dati");
         }
     }
 
@@ -48,5 +64,4 @@ public class SeriesCircle extends RESTBaseController {
     public String getServletInfo() {
         return "Short description";
     }
-
 }
