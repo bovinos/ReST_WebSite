@@ -23,22 +23,9 @@ public class NewsCard extends RESTBaseController{
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response){
-        try {
-            processRequest(request, response);
-        } catch (ServletException ex) {
-            action_error(request, response, "Errore caricamento dati");
-        }
-    }
     
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response){
-        action_error(request, response, "Errore caricamento dati");
-    }
-
-    // prende tutte le news e le passa al template lista_news.ftl.html
-    private void action_series_info(HttpServletRequest request, HttpServletResponse response, int id) throws ServletException, IOException {
+    // prende tutte le informazioni su una news e le passa al template newsCard.ftl.html
+    private void action_news_info(HttpServletRequest request, HttpServletResponse response, int id) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
         News n = getDataLayer().getNews(id);
@@ -50,10 +37,9 @@ public class NewsCard extends RESTBaseController{
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        
         try {
             int id = SecurityLayer.checkNumeric(request.getParameter("id"));
-            action_series_info(request, response, id);
+            action_news_info(request, response, id);
         } catch (ServletException | IOException | NumberFormatException ex) {
             action_error(request, response, "Errore caricamento dati");
         }
