@@ -50,8 +50,9 @@ public class NewsCard extends RESTBaseController{
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        int id = SecurityLayer.checkNumeric(request.getParameter("id"));
+        
         try {
+            int id = SecurityLayer.checkNumeric(request.getParameter("id"));
             action_series_info(request, response, id);
         } catch (ServletException | IOException | NumberFormatException ex) {
             action_error(request, response, "Errore caricamento dati");
