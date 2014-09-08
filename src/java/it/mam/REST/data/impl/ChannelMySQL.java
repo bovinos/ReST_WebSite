@@ -39,6 +39,7 @@ public class ChannelMySQL implements Channel {
     public ChannelMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
 
         this(dataLayer);
+        ID = rs.getInt("ID");
         name = rs.getString("name");
         number = rs.getInt("number");
         type = rs.getString("type");

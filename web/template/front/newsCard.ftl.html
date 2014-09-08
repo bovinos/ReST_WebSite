@@ -1,0 +1,74 @@
+
+<!-- NEWS
+============================================================================================== -->
+<div id="newsCard">
+    <h1>${news.title}</h1>
+
+    <div class="imgContainer">
+        <img src="${news.imageURL}" alt="Immagine ${news.title}"/>
+    </div>
+
+    <p id="newsText">${news.text}</p>
+
+    <div class="footer">
+        <div class="tag left">
+            <!-- QUI?? -->
+        </div>
+        <div class="right">
+            <div class="authorAndDate">
+                <p>${n.user}</p>
+            </div>
+            <div class="likeAndDislike">
+                <p>
+                    <span class="like" data-icon="&#xe0dd;">${n.likes}</span>
+                    <span class="dislike" data-icon="&#xe0f1;">${n.dislikes}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- COMMENTI 
+============================================================================================== -->
+<!-- Controllo se esistono Commenti per questa serie -->
+<#if (news.comments?size > 0)>
+<div id="commentsList">
+    <!-- se esistono stampiamoli tutti -->
+    <#list news.comments as c>
+    <div class="comment row">
+        <div class="imgContainer two columns">
+            <#if c.user.imageURL??>
+            <img src="${c.user.imageURL}" alt="User avatar"/>
+            <#else>
+            <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="Immagine ${series.name}"/>
+            </#if>
+        </div>
+        <div class="notImgContainer fourteen columns">
+            <div class="header">
+                <h1>${c.title}</h1>
+            </div>
+            <div class="body">
+                <p>${c.text}</p>
+            </div>
+            <div class="footer">
+                <div class="left">
+                    <p>${c.user.username}, ${c.date ?datetime} </p>
+                </div>
+                <div class="right">
+                    <p>
+                        <span class="like" data-icon="&#xe0dd;">${c.likes}</span>
+                        <span class="dislike" data-icon="&#xe0f1;">${c.dislikes}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>    
+    </#list>
+</div>
+<#else>
+<!-- altrimenti diciamo che la serie non ha commenti -->
+<div>
+    <p>Purtroppo questa News non ha ancora commenti.</p>
+</div>
+</#if> <!-- FINE STAMPA DEI COMMENTI -->
