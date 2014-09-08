@@ -219,6 +219,54 @@ a {
       #slider #slideshow-wrap label.arrows:active {
         margin-top: -23px; }
 
+/* ACCORDION
+=============================================================================================== */
+.accordion {
+  overflow: hidden;
+  padding: 10px; }
+  .accordion .accordionSection {
+    overflow: hidden;
+    cursor: pointer;
+    /* vertical accordion */
+    width: 100%;
+    height: 40px;
+    max-height: 40px;
+    line-height: 40px;
+    transition: max-height 2s ease-in-out;
+    -webkit-transition: max-height 2s ease-in-out;
+    -moz-transition: max-height 2s ease-in-out; }
+    .accordion .accordionSection:hover {
+      background-color: #225378; }
+    .accordion .accordionSection:target {
+      background: #FFFFFF;
+      /* vertical accordion */
+      height: auto;
+      max-height: 6000px;
+      width: 100%; }
+      .accordion .accordionSection:target .accordionSectionTitle {
+        width: 100%;
+        /* vertical accordion */
+        position: relative; }
+        .accordion .accordionSection:target .accordionSectionTitle a {
+          background-color: #225378; }
+      .accordion .accordionSection:target .accordionContent {
+        display: block; }
+    .accordion .accordionSection .accordionContent {
+      display: none;
+      line-height: 1.3;
+      margin: 10px 3% 10px 10px; }
+    .accordion .accordionSection .accordionSectionTitle a {
+      display: block;
+      padding-left: 10px;
+      font-size: 1.6rem;
+      color: #FFFFFF;
+      background-color: #1695A3;
+      transition: background-color 0.3s ease-in-out;
+      -webkit-transition: background-color 0.3s ease-in-out;
+      -moz-transition: background-color 0.3s ease-in-out; }
+      .accordion .accordionSection .accordionSectionTitle a:hover {
+        background-color: #225378; }
+
 /* LEFT COL
 =============================================================================================== */
 #leftCol {
@@ -519,10 +567,6 @@ a {
   margin-bottom: 20px;
   padding-left: 10%; }
 
-#newsList img {
-  width: 100%;
-  height: 100%;
-  overflow: hidden; }
 #newsList .news {
   padding: 25px 0;
   border-bottom: 1px solid rgba(22, 149, 163, 0.4); }
@@ -533,6 +577,10 @@ a {
   display: inline-block;
   width: 75px;
   height: 75px; }
+  #newsList .imgContainer img {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; }
 #newsList .header h1 {
   font-family: Laila;
   margin-bottom: 10px;
@@ -628,12 +676,113 @@ a {
 /* SERIES CARD PAGE
 =============================================================================================== */
 #seriesCard {
-  margin-top: 30px;
+  position: relative;
+  top: -10px;
+  /* perch├® solo in questa pagina vogliamo che non ci sia il margine tra logo e contenuto */
   margin-bottom: 30px; }
-  #seriesCard h1 {
+  #seriesCard h2 {
     text-align: center;
     font-family: Laila;
     color: #1695A3;
-    font-size: 4rem; }
+    font-size: 3rem; }
+  #seriesCard .imgContainer {
+    width: 100%;
+    text-align: center;
+    position: relative; }
+    #seriesCard .imgContainer h1 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      line-height: 100px;
+      background-color: rgba(0, 0, 0, 0.6);
+      text-align: center;
+      font-family: Laila;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 4rem; }
+    #seriesCard .imgContainer img {
+      width: 100%;
+      height: auto; }
+  #seriesCard #buttons {
+    margin-bottom: 60px;
+    text-align: center; }
+    #seriesCard #buttons a {
+      margin: 0;
+      display: inline-block;
+      width: 33%;
+      background-color: #1695A3;
+      word-wrap: break-word;
+      color: #FFFFFF;
+      font-size: 1.5rem;
+      height: 60px;
+      line-height: 60px;
+      transition: background-color 0.3s ease-in-out;
+      -webkit-transition: background-color 0.3s ease-in-out;
+      -moz-transition: background-color 0.3s ease-in-out; }
+      #seriesCard #buttons a:hover {
+        background-color: #EB7F00; }
+  #seriesCard #seriesDescription {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    color: #444444; }
+  #seriesCard .episode {
+    border-bottom: 1px solid rgba(22, 149, 163, 0.6); }
+    #seriesCard .episode:last-of-type {
+      border-bottom: none; }
+    #seriesCard .episode h4 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      border-left: 3px solid #EB7F00;
+      color: #1695A3;
+      padding-left: 10px; }
+    #seriesCard .episode p {
+      border-left: 3px solid #1695A3;
+      color: #444444;
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      padding-left: 10px; }
+
+#commentsList .comment {
+  margin: 0 3%;
+  padding: 25px 0;
+  border-bottom: 1px solid rgba(22, 149, 163, 0.4); }
+  #commentsList .comment:last-of-type {
+    /* l'ultimo elemento che ha classe comment */
+    border-bottom: none; }
+#commentsList .imgContainer {
+  display: inline-block;
+  width: 75px;
+  height: 75px; }
+  #commentsList .imgContainer img {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; }
+#commentsList .header h1 {
+  font-family: Laila;
+  margin-bottom: 10px;
+  font-size: 1.7rem;
+  color: #1695A3; }
+#commentsList .body p {
+  color: #444444;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  margin-bottom: 10px; }
+#commentsList .footer {
+  font-size: 1.2rem;
+  color: #999999; }
+  #commentsList .footer .left {
+    float: left; }
+  #commentsList .footer .right {
+    float: right; }
+    #commentsList .footer .right .like {
+      margin-right: 10px; }
+      #commentsList .footer .right .like:before {
+        margin-right: 3px; }
+    #commentsList .footer .right .dislike:before {
+      margin-right: 3px; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

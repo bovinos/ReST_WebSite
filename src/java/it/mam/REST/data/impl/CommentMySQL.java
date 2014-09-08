@@ -63,8 +63,6 @@ public class CommentMySQL implements Comment {
         dislikes = rs.getInt("dislikes");
 
         userID = rs.getInt("ID_user");
-        newsID = rs.getInt("ID_news");
-        seriesID = rs.getInt("ID_series");
     }
 
     @Override
