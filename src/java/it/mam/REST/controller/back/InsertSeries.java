@@ -2,10 +2,14 @@
 package it.mam.REST.controller.back;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.CastMember;
+import it.mam.REST.data.model.Genre;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +30,20 @@ public class InsertSeries extends RESTBaseController {
     // prende tutti i generi e tutti i membri del cast e li passa al template insertSeries.ftl.html
     private void action_series_insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("genres", getDataLayer().getGenres());
-        request.setAttribute("castMembers", getDataLayer().getCastMembers());
+        List<Genre> genres = getDataLayer().getGenres();
+        for(Genre g: genres){
+            g.setName(SecurityLayer.stripSlashes(g.getName()));
+        }
+        request.setAttribute("genres", genres);
+         List<CastMember> castmembers = getDataLayer().getCastMembers();
+        for(CastMember cm: castmembers){
+            cm.setName(SecurityLayer.stripSlashes(cm.getName()));
+            cm.setSurname(SecurityLayer.stripSlashes(cm.getSurname()));
+            cm.setCountry(SecurityLayer.stripSlashes(cm.getCountry()));
+            cm.setGender(SecurityLayer.stripSlashes(cm.getGender()));
+            cm.setImageURL(SecurityLayer.stripSlashes(cm.getImageURL()));
+        }
+        request.setAttribute("castMembers", castmembers);
         result.activate("insertSeries.ftl.html", request, response);
     }
 

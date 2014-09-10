@@ -28,13 +28,22 @@ public class SaveSeries extends RESTBaseController{
     // prende tutte le serie e le passa al template seriesList.ftl.html
     private void action_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
-        if (checkSeriesInputData(request, response)){
         Series series = getDataLayer().createSeries();
+        //Controllo che i campi siano validi
+        if (checkSeriesInputData(request, response)){
+            //Tolgo gli slash
         series.setName(SecurityLayer.addSlashes(request.getParameter("name")));
+        try{
         series.setYear(SecurityLayer.checkNumeric(request.getParameter("year")));
+        } catch (NumberFormatException e) {
+            action_error(request, response, "Field Error");
+        }
         series.setDescription(SecurityLayer.addSlashes(request.getParameter("description")));
         series.setImageURL(SecurityLayer.addSlashes(request.getParameter("imageURL")));
         series.setState(SecurityLayer.addSlashes(request.getParameter("state")));
+        } else action_error(request, response, "Inserire i campi obbligatori!");
+        
+        //Mi prendo l'array dei generi dalla richiesta e lo trasformo in una lista
         String[] genres = request.getParameterValues("genres");
             List<Genre> genresList = new ArrayList();
                 for (String s: genres){
@@ -47,7 +56,7 @@ public class SaveSeries extends RESTBaseController{
             }
         getDataLayer().storeSeries(series);
         }
-    }
+
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
@@ -66,7 +75,7 @@ public class SaveSeries extends RESTBaseController{
     private boolean checkSeriesInputData(HttpServletRequest request, HttpServletResponse response){
         return request.getParameter("name") != null && request.getParameter("year") != null && request.getParameter("description") != null 
                 && request.getParameter("image_URL") != null && request.getParameter("state") != null && request.getParameter("genres") != null
-                && !(request.getParameter("name").equals("")) && !(request.getParameter("year").equals("")) && !(request.getParameter("description").equals(""))
-                && !(request.getParameter("imageURL").equals("")) && !(request.getParameter("state").equals(""));
+                && (request.getParameter("name").length()) > 0 && (request.getParameter("year").length() > 0) && (request.getParameter("description").length() > 0)
+                && (request.getParameter("imageURL").length() > 0) && (request.getParameter("state").length() > 0);
     }
 }

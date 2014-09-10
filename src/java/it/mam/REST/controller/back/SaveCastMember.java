@@ -1,6 +1,8 @@
+
 package it.mam.REST.controller.back;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.CastMember;
 import it.mam.REST.data.model.Series;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -14,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author alex
+ * @author Mirko
  */
-public class InsertNews extends RESTBaseController {
+public class SaveCastMember extends RESTBaseController {
 
     // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
@@ -27,19 +29,40 @@ public class InsertNews extends RESTBaseController {
 
     // passa la lista delle serie al template "insert_news.ftl"
     private void action_news_insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        CastMember castMember = getDataLayer().createCastMember();
         TemplateResult result = new TemplateResult(getServletContext());
-        //Qui creo la lista delle serie che passo al template, in modo che si possa scegliere (opzionalmente)
-        //la serie o le serie a cui la news si riferisce. Non passo la lista dei generi perché non ce n'è bisogno lì.
-        List<Series> series;
-        series = getDataLayer().getSeries();
-        for (Series s: series){
-            s.setName(SecurityLayer.stripSlashes(s.getName()));
-            s.setDescription(SecurityLayer.stripSlashes(s.getDescription()));
-            s.setImageURL(SecurityLayer.stripSlashes(s.getImageURL()));
-            s.setState(SecurityLayer.stripSlashes(s.getState()));
+        castMember.setName(SecurityLayer.addSlashes(request.getParameter("name")));
+        castMember.setSurname(SecurityLayer.addSlashes(request.getParameter("surname")));
+        try{
+        castMember.setBirthDate((SecurityLayer.checkDate(request.getParameter("birthdate"))).getTime());
+        } catch (NumberFormatException e){
+            action_error(request, response, "Invalid Datetime");
         }
-        request.setAttribute("series", series);
+        
+        int gender = SecurityLayer.checkNumeric(request.getParameter("gender"));
+        switch (gender) {
+            case 1: castMember.setGender(CastMember.MALE);
+            break;
+            case 2: castMember.setGender(CastMember.FEMALE);
+            break;
+            default: action_error(request, response, "Invalid gender");
+        }
+        
+        castMember.setCountry(SecurityLayer.addSlashes(request.getParameter("country")));
+        castMember.setImageURL(SecurityLayer.addSlashes(request.getParameter("imageUrl")));
+        
+        String[] series = request.getParameterValues("series");
+            List<Series> seriesList = new ArrayList();
+            if (series != null) {
+                for (String s: series){
+                    try{
+                    seriesList.add(getDataLayer().getSeries(SecurityLayer.checkNumeric(s)));
+                    } catch (NumberFormatException e) {
+                        action_error(request, response, "Field Error");
+                    }
+                }
+                castMember.setSeries(seriesList);
+            }
         // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
         //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
         result.activate("insert_news.ftl", request, response);
