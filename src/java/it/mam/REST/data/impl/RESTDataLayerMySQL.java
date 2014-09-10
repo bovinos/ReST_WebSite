@@ -134,7 +134,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             dGroup = connection.prepareStatement("DELETE FROM e_group WHERE ID=?");
 
             // Message
-            sMessageByID = connection.prepareStatement("SELECT FROM e_message WHERE ID=?");
+            sMessageByID = connection.prepareStatement("SELECT * FROM e_message WHERE ID=?");
             sMessages = connection.prepareStatement("SELECT ID FROM e_message");
             sMessagesByUser = connection.prepareStatement("SELECT ID FROM e_message WHERE ID_user=?");
             sMessagesBySeries = connection.prepareStatement("SELECT ID FROM e_message WHERE ID_series=?");
@@ -1324,7 +1324,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sMessageByID = "SELECT FROM e_message WHERE ID=?"
+    // sMessageByID = "SELECT * FROM e_message WHERE ID=?"
     public Message getMessage(int messageID) {
         ResultSet rs = null;
         Message result = null;

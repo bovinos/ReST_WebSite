@@ -153,10 +153,8 @@ public class UserMySQL implements User {
 
     @Override
     public void setAge(int age) {
-        if (age >= 10 || age <= 122) {
-            this.age = age;
-            dirty = true;
-        }
+        this.age = age;
+        dirty = true;
     }
 
     @Override
@@ -166,13 +164,8 @@ public class UserMySQL implements User {
 
     @Override
     public void setGender(String gender) {
-        if (gender == null || gender.isEmpty()) {
-            this.gender = "";
-            dirty = true;
-        } else if (gender.equalsIgnoreCase(MALE) || gender.equalsIgnoreCase(FEMALE)) {
-            this.gender = gender.toUpperCase();
-            dirty = true;
-        }
+        this.gender = gender.toUpperCase();
+        dirty = true;
     }
 
     @Override

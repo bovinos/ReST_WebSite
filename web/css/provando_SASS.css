@@ -25,6 +25,15 @@
 /* REGOLE DI STILE
 ===============================================================================================
 =============================================================================================== */
+/* ogni selezione ha sfondo turchese e colore bianco */
+::selection {
+  color: #FFFFFF;
+  background: #1695A3; }
+
+::-moz-selection {
+  color: #FFFFFF;
+  background: #1695A3; }
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -227,7 +236,7 @@ a {
   .accordion .accordionSection {
     overflow: hidden;
     cursor: pointer;
-    /* vertical accordion */
+    /* accordion verticale */
     width: 100%;
     height: 40px;
     max-height: 40px;
@@ -239,13 +248,12 @@ a {
       background-color: #225378; }
     .accordion .accordionSection:target {
       background: #FFFFFF;
-      /* vertical accordion */
+      /* accordion verticale */
       height: auto;
       max-height: 6000px;
       width: 100%; }
       .accordion .accordionSection:target .accordionSectionTitle {
         width: 100%;
-        /* vertical accordion */
         position: relative; }
         .accordion .accordionSection:target .accordionSectionTitle a {
           background-color: #225378; }
@@ -253,8 +261,9 @@ a {
         display: block; }
     .accordion .accordionSection .accordionContent {
       display: none;
-      line-height: 1.3;
-      margin: 10px 3% 10px 10px; }
+      line-height: 1.4;
+      margin: 10px 3% 10px 10px;
+      cursor: auto; }
     .accordion .accordionSection .accordionSectionTitle a {
       display: block;
       padding-left: 10px;
@@ -508,7 +517,7 @@ a {
   font-size: 150%;
   padding: 1%;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.4;
   margin-bottom: 0; }
   #outlineFooter h1 {
     margin-bottom: 10px;
@@ -589,7 +598,7 @@ a {
 #newsList .body p {
   color: #444444;
   font-size: 1.5rem;
-  line-height: 1.3;
+  line-height: 1.4;
   margin-bottom: 10px; }
 #newsList .footer {
   font-size: 1.2rem;
@@ -602,9 +611,19 @@ a {
     #newsList .footer .right .like {
       margin-right: 10px; }
       #newsList .footer .right .like:before {
-        margin-right: 3px; }
+        margin-right: 3px;
+        transition: color 0.3s ease-in-out;
+        -webkit-transition: color 0.3s ease-in-out;
+        -moz-transition: color 0.3s ease-in-out; }
+      #newsList .footer .right .like:hover:before {
+        color: #33cc00; }
     #newsList .footer .right .dislike:before {
-      margin-right: 3px; }
+      margin-right: 3px;
+      transition: color 0.3s ease-in-out;
+      -webkit-transition: color 0.3s ease-in-out;
+      -moz-transition: color 0.3s ease-in-out; }
+    #newsList .footer .right .dislike:hover:before {
+      color: #cc0000; }
 
 /* SERIES LIST PAGE
 =============================================================================================== */
@@ -723,12 +742,17 @@ a {
       -moz-transition: background-color 0.3s ease-in-out; }
       #seriesCard #buttons a:hover {
         background-color: #EB7F00; }
+      #seriesCard #buttons a.fullPage {
+        margin: auto;
+        display: block;
+        width: 99.3%;
+        margin-top: 5px; }
   #seriesCard #seriesDescription {
     margin-top: 10px;
     margin-bottom: 30px;
     text-align: center;
     font-size: 1.5rem;
-    line-height: 1.3;
+    line-height: 1.4;
     color: #444444; }
   #seriesCard .episode {
     border-bottom: 1px solid rgba(22, 149, 163, 0.6); }
@@ -770,7 +794,7 @@ a {
 #commentsList .body p {
   color: #444444;
   font-size: 1.5rem;
-  line-height: 1.3;
+  line-height: 1.4;
   margin-bottom: 10px; }
 #commentsList .footer {
   font-size: 1.2rem;
@@ -783,9 +807,19 @@ a {
     #commentsList .footer .right .like {
       margin-right: 10px; }
       #commentsList .footer .right .like:before {
-        margin-right: 3px; }
+        margin-right: 3px;
+        transition: color 0.3s ease-in-out;
+        -webkit-transition: color 0.3s ease-in-out;
+        -moz-transition: color 0.3s ease-in-out; }
+      #commentsList .footer .right .like:hover:before {
+        color: #33cc00; }
     #commentsList .footer .right .dislike:before {
-      margin-right: 3px; }
+      margin-right: 3px;
+      transition: color 0.3s ease-in-out;
+      -webkit-transition: color 0.3s ease-in-out;
+      -moz-transition: color 0.3s ease-in-out; }
+    #commentsList .footer .right .dislike:hover:before {
+      color: #cc0000; }
 
 /* NEWS CARD PAGE
 =============================================================================================== */
@@ -811,7 +845,7 @@ a {
     margin: 0 3% 10px 3%;
     text-align: center;
     font-size: 1.5rem;
-    line-height: 1.3;
+    line-height: 1.4;
     color: #444444; }
   #newsCard .footer {
     margin: 0 3% 30px 3%;
@@ -827,8 +861,45 @@ a {
       #newsCard .footer .right .like {
         margin-right: 10px; }
         #newsCard .footer .right .like:before {
-          margin-right: 3px; }
+          margin-right: 3px;
+          transition: color 0.3s ease-in-out;
+          -webkit-transition: color 0.3s ease-in-out;
+          -moz-transition: color 0.3s ease-in-out; }
+        #newsCard .footer .right .like:hover:before {
+          color: #33cc00; }
       #newsCard .footer .right .dislike:before {
-        margin-right: 3px; }
+        margin-right: 3px;
+        transition: color 0.3s ease-in-out;
+        -webkit-transition: color 0.3s ease-in-out;
+        -moz-transition: color 0.3s ease-in-out; }
+      #newsCard .footer .right .dislike:hover:before {
+        color: #cc0000; }
+
+/* SERIES CIRCLE PAGE
+=============================================================================================== */
+#seriesCircle {
+  position: relative;
+  top: -10px;
+  /* perch├® vogliamo che non ci sia il margine tra logo e contenuto */ }
+  #seriesCircle .imgSeriesContainer {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    margin-bottom: 60px; }
+    #seriesCircle .imgSeriesContainer h1 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      line-height: 100px;
+      background-color: rgba(0, 0, 0, 0.6);
+      text-align: center;
+      font-family: Laila;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 4rem; }
+    #seriesCircle .imgSeriesContainer img {
+      width: 100%;
+      height: auto; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

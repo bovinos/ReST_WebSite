@@ -13,10 +13,11 @@
     </div>
 
     <div id="buttons">
-        <a href="#">Aggiungi tra le preferite</a>
-        <!-- <a>Rimuovi questa serie dalle preferite</a> -->
         <a href="#">Vai alle news della serie</a>
         <a href="#">Cerca serie simili</a>
+        <a href="#">Aggiungi tra le preferite</a>
+        <!-- <a>Rimuovi questa serie dalle preferite</a> -->
+        <a href="CerchiaSerie?id=${series.ID}" class="fullPage">Vai alla cerchia</a>
     </div>
 
     <h2>Trama</h2>
@@ -68,7 +69,7 @@
             <#if c.user.imageURL??>
             <img src="${c.user.imageURL}" alt="User avatar"/>
             <#else>
-            <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="Immagine ${series.name}"/>
+            <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User Avatar placeholder"/>
             </#if>
         </div>
         <div class="notImgContainer fourteen columns">

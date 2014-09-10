@@ -26,10 +26,10 @@ public class SeriesCircle extends RESTBaseController {
     private void action_series_messages(HttpServletRequest request, HttpServletResponse response, int id_series) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("messages", getDataLayer().getMessages(getDataLayer().getSeries(id_series)));
+        request.setAttribute("series", getDataLayer().getSeries(id_series));
         // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
         //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
-        result.activate("seriesCircle.ftl", request, response);
+        result.activate("seriesCircle.ftl.html", request, response);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class SeriesCircle extends RESTBaseController {
 
         int id_series;
         try {
-            id_series = SecurityLayer.checkNumeric(request.getParameter("id_series"));
+            id_series = SecurityLayer.checkNumeric(request.getParameter("id"));
             action_series_messages(request, response, id_series);
         } catch (IOException ex) {
             action_error(request, response, ex.getMessage());
