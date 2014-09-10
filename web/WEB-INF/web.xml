@@ -79,6 +79,14 @@
         <servlet-name>NewsCard</servlet-name>
         <servlet-class>it.mam.REST.controller.front.NewsCard</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InsertCastMember</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.InsertCastMember</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveCastMember</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.SaveCastMember</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
         <url-pattern>/ListaNews</url-pattern>
@@ -122,6 +130,14 @@
     <servlet-mapping>
         <servlet-name>NewsCard</servlet-name>
         <url-pattern>/SchedaNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertCastMember</servlet-name>
+        <url-pattern>/InserisciMembroCast</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveCastMember</servlet-name>
+        <url-pattern>/SalvaMembroCast</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

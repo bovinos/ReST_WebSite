@@ -2,6 +2,7 @@ package it.univaq.f4i.iw.framework.security;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -125,6 +126,29 @@ public class SecurityLayer {
             throw new NumberFormatException("String argument is null");
         }
     }
+
+    public static Calendar checkDate(String s) throws NumberFormatException{
+        //controllo se la data è nel formato "Numero/Numero/Numero"
+        if (!(s.matches("[0-9]+/[0-9]+/[0-9]+"))) throw new NumberFormatException();
+        String[] d = s.split("/");
+        Calendar c = Calendar.getInstance();
+        int currentYear = c.get(Calendar.YEAR);
+        
+        //controllo se il giorno e il mese hanno almeno 1 o 2 cifre e che l'anno ne abbia esattamente 4
+        if (!(d[0].length() > 0 && d[0].length() <= 2 && d[1].length() > 0 && d[1].length() <= 2 && d[2].length() == 4)) throw new NumberFormatException();
+            int day = SecurityLayer.checkNumeric(d[0]);
+            int month = SecurityLayer.checkNumeric(d[1]);
+            int year = SecurityLayer.checkNumeric(d[2]);
+            
+        //controllo se i valori non sono zero, che i mesi non abbiano più dei loro giorni e controllo correttamente Febbraio
+        if((month == 2 && (year%4) != 0 && day > 28) || (month == 2 && (year%4) == 0 && day > 29)
+                || day == 0 || month == 0 || year == 0 || day > 31 || month > 12 || year > currentYear|| year < 1900
+                || ((month == 4 ||month == 6||month ==9||month== 11)&& day >30)) throw new NumberFormatException();
+
+        c.set(year, month, day);
+        return c;
+    }
+   
 
     //--------- CONNECTION SECURITY ------------
     //questa funzione verifica se il protocollo HTTPS è attivo
