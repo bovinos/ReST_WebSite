@@ -87,6 +87,14 @@
         <servlet-name>SaveCastMember</servlet-name>
         <servlet-class>it.mam.REST.controller.back.SaveCastMember</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LogInActivate</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.LogInActivate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SignUpActivate</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.SignUpActivate</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
         <url-pattern>/ListaNews</url-pattern>
@@ -124,10 +132,6 @@
         <url-pattern>/InserisciSerie</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SaveSeries</servlet-name>
-        <url-pattern>/SalvaSerie</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>NewsCard</servlet-name>
         <url-pattern>/SchedaNews</url-pattern>
     </servlet-mapping>
@@ -138,6 +142,18 @@
     <servlet-mapping>
         <servlet-name>SaveCastMember</servlet-name>
         <url-pattern>/SalvaMembroCast</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveSeries</servlet-name>
+        <url-pattern>/SalvaSerie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogInActivate</servlet-name>
+        <url-pattern>/LogIn</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignUpActivate</servlet-name>
+        <url-pattern>/Registrazione</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
