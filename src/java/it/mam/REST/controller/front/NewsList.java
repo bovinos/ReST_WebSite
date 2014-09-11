@@ -1,11 +1,14 @@
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,14 +28,17 @@ public class NewsList extends RESTBaseController {
     // prende tutte le news e le passa al template newsList.ftl.html
     private void action_news_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("news", getDataLayer().getNews());
-        System.out.println(getDataLayer().getNews());
+        List<News> newsList = getDataLayer().getNews();
+        for (News n: newsList){
+            n = RESTSecurityLayer.stripSlashesNews(n);
+        }
+        request.setAttribute("news", newsList);
         //Controllo che la sessione attuale sia ancora valida
         if (SecurityLayer.checkSession(request) != null){
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
+        request.setAttribute("user", RESTSecurityLayer.stripSlashesUser(user));
         }
         result.activate("newsList.ftl.html", request, response);
     }

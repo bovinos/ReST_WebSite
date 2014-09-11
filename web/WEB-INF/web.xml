@@ -111,6 +111,10 @@
         <servlet-name>MyProfileActivateUserSignUpData</servlet-name>
         <servlet-class>it.mam.REST.controller.front.activationServlets.MyProfileActivateUserSignUpData</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SaveCommentNews</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.SaveCommentNews</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
         <url-pattern>/ListaNews</url-pattern>
@@ -186,6 +190,10 @@
     <servlet-mapping>
         <servlet-name>MyProfileActivateUserSignUpData</servlet-name>
         <url-pattern>/ProfiloPersonaleDatiUtente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveCommentNews</servlet-name>
+        <url-pattern>/SalvaCommentoNews</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

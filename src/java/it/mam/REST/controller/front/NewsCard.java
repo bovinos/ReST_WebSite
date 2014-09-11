@@ -6,6 +6,7 @@ import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -29,14 +30,13 @@ public class NewsCard extends RESTBaseController{
     private void action_news_info(HttpServletRequest request, HttpServletResponse response, int id) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
-        News n = getDataLayer().getNews(id);
-        request.setAttribute("news", n);
+        request.setAttribute("news", RESTSecurityLayer.stripSlashesNews(getDataLayer().getNews(id)));
         //Controllo che la sessione attuale sia ancora valida
         if (SecurityLayer.checkSession(request) != null){
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
+        request.setAttribute("user", RESTSecurityLayer.stripSlashesUser(user));
         }
         result.activate("newsCard.ftl.html", request, response);
     }

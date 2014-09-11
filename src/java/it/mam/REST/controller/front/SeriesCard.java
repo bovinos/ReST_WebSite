@@ -7,6 +7,7 @@ import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class SeriesCard extends RESTBaseController {
     private void action_series_info(HttpServletRequest request, HttpServletResponse response, int id) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
-        Series s = getDataLayer().getSeries(id);
+        Series s = RESTSecurityLayer.stripSlashesSeries(getDataLayer().getSeries(id));
         request.setAttribute("series", s);
         List<Season> seasonList = new ArrayList();
         List<Episode> episodeList = s.getEpisodes();
@@ -42,7 +43,7 @@ public class SeriesCard extends RESTBaseController {
                 sn = new Season(e.getSeason(), new ArrayList());
                 seasonList.add(sn);
             }
-            sn.getEpisodes().add(e);
+            sn.getEpisodes().add(RESTSecurityLayer.stripSlashesEpisode(e));
         }
         request.setAttribute("seasons", seasonList);
         //Controllo la sessione e creo l'utente
@@ -50,7 +51,7 @@ public class SeriesCard extends RESTBaseController {
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
+        request.setAttribute("user", RESTSecurityLayer.stripSlashesUser(user));
         }
         result.activate("seriesCard.ftl.html", request, response);
     }
