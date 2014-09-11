@@ -63,4 +63,53 @@ public class RESTSecurityLayer {
         series.setImageURL(SecurityLayer.stripSlashes(series.getImageURL()));
         return series;
     }
+    
+        public static User addSlashesUser(User user){
+        user.setName(SecurityLayer.addSlashes(user.getName()));
+        user.setSurname(SecurityLayer.addSlashes(user.getSurname()));
+        user.setMail(SecurityLayer.addSlashes(user.getMail()));
+        user.setImageURL(SecurityLayer.addSlashes(user.getImageURL()));
+        user.setGender(SecurityLayer.addSlashes(user.getGender()));
+        return user;
+    }
+    public static News addSlashesNews(News news){
+         news.setTitle(SecurityLayer.addSlashes(news.getTitle()));
+        news.setText(SecurityLayer.addSlashes(news.getText()));
+        news.setImageURL(SecurityLayer.addSlashes(news.getImageURL()));
+        return news;
+    }
+    public static CastMember addSlashesCastMember(CastMember castmember){
+        castmember.setName(SecurityLayer.addSlashes(castmember.getName()));
+        castmember.setSurname(SecurityLayer.addSlashes(castmember.getSurname()));
+        castmember.setGender(SecurityLayer.addSlashes(castmember.getGender()));
+        castmember.setCountry(SecurityLayer.addSlashes(castmember.getCountry()));
+        castmember.setImageURL(SecurityLayer.addSlashes(castmember.getImageURL()));
+        return castmember;
+    }
+    public static Channel addSlashesChannerl(Channel channel){
+        channel.setName(SecurityLayer.addSlashes(channel.getName()));
+        channel.setType(SecurityLayer.addSlashes(channel.getType()));
+        return channel;
+    }
+    public static Comment addSlashesComment(Comment comment){
+        comment.setTitle(SecurityLayer.addSlashes(comment.getTitle()));
+        comment.setText(SecurityLayer.addSlashes(comment.getText()));
+        return comment;
+    }
+    public static Episode addSlashesEpisode(Episode episode){
+        episode.setTitle(SecurityLayer.addSlashes(episode.getTitle()));
+        episode.setDescription(SecurityLayer.addSlashes(episode.getDescription()));
+        return episode;
+    }
+    public static Genre addSlashesGenre(Genre genre){
+        genre.setName(SecurityLayer.addSlashes(genre.getName()));
+        return genre;
+    }
+    public static Series addSlashesSeries(Series series){
+        series.setName(SecurityLayer.addSlashes(series.getName()));
+        series.setDescription(SecurityLayer.addSlashes(series.getDescription()));
+        series.setState(SecurityLayer.addSlashes(series.getState()));
+        series.setImageURL(SecurityLayer.addSlashes(series.getImageURL()));
+        return series;
+    }
 }

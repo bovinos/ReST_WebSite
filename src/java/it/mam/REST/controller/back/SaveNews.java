@@ -5,6 +5,7 @@ import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,8 +35,8 @@ public class SaveNews extends RESTBaseController {
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkNewsInputData(request, response)){
             //aggiungo gli slash prima di salvare su DB per evitare valori pericolosi
-            news.setTitle(SecurityLayer.addSlashes(request.getParameter("title")));
-            news.setText(SecurityLayer.addSlashes(request.getParameter("text")));
+            news.setTitle(request.getParameter("title"));
+            news.setText(request.getParameter("text"));
           } else {
             action_error(request, response, "Inserire i campi obbligatori");
         }
@@ -45,6 +46,7 @@ public class SaveNews extends RESTBaseController {
             if (series != null) {
                 for (String s: series){
                     try{
+                    //prendo la serie dal DB e NON ci metto gli slash perché nel DB ce li ha già e non serve di toglierli perché non devo usarla
                     seriesList.add(getDataLayer().getSeries(SecurityLayer.checkNumeric(s)));
                     } catch (NumberFormatException e) {
                         action_error(request, response, "Field Error");
@@ -53,7 +55,8 @@ public class SaveNews extends RESTBaseController {
                 news.setSeries(seriesList);
             }
             
-            //Mi prendo la sessione dell'utente che ha fatto la richiesta e se esiste, mi prendo l'utente, altrimenti errore.
+            //Mi prendo la sessione dell'utente che ha fatto la richiesta e se esiste, mi prendo l'utente, 
+            //(senza mettere o togliere gli slash perché già ci sono dal DB) altrimenti errore.
             HttpSession session = SecurityLayer.checkSession(request);
             if(session != null){
                 news.setUser(getDataLayer().getUser((int)session.getAttribute("userid")));
@@ -62,7 +65,7 @@ public class SaveNews extends RESTBaseController {
                 response.sendRedirect("Login");
             }
 
-        getDataLayer().storeNews(news);
+        getDataLayer().storeNews(RESTSecurityLayer.addSlashesNews(news));
     }
 
     @Override

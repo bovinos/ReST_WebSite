@@ -4,6 +4,7 @@ package it.mam.REST.controller.back;
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Comment;
 import it.univaq.f4i.iw.framework.result.FailureResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -36,11 +37,12 @@ public class SaveCommentNews extends RESTBaseController {
           } else {
             action_error(request, response, "Inserire i campi obbligatori");
         }
-          //setto la news del commento (l'id mi arriva con la request)
+          //setto la news del commento senza mettere o togliere slash perché già ci sono dal DB (l'id mi arriva con la request)
         comment.setNews(getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("news"))));
             
             
-            //Mi prendo la sessione dell'utente che ha fatto la richiesta e se esiste, mi prendo l'utente, altrimenti errore.
+            //Mi prendo la sessione dell'utente che ha fatto la richiesta e se esiste, mi prendo l'utente, 
+            //(senza mettere o togliere gli slash perché già ci sono dal DB) altrimenti errore.
             HttpSession session = SecurityLayer.checkSession(request);
             if(session != null){
                 comment.setUser(getDataLayer().getUser((int)session.getAttribute("userid")));
@@ -49,7 +51,7 @@ public class SaveCommentNews extends RESTBaseController {
                 response.sendRedirect("Login");
             }
 
-        getDataLayer().storeComment(comment);
+        getDataLayer().storeComment(RESTSecurityLayer.addSlashesComment(comment));
     }
 
     @Override
