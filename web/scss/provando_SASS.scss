@@ -530,12 +530,18 @@ a{
     color: $skyBlue;
     padding: 0 1%;
 
-    #userAvatar{
-        float: left;
-        margin-right: 10px;
+    .imgContainer{
         width: $topBarHeight;
         height: $topBarHeight;
+        float: left;
+        margin-right: 10px;
+
+        img{
+            width: 100%;
+            height: 100%;
+        }
     }
+
 
     #LogIn{
         float: right;

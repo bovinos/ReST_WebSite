@@ -45,10 +45,6 @@ public interface User {
 
     void setImageURL(String imageURL);
 
-    String getPersonalMessage();
-
-    void setPersonalMessage(String personalMessage);
-
     boolean isDirty();
 
     void setDirty(boolean dirty);

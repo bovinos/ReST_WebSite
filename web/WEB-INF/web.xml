@@ -172,20 +172,20 @@
         <url-pattern>/Registrazione</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>MyProfileActivateUserSignUpData</servlet-name>
+        <url-pattern>/ProfiloPersonaleDatiUtente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>MyProfileActivateUserSeries</servlet-name>
-        <url-pattern>/ProfiloPersonaleSerieUtente</url-pattern>
+        <url-pattern>/ProfiloPersonale/LeMieSerie</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MyProfileActivateUserCircles</servlet-name>
-        <url-pattern>/ProfiloPersonaleCerchieUtente</url-pattern>
+        <url-pattern>/ProfiloPersonale/LeMieCerchie</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MyProfileActivateUserBroadcastProgramming</servlet-name>
-        <url-pattern>/ProfiloPersonalePalinsestoUtente</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>MyProfileActivateUserSignUpData</servlet-name>
-        <url-pattern>/ProfiloPersonaleDatiUtente</url-pattern>
+        <url-pattern>/ProfiloPersonale/IlMioPalinsesto</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

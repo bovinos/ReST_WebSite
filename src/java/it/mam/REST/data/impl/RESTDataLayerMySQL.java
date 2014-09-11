@@ -182,7 +182,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sUsersBySeries = connection.prepareStatement("SELECT ID_user FROM r_user_series WHERE ID_series=?");
             sUsersByGenre = connection.prepareStatement("SELECT ID_user FROM r_user_genre WHERE ID_genre=?");
             sUsersByGroup = connection.prepareStatement("SELECT ID FROM e_user WHERE ID_group=?");
-            iUser = connection.prepareStatement("INSERT INTO e_user (username, password, mail, name, surname, age, gender, image_URL, personal_message, ID_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            iUser = connection.prepareStatement("INSERT INTO e_user (username, password, mail, name, surname, age, gender, image_URL, ID_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             dUser = connection.prepareStatement("DELETE FROM e_user WHERE ID=?");
 
             // Relationship
@@ -2405,7 +2405,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // iUser = "INSERT INTO e_user (username, password, mail, name, surname, age, gender, image_URL, presonal_message, ID_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
+    // iUser = "INSERT INTO e_user (username, password, mail, name, surname, age, gender, image_URL, ID_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
     public void storeUser(User user) {
         ResultSet rs = null;
         int ID = user.getID();
@@ -2422,11 +2422,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 iUser.setInt(6, user.getAge());
                 iUser.setString(7, user.getGender());
                 iUser.setString(8, user.getImageURL());
-                iUser.setString(9, user.getPersonalMessage());
                 if (user.getGroup() != null) {
-                    iUser.setInt(10, user.getGroup().getID());
+                    iUser.setInt(9, user.getGroup().getID());
                 } else {
-                    iUser.setNull(10, java.sql.Types.INTEGER);
+                    iUser.setNull(9, java.sql.Types.INTEGER);
                 }
                 iUser.executeUpdate();
             } else { // Insert
@@ -2438,11 +2437,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 iUser.setInt(6, user.getAge());
                 iUser.setString(7, user.getGender());
                 iUser.setString(8, user.getImageURL());
-                iUser.setString(9, user.getPersonalMessage());
                 if (user.getGroup() != null) {
-                    iUser.setInt(10, user.getGroup().getID());
+                    iUser.setInt(9, user.getGroup().getID());
                 } else {
-                    iUser.setNull(10, java.sql.Types.INTEGER);
+                    iUser.setNull(9, java.sql.Types.INTEGER);
                 }
                 if (iUser.executeUpdate() == 1) {
                     rs = iUser.getGeneratedKeys();
