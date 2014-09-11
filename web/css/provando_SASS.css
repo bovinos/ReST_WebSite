@@ -410,7 +410,7 @@ a {
   background: #333333;
   color: #ACF0F2;
   padding: 0 1%; }
-  #topBar #signUpButton {
+  #topBar #LogInButton {
     float: right;
     padding: 0 15px;
     margin: 0;
@@ -423,7 +423,7 @@ a {
     transition: background 0.3s ease-in-out;
     -webkit-transition: background 0.3s ease-in-out;
     -moz-transition: background 0.3s ease-in-out; }
-    #topBar #signUpButton:hover {
+    #topBar #LogInButton:hover {
       background: #EB7F00;
       transition: background 0.3s ease-in-out;
       -webkit-transition: background 0.3s ease-in-out;
