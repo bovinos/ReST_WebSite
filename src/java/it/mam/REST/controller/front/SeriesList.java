@@ -1,8 +1,10 @@
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +26,13 @@ public class SeriesList extends RESTBaseController {
     private void action_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("series", getDataLayer().getSeries());
-        request.setAttribute("sessionUsername", request.getSession().getAttribute("username"));
+        //Controllo la sessione e creo l'utente
+        if (SecurityLayer.checkSession(request) != null){
+        String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
+        request.setAttribute("sessionUsername", username);
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        request.setAttribute("user", user);
+        }
         result.activate("seriesList.ftl.html", request, response);
     }
 

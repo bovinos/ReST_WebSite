@@ -28,11 +28,12 @@ public class NewsList extends RESTBaseController {
         request.setAttribute("news", getDataLayer().getNews());
         System.out.println(getDataLayer().getNews());
         //Controllo che la sessione attuale sia ancora valida
-        if (SecurityLayer.checkSession(request) == null) result.activate("logIn.ftl.html", request, response);
+        if (SecurityLayer.checkSession(request) != null){
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
+        }
         result.activate("newsList.ftl.html", request, response);
     }
 

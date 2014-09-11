@@ -1,6 +1,7 @@
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
@@ -27,8 +28,13 @@ public class SeriesCircle extends RESTBaseController {
 
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("series", getDataLayer().getSeries(id_series));
-        // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
-        //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
+        //Controllo che la sessione attuale sia ancora valida
+        if (SecurityLayer.checkSession(request) != null){
+        String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
+        request.setAttribute("sessionUsername", username);
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        request.setAttribute("user", user);
+        }
         result.activate("seriesCircle.ftl.html", request, response);
     }
 
