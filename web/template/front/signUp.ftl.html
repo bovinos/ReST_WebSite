@@ -11,8 +11,8 @@
     </head>
 
     <body>
-        <div id="formLogIn">
-            <form action="Login" method="POST">
+        <div id="formSignUp">
+            <form action="Signup" method="POST">
                 <div class="row">
                     <label for="username">Username:</label>
                     <input type ="text" id="username" name ="username"/>
@@ -21,16 +21,15 @@
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password"/>
                 </div>
-                <!--
-                <label for="confermaPassword"> Conferma la Password:</label>
-                <input type="password" id="confermaPassword" name="confermaPassword" />
-                <label for="email">E-Mail:</label>
-                <input type="text" id="email" name="email" />
-                -->
-                <button type="submit">Invia</button>
-                <div id="signUp">
-                    <p>Non sei ancora un nostro utente? <a href="Registrazione">Regitrati!</a></p>
+                <div class="row">
+                    <label for="confermaPassword"> Conferma la Password:</label>
+                    <input type="password" id="confermaPassword" name="confermaPassword" />
                 </div>
+                <div class="row">
+                    <label for="email">E-Mail:</label>
+                    <input type="email" id="email" name="email" />
+                </div>
+                <button type="submit">Invia</button>
             </form>
         </div>
 

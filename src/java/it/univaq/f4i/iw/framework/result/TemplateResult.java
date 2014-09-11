@@ -135,6 +135,7 @@ public class TemplateResult {
             localdatamodel.putAll(datamodel);
         }
         String outline_name = (String) localdatamodel.get("outline_tpl");
+        System.err.println(outline_name);
         try {
             if (outline_name == null || outline_name.isEmpty()) {
                 //se non c'è un outline, carichiamo semplicemente il template specificato

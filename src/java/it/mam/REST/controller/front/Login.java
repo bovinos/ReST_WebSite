@@ -41,7 +41,7 @@ public class Login extends RESTBaseController {
             // errore uno dei campi è vuoto
         }
         // in realtà dovrei ridirigere alla pagina in cui ha fatto il login
-        response.sendRedirect("NewsList");
+        response.sendRedirect("ListaNews");
     }
 
     @Override

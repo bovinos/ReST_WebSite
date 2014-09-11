@@ -410,9 +410,15 @@ a {
   background: #333333;
   color: #ACF0F2;
   padding: 0 1%; }
-  #topBar #LogInButton {
+  #topBar #userAvatar {
+    float: left;
+    margin-right: 10px;
+    width: 50px;
+    height: 50px; }
+  #topBar #LogIn {
     float: right;
-    padding: 0 15px;
+    padding: 0 20px 2px 20px;
+    /* 2px bottom per dare l'impressione che il bottone sia agganciato alla topbar */
     margin: 0;
     line-height: 50px;
     border: none;
@@ -423,7 +429,7 @@ a {
     transition: background 0.3s ease-in-out;
     -webkit-transition: background 0.3s ease-in-out;
     -moz-transition: background 0.3s ease-in-out; }
-    #topBar #LogInButton:hover {
+    #topBar #LogIn:hover {
       background: #EB7F00;
       transition: background 0.3s ease-in-out;
       -webkit-transition: background 0.3s ease-in-out;
@@ -901,5 +907,65 @@ a {
     #seriesCircle .imgSeriesContainer img {
       width: 100%;
       height: auto; }
+
+/* LOGIN
+=============================================================================================== */
+#formLogIn, #formSignUp {
+  background-color: #FFFFFF;
+  height: 100%;
+  text-align: center; }
+  #formLogIn:before, #formSignUp:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle; }
+  #formLogIn .row, #formSignUp .row {
+    margin-bottom: 15px; }
+    #formLogIn .row:last-of-type, #formSignUp .row:last-of-type {
+      margin-bottom: 10px; }
+  #formLogIn form, #formSignUp form {
+    display: inline-block;
+    padding: 30px 50px;
+    vertical-align: middle;
+    border: 3px solid #1695a3;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-box-shadow: 0 0 10px #1695A3;
+    -moz-box-shadow: 0 0 10px #1695A3;
+    box-shadow: 0 0 10px #1695A3;
+    text-align: right; }
+    #formLogIn form label, #formSignUp form label {
+      font-size: 1.5rem;
+      margin-right: 10px;
+      color: #1695A3; }
+    #formLogIn form input, #formSignUp form input {
+      border: 1px solid #1695A3;
+      outline: none;
+      font-size: 1.5rem;
+      color: #1695A3;
+      border-radius: 4px;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      padding: 3px 5px; }
+    #formLogIn form button, #formSignUp form button {
+      margin-top: 30px;
+      background-color: #1695A3;
+      width: 100%;
+      border: none;
+      padding: 10px 0;
+      color: #FFFFFF;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      -webkit-transition: background-color 0.3s ease-in-out;
+      -moz-transition: background-color 0.3s ease-in-out; }
+      #formLogIn form button:hover, #formSignUp form button:hover {
+        background-color: #EB7F00; }
+    #formLogIn form #signUp, #formSignUp form #signUp {
+      margin-top: 10px; }
+
+/* SIGNUP
+=============================================================================================== */
 
 /*# sourceMappingURL=provando_SASS.css.map */

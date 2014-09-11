@@ -1,4 +1,3 @@
-
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
@@ -15,21 +14,20 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SignUpActivate extends RESTBaseController {
 
- // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
-    
+
     private void action_activate_signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("outline_tpl", null);
-        result.activate("signUp.ftl.html", request, response);
+        TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("outline_tpl", "");
+        result.activate("front/signUp.ftl.html", request, response);
     }
-        
+
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
             action_activate_signup(request, response);
         } catch (IOException ex) {

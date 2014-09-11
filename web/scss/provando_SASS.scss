@@ -530,10 +530,16 @@ a{
     color: $skyBlue;
     padding: 0 1%;
 
+    #userAvatar{
+        float: left;
+        margin-right: 10px;
+        width: $topBarHeight;
+        height: $topBarHeight;
+    }
 
-    #LogInButton{
+    #LogIn{
         float: right;
-        padding: 0 15px;
+        padding: 0 20px 2px 20px; /* 2px bottom per dare l'impressione che il bottone sia agganciato alla topbar */
         margin: 0;
         line-height: $topBarHeight;
         border: none;
@@ -551,6 +557,7 @@ a{
     }
 
     #menu{
+
         ul{
 
             li{
@@ -1254,6 +1261,87 @@ a{
     }
 }
 
+/* LOGIN
+=============================================================================================== */
+#formLogIn{
+    background-color: #FFFFFF;
+    height: 100%;
+    text-align: center;
+
+
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    .row{
+        margin-bottom: 15px;
+
+        &:last-of-type{
+            margin-bottom: 10px;
+        }
+    }
+
+
+    form{
+        display: inline-block;
+        padding: 30px 50px;
+        vertical-align: middle;
+        border: 3px solid rgba(22, 149, 163, 1);
+        @include borderRadius(3px);
+        @include boxShadow(0, 0, 10px, $turquoise);
+        text-align: right;
+
+        label{
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: $turquoise;
+        }
+
+        input{
+            border: 1px solid $turquoise;
+            outline: none;
+            font-size: 1.5rem;
+            color: $turquoise;
+            @include borderRadius(4px);
+            padding: 3px 5px;
+
+            &:after{
+            }
+        }
+
+        button{
+            margin-top: 30px;
+            background-color: $turquoise;
+            width: 100%;
+            border: none;
+            padding: 10px 0;
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            cursor: pointer;
+            @include transition(background-color, 0.3s);
+
+            &:hover{
+                background-color: $orange;
+            }
+        }
+
+        #signUp{
+            margin-top: 10px;
+        }
+    }
+
+
+
+}
+
+/* SIGNUP
+=============================================================================================== */
+#formSignUp{
+    @extend #formLogIn;
+}
 
 
 
