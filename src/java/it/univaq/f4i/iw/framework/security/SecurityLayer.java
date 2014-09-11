@@ -2,7 +2,6 @@ package it.univaq.f4i.iw.framework.security;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,10 +10,9 @@ import javax.servlet.http.HttpSession;
 public class SecurityLayer {
 
     //--------- SESSION SECURITY ------------    
-     //questa funzione esegue una serie di controlli di sicurezza
+    //questa funzione esegue una serie di controlli di sicurezza
     //sulla sessione corrente. Se la sessione non è valida, la cancella
     //e ritorna null, altrimenti la aggiorna e la restituisce
-    
     //this method executed a set of standard chacks on the current session.
     //If the session exists and is valid, it is rerutned, otherwise
     //the session is invalidated and the method returns null
@@ -101,7 +99,6 @@ public class SecurityLayer {
     //questa funzione aggiunge un backslash davanti a
     //tutti i caratteri "pericolosi", usati per eseguire
     //SQL injection attraverso i parametri delle form
-    
     //this function adds backslashes in front of
     //all the "malicious" charcaters, usually exploited
     //to perform SQL injection through form parameters
@@ -127,28 +124,33 @@ public class SecurityLayer {
         }
     }
 
-    public static Calendar checkDate(String s) throws NumberFormatException{
+    public static Calendar checkDate(String s) throws NumberFormatException {
         //controllo se la data è nel formato "Numero/Numero/Numero"
-        if (!(s.matches("[0-9]+/[0-9]+/[0-9]+"))) throw new NumberFormatException();
+        if (!(s.matches("[0-9]+/[0-9]+/[0-9]+"))) {
+            throw new NumberFormatException();
+        }
         String[] d = s.split("/");
         Calendar c = Calendar.getInstance();
         int currentYear = c.get(Calendar.YEAR);
-        
+
         //controllo se il giorno e il mese hanno almeno 1 o 2 cifre e che l'anno ne abbia esattamente 4
-        if (!(d[0].length() > 0 && d[0].length() <= 2 && d[1].length() > 0 && d[1].length() <= 2 && d[2].length() == 4)) throw new NumberFormatException();
-            int day = SecurityLayer.checkNumeric(d[0]);
-            int month = SecurityLayer.checkNumeric(d[1]);
-            int year = SecurityLayer.checkNumeric(d[2]);
-            
+        if (!(d[0].length() > 0 && d[0].length() <= 2 && d[1].length() > 0 && d[1].length() <= 2 && d[2].length() == 4)) {
+            throw new NumberFormatException();
+        }
+        int day = SecurityLayer.checkNumeric(d[0]);
+        int month = SecurityLayer.checkNumeric(d[1]);
+        int year = SecurityLayer.checkNumeric(d[2]);
+
         //controllo se i valori non sono zero, che i mesi non abbiano più dei loro giorni e controllo correttamente Febbraio
-        if((month == 2 && (year%4) != 0 && day > 28) || (month == 2 && (year%4) == 0 && day > 29)
-                || day == 0 || month == 0 || year == 0 || day > 31 || month > 12 || year > currentYear|| year < 1900
-                || ((month == 4 ||month == 6||month ==9||month== 11)&& day >30)) throw new NumberFormatException();
+        if ((month == 2 && (year % 4) != 0 && day > 28) || (month == 2 && (year % 4) == 0 && day > 29)
+                || day == 0 || month == 0 || year == 0 || day > 31 || month > 12 || year > currentYear || year < 1900
+                || ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30)) {
+            throw new NumberFormatException();
+        }
 
         c.set(year, month, day);
         return c;
     }
-   
 
     //--------- CONNECTION SECURITY ------------
     //questa funzione verifica se il protocollo HTTPS è attivo
@@ -176,7 +178,7 @@ public class SecurityLayer {
 
         //ricostruiamo la url cambiando il protocollo e la porta COME SPECIFICATO NELLA CONFIGURAZIONE DI TOMCAT
         //rebuild the url changing port and protocol AS SPECIFIED IN THE SERVER CONFIGURATION
-        String newUrl = "https://" + server + ":8443" +  context + path + (info != null ? info : "") + (query != null ? "?" + query : "");
+        String newUrl = "https://" + server + ":8443" + context + path + (info != null ? info : "") + (query != null ? "?" + query : "");
         try {
             //ridirigiamo il client
             //redirect

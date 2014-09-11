@@ -1,0 +1,42 @@
+
+<div id="userProfile">
+    <div id="head" class="row">
+        <#if user.imageURL??>
+        <img id="userAvatar" src="user.imageURL" alt="Avatar di user.username" />
+        <#else>
+        <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User avatar placeholder"/>
+        </#if>
+        <p id="userUsername">${user.username}</p>
+        <p id="userPersonalMessage">${user.personalMessage}</p>
+    </div>
+
+    <div id="body" class="row">
+        <nav id="leftCol" class="four columns alpha">
+            <h1>Nome Categoria</h1>
+            <ul class="accordion">
+                <li class="accordionSection"><a href="#LeMieSerie">Le mie Serie</a>
+                    <ul class="accordionContent">
+                        <li>Opzione filtro</li>
+                        <li>Opzione filtro</li>
+                        <li>Opzione filtro</li>
+                        <li>Opzione filtro</li>
+                    </ul>
+                </li>
+
+                <li>Le mie Cerchie</li>
+                <li>Palinsesto</li>
+            </ul>
+
+            <h1>Impostazioni</h1>
+            <ul>
+                <li>Modifica dati registrazione</li>
+                <li>Modifica dati opzionali</li>
+                <li>Impostazioni notifiche</li>
+            </ul>
+        </nav>
+
+        <div id="userProfileContent">
+            <#include userProfilecontent_tpl>
+        </div>
+    </div>
+</div>
