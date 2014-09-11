@@ -89,11 +89,27 @@
     </servlet>
     <servlet>
         <servlet-name>LogInActivate</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.LogInActivate</servlet-class>
+        <servlet-class>it.mam.REST.controller.front.activationServlets.LogInActivate</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SignUpActivate</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.SignUpActivate</servlet-class>
+        <servlet-class>it.mam.REST.controller.front.activationServlets.SignUpActivate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyProfileActivateUserSeries</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.activationServlets.MyProfileActivateUserSeries</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyProfileActivateUserCircles</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.activationServlets.MyProfileActivateUserCircles</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyProfileActivateUserBroadcastProgramming</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.activationServlets.MyProfileActivateUserBroadcastProgramming</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyProfileActivateUserSignUpData</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.activationServlets.MyProfileActivateUserSignUpData</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
@@ -154,6 +170,22 @@
     <servlet-mapping>
         <servlet-name>SignUpActivate</servlet-name>
         <url-pattern>/Registrazione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyProfileActivateUserSeries</servlet-name>
+        <url-pattern>/ProfiloPersonaleSerieUtente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyProfileActivateUserCircles</servlet-name>
+        <url-pattern>/ProfiloPersonaleCerchieUtente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyProfileActivateUserBroadcastProgramming</servlet-name>
+        <url-pattern>/ProfiloPersonalePalinsestoUtente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyProfileActivateUserSignUpData</servlet-name>
+        <url-pattern>/ProfiloPersonaleDatiUtente</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

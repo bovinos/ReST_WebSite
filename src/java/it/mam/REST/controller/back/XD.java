@@ -10,6 +10,6 @@ import java.util.Calendar;
  */
 public class XD {
     public static void main (String[] args){
-        System.out.println(SecurityLayer.checkDate("1/8/2015"));
+        System.out.println((SecurityLayer.checkDate("1/8/2013")).getTime());
     }
 }
