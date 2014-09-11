@@ -3,6 +3,7 @@ package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.News;
+import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
@@ -30,8 +31,13 @@ public class NewsCard extends RESTBaseController{
         TemplateResult result = new TemplateResult(getServletContext());
         News n = getDataLayer().getNews(id);
         request.setAttribute("news", n);
-        // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
-        //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
+        //Controllo che la sessione attuale sia ancora valida
+        if (SecurityLayer.checkSession(request) != null){
+        String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
+        request.setAttribute("sessionUsername", username);
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        request.setAttribute("user", user);
+        }
         result.activate("newsCard.ftl.html", request, response);
     }
 

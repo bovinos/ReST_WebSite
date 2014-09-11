@@ -32,7 +32,7 @@ public class MyProfileActivateUserSeries extends RESTBaseController {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
         request.setAttribute("userProfileContent_tpl", "userSeries.ftl.html");
-        result.activate("userProfileOutline.ftl.html", request, response);
+        result.activate("userProfile/userProfileOutline.ftl.html", request, response);
     }
 
     @Override
