@@ -5,7 +5,6 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.Series;
 import it.univaq.f4i.iw.framework.result.FailureResult;
-import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ public class SaveSeries extends RESTBaseController{
 
     // prende tutte le serie e le passa al template seriesList.ftl.html
     private void action_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        TemplateResult result = new TemplateResult(getServletContext());
         Series series = getDataLayer().createSeries();
         //Controllo che i campi siano validi
         if (checkSeriesInputData(request, response)){
