@@ -28,13 +28,13 @@ public class SeriesCircle extends RESTBaseController {
     private void action_series_messages(HttpServletRequest request, HttpServletResponse response, int id_series) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("series", RESTSecurityLayer.stripSlashesSeries(getDataLayer().getSeries(id_series)));
+        request.setAttribute("series", RESTSecurityLayer.stripSlashes(getDataLayer().getSeries(id_series)));
         //Controllo che la sessione attuale sia ancora valida
         if (SecurityLayer.checkSession(request) != null){
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", RESTSecurityLayer.stripSlashesUser(user));
+        request.setAttribute("user", RESTSecurityLayer.stripSlashes(user));
         }
         result.activate("seriesCircle.ftl.html", request, response);
     }

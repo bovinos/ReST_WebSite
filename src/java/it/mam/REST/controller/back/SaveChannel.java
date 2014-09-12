@@ -42,7 +42,7 @@ public class SaveChannel extends RESTBaseController {
             action_error(request, response, "Inserire i campi obbligatori");
         }
             
-        getDataLayer().storeChannel(RESTSecurityLayer.addSlashesChannel(channel));
+        getDataLayer().storeChannel(RESTSecurityLayer.addSlashes(channel));
     }
 
     @Override

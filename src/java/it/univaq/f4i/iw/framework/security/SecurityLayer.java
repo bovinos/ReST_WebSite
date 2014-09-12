@@ -109,6 +109,7 @@ public class SecurityLayer {
     //questa funzione rimuove gli slash aggiunti da addSlashes
     //this function removes the slashes added by addSlashes
     public static String stripSlashes(String s) {
+        if (s == null) return s;
         return s.replaceAll("\\\\(['\"\\\\])", "$1");
     }
 

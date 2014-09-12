@@ -53,7 +53,7 @@ public class SaveSeries extends RESTBaseController{
                     }
                 series.setGenres(genresList);
             }
-        getDataLayer().storeSeries(RESTSecurityLayer.addSlashesSeries(series));
+        getDataLayer().storeSeries(RESTSecurityLayer.addSlashes(series));
         }
 
 

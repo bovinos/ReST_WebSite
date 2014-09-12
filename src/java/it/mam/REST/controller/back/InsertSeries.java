@@ -31,12 +31,12 @@ public class InsertSeries extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         List<Genre> genres = getDataLayer().getGenres();
         for(Genre g: genres){
-            g = RESTSecurityLayer.stripSlashesGenre(g);
+            g = RESTSecurityLayer.stripSlashes(g);
         }
         request.setAttribute("genres", genres);
          List<CastMember> castmembers = getDataLayer().getCastMembers();
         for(CastMember cm: castmembers){
-            cm = RESTSecurityLayer.stripSlashesCastMember(cm);
+            cm = RESTSecurityLayer.stripSlashes(cm);
         }
         request.setAttribute("castMembers", castmembers);
         result.activate("insertSeries.ftl.html", request, response);

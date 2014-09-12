@@ -60,7 +60,7 @@ public class SaveCommentSeries extends RESTBaseController {
         Calendar c = Calendar.getInstance();
         comment.setDate(c.getTime());
         //Salvo il commento
-        getDataLayer().storeComment(RESTSecurityLayer.addSlashesComment(comment));
+        getDataLayer().storeComment(RESTSecurityLayer.addSlashes(comment));
     }
 
     @Override

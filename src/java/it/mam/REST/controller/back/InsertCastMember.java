@@ -32,7 +32,7 @@ public class InsertCastMember extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         List<Series> series = getDataLayer().getSeries();
         for (Series s: series){
-            s = RESTSecurityLayer.stripSlashesSeries(s);
+            s = RESTSecurityLayer.stripSlashes(s);
         }
         request.setAttribute("series", series);
         // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection

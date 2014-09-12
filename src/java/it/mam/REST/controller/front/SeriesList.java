@@ -30,7 +30,7 @@ public class SeriesList extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         List<Series> series = getDataLayer().getSeries();
         for(Series s: series){
-            s = RESTSecurityLayer.stripSlashesSeries(s);
+            s = RESTSecurityLayer.stripSlashes(s);
         }
         request.setAttribute("series", series );
         //Controllo la sessione e creo l'utente
@@ -38,7 +38,7 @@ public class SeriesList extends RESTBaseController {
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", RESTSecurityLayer.stripSlashesUser(user));
+        request.setAttribute("user", RESTSecurityLayer.stripSlashes(user));
         }
         result.activate("seriesList.ftl.html", request, response);
     }

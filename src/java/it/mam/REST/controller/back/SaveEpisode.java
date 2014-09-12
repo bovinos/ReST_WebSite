@@ -59,15 +59,15 @@ public class SaveEpisode extends RESTBaseController {
             action_error(request, response, "Inserire i campi obbligatori");
         }
      
-        getDataLayer().storeEpisode(RESTSecurityLayer.addSlashesEpisode(episode));
+        getDataLayer().storeEpisode(RESTSecurityLayer.addSlashes(episode));
             
  
-        //Aggiungo la data alla relazione
+        //Aggiungo la data alla relazione MA È SBAGLIATO! In questo modo la data è la stessa per tutti i canali! 
+        //Sistemare con i campi ricevuti nella request!
         ChannelEpisode ce = getDataLayer().createChannelEpisode();
      if (request.getParameter("date") != null && request.getParameter("date").length() > 0){
          ce.setDate((SecurityLayer.checkDate(request.getParameter("date")).getTime()));
      }
-        
         ce.setEpisodeID(episode.getID());
         
         for(Channel channel: episode.getChannels()){

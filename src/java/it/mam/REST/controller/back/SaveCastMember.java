@@ -3,9 +3,9 @@ package it.mam.REST.controller.back;
 
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.CastMember;
+import it.mam.REST.data.model.CastMemberSeries;
 import it.mam.REST.data.model.Series;
 import it.univaq.f4i.iw.framework.result.FailureResult;
-import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
@@ -31,6 +31,7 @@ public class SaveCastMember extends RESTBaseController {
     // passa la lista delle serie al template "insert_news.ftl"
     private void action_news_insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CastMember castMember = getDataLayer().createCastMember();
+        CastMemberSeries cms = getDataLayer().createCastMemberSeries();
         if (checkCastMemberInputData(request, response)){
         castMember.setName(request.getParameter("name"));
         castMember.setSurname(request.getParameter("surname"));
@@ -60,17 +61,28 @@ public class SaveCastMember extends RESTBaseController {
             if (series != null) {
                 for (String s: series){
                     try{
-                    seriesList.add(RESTSecurityLayer.addSlashesSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(s))));
+                    seriesList.add(RESTSecurityLayer.addSlashes(getDataLayer().getSeries(SecurityLayer.checkNumeric(s))));
                     } catch (NumberFormatException e) {
                         action_error(request, response, "Field Error");
                     }
                 }
                 castMember.setSeries(seriesList);
             }
-        getDataLayer().storeCastMember(RESTSecurityLayer.addSlashesCastMember(castMember));
-        }
+        getDataLayer().storeCastMember(RESTSecurityLayer.addSlashes(castMember));
+        
+     //Salvo i dati della relazione
+    
+    String[] roles = request.getParameterValues("roles");
+    cms.setCastMemberID(castMember.getID());
+    for (Series s: castMember.getSeries()){
+        for(String r: roles){
+            cms.setSeriesID(s.getID());
+            cms.setRole(r);
+            getDataLayer().storeCastMemberSeries(RESTSecurityLayer.addSlashes(cms));
+        }   
     }
-
+  }
+}
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
@@ -92,7 +104,8 @@ private boolean checkCastMemberInputData(HttpServletRequest request, HttpServlet
                 && request.getParameter("gender") != null && request.getParameter("gender").length() > 0
                 && request.getParameter("country") != null && request.getParameter("country").length() > 0
                 && request.getParameter("imageURL") != null && request.getParameter("imageURL").length() > 0
-                && request.getParameterValues("series") != null && request.getParameterValues("series").length > 0;
+                && request.getParameterValues("series") != null && request.getParameterValues("series").length > 0
+                && request.getParameterValues("roles") != null && request.getParameterValues("roles").length > 0;
                  
     }
 }

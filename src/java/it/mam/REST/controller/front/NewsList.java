@@ -30,7 +30,7 @@ public class NewsList extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         List<News> newsList = getDataLayer().getNews();
         for (News n: newsList){
-            n = RESTSecurityLayer.stripSlashesNews(n);
+            n = RESTSecurityLayer.stripSlashes(n);
         }
         request.setAttribute("news", newsList);
         //Controllo che la sessione attuale sia ancora valida
@@ -38,7 +38,7 @@ public class NewsList extends RESTBaseController {
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", RESTSecurityLayer.stripSlashesUser(user));
+        request.setAttribute("user", RESTSecurityLayer.stripSlashes(user));
         }
         result.activate("newsList.ftl.html", request, response);
     }

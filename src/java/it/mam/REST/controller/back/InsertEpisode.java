@@ -36,7 +36,7 @@ public class InsertEpisode extends RESTBaseController {
         List<Series> series;
         series = getDataLayer().getSeries();
         for (Series s: series){
-           s = RESTSecurityLayer.stripSlashesSeries(s);
+           s = RESTSecurityLayer.stripSlashes(s);
         }
         request.setAttribute("series", series);
         
@@ -45,7 +45,7 @@ public class InsertEpisode extends RESTBaseController {
         List<Channel> channels;
         channels = getDataLayer().getChannels();
         for (Channel c: channels){
-           c = RESTSecurityLayer.stripSlashesChannel(c);
+           c = RESTSecurityLayer.stripSlashes(c);
         }
         request.setAttribute("channels", channels);
         

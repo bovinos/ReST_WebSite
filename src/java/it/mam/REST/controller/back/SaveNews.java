@@ -67,7 +67,7 @@ public class SaveNews extends RESTBaseController {
         Calendar c = Calendar.getInstance();
         news.setDate(c.getTime());
         //Salvo il commento
-        getDataLayer().storeNews(RESTSecurityLayer.addSlashesNews(news));
+        getDataLayer().storeNews(RESTSecurityLayer.addSlashes(news));
     }
 
     @Override
