@@ -562,6 +562,10 @@ a{
 
     }
 
+    #LogOut{
+        @extend #LogIn;
+    }
+
     #menu{
 
         ul{
@@ -1313,9 +1317,6 @@ a{
             color: $turquoise;
             @include borderRadius(4px);
             padding: 3px 5px;
-
-            &:after{
-            }
         }
 
         button{
