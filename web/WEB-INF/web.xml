@@ -115,6 +115,22 @@
         <servlet-name>SaveCommentNews</servlet-name>
         <servlet-class>it.mam.REST.controller.back.SaveCommentNews</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SaveCommentSeries</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.SaveCommentSeries</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveChannel</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.SaveChannel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertEpisode</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.InsertEpisode</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveEpisode</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.SaveEpisode</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
         <url-pattern>/ListaNews</url-pattern>
@@ -194,6 +210,22 @@
     <servlet-mapping>
         <servlet-name>SaveCommentNews</servlet-name>
         <url-pattern>/SalvaCommentoNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveCommentSeries</servlet-name>
+        <url-pattern>/SalvaCommentoSerie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveChannel</servlet-name>
+        <url-pattern>/SalvaCanale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertEpisode</servlet-name>
+        <url-pattern>/InserisciEpisodio</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveEpisode</servlet-name>
+        <url-pattern>/SalvaEpisodio</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

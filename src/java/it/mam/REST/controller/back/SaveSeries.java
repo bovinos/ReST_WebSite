@@ -30,7 +30,6 @@ public class SaveSeries extends RESTBaseController{
         Series series = getDataLayer().createSeries();
         //Controllo che i campi siano validi
         if (checkSeriesInputData(request, response)){
-            //Tolgo gli slash
         series.setName(request.getParameter("name"));
         try{
         series.setYear(SecurityLayer.checkNumeric(request.getParameter("year")));
@@ -73,9 +72,12 @@ public class SaveSeries extends RESTBaseController{
     }
 
     private boolean checkSeriesInputData(HttpServletRequest request, HttpServletResponse response){
-        return request.getParameter("name") != null && request.getParameter("year") != null && request.getParameter("description") != null 
-                && request.getParameter("image_URL") != null && request.getParameter("state") != null && request.getParameter("genres") != null
-                && (request.getParameter("name").length()) > 0 && (request.getParameter("year").length() > 0) && (request.getParameter("description").length() > 0)
-                && (request.getParameter("imageURL").length() > 0) && (request.getParameter("state").length() > 0);
+        return request.getParameter("name") != null && request.getParameter("name").length() > 0
+                && request.getParameter("year") != null && request.getParameter("year").length() > 0 
+                && request.getParameter("description") != null && request.getParameter("description").length() > 0
+                && request.getParameter("image_URL") != null && request.getParameter("image_URL").length() > 0
+                && request.getParameter("state") != null && request.getParameter("state").length() > 0
+                && request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0;
+                 
     }
 }

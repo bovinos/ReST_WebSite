@@ -5,6 +5,7 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Series;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.List;
@@ -29,13 +30,9 @@ public class InsertCastMember extends RESTBaseController {
     private void action_insert_castmember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
-        List<Series> series;
-        series = getDataLayer().getSeries();
+        List<Series> series = getDataLayer().getSeries();
         for (Series s: series){
-            s.setName(SecurityLayer.stripSlashes(s.getName()));
-            s.setDescription(SecurityLayer.stripSlashes(s.getDescription()));
-            s.setImageURL(SecurityLayer.stripSlashes(s.getImageURL()));
-            s.setState(SecurityLayer.stripSlashes(s.getState()));
+            s = RESTSecurityLayer.stripSlashesSeries(s);
         }
         request.setAttribute("series", series);
         // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection

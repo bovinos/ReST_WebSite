@@ -37,7 +37,7 @@ public class RESTSecurityLayer {
         castmember.setImageURL(SecurityLayer.stripSlashes(castmember.getImageURL()));
         return castmember;
     }
-    public static Channel stripSlashesChannerl(Channel channel){
+    public static Channel stripSlashesChannel(Channel channel){
         channel.setName(SecurityLayer.stripSlashes(channel.getName()));
         channel.setType(SecurityLayer.stripSlashes(channel.getType()));
         return channel;
@@ -86,7 +86,7 @@ public class RESTSecurityLayer {
         castmember.setImageURL(SecurityLayer.addSlashes(castmember.getImageURL()));
         return castmember;
     }
-    public static Channel addSlashesChannerl(Channel channel){
+    public static Channel addSlashesChannel(Channel channel){
         channel.setName(SecurityLayer.addSlashes(channel.getName()));
         channel.setType(SecurityLayer.addSlashes(channel.getType()));
         return channel;
