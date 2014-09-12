@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Mirko
  */
-public class MyProfileActivateUserBroadcastProgramming extends RESTBaseController {
+public class GoToMyProfileUserBroadcastProgramming extends RESTBaseController {
 
     // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {

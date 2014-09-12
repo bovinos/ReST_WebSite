@@ -17,6 +17,7 @@ import it.mam.REST.data.model.User;
  */
 public class RESTSecurityLayer {
     public static User stripSlashes(User user){
+        user.setUsername(SecurityLayer.stripSlashes(user.getUsername()));
         user.setName(SecurityLayer.stripSlashes(user.getName()));
         user.setSurname(SecurityLayer.stripSlashes(user.getSurname()));
         user.setMail(SecurityLayer.stripSlashes(user.getMail()));
@@ -71,6 +72,7 @@ public class RESTSecurityLayer {
     }
     
         public static User addSlashes(User user){
+        user.setUsername(SecurityLayer.addSlashes(user.getUsername()));
         user.setName(SecurityLayer.addSlashes(user.getName()));
         user.setSurname(SecurityLayer.addSlashes(user.getSurname()));
         user.setMail(SecurityLayer.addSlashes(user.getMail()));

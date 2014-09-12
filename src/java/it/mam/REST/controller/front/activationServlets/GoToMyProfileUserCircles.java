@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Mirko
  */
-public class MyProfileActivateUserSignUpData extends RESTBaseController {
+public class GoToMyProfileUserCircles extends RESTBaseController {
 
     // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
@@ -24,21 +24,21 @@ public class MyProfileActivateUserSignUpData extends RESTBaseController {
     }
 
     // prende tutti i dati dell'utente e li passa al template MyProfile.ftl.html
-    private void action_activate_ProfileUserSignUpData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void action_activate_ProfileUserCircles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         if (SecurityLayer.checkSession(request) == null) result.activate("logIn.ftl.html", request, response);
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
-        request.setAttribute("userProfileContent_tpl", "userSignUpData.ftl.html");
+        request.setAttribute("userProfileContent_tpl", "userCircles.ftl.html");
         result.activate("userProfile/userProfileOutline.ftl.html", request, response);
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            action_activate_ProfileUserSignUpData(request, response);
+            action_activate_ProfileUserCircles(request, response);
         } catch (IOException ex) {
             action_error(request, response, ex.getMessage());
         }
