@@ -111,10 +111,10 @@
     <div class="seriesBox four columns">
         <a href="SchedaSerie?id=${s.ID}">
             <div class="imgContainer">
-                <img src="${s.imageURL}" alt="immagine ${s.name}"/>
+                <img src="${strip_slashes(s.imageURL)}" alt="immagine ${strip_slashes(s.name)?html}"/>
             </div>
             <div class="seriesDescription">
-                <h1>${s.name}</h1>
+                <h1>${strip_slashes(s.name)?html}</h1>
             </div>
         </a>
     </div>

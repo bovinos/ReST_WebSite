@@ -60,7 +60,7 @@
         <servlet-class>it.mam.REST.controller.back.SaveNews</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Login</servlet-name>
+        <servlet-name>SubmitLogin</servlet-name>
         <servlet-class>it.mam.REST.controller.front.SubmitLogIn</servlet-class>
     </servlet>
     <servlet>
@@ -168,10 +168,6 @@
         <url-pattern>/SalvaNews</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Login</servlet-name>
-        <url-pattern>/Login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>SaveUser</servlet-name>
         <url-pattern>/SalvaUtente</url-pattern>
     </servlet-mapping>
@@ -240,16 +236,20 @@
         <url-pattern>/LogOut</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>GoToSignUp</servlet-name>
-        <url-pattern>/AttivaRegistrazione</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>SubmitLogIn</servlet-name>
         <url-pattern>/InviaLogIn</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GoToLogin</servlet-name>
         <url-pattern>/LogIn</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GoToSignUp</servlet-name>
+        <url-pattern>/Registrazione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmitLogin</servlet-name>
+        <url-pattern>/InviaLogin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

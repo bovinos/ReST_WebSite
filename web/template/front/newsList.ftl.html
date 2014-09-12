@@ -87,23 +87,23 @@
     <#list news as n>
     <div class="news row">
         <div class="imgContainer two columns">
-            <img src="${n.imageURL}" alt="News image"/>
+            <img src="${strip_slashes(n.imageURL)}" alt="News image"/>
         </div>
         <div class="notImgContainer fourteen columns">
             <div class="header">
-                <h1><a href="SchedaNews?id=${n.ID}">${n.title}</a></h1>
+                <h1><a href="SchedaNews?id=${n.ID}">${strip_slashes(n.title)?html}</a></h1>
             </div>
             <div class="body">
-                <p>${n.text}</p>
+                <p>${strip_slashes(n.text)?html}</p>
             </div>
             <div class="footer">
                 <div class="left">
-                    <p>${n.user.username}, ${n.date}</p>
+                    <p>${strip_slashes(n.user.username)?html}, ${strip_slashes(n.date)?html}</p>
                 </div>
                 <div class="right">
                     <p>
-                        <span class="like" data-icon="&#xe0dd;">${n.likes}</span>
-                        <span class="dislike" data-icon="&#xe0f1;">${n.dislikes}</span>
+                        <span class="like" data-icon="&#xe0dd;">${strip_slashes(n.likes)?html}</span>
+                        <span class="dislike" data-icon="&#xe0f1;">${strip_slashes(n.dislikes)?html}</span>
                     </p>
                 </div>
             </div>

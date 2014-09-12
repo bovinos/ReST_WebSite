@@ -2,13 +2,13 @@
 <!-- NEWS
 ============================================================================================== -->
 <div id="newsCard">
-    <h1>${news.title}</h1>
+    <h1>${strip_slashes(news.title)?html}</h1>
 
     <div class="imgContainer">
-        <img src="${news.imageURL}" alt="Immagine ${news.title}"/>
+        <img src="${strip_slashes(news.imageURL)}" alt="Immagine ${strip_slashes(news.title)?html}"/>
     </div>
 
-    <p id="newsText">${news.text}</p>
+    <p id="newsText">${strip_slashes(news.text)?html}</p>
 
     <div class="footer">
         <div class="tag left">
@@ -16,12 +16,12 @@
         </div>
         <div class="right">
             <div class="authorAndDate">
-                <p>${news.user.username}</p>
+                <p>${strip_slashes(news.user.username)?html}</p>
             </div>
             <div class="likeAndDislike">
                 <p>
-                    <span class="like" data-icon="&#xe0dd;">${news.likes}</span>
-                    <span class="dislike" data-icon="&#xe0f1;">${news.dislikes}</span>
+                    <span class="like" data-icon="&#xe0dd;">${strip_slashes(news.likes)?html}</span>
+                    <span class="dislike" data-icon="&#xe0f1;">${strip_slashes(news.dislikes)?html}</span>
                 </p>
             </div>
         </div>
@@ -39,26 +39,26 @@
     <div class="comment row">
         <div class="imgContainer two columns">
             <#if c.user.imageURL??>
-            <img src="${c.user.imageURL}" alt="User avatar"/>
+            <img src="${strip_slashes(c.user.imageURL)}" alt="User avatar"/>
             <#else>
             <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User avatar placeholder"/>
             </#if>
         </div>
         <div class="notImgContainer fourteen columns">
             <div class="header">
-                <h1>${c.title}</h1>
+                <h1>${strip_slashes(c.title)?html}</h1>
             </div>
             <div class="body">
-                <p>${c.text}</p>
+                <p>${strip_slashes(c.text)?html}</p>
             </div>
             <div class="footer">
                 <div class="left">
-                    <p>${c.user.username}, ${c.date ?datetime} </p>
+                    <p>${strip_slashes(c.user.username)?html}, ${strip_slashes(c.date)?datetime?html} </p>
                 </div>
                 <div class="right">
                     <p>
-                        <span class="like" data-icon="&#xe0dd;">${c.likes}</span>
-                        <span class="dislike" data-icon="&#xe0f1;">${c.dislikes}</span>
+                        <span class="like" data-icon="&#xe0dd;">${strip_slashes(c.likes)?html}</span>
+                        <span class="dislike" data-icon="&#xe0f1;">${strip_slashes(c.dislikes)?html}</span>
                     </p>
                 </div>
             </div>

@@ -71,6 +71,9 @@ input:invalid {
   input:invalid ~ span.formValidInput {
     display: none; }
 
+input:default {
+  background: black; }
+
 .formInput {
   position: relative; }
   .formInput .formValidInput, .formInput .formInvalidInput {

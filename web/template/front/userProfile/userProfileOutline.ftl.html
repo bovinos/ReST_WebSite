@@ -3,12 +3,12 @@
     <div id="userProfileOutlineHeader" class="row">
         <div class="imgContainer">
             <#if user.imageURL??>
-            <img id="userAvatar" src="user.imageURL" alt="Avatar di user.username" />
+            <img id="userAvatar" src="${strip_slashes(user.imageURL)}" alt="Avatar di ${strip_slashes(user.username)?html}" />
             <#else>
             <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User avatar placeholder"/>
             </#if>
         </div>
-        <p id="userUsername">${user.username}</p>
+        <p id="userUsername">${strip_slashes(user.username)?html}</p>
     </div>
 
     <div id="userProfileOutlineBody" class="row">

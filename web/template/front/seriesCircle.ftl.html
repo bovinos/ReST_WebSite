@@ -4,8 +4,8 @@
     ============================================================================================== -->
 
     <div class="imgSeriesContainer">
-        <h1>${series.name}</h1>
-        <img src="${series.imageURL}" alt="Immagine ${series.name}"/>
+        <h1>${strip_slashes(series.name)?html}</h1>
+        <img src="${strip_slashes(series.imageURL)}" alt="Immagine ${strip_slashes(series.name)?html}"/>
     </div>
 
     <!-- MESSAGGI CERCHIA
@@ -18,21 +18,21 @@
         <div class="comment row">
             <div class="imgContainer two columns">
                 <#if m.user.imageURL??>
-                <img src="${m.user.imageURL}" alt="User avatar"/>
+                <img src="${strip_slashes(m.user.imageURL)}" alt="User avatar"/>
                 <#else>
                 <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User Avatar placeholder"/>
                 </#if>
             </div>
             <div class="notImgContainer fourteen columns">
                 <div class="header">
-                    <h1>${m.title}</h1>
+                    <h1>${strip_slashes(m.title)?html}</h1>
                 </div>
                 <div class="body">
-                    <p>${m.text}</p>
+                    <p>${strip_slashes(m.text)?html}</p>
                 </div>
                 <div class="footer">
                     <div class="right">
-                        <p>${m.user.username}, ${m.date} </p>
+                        <p>${strip_slashes(m.user.username)?html}, ${strip_slashes(m.date)?html} </p>
                     </div>
                 </div>
             </div>

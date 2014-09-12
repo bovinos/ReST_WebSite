@@ -6,7 +6,7 @@
 
     <div class="imgContainer">
         <h1>${series.name}</h1>
-        <img src="${series.imageURL}" alt="Immagine ${series.name}"/>
+        <img src="${strip_slashes(series.imageURL)}" alt="Immagine ${strip_slashes(series.name)?html}"/>
         <div id="seriesRate">
             <!-- QUI È UNA COSA CONDIZIONALE -.-" -->
         </div>
@@ -22,7 +22,7 @@
 
     <h2>Trama</h2>
 
-    <p id="seriesDescription">${series.description}</p>
+    <p id="seriesDescription">${strip_slashes(series.description)?html}</p>
 
     <!-- Controllo se esistono stagioni per questa serie -->
     <#if (seasons?size > 0)>
@@ -31,13 +31,13 @@
         <#list seasons as s>
         <!-- Controllo se esistono episodi per questa stagione -->
         <#if (s.episodes?size > 0)>
-        <div id="Stagione${s.number}" class="season accordionSection">
-            <h3 class="accordionSectionTitle"><a href="#Stagione${s.number}">Stagione ${s.number}</a></h3>
+        <div id="Stagione${strip_slashes(s.number)?html}" class="season accordionSection">
+            <h3 class="accordionSectionTitle"><a href="#Stagione${strip_slashes(s.number)?html}">Stagione ${strip_slashes(s.number)?html}</a></h3>
             <!-- se esistono stampiamoli tutti -->
             <#list s.episodes as e>
             <div class="episode accordionContent">
-                <h4>Episodio ${e.number}: ${e.title}</h4>
-                <p>${e.description}</p>
+                <h4>Episodio ${strip_slashes(e.number)?html}: ${strip_slashes(e.title)?html}</h4>
+                <p>${strip_slashes(e.description)?html}</p>
             </div>
             </#list>
         </div>
@@ -67,26 +67,26 @@
     <div class="comment row">
         <div class="imgContainer two columns">
             <#if c.user.imageURL??>
-            <img src="${c.user.imageURL}" alt="User avatar"/>
+            <img src="${strip_slashes(c.user.imageURL)}" alt="User avatar"/>
             <#else>
             <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User Avatar placeholder"/>
             </#if>
         </div>
         <div class="notImgContainer fourteen columns">
             <div class="header">
-                <h1>${c.title}</h1>
+                <h1>${strip_slashes(c.title)?html}</h1>
             </div>
             <div class="body">
-                <p>${c.text}</p>
+                <p>${strip_slashes(c.text)?html}</p>
             </div>
             <div class="footer">
                 <div class="left">
-                    <p>${c.user.username}, ${c.date ?datetime} </p>
+                    <p>${strip_slashes(c.user.username)?html}, ${strip_slashes(c.date)?datetime?html} </p>
                 </div>
                 <div class="right">
                     <p>
-                        <span class="like" data-icon="&#xe0dd;">${c.likes}</span>
-                        <span class="dislike" data-icon="&#xe0f1;">${c.dislikes}</span>
+                        <span class="like" data-icon="&#xe0dd;">${strip_slashes(c.likes)?html}</span>
+                        <span class="dislike" data-icon="&#xe0f1;">${strip_slashes(c.dislikes)?html}</span>
                     </p>
                 </div>
             </div>

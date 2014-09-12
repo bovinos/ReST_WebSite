@@ -7,10 +7,10 @@
         <#list user.series as s>
         <div class="series row">
             <div class="imgContainer four columns">
-                <img src="${s.imageURL}" alt="Immagine di ${s.name}"/>
+                <img src="${strip_slashes(s.imageURL)}" alt="Immagine di ${strip_slashes(s.name)}"/>
             </div>
             <div class="nameAndLastEpisodeSeeen three columns">
-                <h1>${s.name}</h1>
+                <h1>${strip_slashes(s.name)}</h1>
                 <p>Ultimo episodio visto:</p>
             </div>
             <div class="ratingAndNextEpisode three columns">
