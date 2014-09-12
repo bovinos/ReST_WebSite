@@ -6,6 +6,7 @@ import it.mam.REST.data.model.CastMember;
 import it.mam.REST.data.model.Series;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,16 +31,17 @@ public class SaveCastMember extends RESTBaseController {
     // passa la lista delle serie al template "insert_news.ftl"
     private void action_news_insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CastMember castMember = getDataLayer().createCastMember();
-        TemplateResult result = new TemplateResult(getServletContext());
-        castMember.setName(SecurityLayer.addSlashes(request.getParameter("name")));
-        castMember.setSurname(SecurityLayer.addSlashes(request.getParameter("surname")));
+        if (checkCastMemberInputData(request, response)){
+        castMember.setName(request.getParameter("name"));
+        castMember.setSurname(request.getParameter("surname"));
         try{
         castMember.setBirthDate((SecurityLayer.checkDate(request.getParameter("birthdate"))).getTime());
         } catch (NumberFormatException e){
             action_error(request, response, "Invalid Datetime");
         }
-        
+        try {
         int gender = SecurityLayer.checkNumeric(request.getParameter("gender"));
+       
         switch (gender) {
             case 1: castMember.setGender(CastMember.MALE);
             break;
@@ -47,25 +49,26 @@ public class SaveCastMember extends RESTBaseController {
             break;
             default: action_error(request, response, "Invalid gender");
         }
-        
-        castMember.setCountry(SecurityLayer.addSlashes(request.getParameter("country")));
-        castMember.setImageURL(SecurityLayer.addSlashes(request.getParameter("imageUrl")));
+         } catch (NumberFormatException e) {
+                        action_error(request, response, "Internal Error");
+                    }
+        castMember.setCountry(request.getParameter("country"));
+        castMember.setImageURL(request.getParameter("imageURL"));
         
         String[] series = request.getParameterValues("series");
             List<Series> seriesList = new ArrayList();
             if (series != null) {
                 for (String s: series){
                     try{
-                    seriesList.add(getDataLayer().getSeries(SecurityLayer.checkNumeric(s)));
+                    seriesList.add(RESTSecurityLayer.addSlashesSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(s))));
                     } catch (NumberFormatException e) {
                         action_error(request, response, "Field Error");
                     }
                 }
                 castMember.setSeries(seriesList);
             }
-        // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
-        //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
-        result.activate("insert_news.ftl", request, response);
+        getDataLayer().storeCastMember(RESTSecurityLayer.addSlashesCastMember(castMember));
+        }
     }
 
     @Override
@@ -82,5 +85,14 @@ public class SaveCastMember extends RESTBaseController {
     public String getServletInfo() {
         return "Short description";
     }
-
+private boolean checkCastMemberInputData(HttpServletRequest request, HttpServletResponse response){
+        return request.getParameter("name") != null && request.getParameter("name").length() > 0
+                && request.getParameter("surname") != null && request.getParameter("surname").length() > 0 
+                && request.getParameter("birthdate") != null && request.getParameter("birthdate").length() > 0
+                && request.getParameter("gender") != null && request.getParameter("gender").length() > 0
+                && request.getParameter("country") != null && request.getParameter("country").length() > 0
+                && request.getParameter("imageURL") != null && request.getParameter("imageURL").length() > 0
+                && request.getParameterValues("series") != null && request.getParameterValues("series").length > 0;
+                 
+    }
 }

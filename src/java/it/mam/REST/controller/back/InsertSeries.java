@@ -6,12 +6,11 @@ import it.mam.REST.data.model.CastMember;
 import it.mam.REST.data.model.Genre;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,16 +31,12 @@ public class InsertSeries extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         List<Genre> genres = getDataLayer().getGenres();
         for(Genre g: genres){
-            g.setName(SecurityLayer.stripSlashes(g.getName()));
+            g = RESTSecurityLayer.stripSlashesGenre(g);
         }
         request.setAttribute("genres", genres);
          List<CastMember> castmembers = getDataLayer().getCastMembers();
         for(CastMember cm: castmembers){
-            cm.setName(SecurityLayer.stripSlashes(cm.getName()));
-            cm.setSurname(SecurityLayer.stripSlashes(cm.getSurname()));
-            cm.setCountry(SecurityLayer.stripSlashes(cm.getCountry()));
-            cm.setGender(SecurityLayer.stripSlashes(cm.getGender()));
-            cm.setImageURL(SecurityLayer.stripSlashes(cm.getImageURL()));
+            cm = RESTSecurityLayer.stripSlashesCastMember(cm);
         }
         request.setAttribute("castMembers", castmembers);
         result.activate("insertSeries.ftl.html", request, response);

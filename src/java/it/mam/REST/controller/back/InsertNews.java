@@ -4,9 +4,9 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Series;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,18 +31,14 @@ public class InsertNews extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         //Qui creo la lista delle serie che passo al template, in modo che si possa scegliere (opzionalmente)
         //la serie o le serie a cui la news si riferisce. Non passo la lista dei generi perché non ce n'è bisogno lì.
-        List<Series> series;
-        series = getDataLayer().getSeries();
+        List<Series> series = getDataLayer().getSeries();
         for (Series s: series){
-            s.setName(SecurityLayer.stripSlashes(s.getName()));
-            s.setDescription(SecurityLayer.stripSlashes(s.getDescription()));
-            s.setImageURL(SecurityLayer.stripSlashes(s.getImageURL()));
-            s.setState(SecurityLayer.stripSlashes(s.getState()));
+            s = RESTSecurityLayer.stripSlashesSeries(s);
         }
         request.setAttribute("series", series);
         // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
         //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
-        result.activate("insert_news.ftl", request, response);
+        result.activate("insert_news.ftl.html", request, response);
     }
 
     @Override
