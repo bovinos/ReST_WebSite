@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Mirko
  */
-public class GoToMyProfileUserCircles extends RESTBaseController {
+public class ZZZ_GoToMyProfileUserCircles extends RESTBaseController {
 
     // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {

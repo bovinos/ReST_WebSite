@@ -60,8 +60,8 @@
         <servlet-class>it.mam.REST.controller.back.SaveNews</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SubmitLogin</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.SubmitLogIn</servlet-class>
+        <servlet-name>LogIn</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.LogIn</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SaveUser</servlet-name>
@@ -88,30 +88,6 @@
         <servlet-class>it.mam.REST.controller.back.SaveCastMember</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>GoToLogin</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.activationServlets.GoToLogin</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>GoToSignUp</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.activationServlets.GoToSignUp</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>GoToMyProfileUserSeries</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.activationServlets.GoToMyProfileUserSeries</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>GoToMyProfileUserCircles</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.activationServlets.GoToMyProfileUserCircles</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>GoToMyProfileUserBroadcastProgramming</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.activationServlets.GoToMyProfileUserBroadcastProgramming</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>GoToMyProfileUserSignUpData</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.activationServlets.GoToMyProfileUserSignUpData</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SaveCommentNews</servlet-name>
         <servlet-class>it.mam.REST.controller.back.SaveCommentNews</servlet-class>
     </servlet>
@@ -132,16 +108,8 @@
         <servlet-class>it.mam.REST.controller.back.SaveEpisode</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AddProfileDetails</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.AddProfileDetails</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LogOut</servlet-name>
         <servlet-class>it.mam.REST.controller.front.LogOut</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SubmitLogIn</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.SubmitLogIn</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
@@ -192,22 +160,6 @@
         <url-pattern>/SalvaSerie</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>GoToMyProfileUserSignUpData</servlet-name>
-        <url-pattern>/ProfiloPersonaleDatiUtente</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GoToMyProfileUserSeries</servlet-name>
-        <url-pattern>/LeMieSerie</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GoToMyProfileUserCircles</servlet-name>
-        <url-pattern>/LeMieCerchie</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GoToMyProfileUserBroadcastProgramming</servlet-name>
-        <url-pattern>/IlMioPalinsesto</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>SaveCommentNews</servlet-name>
         <url-pattern>/SalvaCommentoNews</url-pattern>
     </servlet-mapping>
@@ -228,28 +180,12 @@
         <url-pattern>/SalvaEpisodio</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AddProfileDetails</servlet-name>
-        <url-pattern>/AggiungiDettagliProfilo</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>LogOut</servlet-name>
         <url-pattern>/LogOut</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SubmitLogIn</servlet-name>
-        <url-pattern>/InviaLogIn</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GoToLogin</servlet-name>
+        <servlet-name>LogIn</servlet-name>
         <url-pattern>/LogIn</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GoToSignUp</servlet-name>
-        <url-pattern>/Registrazione</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SubmitLogin</servlet-name>
-        <url-pattern>/InviaLogin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
