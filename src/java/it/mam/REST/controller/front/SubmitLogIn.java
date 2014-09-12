@@ -1,3 +1,4 @@
+
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
@@ -10,11 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author alex
- */
-public class Login extends RESTBaseController {
+public class SubmitLogIn extends RESTBaseController {
 
     // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
@@ -32,7 +29,6 @@ public class Login extends RESTBaseController {
             if (user == null) {
                 action_error(request, response, "Hai inserito dei dati non validi");
             }
-
             SecurityLayer.createSession(request, username, user.getID());
         } else {
             action_error(request, response, "Non hai riempito tutti i campi necessari!");
