@@ -65,7 +65,7 @@
     </servlet>
     <servlet>
         <servlet-name>SaveUser</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.SaveUser</servlet-class>
+        <servlet-class>it.mam.REST.controller.back.SaveUser</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>InsertSeries</servlet-name>
@@ -130,6 +130,10 @@
     <servlet>
         <servlet-name>SaveEpisode</servlet-name>
         <servlet-class>it.mam.REST.controller.back.SaveEpisode</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddProfileDetails</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.AddProfileDetails</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
@@ -226,6 +230,10 @@
     <servlet-mapping>
         <servlet-name>SaveEpisode</servlet-name>
         <url-pattern>/SalvaEpisodio</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddProfileDetails</servlet-name>
+        <url-pattern>/AggiungiDettagliProfilo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

@@ -24,21 +24,18 @@ public class Login extends RESTBaseController {
     }
 
     private void action_login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        User user = null;
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        if (username != null && username.length() > 0 && password != null && password.length() > 0) {
-            username = SecurityLayer.addSlashes(username);
-            password = Utility.stringToMD5(Utility.stringToMD5(password));
-            user = getDataLayer().getUser(username, password);
+        User user;
+        if (checkLoginInputData(request, response)){
+        String username = SecurityLayer.addSlashes(request.getParameter("username"));
+        String password = Utility.stringToMD5(Utility.stringToMD5(request.getParameter("password")));
+        user = getDataLayer().getUser(username, password);
             if (user == null) {
-                // errore inserimento username o password
+                action_error(request, response, "Hai inserito dei dati non validi");
             }
 
             SecurityLayer.createSession(request, username, user.getID());
         } else {
-            // errore uno dei campi è vuoto
+            action_error(request, response, "Non hai riempito tutti i campi necessari!");
         }
         // in realtà dovrei ridirigere alla pagina in cui ha fatto il login
         response.sendRedirect("ListaNews");
@@ -57,5 +54,8 @@ public class Login extends RESTBaseController {
     public String getServletInfo() {
         return "Short description";
     }
-
+ private boolean checkLoginInputData(HttpServletRequest request, HttpServletResponse response){
+        return request.getParameter("username") != null && request.getParameter("username").length() > 0
+                && request.getParameter("password") != null && request.getParameter("password").length() > 0;
+ }
 }

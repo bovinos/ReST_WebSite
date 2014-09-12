@@ -63,7 +63,7 @@ public class SaveEpisode extends RESTBaseController {
             
  
         //Aggiungo la data alla relazione MA È SBAGLIATO! In questo modo la data è la stessa per tutti i canali! 
-        //Sistemare con i campi ricevuti nella request!
+        //Sistemare con i campi ricevuti nella request! E possibilmente spostare il controllo dell'if nel metodo in fondo!
         ChannelEpisode ce = getDataLayer().createChannelEpisode();
      if (request.getParameter("date") != null && request.getParameter("date").length() > 0){
          ce.setDate((SecurityLayer.checkDate(request.getParameter("date")).getTime()));
