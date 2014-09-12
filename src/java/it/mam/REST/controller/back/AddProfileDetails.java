@@ -4,7 +4,6 @@ package it.mam.REST.controller.back;
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.User;
-import it.mam.REST.utility.Utility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
@@ -54,7 +53,7 @@ public class AddProfileDetails extends RESTBaseController {
             }
             
             getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
-        response.sendRedirect("MyProfileActivateUserSignUpData");
+        response.sendRedirect("ProfiloPersonaleDatiUtente");
     }
     }
     

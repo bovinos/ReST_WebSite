@@ -61,7 +61,7 @@
     </servlet>
     <servlet>
         <servlet-name>Login</servlet-name>
-        <servlet-class>it.mam.REST.controller.front.Login</servlet-class>
+        <servlet-class>it.mam.REST.controller.front.LogIn</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SaveUser</servlet-name>
@@ -134,6 +134,10 @@
     <servlet>
         <servlet-name>AddProfileDetails</servlet-name>
         <servlet-class>it.mam.REST.controller.back.AddProfileDetails</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogOut</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.LogOut</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
@@ -234,6 +238,10 @@
     <servlet-mapping>
         <servlet-name>AddProfileDetails</servlet-name>
         <url-pattern>/AggiungiDettagliProfilo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogOut</servlet-name>
+        <url-pattern>/LogOut</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
