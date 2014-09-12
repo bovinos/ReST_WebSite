@@ -16,9 +16,6 @@ $secondaryTextColor: #999999;
 $topBarHeight: 50px;
 
 
-
-
-
 /* MIXINS
 =============================================================================================== */
 @mixin transition($property, $time){
@@ -110,6 +107,43 @@ time, mark, audio, video{
 input:focus, select:focus{
     outline: none;
 }
+
+input:valid{
+
+    & ~ span.formValidInput{
+        display: inline-block;
+        color: green;
+    }
+
+    & ~ span.formInvalidInput{
+        display: none;
+    }
+}
+
+input:invalid{
+    @include boxShadow(0, 0, 0, transparent); /* per annullare il default dello user agent */
+
+    & ~ span.formInvalidInput{
+        display: inline-block;
+        color: #cc0000;
+    }
+
+    & ~ span.formValidInput{
+        display: none;
+    }
+}
+
+.formInput{
+    position: relative;
+
+    .formValidInput, .formInvalidInput{
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        font-size: 1.7rem;
+    }
+}
+
 
 html, body{
     font-family: OpenSans, Verdana, Arial, Helvetica; /* più in là inserire web font e gestire la tipografia in generale */

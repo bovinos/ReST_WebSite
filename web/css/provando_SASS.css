@@ -54,6 +54,31 @@ time, mark, audio, video {
 input:focus, select:focus {
   outline: none; }
 
+input:valid ~ span.formValidInput {
+  display: inline-block;
+  color: green; }
+input:valid ~ span.formInvalidInput {
+  display: none; }
+
+input:invalid {
+  -webkit-box-shadow: 0 0 0 transparent;
+  -moz-box-shadow: 0 0 0 transparent;
+  box-shadow: 0 0 0 transparent;
+  /* per annullare il default dello user agent */ }
+  input:invalid ~ span.formInvalidInput {
+    display: inline-block;
+    color: #cc0000; }
+  input:invalid ~ span.formValidInput {
+    display: none; }
+
+.formInput {
+  position: relative; }
+  .formInput .formValidInput, .formInput .formInvalidInput {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 1.7rem; }
+
 html, body {
   font-family: OpenSans, Verdana, Arial, Helvetica;
   /* pi├╣ in l├á inserire web font e gestire la tipografia in generale */
