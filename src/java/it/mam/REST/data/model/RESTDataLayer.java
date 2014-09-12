@@ -83,10 +83,6 @@ public interface RESTDataLayer extends DataLayer {
 
     void removeEpisode(Episode episode);
 
-    //**************************************************
-    Episode getLastEpisodeSeen(User user, Series series);
-    //**************************************************
-
     // =============================================================
     // GENRE
     // =============================================================
@@ -229,5 +225,45 @@ public interface RESTDataLayer extends DataLayer {
     void storeUser(User user);
 
     void removeUser(User user);
+
+    // =============================================================
+    // CAST MEMBER SERIES
+    // =============================================================
+    CastMemberSeries createCastMemberSeries();
+
+    List<CastMemberSeries> getCastMembeSeries(CastMember castMember, Series series);
+
+    void storeCastMemberSeries(CastMemberSeries castMemberSeries);
+
+    void removeCastMemberSeries(CastMemberSeries castMemberSeries);
+
+    // =============================================================
+    // CHANNEL EPISODE
+    // =============================================================
+    ChannelEpisode createChannelEpisode();
+
+    List<ChannelEpisode> getChannelEpisode(Channel channel, Episode episode);
+
+    void storeChannelEpisode(ChannelEpisode channelEpisode);
+
+    void removeChannelEpisode(ChannelEpisode channelEpisode);
+
+    // =============================================================
+    // CHANNEL EPISODE
+    // =============================================================
+    UserSeries createUserSeries();
+
+    UserSeries getUserSeries(User user, Series series);
+
+    void storeUserSeries(UserSeries userSeries);
+
+    void removeUserSeries(UserSeries userSeries);
+
+    // =============================================================
+    // OTHER
+    // =============================================================
+    Episode getLastEpisodeSeen(User user, Series series);
+
+    int getSeriesGeneralRating(Series series);
 
 }

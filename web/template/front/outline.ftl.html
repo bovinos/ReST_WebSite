@@ -19,13 +19,11 @@
                 <!-- controllo sulla sessione dell'utente -->
                 <#if (sessionUsername??)>
                 <div class="imgContainer">
-                    <a href="LeMieSerie">
-                        <#if user??>
+                    <a href="LeMieCerchie">
                         <#if user.imageURL??>
                         <img src="user.imageURL" alt="Avatar di user.username" />
                         <#else>
                         <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User avatar placeholder"/>
-                        </#if>
                         </#if>
                     </a>
                 </div>

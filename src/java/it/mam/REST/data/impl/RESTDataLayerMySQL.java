@@ -1,7 +1,9 @@
 package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.CastMember;
+import it.mam.REST.data.model.CastMemberSeries;
 import it.mam.REST.data.model.Channel;
+import it.mam.REST.data.model.ChannelEpisode;
 import it.mam.REST.data.model.Comment;
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Genre;
@@ -12,6 +14,7 @@ import it.mam.REST.data.model.RESTDataLayer;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.Service;
 import it.mam.REST.data.model.User;
+import it.mam.REST.data.model.UserSeries;
 import it.univaq.f4i.iw.framework.data.DataLayerException;
 import it.univaq.f4i.iw.framework.data.DataLayerMysqlImpl;
 import java.sql.PreparedStatement;
@@ -70,8 +73,21 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sUsers, sUsersBySeries, sUsersByGenre, sUsersByGroup,
             iUser,
             dUser;
-    private PreparedStatement iCastMemberSeriesRel;
+
+    // Relationship
+    private PreparedStatement sCastMemberSeries,
+            iCastMemberSeries,
+            dCastMemberSeries;
+    private PreparedStatement sChannelEpisode,
+            iChannelEpisode,
+            dChannelEpisode;
+    private PreparedStatement sUserSeries,
+            iUserSeries,
+            dUserSeries;
+
+    // Other
     private PreparedStatement sLastEpisodeSeen;
+    private PreparedStatement sSeriesGeneralRating;
 
     public RESTDataLayerMySQL(DataSource datasource) throws SQLException, NamingException {
         super(datasource);
@@ -186,10 +202,24 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             dUser = connection.prepareStatement("DELETE FROM e_user WHERE ID=?");
 
             // Relationship
-            iCastMemberSeriesRel = connection.prepareStatement("INSERT INTO r_cast_member_series (ID_cast_member, ID_series, role) VALUES(?, ?, ?)"); // role?
+            // CastMemberSeries
+            sCastMemberSeries = connection.prepareStatement("SELECT * FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=?");
+            iCastMemberSeries = connection.prepareStatement("INSERT INTO r_cast_member_series (ID_cast_member, ID_series, role) VALUES(?, ?, ?)");
+            dCastMemberSeries = connection.prepareCall("DELETE FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=? AND role=?");
+
+            // ChannelEpisode
+            sChannelEpisode = connection.prepareStatement("SELECT * FROM r_channel_episode WHERE ID_channel=? AND ID_episode=?");
+            iChannelEpisode = connection.prepareStatement("INSERT INTO r_channel_episode (ID_channel, ID_episode, date) VALUES(?, ?, ?)");
+            dChannelEpisode = connection.prepareStatement("DELETE FROM r_channel_episode WHERE ID_channel=? AND ID_episode=? AND date=?");
+
+            // UserSeries
+            sUserSeries = connection.prepareStatement("SELECT * FROM r_user_series WHERE ID_user=? AND ID_series=?");
+            iUserSeries = connection.prepareStatement("INSERT INTO r_user_series (ID_user, ID_series, rating, anticipation_notification, add_date, season, episode) VALUES(?, ?, ?, ?, ?, ?, ?)");
+            dUserSeries = connection.prepareStatement("DELETE FROM r_user_series WHERE ID_user=? AND ID_series=?");
 
             // Other
             sLastEpisodeSeen = connection.prepareStatement("SELECT season, episode FROM r_user_series WHERE  ID_user=? AND ID_series=?");
+            sSeriesGeneralRating = connection.prepareStatement("SELECT SUM(rating) COUNT(1) FROM r_user_series WHERE ID_series=?");
 
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -369,14 +399,14 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     private void storeCastMemberSeriesRelationship(int ID, List<Series> series) {
-        // iCastMemberSeriesRel = "INSERT INTO r_cast_member_series (ID_cast_member, ID_series, role) VALUES(?, ?, ?)"
+        // iCastMemberSeries = "INSERT INTO r_cast_member_series (ID_cast_member, ID_series, role) VALUES(?, ?, ?)"
         for (Series s : series) {
             try {
                 if (s.getID() > 0) { // series is on DB already
-                    iCastMemberSeriesRel.setInt(1, ID);
-                    iCastMemberSeriesRel.setInt(2, s.getID());
-                    iCastMemberSeriesRel.setString(3, null); // role?
-                    iCastMemberSeriesRel.executeUpdate();
+                    iCastMemberSeries.setInt(1, ID);
+                    iCastMemberSeries.setInt(2, s.getID());
+                    iCastMemberSeries.setString(3, null); // role?
+                    iCastMemberSeries.executeUpdate();
                 } else { //what are we doing if the series isn't on DB?
 
                 }
@@ -960,32 +990,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 }
             }
         }
-    }
-
-    @Override
-    // sLastEpisodeSeen = "SELECT season, episode FROM r_user_series WHERE  ID_user=? AND ID_series=?"
-    public Episode getLastEpisodeSeen(User user, Series series) {
-        ResultSet rs = null;
-        Episode result = null;
-        try {
-            sLastEpisodeSeen.setInt(1, user.getID());
-            sLastEpisodeSeen.setInt(2, series.getID());
-            rs = sLastEpisodeSeen.executeQuery();
-            if (rs.next()) {
-                result = getEpisodeBySeriesAndSeasonAndNumber(series, rs.getInt("season"), rs.getInt("episode"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        return result;
     }
 
     @Override
@@ -2476,6 +2480,250 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    // ============================================================================================
+    // CAST MEMBER SERIES
+    // ============================================================================================
+    @Override
+    public CastMemberSeries createCastMemberSeries() {
+        return new CastMemberSeriesMySQL(this);
+    }
+
+    @Override
+    // sCastMemberSeries = "SELECT * FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=?"
+    public List<CastMemberSeries> getCastMembeSeries(CastMember castMember, Series series) {
+        List<CastMemberSeries> result = new ArrayList();
+        ResultSet rs = null;
+        try {
+            sCastMemberSeries.setInt(1, castMember.getID());
+            sCastMemberSeries.setInt(2, series.getID());
+            rs = sCastMemberSeries.executeQuery();
+            while (rs.next()) {
+                result.add(new CastMemberSeriesMySQL(this, rs));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // iCastMemberSeries = "INSERT INTO r_cast_member_series (ID_cast_member, ID_series, role) VALUES(?, ?, ?)"
+    public void storeCastMemberSeries(CastMemberSeries castMemberSeries) {
+        if (!castMemberSeries.isDirty()) {
+            return;
+        }
+        try {
+            iCastMemberSeries.setInt(1, castMemberSeries.getCastMemberID());
+            iCastMemberSeries.setInt(2, castMemberSeries.getSeriesID());
+            iCastMemberSeries.setString(3, castMemberSeries.getRole());
+            iCastMemberSeries.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    // dCastMemberSeries = "DELETE FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=? AND role=?"
+    public void removeCastMemberSeries(CastMemberSeries castMemberSeries) {
+        try {
+            dCastMemberSeries.setInt(1, castMemberSeries.getCastMemberID());
+            dCastMemberSeries.setInt(2, castMemberSeries.getSeriesID());
+            dCastMemberSeries.setString(3, castMemberSeries.getRole());
+            dCastMemberSeries.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // ============================================================================================
+    // CHANNEL EPISODE
+    // ============================================================================================
+    @Override
+    public ChannelEpisode createChannelEpisode() {
+        return new ChannelEpisodeMySQL(this);
+    }
+
+    @Override
+    // sChannelEpisode = "SELECT * FROM r_channel_episode WHERE ID_channel=? AND ID_episode=?"
+    public List<ChannelEpisode> getChannelEpisode(Channel channel, Episode episode) {
+        List<ChannelEpisode> result = new ArrayList();
+        ResultSet rs = null;
+        try {
+            sChannelEpisode.setInt(1, channel.getID());
+            sChannelEpisode.setInt(2, episode.getID());
+            rs = sChannelEpisode.executeQuery();
+            while (rs.next()) {
+                result.add(new ChannelEpisodeMySQL(this, rs));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // iChannelEpisode = "INSERT INTO r_channel_episode (ID_channel, ID_episode, date) VALUES(?, ?, ?)"
+    public void storeChannelEpisode(ChannelEpisode channelEpisode) {
+        if (!channelEpisode.isDirty()) {
+            return;
+        }
+        try {
+            iChannelEpisode.setInt(1, channelEpisode.getChannelID());
+            iChannelEpisode.setInt(2, channelEpisode.getEpisodeID());
+            iChannelEpisode.setTimestamp(3, new java.sql.Timestamp(channelEpisode.getDate().getTime()));
+            iChannelEpisode.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    // dChannelEpisode = "DELETE FROM r_channel_episode WHERE ID_channel=? AND ID_episode=? AND date=?"
+    public void removeChannelEpisode(ChannelEpisode channelEpisode) {
+        try {
+            dChannelEpisode.setInt(1, channelEpisode.getChannelID());
+            dChannelEpisode.setInt(2, channelEpisode.getEpisodeID());
+            dChannelEpisode.setTimestamp(3, new java.sql.Timestamp(channelEpisode.getDate().getTime()));
+            dChannelEpisode.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // ============================================================================================
+    // USER SERIES
+    // ============================================================================================
+    @Override
+    public UserSeries createUserSeries() {
+        return new UserSeriesMySQL(this);
+    }
+
+    @Override
+    // sUserSeries = "SELECT * FROM r_user_series WHERE ID_user=? AND ID_series=?"
+    public UserSeries getUserSeries(User user, Series series) {
+        UserSeries result = null;
+        ResultSet rs = null;
+        try {
+            sUserSeries.setInt(1, user.getID());
+            sUserSeries.setInt(2, series.getID());
+            rs = sUserSeries.executeQuery();
+            if (rs.next()) {
+                result = new UserSeriesMySQL(this, rs);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // iUserSeries = "INSERT INTO r_user_series (ID_user, ID_series, rating, anticipation_notification, add_date, season, episode) VALUES(?, ?, ?, ?, ?, ?, ?)"
+    public void storeUserSeries(UserSeries userSeries) {
+        try {
+            iUserSeries.setInt(1, userSeries.getUserID());
+            iUserSeries.setInt(2, userSeries.getSeriesID());
+            iUserSeries.setString(3, userSeries.getRating());
+            iUserSeries.setTime(4, new java.sql.Time(userSeries.getAnticipationNotification().getTime()));
+            iUserSeries.setDate(5, new java.sql.Date(userSeries.getAddDate().getTime()));
+            iUserSeries.setInt(6, userSeries.getSeason());
+            iUserSeries.setInt(7, userSeries.getEpisode());
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    // dUserSeries = "DELETE FROM r_user_series WHERE ID_user=? AND ID_series=?"
+    public void removeUserSeries(UserSeries userSeries) {
+        try {
+            dUserSeries.setInt(1, userSeries.getUserID());
+            dUserSeries.setInt(2, userSeries.getSeriesID());
+            dUserSeries.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // ============================================================================================
+    // OTHER
+    // ============================================================================================
+    @Override
+    // sLastEpisodeSeen = "SELECT season, episode FROM r_user_series WHERE  ID_user=? AND ID_series=?"
+    public Episode getLastEpisodeSeen(User user, Series series) {
+        ResultSet rs = null;
+        Episode result = null;
+        try {
+            sLastEpisodeSeen.setInt(1, user.getID());
+            sLastEpisodeSeen.setInt(2, series.getID());
+            rs = sLastEpisodeSeen.executeQuery();
+            if (rs.next()) {
+                result = getEpisodeBySeriesAndSeasonAndNumber(series, rs.getInt("season"), rs.getInt("episode"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // sSeriesGeneralRating = "SELECT SUM(rating) COUNT(1) FROM r_user_series WHERE ID_series=?"
+    public int getSeriesGeneralRating(Series series) {
+        int result = -1; // per segnalare l'errore
+        ResultSet rs = null;
+        try {
+            sSeriesGeneralRating.setInt(1, series.getID());
+            rs = sSeriesGeneralRating.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt(2) != 0) {
+                    result = rs.getInt(1) / rs.getInt(2);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
     }
 
 }

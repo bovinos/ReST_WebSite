@@ -970,5 +970,47 @@ a {
 
 /* SIGNUP
 =============================================================================================== */
+/* PROFILO UTENTE
+===============================================================================================
+=============================================================================================== */
+#userProfile #userProfileOutlineHeader {
+  margin-top: 20px;
+  padding-left: 10%; }
+  #userProfile #userProfileOutlineHeader .imgContainer {
+    margin-right: 40px;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    overflow: hidden; }
+    #userProfile #userProfileOutlineHeader .imgContainer img {
+      max-width: 100%;
+      height: auto; }
+  #userProfile #userProfileOutlineHeader #userUsername {
+    display: inline-block;
+    max-height: 200px;
+    font-size: 3rem;
+    color: #1695A3;
+    font-family: Laila;
+    position: relative;
+    top: -65px; }
+#userProfile nav li {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  margin-left: 10%; }
+  #userProfile nav li:last-of-type {
+    margin-bottom: 40px; }
+
+/* USER SERIES PAGE
+=============================================================================================== */
+#userSeries {
+  margin-top: 25px; }
+  #userSeries .series .imgContainer {
+    display: inline-block;
+    height: 135px;
+    overflow: hidden; }
+    #userSeries .series .imgContainer img {
+      width: 100%;
+      height: 100%;
+      overflow: hidden; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

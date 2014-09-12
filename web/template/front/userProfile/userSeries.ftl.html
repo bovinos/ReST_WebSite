@@ -1,20 +1,30 @@
 
-<div id="userSeries">
+<div id="userSeries" class="twelve columns">
     <!-- Controllo se esistono serie preferite per questo utente -->
     <#if (user.series?size > 0)>
     <div id="userSeriesList">
         <!-- se esistono stampiamole tutte -->
         <#list user.series as s>
         <div class="series row">
-            <div class="imgContainer two columns">
+            <div class="imgContainer four columns">
                 <img src="${s.imageURL}" alt="Immagine di ${s.name}"/>
             </div>
-            <div class="notImgContainer fourteen columns">
-                <div class="header">
-                    <h1>${s.name}</h1>
-                </div>
+            <div class="nameAndLastEpisodeSeeen three columns">
+                <h1>${s.name}</h1>
+                <p>Ultimo episodio visto:</p>
             </div>
-        </div>    
+            <div class="ratingAndNextEpisode three columns">
+                <h1>Mia valutazione</h1>
+                <p>Il prossimo episodio andrà in onda</p>
+            </div>
+            <div class="goToCircleAndAnticipationNotification three columns">
+                <h1>Mia valutazione</h1>
+                <p>Il prossimo episodio andrà in onda</p>
+            </div>
+            <div class="removeSeries three columns">
+                <span class="icon_trash_alt">&nbsp;</span>
+            </div>
+        </div> 
         </#list>
     </div>
     <#else>

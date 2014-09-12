@@ -177,15 +177,15 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MyProfileActivateUserSeries</servlet-name>
-        <url-pattern>/ProfiloPersonale/LeMieSerie</url-pattern>
+        <url-pattern>/LeMieSerie</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MyProfileActivateUserCircles</servlet-name>
-        <url-pattern>/ProfiloPersonale/LeMieCerchie</url-pattern>
+        <url-pattern>/LeMieCerchie</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MyProfileActivateUserBroadcastProgramming</servlet-name>
-        <url-pattern>/ProfiloPersonale/IlMioPalinsesto</url-pattern>
+        <url-pattern>/IlMioPalinsesto</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

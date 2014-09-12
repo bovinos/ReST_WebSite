@@ -1,29 +1,23 @@
 
 <div id="userProfile">
-    <div id="head" class="row">
-        <#if user.imageURL??>
-        <img id="userAvatar" src="user.imageURL" alt="Avatar di user.username" />
-        <#else>
-        <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User avatar placeholder"/>
-        </#if>
+    <div id="userProfileOutlineHeader" class="row">
+        <div class="imgContainer">
+            <#if user.imageURL??>
+            <img id="userAvatar" src="user.imageURL" alt="Avatar di user.username" />
+            <#else>
+            <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User avatar placeholder"/>
+            </#if>
+        </div>
         <p id="userUsername">${user.username}</p>
     </div>
 
-    <div id="body" class="row">
+    <div id="userProfileOutlineBody" class="row">
         <nav id="leftCol" class="four columns alpha">
             <h1>Nome Categoria</h1>
-            <ul class="accordion">
-                <li class="accordionSection"><a href="#LeMieSerie">Le mie Serie</a>
-                    <ul class="accordionContent">
-                        <li>Opzione filtro</li>
-                        <li>Opzione filtro</li>
-                        <li>Opzione filtro</li>
-                        <li>Opzione filtro</li>
-                    </ul>
-                </li>
-
-                <li>Le mie Cerchie</li>
-                <li>Palinsesto</li>
+            <ul>
+                <li><a href="LeMieSerie">Le mie Serie</a></li>
+                <li><a href="LeMieCerchie">Le mie Cerchie</a></li>
+                <li><a href="IlMioPalinsesto">Palinsesto</a></li>
             </ul>
 
             <h1>Impostazioni</h1>
