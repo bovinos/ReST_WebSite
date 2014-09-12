@@ -4,6 +4,7 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
+import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
@@ -28,17 +29,15 @@ public class SeriesList extends RESTBaseController {
     // prende tutte le serie e le passa al template seriesList.ftl.html
     private void action_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
-        List<Series> series = getDataLayer().getSeries();
-        for(Series s: series){
-            s = RESTSecurityLayer.stripSlashes(s);
-        }
-        request.setAttribute("series", series );
+
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("series", getDataLayer().getSeries());
         //Controllo la sessione e creo l'utente
         if (SecurityLayer.checkSession(request) != null){
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", RESTSecurityLayer.stripSlashes(user));
+        request.setAttribute("user", user);
         }
         result.activate("seriesList.ftl.html", request, response);
     }

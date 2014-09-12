@@ -26,6 +26,7 @@ public class GoToLogin extends RESTBaseController {
         result.activate("front/logIn.ftl.html", request, response);
     }
 
+    
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {

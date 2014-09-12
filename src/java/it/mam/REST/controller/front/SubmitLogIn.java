@@ -5,6 +5,7 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.User;
 import it.mam.REST.utility.Utility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
+import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -20,7 +21,7 @@ public class SubmitLogIn extends RESTBaseController {
         fail.activate(message, request, response);
     }
 
-    private void action_login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void action_submit_login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user;
         if (checkLoginInputData(request, response)){
         String username = SecurityLayer.addSlashes(request.getParameter("username"));
@@ -36,14 +37,29 @@ public class SubmitLogIn extends RESTBaseController {
         // in realtà dovrei ridirigere alla pagina in cui ha fatto il login
         response.sendRedirect("ListaNews");
     }
+    
+    private void action_activate_login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("outline_tpl", "");
+        result.activate("front/logIn.ftl.html", request, response);
+    }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        if (request.getParameter("login")!=null){
         try {
-            action_login(request, response);
+            action_submit_login(request, response);
         } catch (IOException ex) {
             action_error(request, response, ex.getMessage());
         }
+    } else {
+        try {
+            action_activate_login(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
+    }
+        
     }
 
     @Override
