@@ -46,7 +46,7 @@ public class SubmitLogIn extends RESTBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        if (request.getParameter("login")!=null){
+        if (request.getParameter("submit")!=null){
         try {
             action_submit_login(request, response);
         } catch (IOException ex) {
