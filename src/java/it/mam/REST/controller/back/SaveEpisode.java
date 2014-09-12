@@ -3,6 +3,7 @@ package it.mam.REST.controller.back;
 
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Channel;
+import it.mam.REST.data.model.ChannelEpisode;
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Series;
 import it.univaq.f4i.iw.framework.result.FailureResult;
@@ -31,7 +32,7 @@ public class SaveEpisode extends RESTBaseController {
     }
 
     // controlla l'inserimento corretto di tutti i dati di una news e la salva sul DB
-    private void action_news_save(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void action_episode_save(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Episode episode = getDataLayer().createEpisode();
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
@@ -57,20 +58,29 @@ public class SaveEpisode extends RESTBaseController {
           } else {
             action_error(request, response, "Inserire i campi obbligatori");
         }
-            
+     
+        getDataLayer().storeEpisode(RESTSecurityLayer.addSlashesEpisode(episode));
             
  
-        //Aggiungo la data corrente
-        Calendar c = Calendar.getInstance();
-        episodeChannel.setDate(c.getTime());
-        //Salvo il commento
-        getDataLayer().storeNews(RESTSecurityLayer.addSlashesNews(news));
+        //Aggiungo la data alla relazione
+        ChannelEpisode ce = getDataLayer().createChannelEpisode();
+     if (request.getParameter("date") != null && request.getParameter("date").length() > 0){
+         ce.setDate((SecurityLayer.checkDate(request.getParameter("date")).getTime()));
+     }
+        
+        ce.setEpisodeID(episode.getID());
+        
+        for(Channel channel: episode.getChannels()){
+            ce.setChannelID(channel.getID());
+            getDataLayer().storeChannelEpisode(ce);
+        }
+
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 try {
-            action_news_save(request, response);
+            action_episode_save(request, response);
         } catch (IOException ex) {
             action_error(request, response, ex.getMessage());
         }
