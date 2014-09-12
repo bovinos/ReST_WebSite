@@ -5,18 +5,15 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Channel;
 import it.mam.REST.data.model.ChannelEpisode;
 import it.mam.REST.data.model.Episode;
-import it.mam.REST.data.model.Series;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *

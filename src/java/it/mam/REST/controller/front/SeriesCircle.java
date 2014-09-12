@@ -3,6 +3,7 @@ package it.mam.REST.controller.front;
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
+import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
@@ -28,13 +29,14 @@ public class SeriesCircle extends RESTBaseController {
     private void action_series_messages(HttpServletRequest request, HttpServletResponse response, int id_series) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("series", RESTSecurityLayer.stripSlashes(getDataLayer().getSeries(id_series)));
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("series", getDataLayer().getSeries(id_series));
         //Controllo che la sessione attuale sia ancora valida
         if (SecurityLayer.checkSession(request) != null){
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", RESTSecurityLayer.stripSlashes(user));
+        request.setAttribute("user", user);
         }
         result.activate("seriesCircle.ftl.html", request, response);
     }

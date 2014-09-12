@@ -6,6 +6,7 @@ import it.mam.REST.data.model.Season;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
+import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
@@ -33,7 +34,8 @@ public class SeriesCard extends RESTBaseController {
     private void action_series_info(HttpServletRequest request, HttpServletResponse response, int id) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
-        Series s = RESTSecurityLayer.stripSlashes(getDataLayer().getSeries(id));
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        Series s = getDataLayer().getSeries(id);
         request.setAttribute("series", s);
         List<Season> seasonList = new ArrayList();
         List<Episode> episodeList = s.getEpisodes();
@@ -43,7 +45,7 @@ public class SeriesCard extends RESTBaseController {
                 sn = new Season(e.getSeason(), new ArrayList());
                 seasonList.add(sn);
             }
-            sn.getEpisodes().add(RESTSecurityLayer.stripSlashes(e));
+            sn.getEpisodes().add(e);
         }
         request.setAttribute("seasons", seasonList);
         //Controllo la sessione e creo l'utente
@@ -51,7 +53,7 @@ public class SeriesCard extends RESTBaseController {
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", RESTSecurityLayer.stripSlashes(user));
+        request.setAttribute("user", user);
         }
         result.activate("seriesCard.ftl.html", request, response);
     }

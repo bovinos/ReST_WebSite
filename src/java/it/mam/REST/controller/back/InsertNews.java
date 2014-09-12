@@ -3,6 +3,7 @@ package it.mam.REST.controller.back;
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Series;
 import it.univaq.f4i.iw.framework.result.FailureResult;
+import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
@@ -29,15 +30,10 @@ public class InsertNews extends RESTBaseController {
     private void action_news_insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         //Qui creo la lista delle serie che passo al template, in modo che si possa scegliere (opzionalmente)
         //la serie o le serie a cui la news si riferisce. Non passo la lista dei generi perché non ce n'è bisogno lì.
-        List<Series> series = getDataLayer().getSeries();
-        for (Series s: series){
-            s = RESTSecurityLayer.stripSlashes(s);
-        }
-        request.setAttribute("series", series);
-        // decommentare se nel momento dell'inserimento abbiamo inserito slash per evitare SQL injection
-        //request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
+        request.setAttribute("series", getDataLayer().getSeries());
         result.activate("insert_news.ftl.html", request, response);
     }
 
