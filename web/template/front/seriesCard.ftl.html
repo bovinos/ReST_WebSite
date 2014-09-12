@@ -81,7 +81,7 @@
             </div>
             <div class="footer">
                 <div class="left">
-                    <p>${strip_slashes(c.user.username)?html}, ${strip_slashes(c.date)?datetime?html} </p>
+                    <p>${strip_slashes(c.user.username)?html}, ${c.date?datetime} </p>
                 </div>
                 <div class="right">
                     <p>
