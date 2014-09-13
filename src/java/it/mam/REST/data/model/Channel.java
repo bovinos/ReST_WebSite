@@ -44,4 +44,8 @@ public interface Channel {
 
     void removeAllEpisodes();
 
+    List<ChannelEpisode> getChannelEpisode();
+
+    void setChannelEpisode(List<ChannelEpisode> channelEpisode);
+
 }

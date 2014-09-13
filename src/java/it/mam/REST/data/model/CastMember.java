@@ -61,4 +61,8 @@ public interface CastMember {
 
     boolean isSeriesSet();
 
+    List<CastMemberSeries> getCastMemberSeries();
+
+    void setCastMemberSeries(List<CastMemberSeries> castMemberSeries);
+
 }

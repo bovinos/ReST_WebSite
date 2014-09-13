@@ -1,6 +1,7 @@
 package it.mam.REST.data.model;
 
 import it.univaq.f4i.iw.framework.data.DataLayer;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -231,7 +232,13 @@ public interface RESTDataLayer extends DataLayer {
     // =============================================================
     CastMemberSeries createCastMemberSeries();
 
-    List<CastMemberSeries> getCastMembeSeries(CastMember castMember, Series series);
+    CastMemberSeries getCastMemberSeries(CastMember castMember, Series series, String role);
+
+    List<CastMemberSeries> getCastMemberSeriesByCastMember(CastMember castMember);
+
+    List<CastMemberSeries> getCastMemberSeriesBySeries(Series series);
+
+    List<CastMemberSeries> getCastMembeSeriesByCastMemberAndSeries(CastMember castMember, Series series);
 
     void storeCastMemberSeries(CastMemberSeries castMemberSeries);
 
@@ -242,18 +249,28 @@ public interface RESTDataLayer extends DataLayer {
     // =============================================================
     ChannelEpisode createChannelEpisode();
 
-    List<ChannelEpisode> getChannelEpisode(Channel channel, Episode episode);
+    ChannelEpisode getChannelEpisode(Channel channel, Episode episode, Date date);
+
+    List<ChannelEpisode> getChannelEpisodeByChannel(Channel channel);
+
+    List<ChannelEpisode> getChannelEpisodeByEpisode(Episode episode);
+
+    List<ChannelEpisode> getChannelEpisodeByChannelAndEpisode(Channel channel, Episode episode);
 
     void storeChannelEpisode(ChannelEpisode channelEpisode);
 
     void removeChannelEpisode(ChannelEpisode channelEpisode);
 
     // =============================================================
-    // CHANNEL EPISODE
+    // USER SERIES
     // =============================================================
     UserSeries createUserSeries();
 
     UserSeries getUserSeries(User user, Series series);
+
+    List<UserSeries> getUserSeriesByUser(User user);
+
+    List<UserSeries> getUserSeriesBySeries(Series series);
 
     void storeUserSeries(UserSeries userSeries);
 

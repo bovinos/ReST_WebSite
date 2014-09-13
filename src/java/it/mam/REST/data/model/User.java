@@ -78,6 +78,10 @@ public interface User {
 
     void removeAllSeries();
 
+    List<UserSeries> getUserSeries();
+
+    void setUserSeries(List<UserSeries> userSeries);
+
     List<Genre> getGenres();
 
     void setGenres(List<Genre> genres);

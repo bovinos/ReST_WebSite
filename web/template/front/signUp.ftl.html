@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
     <head>
+        <meta charset=UTF-8>
         <title>REST</title>
         <link rel="stylesheet" href="css/reset.css" type="text/css"/>
         <link rel="stylesheet" href="css/grid.css" type="text/css"/>
@@ -11,7 +11,7 @@
     </head>
 
     <body>
-        <div id="formSignUp">
+        <div id="formSignUp" class="verticalCenter">
             <form action="Registrazione" method="POST">
                 <div class="row formInput">
                     <label for="username">Username:</label>
@@ -26,7 +26,7 @@
                     <span class="formInvalidInput" data-icon="&#x4d;"></span>
                 </div>
                 <div class="row formInput">
-                    <label for="confermaPassword"> Conferma la Password:</label>
+                    <label for="confirmPassword"> Conferma la Password:</label>
                     <input type="password" id="confirmPassword" name="confirmPassword" maxlength="50" placeholder="Conferma password" pattern="[a-zA-Z0-9]+" title="La password deve essere una combinazione di massimo 50 caratteri tra cifre e lettere" required="required" tabindex="3" />
                     <span class="formValidInput" data-icon="&#x4e;"></span>
                     <span class="formInvalidInput" data-icon="&#x4d;"></span>

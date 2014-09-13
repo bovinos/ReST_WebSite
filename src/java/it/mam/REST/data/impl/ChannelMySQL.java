@@ -1,6 +1,7 @@
 package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.Channel;
+import it.mam.REST.data.model.ChannelEpisode;
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.RESTDataLayer;
 import java.sql.ResultSet;
@@ -21,7 +22,8 @@ public class ChannelMySQL implements Channel {
 
     protected RESTDataLayer dataLayer;
 
-    List<Episode> episodes;
+    private List<Episode> episodes;
+    private List<ChannelEpisode> channelEpisode;
 
     public ChannelMySQL(RESTDataLayer dataLayer) {
 
@@ -34,6 +36,7 @@ public class ChannelMySQL implements Channel {
         this.dataLayer = dataLayer;
 
         episodes = null;
+        channelEpisode = null;
     }
 
     public ChannelMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
@@ -136,6 +139,19 @@ public class ChannelMySQL implements Channel {
     }
 
     @Override
+    public List<ChannelEpisode> getChannelEpisode() {
+        if (channelEpisode == null) {
+            channelEpisode = dataLayer.getChannelEpisodeByChannel(this);
+        }
+        return channelEpisode;
+    }
+
+    @Override
+    public void setChannelEpisode(List<ChannelEpisode> channelEpisode) {
+        this.channelEpisode = channelEpisode;
+    }
+
+    @Override
     public void copyFrom(Channel channel) {
         ID = channel.getID();
         name = channel.getName();
@@ -143,6 +159,7 @@ public class ChannelMySQL implements Channel {
         type = channel.getType();
 
         episodes = null;
+        channelEpisode = null;
 
         dirty = true;
     }
