@@ -71,9 +71,8 @@ public class MyProfile extends RESTBaseController {
     private void action_rating_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user;
         user = getDataLayer().getUser((int)request.getSession().getAttribute("userid"));
-        List<UserSeries> userseriesList = getDataLayer().getUserSeriesByUser(user);
-        for(UserSeries us: userseriesList){
-            if (request.getParameter("s").equals(String.valueOf(us.getSeriesID())) && !(request.getParameter("r").equals(us.getRating()))) {
+        UserSeries us = getDataLayer().getUserSeries(user, getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s"))));
+            if (!(request.getParameter("r").equals(us.getRating()))) {
                 int rating = SecurityLayer.checkNumeric(request.getParameter("r"));
                 switch(rating){
                     case 1: us.setRating(UserSeries.ONE);
@@ -88,9 +87,8 @@ public class MyProfile extends RESTBaseController {
                     break;
                     default: action_error(request, response, "Internal Error");
                 }
-                
-                getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-            }
+               getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+
         }
 
     }
