@@ -14,7 +14,52 @@
                 <p class="bottom">Ultimo episodio visto: ${user.userSeries[s_index].season}x${user.userSeries[s_index].episode}</p>
             </div>
             <div class="ratingAndNextEpisode four columns">
-                <h1 class="top">Mia valutazione: ${user.userSeries[s_index].rating!"N/C"}</h1>
+                <div class="top">
+                    <h1>Mia valutazione: </h1>
+                    <#switch user.userSeries[s_index].rating!"0">
+                    <#case "1">
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <#break>
+                    <#case "2">
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <#break>
+                    <#case "3">
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <#break>
+                    <#case "4">
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <#break>
+                    <#case "5">
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star rating star"></a>
+                    <a href="#" class="icon_star rating star"></a>
+                    <#break>
+                    <#default>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    <a href="#" class="icon_star_alt rating star"></a>
+                    </#switch>
+                </div>
                 <p class="bottom">Data prossimo episodio: </p>
             </div>
             <div class="goToCircleAndAnticipationNotification three columns">

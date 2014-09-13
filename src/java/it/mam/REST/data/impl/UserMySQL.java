@@ -28,6 +28,7 @@ public class UserMySQL implements User {
     private int age;
     private String gender;
     private String imageURL;
+    private boolean notificationStatus;
     protected boolean dirty;
 
     protected RESTDataLayer dataLayer;
@@ -53,6 +54,7 @@ public class UserMySQL implements User {
         age = 0;
         gender = "";
         imageURL = "";
+        notificationStatus = true;
         dirty = false;
 
         this.dataLayer = dataLayer;
@@ -80,6 +82,7 @@ public class UserMySQL implements User {
         age = rs.getInt("age");
         gender = rs.getString("gender");
         imageURL = rs.getString("image_URL");
+        notificationStatus = rs.getBoolean("notification_status");
 
         groupID = rs.getInt("ID_group");
     }
@@ -177,6 +180,16 @@ public class UserMySQL implements User {
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
         dirty = true;
+    }
+
+    @Override
+    public boolean getNotificationStatus() {
+        return notificationStatus;
+    }
+
+    @Override
+    public void setNotificationStatus(boolean notificationStatus) {
+        this.notificationStatus = notificationStatus;
     }
 
     @Override
@@ -458,6 +471,7 @@ public class UserMySQL implements User {
         age = user.getAge();
         gender = user.getGender();
         imageURL = user.getImageURL();
+        notificationStatus = user.getNotificationStatus();
         mail = user.getMail();
         name = user.getName();
         password = user.getPassword();
