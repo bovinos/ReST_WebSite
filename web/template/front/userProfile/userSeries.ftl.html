@@ -11,10 +11,10 @@
             </div>
             <div class="nameAndLastEpisodeSeen four columns">
                 <h1 class="top"><a href="SchedaSerie?id=${s.ID}">${strip_slashes(s.name)}</a></h1>
-                <p class="bottom">Ultimo episodio visto: </p>
+                <p class="bottom">Ultimo episodio visto: ${user.userSeries[s_index].season}x${user.userSeries[s_index].episode}</p>
             </div>
             <div class="ratingAndNextEpisode four columns">
-                <h1 class="top">Mia valutazione</h1>
+                <h1 class="top">Mia valutazione: ${user.userSeries[s_index].rating!"N/C"}</h1>
                 <p class="bottom">Data prossimo episodio: </p>
             </div>
             <div class="goToCircleAndAnticipationNotification three columns">
