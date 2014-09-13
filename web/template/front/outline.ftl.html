@@ -19,7 +19,7 @@
                 <!-- controllo sulla sessione dell'utente -->
                 <#if (sessionUsername??)>
                 <div class="imgContainer">
-                    <a href="LeMieCerchie">
+                    <a href="ProfiloPersonale?sezione=1">
                         <#if user.imageURL??>
                         <img src="${strip_slashes(user.imageURL)}" alt="Avatar di ${strip_slashes(user.username)?html}" />
                         <#else>
