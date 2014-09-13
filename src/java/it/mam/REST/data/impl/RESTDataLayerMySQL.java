@@ -2834,6 +2834,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             iUserSeries.setDate(5, new java.sql.Date(userSeries.getAddDate().getTime()));
             iUserSeries.setInt(6, userSeries.getSeason());
             iUserSeries.setInt(7, userSeries.getEpisode());
+            iUserSeries.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
