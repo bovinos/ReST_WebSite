@@ -28,7 +28,7 @@ public class InsertEpisode extends RESTBaseController {
 
         TemplateResult result = new TemplateResult(getServletContext());
              
-        request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         //Qui creo la lista delle serie che passo al template, in modo che si possa scegliere (opzionalmente)
         //la serie a cui appartiene l'episodio.
         request.setAttribute("series", getDataLayer().getSeries());      
