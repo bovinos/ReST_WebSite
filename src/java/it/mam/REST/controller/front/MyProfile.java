@@ -1,6 +1,7 @@
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
 import it.univaq.f4i.iw.framework.result.FailureResult;
@@ -66,11 +67,11 @@ public class MyProfile extends RESTBaseController {
         request.setAttribute("userProfileContent_tpl", "userSeries.ftl.html");
         result.activate("userProfile/userProfileOutline.ftl.html", request, response);
     }
-    
+
     private void action_rating_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user;
-        user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
-        UserSeries us = getDataLayer().getUserSeries(user, getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s"))));
+        User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s")));
+        UserSeries us = getDataLayer().getUserSeries(user, series);
         if (!(request.getParameter("r").equals(us.getRating()))) {
             int rating = SecurityLayer.checkNumeric(request.getParameter("r"));
             switch (rating) {
@@ -93,12 +94,14 @@ public class MyProfile extends RESTBaseController {
                     action_error(request, response, "Internal Error");
             }
             getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-            action_activate_ProfileUserSeries(request, response);
-            
+            // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
+            // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima xD
+            response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
+
         }
-        
+
     }
-    
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -137,10 +140,10 @@ public class MyProfile extends RESTBaseController {
                 action_error(request, response, "The requested resource is not available");
         }
     }
-    
+
     @Override
     public String getServletInfo() {
         return "Short description";
     }
-    
+
 }
