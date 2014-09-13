@@ -178,7 +178,7 @@ public class EpisodeMySQL implements Episode {
     @Override
     public List<ChannelEpisode> getChannelEpisode() {
         if (channelEpisode == null) {
-            channelEpisode = dataLayer.getChannelEpisodeByEpisode(this);
+            channelEpisode = dataLayer.getChannelEpisode(this);
         }
         return channelEpisode;
     }

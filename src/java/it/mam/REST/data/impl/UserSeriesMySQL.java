@@ -12,6 +12,7 @@ import java.util.Date;
  */
 public class UserSeriesMySQL implements UserSeries {
 
+    private int ID;
     private int userID;
     private int seriesID;
     private String rating;
@@ -25,6 +26,7 @@ public class UserSeriesMySQL implements UserSeries {
 
     public UserSeriesMySQL(RESTDataLayer dl) {
 
+        ID = 0;
         userID = 0;
         seriesID = 0;
         rating = "";
@@ -41,6 +43,7 @@ public class UserSeriesMySQL implements UserSeries {
     public UserSeriesMySQL(RESTDataLayer dl, ResultSet rs) throws SQLException {
 
         this(dl);
+        ID = rs.getInt("ID");
         userID = rs.getInt("ID_user");
         seriesID = rs.getInt("ID_series");
         rating = rs.getString("rating");
@@ -52,6 +55,11 @@ public class UserSeriesMySQL implements UserSeries {
     }
 
     @Override
+    public int getID() {
+        return ID;
+    }
+
+    @Override
     public int getUserID() {
         return userID;
     }
@@ -59,6 +67,7 @@ public class UserSeriesMySQL implements UserSeries {
     @Override
     public void setUserID(int userID) {
         this.userID = userID;
+        dirty = true;
     }
 
     @Override
@@ -69,6 +78,7 @@ public class UserSeriesMySQL implements UserSeries {
     @Override
     public void setSeriesID(int seriesID) {
         this.seriesID = seriesID;
+        dirty = true;
     }
 
     @Override
@@ -79,6 +89,7 @@ public class UserSeriesMySQL implements UserSeries {
     @Override
     public void setRating(String rating) {
         this.rating = rating;
+        dirty = true;
     }
 
     @Override
@@ -89,6 +100,7 @@ public class UserSeriesMySQL implements UserSeries {
     @Override
     public void setAnticipationNotification(Date anticipationNotification) {
         this.anticipationNotification = anticipationNotification;
+        dirty = true;
     }
 
     @Override
@@ -99,6 +111,7 @@ public class UserSeriesMySQL implements UserSeries {
     @Override
     public void setAddDate(Date addDate) {
         this.addDate = addDate;
+        dirty = true;
     }
 
     @Override
@@ -109,6 +122,7 @@ public class UserSeriesMySQL implements UserSeries {
     @Override
     public void setSeason(int season) {
         this.season = season;
+        dirty = true;
     }
 
     @Override
@@ -119,6 +133,7 @@ public class UserSeriesMySQL implements UserSeries {
     @Override
     public void setEpisode(int episode) {
         this.episode = episode;
+        dirty = true;
     }
 
     @Override
@@ -134,6 +149,7 @@ public class UserSeriesMySQL implements UserSeries {
     @Override
     public void copyFrom(UserSeries userSeries) {
 
+        ID = userSeries.getID();
         userID = userSeries.getUserID();
         seriesID = userSeries.getSeriesID();
         rating = userSeries.getRating();

@@ -8,11 +8,14 @@ import java.util.Date;
  */
 public interface UserSeries {
 
+    String ZERO = "0";
     String ONE = "1";
     String TWO = "2";
     String THREE = "3";
     String FOUR = "4";
     String FIVE = "5";
+
+    int getID();
 
     int getUserID();
 

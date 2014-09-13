@@ -9,7 +9,6 @@ import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,29 +69,36 @@ public class MyProfile extends RESTBaseController {
     
     private void action_rating_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user;
-        user = getDataLayer().getUser((int)request.getSession().getAttribute("userid"));
+        user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
         UserSeries us = getDataLayer().getUserSeries(user, getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s"))));
-            if (!(request.getParameter("r").equals(us.getRating()))) {
-                int rating = SecurityLayer.checkNumeric(request.getParameter("r"));
-                switch(rating){
-                    case 1: us.setRating(UserSeries.ONE);
+        if (!(request.getParameter("r").equals(us.getRating()))) {
+            int rating = SecurityLayer.checkNumeric(request.getParameter("r"));
+            switch (rating) {
+                case 1:
+                    us.setRating(UserSeries.ONE);
                     break;
-                    case 2: us.setRating(UserSeries.TWO);
+                case 2:
+                    us.setRating(UserSeries.TWO);
                     break;
-                    case 3: us.setRating(UserSeries.THREE);
+                case 3:
+                    us.setRating(UserSeries.THREE);
                     break;
-                    case 4: us.setRating(UserSeries.FOUR);
+                case 4:
+                    us.setRating(UserSeries.FOUR);
                     break;
-                    case 5: us.setRating(UserSeries.FIVE);
+                case 5:
+                    us.setRating(UserSeries.FIVE);
                     break;
-                    default: action_error(request, response, "Internal Error");
-                }
-               getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-
+                default:
+                    action_error(request, response, "Internal Error");
+            }
+            getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+            action_activate_ProfileUserSeries(request, response);
+            
         }
-
+        
     }
-
+    
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -106,11 +112,11 @@ public class MyProfile extends RESTBaseController {
                     action_error(request, response, ex.getMessage());
                 }
                 } else {
-                try {
-                    action_activate_ProfileUserSeries(request, response);
-                } catch (IOException ex) {
-                    action_error(request, response, ex.getMessage());
-                }
+                    try {
+                        action_activate_ProfileUserSeries(request, response);
+                    } catch (IOException ex) {
+                        action_error(request, response, ex.getMessage());
+                    }
                 }
                 break;
             case 2:
@@ -121,20 +127,20 @@ public class MyProfile extends RESTBaseController {
                 }
                 break;
             case 3:
-         try {
-            action_activate_ProfileUserBroadcastProgramming(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-        }
-        break;
+                try {
+                    action_activate_ProfileUserBroadcastProgramming(request, response);
+                } catch (IOException ex) {
+                    action_error(request, response, ex.getMessage());
+                }
+                break;
             default:
                 action_error(request, response, "The requested resource is not available");
         }
     }
-
+    
     @Override
     public String getServletInfo() {
         return "Short description";
     }
-
+    
 }

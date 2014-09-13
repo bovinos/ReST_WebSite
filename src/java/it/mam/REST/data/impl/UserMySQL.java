@@ -190,6 +190,7 @@ public class UserMySQL implements User {
     @Override
     public void setNotificationStatus(boolean notificationStatus) {
         this.notificationStatus = notificationStatus;
+        dirty = true;
     }
 
     @Override
@@ -359,7 +360,7 @@ public class UserMySQL implements User {
     @Override
     public List<UserSeries> getUserSeries() {
         if (userSeries == null) {
-            userSeries = dataLayer.getUserSeriesByUser(this);
+            userSeries = dataLayer.getUserSeries(this);
         }
         return userSeries;
     }

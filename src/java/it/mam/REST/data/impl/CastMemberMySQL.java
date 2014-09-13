@@ -197,7 +197,7 @@ public class CastMemberMySQL implements CastMember {
     @Override
     public List<CastMemberSeries> getCastMemberSeries() {
         if (castMemberSeries == null) {
-            castMemberSeries = dataLayer.getCastMemberSeriesByCastMember(this);
+            castMemberSeries = dataLayer.getCastMemberSeries(this);
         }
         return castMemberSeries;
     }

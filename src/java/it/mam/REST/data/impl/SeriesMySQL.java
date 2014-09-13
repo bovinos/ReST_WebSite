@@ -288,7 +288,7 @@ public class SeriesMySQL implements Series {
     @Override
     public List<UserSeries> getUserSeries() {
         if (userSeries == null) {
-            userSeries = dataLayer.getUserSeriesBySeries(this);
+            userSeries = dataLayer.getUserSeries(this);
         }
         return userSeries;
     }
@@ -385,7 +385,7 @@ public class SeriesMySQL implements Series {
     @Override
     public List<CastMemberSeries> getCastMemberSeries() {
         if (castMemberSeries == null) {
-            castMemberSeries = dataLayer.getCastMemberSeriesBySeries(this);
+            castMemberSeries = dataLayer.getCastMemberSeries(this);
         }
         return castMemberSeries;
     }

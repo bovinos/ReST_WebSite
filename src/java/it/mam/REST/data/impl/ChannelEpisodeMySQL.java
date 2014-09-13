@@ -12,6 +12,7 @@ import java.util.Date;
  */
 public class ChannelEpisodeMySQL implements ChannelEpisode {
 
+    private int ID;
     private int channelID;
     private int episodeID;
     private Date date;
@@ -21,6 +22,7 @@ public class ChannelEpisodeMySQL implements ChannelEpisode {
 
     public ChannelEpisodeMySQL(RESTDataLayer dl) {
 
+        ID = 0;
         channelID = 0;
         episodeID = 0;
         date = null;
@@ -33,10 +35,16 @@ public class ChannelEpisodeMySQL implements ChannelEpisode {
     public ChannelEpisodeMySQL(RESTDataLayer dl, ResultSet rs) throws SQLException {
 
         this(dl);
+        ID = rs.getInt("ID");
         channelID = rs.getInt("ID_channel");
         episodeID = rs.getInt("ID_episode");
         date = new Date(rs.getTimestamp("date").getTime());
 
+    }
+
+    @Override
+    public int getID() {
+        return ID;
     }
 
     @Override
@@ -47,6 +55,7 @@ public class ChannelEpisodeMySQL implements ChannelEpisode {
     @Override
     public void setChannelID(int channelID) {
         this.channelID = channelID;
+        dirty = true;
     }
 
     @Override
@@ -57,6 +66,7 @@ public class ChannelEpisodeMySQL implements ChannelEpisode {
     @Override
     public void setEpisodeID(int episodeID) {
         this.episodeID = episodeID;
+        dirty = true;
     }
 
     @Override
@@ -67,6 +77,7 @@ public class ChannelEpisodeMySQL implements ChannelEpisode {
     @Override
     public void setDate(Date date) {
         this.date = date;
+        dirty = true;
     }
 
     @Override
@@ -77,11 +88,13 @@ public class ChannelEpisodeMySQL implements ChannelEpisode {
     @Override
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
+        dirty = true;
     }
 
     @Override
     public void copyFrom(ChannelEpisode channelEpisode) {
 
+        ID = channelEpisode.getID();
         channelID = channelEpisode.getChannelID();
         episodeID = channelEpisode.getEpisodeID();
         date = channelEpisode.getDate();
