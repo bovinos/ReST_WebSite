@@ -1,6 +1,7 @@
 package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.CastMember;
+import it.mam.REST.data.model.CastMemberSeries;
 import it.mam.REST.data.model.Comment;
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Genre;
@@ -9,6 +10,7 @@ import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.RESTDataLayer;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
+import it.mam.REST.data.model.UserSeries;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -30,13 +32,15 @@ public class SeriesMySQL implements Series {
 
     protected RESTDataLayer dataLayer;
 
-    List<User> users;
-    List<Genre> genres;
-    List<Episode> episodes;
-    List<CastMember> castMembers;
-    List<News> news;
-    List<Comment> comments;
-    List<Message> messages;
+    private List<User> users;
+    private List<UserSeries> userSeries;
+    private List<Genre> genres;
+    private List<Episode> episodes;
+    private List<CastMember> castMembers;
+    private List<CastMemberSeries> castMemberSeries;
+    private List<News> news;
+    private List<Comment> comments;
+    private List<Message> messages;
 
     public SeriesMySQL(RESTDataLayer dataLayer) {
 
@@ -52,9 +56,11 @@ public class SeriesMySQL implements Series {
         this.dataLayer = dataLayer;
 
         users = null;
+        userSeries = null;
         genres = null;
         episodes = null;
         castMembers = null;
+        castMemberSeries = null;
         news = null;
         comments = null;
         messages = null;
@@ -280,6 +286,19 @@ public class SeriesMySQL implements Series {
     }
 
     @Override
+    public List<UserSeries> getUserSeries() {
+        if (userSeries == null) {
+            userSeries = dataLayer.getUserSeriesBySeries(this);
+        }
+        return userSeries;
+    }
+
+    @Override
+    public void setUserSeries(List<UserSeries> userSeries) {
+        this.userSeries = userSeries;
+    }
+
+    @Override
     public void addGenre(Genre genre) {
         if (genres == null) {
             genres = dataLayer.getGenres(this);
@@ -361,6 +380,19 @@ public class SeriesMySQL implements Series {
          */
         castMembers = null;
         dirty = true;
+    }
+
+    @Override
+    public List<CastMemberSeries> getCastMemberSeries() {
+        if (castMemberSeries == null) {
+            castMemberSeries = dataLayer.getCastMemberSeriesBySeries(this);
+        }
+        return castMemberSeries;
+    }
+
+    @Override
+    public void setCastMemberSeries(List<CastMemberSeries> castMemberSeries) {
+        this.castMemberSeries = castMemberSeries;
     }
 
     @Override
@@ -458,12 +490,14 @@ public class SeriesMySQL implements Series {
         year = series.getYear();
 
         castMembers = null;
+        castMemberSeries = null;
         comments = null;
         episodes = null;
         genres = null;
         messages = null;
         news = null;
         users = null;
+        userSeries = null;
 
         dirty = true;
     }

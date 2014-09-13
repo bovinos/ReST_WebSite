@@ -21,8 +21,8 @@ public class GroupMySQL implements Group {
 
     protected RESTDataLayer dataLayer;
 
-    List<User> users;
-    List<Service> services;
+    private List<User> users;
+    private List<Service> services;
 
     public GroupMySQL(RESTDataLayer dataLayer) {
 

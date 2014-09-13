@@ -56,6 +56,10 @@ public interface Series {
 
     void removeAllUsers();
 
+    List<UserSeries> getUserSeries();
+
+    void setUserSeries(List<UserSeries> userSeries);
+
     List<Genre> getGenres();
 
     void setGenres(List<Genre> genres);
@@ -85,6 +89,10 @@ public interface Series {
     void removeCastMember(CastMember castMember);
 
     void removeAllCastMembers();
+
+    List<CastMemberSeries> getCastMemberSeries();
+
+    void setCastMemberSeries(List<CastMemberSeries> castMemberSeries);
 
     List<News> getNews();
 

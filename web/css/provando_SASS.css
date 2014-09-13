@@ -82,6 +82,12 @@ input:default {
     top: 5px;
     font-size: 1.7rem; }
 
+.verticalCenter:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle; }
+
 html, body {
   font-family: OpenSans, Verdana, Arial, Helvetica;
   /* pi├╣ in l├á inserire web font e gestire la tipografia in generale */
@@ -945,11 +951,6 @@ a {
   background-color: #FFFFFF;
   height: 100%;
   text-align: center; }
-  #formLogIn:before, #formSignUp:before {
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle; }
   #formLogIn .row, #formSignUp .row {
     margin-bottom: 15px; }
     #formLogIn .row:last-of-type, #formSignUp .row:last-of-type {
@@ -1031,14 +1032,40 @@ a {
 /* USER SERIES PAGE
 =============================================================================================== */
 #userSeries {
-  margin-top: 25px; }
-  #userSeries .series .imgContainer {
-    display: inline-block;
-    height: 135px;
-    overflow: hidden; }
-    #userSeries .series .imgContainer img {
-      width: 100%;
-      height: 100%;
+  margin-top: 25px;
+  font-size: 1.2rem; }
+  #userSeries .series {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(22, 149, 163, 0.7);
+    color: #444444;
+    position: relative; }
+    #userSeries .series .bottom {
+      position: absolute;
+      bottom: 20%; }
+    #userSeries .series .imgContainer {
+      display: inline-block;
+      height: 135px;
       overflow: hidden; }
+      #userSeries .series .imgContainer img {
+        width: 100%;
+        height: 100%;
+        overflow: hidden; }
+    #userSeries .series .nameAndLastEpisodeSeen h1 {
+      font-size: 2rem;
+      color: #1695A3; }
+    #userSeries .series .removeSeries {
+      font-size: 5rem;
+      overflow: hidden; }
+      #userSeries .series .removeSeries a {
+        font-size: 1rem;
+        color: transparent; }
+        #userSeries .series .removeSeries a:hover span {
+          color: #cc0000; }
+        #userSeries .series .removeSeries a span {
+          color: #999999;
+          font-size: 5rem;
+          transition: color 0.3s ease-in-out;
+          -webkit-transition: color 0.3s ease-in-out;
+          -moz-transition: color 0.3s ease-in-out; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

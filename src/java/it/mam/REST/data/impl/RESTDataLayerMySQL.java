@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,13 +76,13 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             dUser;
 
     // Relationship
-    private PreparedStatement sCastMemberSeries,
+    private PreparedStatement sCastMemberSeries, sCastMemberSeriesByCastMember, sCastMemberSeriesBySeries, sCastMemberSeriesByCastMemberAndSeries,
             iCastMemberSeries,
             dCastMemberSeries;
-    private PreparedStatement sChannelEpisode,
+    private PreparedStatement sChannelEpisode, sChannelEpisodeByChannel, sChannelEpisodeByEpisode, sChannelEpisodeByChannelAndEpisode,
             iChannelEpisode,
             dChannelEpisode;
-    private PreparedStatement sUserSeries,
+    private PreparedStatement sUserSeries, sUserSeriesByUser, sUserSeriesBySeries,
             iUserSeries,
             dUserSeries;
 
@@ -203,17 +204,25 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
             // Relationship
             // CastMemberSeries
-            sCastMemberSeries = connection.prepareStatement("SELECT * FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=?");
+            sCastMemberSeries = connection.prepareStatement("SELECT * FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=? AND role=?");
+            sCastMemberSeriesByCastMember = connection.prepareStatement("SELECT * FROM r_cast_member_series WHERE ID_cast_member=?");
+            sCastMemberSeriesBySeries = connection.prepareStatement("SELECT * FROM r_cast_member_series WHERE ID_series=?");
+            sCastMemberSeriesByCastMemberAndSeries = connection.prepareStatement("SELECT * FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=?");
             iCastMemberSeries = connection.prepareStatement("INSERT INTO r_cast_member_series (ID_cast_member, ID_series, role) VALUES(?, ?, ?)");
             dCastMemberSeries = connection.prepareCall("DELETE FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=? AND role=?");
 
             // ChannelEpisode
-            sChannelEpisode = connection.prepareStatement("SELECT * FROM r_channel_episode WHERE ID_channel=? AND ID_episode=?");
+            sChannelEpisode = connection.prepareStatement("SELECT * FROM r_channel_episode WHERE ID_channel=? AND ID_episode=? AND date=?");
+            sChannelEpisodeByChannel = connection.prepareStatement("SELECT * FROM r_channel_episode WHERE ID_channel=?");
+            sChannelEpisodeByEpisode = connection.prepareStatement("SELECT * FROM r_channel_episode WHERE ID_episode=?");
+            sChannelEpisodeByChannelAndEpisode = connection.prepareStatement("SELECT * FROM r_channel_episode WHERE ID_channel=? AND ID_episode=?");
             iChannelEpisode = connection.prepareStatement("INSERT INTO r_channel_episode (ID_channel, ID_episode, date) VALUES(?, ?, ?)");
             dChannelEpisode = connection.prepareStatement("DELETE FROM r_channel_episode WHERE ID_channel=? AND ID_episode=? AND date=?");
 
             // UserSeries
             sUserSeries = connection.prepareStatement("SELECT * FROM r_user_series WHERE ID_user=? AND ID_series=?");
+            sUserSeriesBySeries = connection.prepareStatement("SELECT * FROM r_user_series WHERE ID_series=?");
+            sUserSeriesByUser = connection.prepareStatement("SELECT * FROM r_user_series WHERE ID_user=?");
             iUserSeries = connection.prepareStatement("INSERT INTO r_user_series (ID_user, ID_series, rating, anticipation_notification, add_date, season, episode) VALUES(?, ?, ?, ?, ?, ?, ?)");
             dUserSeries = connection.prepareStatement("DELETE FROM r_user_series WHERE ID_user=? AND ID_series=?");
 
@@ -2491,14 +2500,74 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sCastMemberSeries = "SELECT * FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=?"
-    public List<CastMemberSeries> getCastMembeSeries(CastMember castMember, Series series) {
+    // sCastMemberSeries = "SELECT * FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=? AND role=?"
+    /**
+     * <Questo metodo ha un problema: se dopo il salvataggio il DB mi tronca il
+     * ruolo, non avrò più modo di riprendere la riga appena inserita>
+     */
+    public CastMemberSeries getCastMemberSeries(CastMember castMember, Series series, String role) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    // sCastMemberSeriesByCastMember = "SELECT * FROM r_cast_member_series WHERE ID_cast_member=?"
+    public List<CastMemberSeries> getCastMemberSeriesByCastMember(CastMember castMember) {
         List<CastMemberSeries> result = new ArrayList();
         ResultSet rs = null;
         try {
-            sCastMemberSeries.setInt(1, castMember.getID());
-            sCastMemberSeries.setInt(2, series.getID());
-            rs = sCastMemberSeries.executeQuery();
+            sCastMemberSeriesByCastMember.setInt(1, castMember.getID());
+            rs = sCastMemberSeriesByCastMember.executeQuery();
+            while (rs.next()) {
+                result.add(new CastMemberSeriesMySQL(this, rs));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // sCastMemberSeriesBySeries = "SELECT * FROM r_cast_member_series WHERE ID_series=?"
+    public List<CastMemberSeries> getCastMemberSeriesBySeries(Series series) {
+        List<CastMemberSeries> result = new ArrayList();
+        ResultSet rs = null;
+        try {
+            sCastMemberSeriesBySeries.setInt(1, series.getID());
+            rs = sCastMemberSeriesBySeries.executeQuery();
+            while (rs.next()) {
+                result.add(new CastMemberSeriesMySQL(this, rs));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // sCastMemberSeriesByCastMemberAndSeries = "SELECT * FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=?"
+    public List<CastMemberSeries> getCastMembeSeriesByCastMemberAndSeries(CastMember castMember, Series series) {
+        List<CastMemberSeries> result = new ArrayList();
+        ResultSet rs = null;
+        try {
+            sCastMemberSeriesByCastMemberAndSeries.setInt(1, castMember.getID());
+            sCastMemberSeriesByCastMemberAndSeries.setInt(2, series.getID());
+            rs = sCastMemberSeriesByCastMemberAndSeries.executeQuery();
             while (rs.next()) {
                 result.add(new CastMemberSeriesMySQL(this, rs));
             }
@@ -2554,14 +2623,74 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sChannelEpisode = "SELECT * FROM r_channel_episode WHERE ID_channel=? AND ID_episode=?"
-    public List<ChannelEpisode> getChannelEpisode(Channel channel, Episode episode) {
+    // sChannelEpisode = "SELECT * FROM r_channel_episode WHERE ID_channel=? AND ID_episode=? AND date=?"
+    /**
+     * <Questo metodo ha un problema: se dopo il salvataggio il DB mi tronca la
+     * data, non avrò più modo di riprendere la riga appena inserita>
+     */
+    public ChannelEpisode getChannelEpisode(Channel channel, Episode episode, Date date) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    // sChannelEpisodeByChannel = "SELECT * FROM r_channel_episode WHERE ID_channel=?"
+    public List<ChannelEpisode> getChannelEpisodeByChannel(Channel channel) {
         List<ChannelEpisode> result = new ArrayList();
         ResultSet rs = null;
         try {
-            sChannelEpisode.setInt(1, channel.getID());
-            sChannelEpisode.setInt(2, episode.getID());
-            rs = sChannelEpisode.executeQuery();
+            sChannelEpisodeByChannel.setInt(1, channel.getID());
+            rs = sChannelEpisodeByChannel.executeQuery();
+            while (rs.next()) {
+                result.add(new ChannelEpisodeMySQL(this, rs));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // sChannelEpisodeByEpisode  = "SELECT * FROM r_channel_episode WHERE ID_episode=?"
+    public List<ChannelEpisode> getChannelEpisodeByEpisode(Episode episode) {
+        List<ChannelEpisode> result = new ArrayList();
+        ResultSet rs = null;
+        try {
+            sChannelEpisodeByEpisode.setInt(1, episode.getID());
+            rs = sChannelEpisodeByEpisode.executeQuery();
+            while (rs.next()) {
+                result.add(new ChannelEpisodeMySQL(this, rs));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // sChannelEpisodeByChannelAndEpisode = "SELECT * FROM r_channel_episode WHERE ID_channel=? AND ID_episode=?"
+    public List<ChannelEpisode> getChannelEpisodeByChannelAndEpisode(Channel channel, Episode episode) {
+        List<ChannelEpisode> result = new ArrayList();
+        ResultSet rs = null;
+        try {
+            sChannelEpisodeByChannelAndEpisode.setInt(1, channel.getID());
+            sChannelEpisodeByChannelAndEpisode.setInt(2, episode.getID());
+            rs = sChannelEpisodeByChannelAndEpisode.executeQuery();
             while (rs.next()) {
                 result.add(new ChannelEpisodeMySQL(this, rs));
             }
@@ -2627,6 +2756,56 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             rs = sUserSeries.executeQuery();
             if (rs.next()) {
                 result = new UserSeriesMySQL(this, rs);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // sUserSeriesBySeries = "SELECT * FROM r_user_series WHERE ID_series=?"
+    public List<UserSeries> getUserSeriesByUser(User user) {
+        List<UserSeries> result = new ArrayList();
+        ResultSet rs = null;
+        try {
+            sUserSeriesByUser.setInt(1, user.getID());
+            rs = sUserSeriesByUser.executeQuery();
+            while (rs.next()) {
+                result.add(new UserSeriesMySQL(this, rs));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // sUserSeriesByUser = "SELECT * FROM r_user_series WHERE ID_user=?"
+    public List<UserSeries> getUserSeriesBySeries(Series series) {
+        List<UserSeries> result = new ArrayList();
+        ResultSet rs = null;
+        try {
+            sUserSeriesBySeries.setInt(1, series.getID());
+            rs = sUserSeriesBySeries.executeQuery();
+            while (rs.next()) {
+                result.add(new UserSeriesMySQL(this, rs));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);

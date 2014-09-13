@@ -8,6 +8,7 @@ import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.RESTDataLayer;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
+import it.mam.REST.data.model.UserSeries;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -36,6 +37,7 @@ public class UserMySQL implements User {
 
     private List<Comment> comments;
     private List<Series> series;
+    private List<UserSeries> userSeries;
     private List<Genre> genres;
     private List<Message> messages;
     private List<News> news; // is not null only if the user is an admin
@@ -60,6 +62,7 @@ public class UserMySQL implements User {
 
         comments = null;
         series = null;
+        userSeries = null;
         genres = null;
         messages = null;
         news = null;
@@ -341,6 +344,19 @@ public class UserMySQL implements User {
     }
 
     @Override
+    public List<UserSeries> getUserSeries() {
+        if (userSeries == null) {
+            userSeries = dataLayer.getUserSeriesByUser(this);
+        }
+        return userSeries;
+    }
+
+    @Override
+    public void setUserSeries(List<UserSeries> userSeries) {
+        this.userSeries = userSeries;
+    }
+
+    @Override
     public void addGenre(Genre genre) {
         if (genres == null) {
             genres = dataLayer.getGenres(this);
@@ -459,6 +475,7 @@ public class UserMySQL implements User {
         messages = null;
         news = null;
         series = null;
+        userSeries = null;
     }
 
 }

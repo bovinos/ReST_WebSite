@@ -20,8 +20,8 @@ public class GenreMySQL implements Genre {
 
     protected RESTDataLayer dataLayer;
 
-    List<Series> series;
-    List<User> users;
+    private List<Series> series;
+    private List<User> users;
 
     public GenreMySQL(RESTDataLayer dataLayer) {
 

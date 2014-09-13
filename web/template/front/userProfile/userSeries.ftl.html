@@ -9,20 +9,20 @@
             <div class="imgContainer four columns">
                 <img src="${strip_slashes(s.imageURL)}" alt="Immagine di ${strip_slashes(s.name)}"/>
             </div>
-            <div class="nameAndLastEpisodeSeeen three columns">
-                <h1>${strip_slashes(s.name)}</h1>
-                <p>Ultimo episodio visto:</p>
+            <div class="nameAndLastEpisodeSeen four columns">
+                <h1 class="top"><a href="SchedaSerie?id=${s.ID}">${strip_slashes(s.name)}</a></h1>
+                <p class="bottom">Ultimo episodio visto: </p>
             </div>
-            <div class="ratingAndNextEpisode three columns">
-                <h1>Mia valutazione</h1>
-                <p>Il prossimo episodio andrà in onda</p>
+            <div class="ratingAndNextEpisode four columns">
+                <h1 class="top">Mia valutazione</h1>
+                <p class="bottom">Data prossimo episodio: </p>
             </div>
             <div class="goToCircleAndAnticipationNotification three columns">
-                <h1>Mia valutazione</h1>
-                <p>Il prossimo episodio andrà in onda</p>
+                <a href="CerchiaSerie?id=${s.ID}" class="top">Vai alla cerchia</a>
+                <p class="bottom">Anticipo notifica: </p>
             </div>
-            <div class="removeSeries three columns">
-                <span class="icon_trash_alt">&nbsp;</span>
+            <div class="removeSeries one column omega verticalCenter">
+                <a href="#"><span class="icon_trash_alt"></span>Elimina serie</a>
             </div>
         </div> 
         </#list>

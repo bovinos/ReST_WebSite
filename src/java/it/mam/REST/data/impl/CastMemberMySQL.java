@@ -1,6 +1,7 @@
 package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.CastMember;
+import it.mam.REST.data.model.CastMemberSeries;
 import it.mam.REST.data.model.RESTDataLayer;
 import it.mam.REST.data.model.Series;
 import java.sql.ResultSet;
@@ -25,7 +26,8 @@ public class CastMemberMySQL implements CastMember {
 
     protected RESTDataLayer dataLayer;
 
-    List<Series> series;
+    private List<Series> series;
+    private List<CastMemberSeries> castMemberSeries;
 
     public CastMemberMySQL(RESTDataLayer dataLayer) {
 
@@ -41,6 +43,7 @@ public class CastMemberMySQL implements CastMember {
         this.dataLayer = dataLayer;
 
         series = null;
+        castMemberSeries = null;
     }
 
     public CastMemberMySQL(RESTDataLayer dataLayer, ResultSet rs) throws SQLException {
@@ -151,9 +154,11 @@ public class CastMemberMySQL implements CastMember {
     }
 
     @Override
-    // here?
     public List<Series> getSeries(String role) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (series == null) {
+            series = dataLayer.getSeries(this);
+        }
+        return series;
     }
 
     @Override
@@ -190,6 +195,19 @@ public class CastMemberMySQL implements CastMember {
     }
 
     @Override
+    public List<CastMemberSeries> getCastMemberSeries() {
+        if (castMemberSeries == null) {
+            castMemberSeries = dataLayer.getCastMemberSeriesByCastMember(this);
+        }
+        return castMemberSeries;
+    }
+
+    @Override
+    public void setCastMemberSeries(List<CastMemberSeries> castMemberSeries) {
+        this.castMemberSeries = castMemberSeries;
+    }
+
+    @Override
     public void copyFrom(CastMember castMember) {
         ID = castMember.getID();
         birthDate = castMember.getBirthDate();
@@ -200,6 +218,7 @@ public class CastMemberMySQL implements CastMember {
         surname = castMember.getSurname();
 
         series = null;
+        castMemberSeries = null;
 
         dirty = true;
     }

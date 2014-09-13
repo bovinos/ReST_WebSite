@@ -21,7 +21,7 @@ public class ServiceMySQL implements Service {
 
     protected RESTDataLayer dataLayer;
 
-    List<Group> groups;
+    private List<Group> groups;
 
     public ServiceMySQL(RESTDataLayer dataLayer) {
 

@@ -81,12 +81,12 @@ public class MyProfile extends RESTBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
-        switch(section){
+        switch (section) {
             case 1:
                 try {
-                    action_activate_ProfileUserBroadcastProgramming(request, response);
+                    action_activate_ProfileUserSeries(request, response);
                 } catch (IOException ex) {
                     action_error(request, response, ex.getMessage());
                 }
@@ -100,7 +100,7 @@ public class MyProfile extends RESTBaseController {
                 break;
             case 3:
                 try {
-                    action_activate_ProfileUserSeries(request, response);
+                    action_activate_ProfileUserBroadcastProgramming(request, response);
                 } catch (IOException ex) {
                     action_error(request, response, ex.getMessage());
                 }

@@ -148,6 +148,18 @@ input:default{
     }
 }
 
+.verticalCenter{
+
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+
+}
+
 
 html, body{
     font-family: OpenSans, Verdana, Arial, Helvetica; /* più in là inserire web font e gestire la tipografia in generale */
@@ -1316,14 +1328,6 @@ a{
     height: 100%;
     text-align: center;
 
-
-    &:before {
-        content: '';
-        display: inline-block;
-        height: 100%;
-        vertical-align: middle;
-    }
-
     .row{
         margin-bottom: 15px;
 
@@ -1331,7 +1335,6 @@ a{
             margin-bottom: 10px;
         }
     }
-
 
     form{
         display: inline-block;
@@ -1377,9 +1380,6 @@ a{
             margin-top: 10px;
         }
     }
-
-
-
 }
 
 /* SIGNUP
@@ -1442,8 +1442,22 @@ a{
 =============================================================================================== */
 #userSeries{
     margin-top: 25px;
+    font-size: 1.2rem;
 
     .series{
+        padding: 20px 0;
+        border-bottom: 1px solid rgba(22, 149, 163, 0.7);
+        color: $primaryTextColor;
+        position: relative;
+
+        .top{
+
+        }
+
+        .bottom{
+            position: absolute;
+            bottom: 20%;
+        }
 
         .imgContainer{
             display: inline-block;
@@ -1457,7 +1471,36 @@ a{
             }
         }
 
+        .nameAndLastEpisodeSeen{
 
+            h1{
+                font-size: 2rem;
+                color: $turquoise;
+            }
+        }
+
+        .removeSeries{
+            font-size: 5rem;
+            overflow: hidden;
+
+            a{
+                font-size: 1rem;
+                color: transparent;
+
+                &:hover{
+
+                    span{
+                        color: #cc0000;
+                    }
+                }
+
+                span{
+                    color: $secondaryTextColor;
+                    font-size: 5rem;
+                    @include transition(color, 0.3s);
+                }
+            }
+        }
     }
 }
 
