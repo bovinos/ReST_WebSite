@@ -74,7 +74,21 @@ public class MyProfile extends RESTBaseController {
         List<UserSeries> userseriesList = getDataLayer().getUserSeriesByUser(user);
         for(UserSeries us: userseriesList){
             if (request.getParameter("s").equals(String.valueOf(us.getSeriesID())) && !(request.getParameter("r").equals(us.getRating()))) {
-                us.setRating(request.getParameter("r"));
+                int rating = SecurityLayer.checkNumeric(request.getParameter("r"));
+                switch(rating){
+                    case 1: us.setRating(UserSeries.ONE);
+                    break;
+                    case 2: us.setRating(UserSeries.TWO);
+                    break;
+                    case 3: us.setRating(UserSeries.THREE);
+                    break;
+                    case 4: us.setRating(UserSeries.FOUR);
+                    break;
+                    case 5: us.setRating(UserSeries.FIVE);
+                    break;
+                    default: action_error(request, response, "Internal Error");
+                }
+                
                 getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
             }
         }
