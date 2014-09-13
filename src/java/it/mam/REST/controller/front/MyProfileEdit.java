@@ -3,6 +3,7 @@ package it.mam.REST.controller.front;
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.User;
+import it.mam.REST.data.model.UserSeries;
 import it.mam.REST.utility.Utility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
@@ -72,7 +73,7 @@ public class MyProfileEdit extends RESTBaseController {
     
      private void action_submit_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
         User user;
-            // controlliamo che le password inserite corrispondano
+            
             user = getDataLayer().getUser((int)request.getSession().getAttribute("userid"));
             if ((request.getParameter("name") != null && request.getParameter("name").length() > 0) 
                     && !(request.getParameter("name").equals(user.getName()))) { user.setName(request.getParameter("name")); }
@@ -105,6 +106,36 @@ public class MyProfileEdit extends RESTBaseController {
 
     }
      
+     private void action_activate_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        if (SecurityLayer.checkSession(request) == null) result.activate("logIn.ftl.html", request, response);
+        String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
+        request.setAttribute("sessionUsername", username);
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        request.setAttribute("user", user);
+        request.setAttribute("userProfileContent_tpl", "userNotifySettings.ftl.html");
+        result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+    }
+     
+      private void action_submit_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+          User user;
+          user = getDataLayer().getUser((int)request.getSession().getAttribute("userid"));
+          switch(SecurityLayer.checkNumeric(request.getParameter("status"))){
+              case 0: user.setNotificationStatus(false);
+              break;
+              case 1: user.setNotificationStatus(true);
+              break;
+              default: action_error(request, response, "Internal Error");
+          }
+
+          List<UserSeries> userseriesList = getDataLayer().getUserSeriesByUser(user);
+          for(UserSeries us: userseriesList){
+              us.setAnticipationNotification(SecurityLayer.checkDate(request.getParameter("anticipation")).getTime());
+              getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+          }
+          
+              
+      }
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -125,7 +156,7 @@ public class MyProfileEdit extends RESTBaseController {
         }
                 }
             break;
-            case 2:
+            case 2: //Siamo nel ramo "Modifica dati opzionali"...
                  if (request.getParameter("ModificaDatiOpzionali")!= null){ //Abbiamo inviato i dati modificati...
         try {
             action_submit_ProfileUserOptionalData(request, response);
@@ -140,7 +171,20 @@ public class MyProfileEdit extends RESTBaseController {
         }
                 }
         break;
-            case 3:
+            case 3: //Siamo nel ramo "Impostazioni Notifiche"...
+                if (request.getParameter("ImpostaNotifiche")!= null){ //Abbiamo inviato i dati modificati...
+        try {
+            action_submit_ProfileUserNotifySettings(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
+                 } else { //Se siamo qui abbiamo solo richiesto la schermata di modifica, quindi la mostro...
+        try {
+            action_activate_ProfileUserNotifySettings(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
+                }
         break;
             default:
             action_error(request, response, "The requested resource is not available");
