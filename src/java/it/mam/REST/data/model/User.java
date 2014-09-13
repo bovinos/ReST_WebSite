@@ -45,6 +45,10 @@ public interface User {
 
     void setImageURL(String imageURL);
 
+    boolean getNotificationStatus();
+
+    void setNotificationStatus(boolean status);
+
     boolean isDirty();
 
     void setDirty(boolean dirty);
