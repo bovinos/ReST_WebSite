@@ -5,7 +5,7 @@
     <div id="userSeriesList">
         <!-- se esistono stampiamole tutte -->
         <#list user.series as s>
-        <div class="series row">
+        <div id="s${s.ID}" class="series row">
             <div class="imgContainer four columns">
                 <img src="${strip_slashes(s.imageURL)}" alt="Immagine di ${strip_slashes(s.name)}"/>
             </div>
@@ -18,46 +18,46 @@
                     <h1>Mia valutazione: </h1>
                     <#switch user.userSeries[s_index].rating!"0">
                     <#case "1">
-                    <a href="?s=${s.ID}&amp;r=1" class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=2" class="icon_star_alt rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=3"  class="icon_star_alt rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=4"  class="icon_star_alt rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=5"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=1" class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=2" class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=3"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=4"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=5"  class="icon_star_alt rating star"></a>
                     <#break>
                     <#case "2">
-                    <a href="?s=${s.ID}&amp;r=1"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=2"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=3"  class="icon_star_alt rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=4"  class="icon_star_alt rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=5"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=1"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=2"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=3"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=4"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=5"  class="icon_star_alt rating star"></a>
                     <#break>
                     <#case "3">
-                    <a href="?s=${s.ID}&amp;r=1"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=2"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=3"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=4"  class="icon_star_alt rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=5"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=1"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=2"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=3"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=4"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=5"  class="icon_star_alt rating star"></a>
                     <#break>
                     <#case "4">
-                    <a href="?s=${s.ID}&amp;r=1"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=2"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=3"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=4"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=5"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=1"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=2"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=3"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=4"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=5"  class="icon_star_alt rating star"></a>
                     <#break>
                     <#case "5">
-                    <a href="?s=${s.ID}&amp;r=1"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=2"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=3"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=4"  class="icon_star rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=5"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=1"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=2"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=3"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=4"  class="icon_star rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=5"  class="icon_star rating star"></a>
                     <#break>
                     <#default>
-                    <a href="?s=${s.ID}&amp;r=1"  class="icon_star_alt rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=2"  class="icon_star_alt rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=3"  class="icon_star_alt rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=4"  class="icon_star_alt rating star"></a>
-                    <a href="?s=${s.ID}&amp;r=5"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=1"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=2"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=3"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=4"  class="icon_star_alt rating star"></a>
+                    <a href="?sezione=1&amp;s=${s.ID}&amp;r=5"  class="icon_star_alt rating star"></a>
                     </#switch>
                 </div>
                 <p class="bottom">Data prossimo episodio: </p>
