@@ -64,8 +64,8 @@
         <servlet-class>it.mam.REST.controller.front.LogIn</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SaveUser</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.SaveUser</servlet-class>
+        <servlet-name>SignUp</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.SignUp</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>InsertSeries</servlet-name>
@@ -136,10 +136,6 @@
         <url-pattern>/SalvaNews</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SaveUser</servlet-name>
-        <url-pattern>/SalvaUtente</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>InsertSeries</servlet-name>
         <url-pattern>/InserisciSerie</url-pattern>
     </servlet-mapping>
@@ -186,6 +182,10 @@
     <servlet-mapping>
         <servlet-name>LogIn</servlet-name>
         <url-pattern>/LogIn</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignUp</servlet-name>
+        <url-pattern>/Registrazione</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
