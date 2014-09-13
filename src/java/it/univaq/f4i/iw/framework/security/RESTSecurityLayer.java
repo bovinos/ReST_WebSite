@@ -10,6 +10,7 @@ import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
+import it.mam.REST.data.model.UserSeries;
 
 /**
  *
@@ -124,5 +125,9 @@ public class RESTSecurityLayer {
      public static CastMemberSeries addSlashes(CastMemberSeries cms){
         cms.setRole(SecurityLayer.addSlashes(cms.getRole()));
         return cms;
+    }
+     public static UserSeries addSlashes(UserSeries us){
+        us.setRating(SecurityLayer.addSlashes(us.getRating()));
+        return us;
     }
 }

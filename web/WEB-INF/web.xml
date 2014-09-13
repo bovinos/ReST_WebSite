@@ -115,6 +115,10 @@
         <servlet-name>MyProfile</servlet-name>
         <servlet-class>it.mam.REST.controller.front.MyProfile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyProfileEdit</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.MyProfileEdit</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
         <url-pattern>/ListaNews</url-pattern>
@@ -194,6 +198,10 @@
     <servlet-mapping>
         <servlet-name>MyProfile</servlet-name>
         <url-pattern>/ProfiloPersonale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyProfileEdit</servlet-name>
+        <url-pattern>/ModificaProfiloPersonale</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

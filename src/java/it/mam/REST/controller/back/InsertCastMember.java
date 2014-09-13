@@ -30,7 +30,7 @@ public class InsertCastMember extends RESTBaseController {
     private void action_insert_castmember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("series", getDataLayer().getSeries());
         result.activate("insert_castmember.ftl.html", request, response);
     }
