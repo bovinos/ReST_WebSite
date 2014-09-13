@@ -6,6 +6,8 @@ package it.mam.REST.data.model;
  */
 public interface CastMemberSeries {
 
+    int getID();
+
     int getCastMemberID();
 
     void setCastMemberID(int ID);

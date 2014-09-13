@@ -11,6 +11,7 @@ import java.sql.SQLException;
  */
 public class CastMemberSeriesMySQL implements CastMemberSeries {
 
+    private int ID;
     private int castMemberID;
     private int seriesID;
     private String role;
@@ -20,6 +21,7 @@ public class CastMemberSeriesMySQL implements CastMemberSeries {
 
     public CastMemberSeriesMySQL(RESTDataLayer dl) {
 
+        ID = 0;
         castMemberID = 0;
         seriesID = 0;
         role = "";
@@ -32,10 +34,16 @@ public class CastMemberSeriesMySQL implements CastMemberSeries {
     public CastMemberSeriesMySQL(RESTDataLayer dl, ResultSet rs) throws SQLException {
 
         this(dl);
+        ID = rs.getInt("ID");
         castMemberID = rs.getInt("ID_cast_member");
         seriesID = rs.getInt("ID_series");
         role = rs.getString("role");
 
+    }
+
+    @Override
+    public int getID() {
+        return ID;
     }
 
     @Override
@@ -46,6 +54,7 @@ public class CastMemberSeriesMySQL implements CastMemberSeries {
     @Override
     public void setCastMemberID(int castMemberID) {
         this.castMemberID = castMemberID;
+        dirty = true;
     }
 
     @Override
@@ -56,6 +65,7 @@ public class CastMemberSeriesMySQL implements CastMemberSeries {
     @Override
     public void setSeriesID(int seriesID) {
         this.seriesID = seriesID;
+        dirty = true;
     }
 
     @Override
@@ -66,6 +76,7 @@ public class CastMemberSeriesMySQL implements CastMemberSeries {
     @Override
     public void setRole(String role) {
         this.role = role;
+        dirty = true;
     }
 
     @Override
@@ -80,6 +91,8 @@ public class CastMemberSeriesMySQL implements CastMemberSeries {
 
     @Override
     public void copyFrom(CastMemberSeries castMemberSeries) {
+
+        ID = castMemberSeries.getID();
         castMemberID = castMemberSeries.getCastMemberID();
         seriesID = castMemberSeries.getSeriesID();
         role = castMemberSeries.getRole();

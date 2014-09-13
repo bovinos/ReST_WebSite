@@ -141,7 +141,7 @@ public class ChannelMySQL implements Channel {
     @Override
     public List<ChannelEpisode> getChannelEpisode() {
         if (channelEpisode == null) {
-            channelEpisode = dataLayer.getChannelEpisodeByChannel(this);
+            channelEpisode = dataLayer.getChannelEpisode(this);
         }
         return channelEpisode;
     }

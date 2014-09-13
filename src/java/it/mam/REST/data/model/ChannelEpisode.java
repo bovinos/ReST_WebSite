@@ -8,6 +8,8 @@ import java.util.Date;
  */
 public interface ChannelEpisode {
 
+    int getID();
+
     int getChannelID();
 
     void setChannelID(int ID);

@@ -1,7 +1,6 @@
 package it.mam.REST.data.model;
 
 import it.univaq.f4i.iw.framework.data.DataLayer;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -232,13 +231,13 @@ public interface RESTDataLayer extends DataLayer {
     // =============================================================
     CastMemberSeries createCastMemberSeries();
 
-    CastMemberSeries getCastMemberSeries(CastMember castMember, Series series, String role);
+    CastMemberSeries getCastMemberSeries(int castMemberSeriesID);
 
-    List<CastMemberSeries> getCastMemberSeriesByCastMember(CastMember castMember);
+    List<CastMemberSeries> getCastMemberSeries(CastMember castMember);
 
-    List<CastMemberSeries> getCastMemberSeriesBySeries(Series series);
+    List<CastMemberSeries> getCastMemberSeries(Series series);
 
-    List<CastMemberSeries> getCastMembeSeriesByCastMemberAndSeries(CastMember castMember, Series series);
+    List<CastMemberSeries> getCastMembeSeries(CastMember castMember, Series series);
 
     void storeCastMemberSeries(CastMemberSeries castMemberSeries);
 
@@ -249,13 +248,13 @@ public interface RESTDataLayer extends DataLayer {
     // =============================================================
     ChannelEpisode createChannelEpisode();
 
-    ChannelEpisode getChannelEpisode(Channel channel, Episode episode, Date date);
+    ChannelEpisode getChannelEpisode(int channelEpisodeID);
 
-    List<ChannelEpisode> getChannelEpisodeByChannel(Channel channel);
+    List<ChannelEpisode> getChannelEpisode(Channel channel);
 
-    List<ChannelEpisode> getChannelEpisodeByEpisode(Episode episode);
+    List<ChannelEpisode> getChannelEpisode(Episode episode);
 
-    List<ChannelEpisode> getChannelEpisodeByChannelAndEpisode(Channel channel, Episode episode);
+    List<ChannelEpisode> getChannelEpisode(Channel channel, Episode episode);
 
     void storeChannelEpisode(ChannelEpisode channelEpisode);
 
@@ -266,11 +265,13 @@ public interface RESTDataLayer extends DataLayer {
     // =============================================================
     UserSeries createUserSeries();
 
+    UserSeries getUserSeries(int userSeriesID);
+
     UserSeries getUserSeries(User user, Series series);
 
-    List<UserSeries> getUserSeriesByUser(User user);
+    List<UserSeries> getUserSeries(User user);
 
-    List<UserSeries> getUserSeriesBySeries(Series series);
+    List<UserSeries> getUserSeries(Series series);
 
     void storeUserSeries(UserSeries userSeries);
 
