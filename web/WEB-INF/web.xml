@@ -111,6 +111,10 @@
         <servlet-name>LogOut</servlet-name>
         <servlet-class>it.mam.REST.controller.front.LogOut</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyProfile</servlet-name>
+        <servlet-class>it.mam.REST.controller.front.MyProfile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
         <url-pattern>/ListaNews</url-pattern>
@@ -186,6 +190,10 @@
     <servlet-mapping>
         <servlet-name>SignUp</servlet-name>
         <url-pattern>/Registrazione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyProfile</servlet-name>
+        <url-pattern>/ProfiloPersonale</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
