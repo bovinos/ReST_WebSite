@@ -3,6 +3,7 @@ package it.mam.REST.controller.front;
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
+import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
@@ -72,7 +73,8 @@ public class MyProfile extends RESTBaseController {
     }
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        int section = SecurityLayer.checkNumeric(request.getParameter("palinsesto"));
+        request.setAttribute("stripSlashes", new SplitSlashesFmkExt());
+        int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
         switch(section){
             case 1:
         try {
