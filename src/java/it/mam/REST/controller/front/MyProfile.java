@@ -99,7 +99,7 @@ public class MyProfile extends RESTBaseController {
         int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
         switch (section) {
             case 1:
-                if(request.getParameter("u") != null && request.getParameter("s") != null){
+                if(request.getParameter("r") != null && request.getParameter("s") != null){
                 try {
                     action_rating_ProfileUserSeries(request, response);
                 } catch (IOException ex) {
