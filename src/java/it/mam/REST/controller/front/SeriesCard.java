@@ -50,10 +50,9 @@ public class SeriesCard extends RESTBaseController {
         }
         request.setAttribute("seasons", seasonList);
         //Controllo la sessione e creo l'utente
-        if (SecurityLayer.checkSession(request) == null) {
-            result.activate("logIn.ftl.html", request, response);
-        }
-        String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
+        if (SecurityLayer.checkSession(request) != null) {
+
+        String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
@@ -63,9 +62,9 @@ public class SeriesCard extends RESTBaseController {
         UserSeries us = getDataLayer().getUserSeries(user, s);
         favourite = (us != null);
         request.setAttribute("favourite", favourite);
-
-        result.activate("seriesCard.ftl.html", request, response);
-
+        }
+       result.activate("seriesCard.ftl.html", request, response); 
+        
     }
 
     private void action_addSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -75,7 +74,15 @@ public class SeriesCard extends RESTBaseController {
         us.setUser(user);
         us.setSeries(series);
         getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-        response.sendRedirect("SchedaSerie?id=" + series.getID());
+        response.sendRedirect("SchedaSerie?id=IDDellaSerie");
+
+    }
+    
+    private void action_removeSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
+        getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
+        response.sendRedirect("SchedaSerie?id=IDDellaSerie");
 
     }
 
@@ -92,22 +99,22 @@ public class SeriesCard extends RESTBaseController {
 
         if (request.getParameter("a") != null) {
             try {
-                action_addSeries(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
-        } else if (request.getParameter("d") != null) {
+            action_addSeries(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
+        } else if(request.getParameter("d") != null){
             try {
-                action_removeSeries(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
-        } else {
-            try {
-                action_series_info(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
+            action_removeSeries(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        } 
+        }else {
+        try {
+            action_series_info(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
         }
     }
 
