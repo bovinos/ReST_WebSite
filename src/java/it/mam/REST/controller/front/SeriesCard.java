@@ -9,6 +9,7 @@ import it.mam.REST.data.model.UserSeries;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,7 +71,10 @@ public class SeriesCard extends RESTBaseController {
     private void action_addSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("a")));
-        getDataLayer().storeUserSeries(getDataLayer().getUserSeries(user, series));
+        UserSeries us = getDataLayer().createUserSeries();
+        us.setUser(user);
+        us.setSeries(series);
+        getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
         response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
 
     }
