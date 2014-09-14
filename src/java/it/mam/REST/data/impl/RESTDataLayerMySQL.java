@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -3054,7 +3055,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                     uUserSeries.setNull(2, java.sql.Types.INTEGER);
                 }
                 uUserSeries.setString(3, userSeries.getRating());
-                uUserSeries.setTime(4, new java.sql.Time(userSeries.getAnticipationNotification().getTime()));
+                if (userSeries.getAnticipationNotification() != null) {
+                    uUserSeries.setTime(4, new java.sql.Time(userSeries.getAnticipationNotification().getTime()));
+                } else {
+                    uUserSeries.setNull(4, java.sql.Types.TIME);
+                }
                 uUserSeries.setDate(5, new java.sql.Date(userSeries.getAddDate().getTime()));
                 uUserSeries.setInt(6, userSeries.getSeason());
                 uUserSeries.setInt(7, userSeries.getEpisode());
@@ -3074,10 +3079,15 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                     iUserSeries.setNull(2, java.sql.Types.INTEGER);
                 }
                 iUserSeries.setString(3, userSeries.getRating());
-                iUserSeries.setTime(4, new java.sql.Time(userSeries.getAnticipationNotification().getTime()));
-                iUserSeries.setDate(5, new java.sql.Date(userSeries.getAddDate().getTime()));
+                if (userSeries.getAnticipationNotification() != null) {
+                    iUserSeries.setTime(4, new java.sql.Time(userSeries.getAnticipationNotification().getTime()));
+                } else {
+                    iUserSeries.setNull(4, java.sql.Types.TIME);
+                }
+                iUserSeries.setDate(5, new java.sql.Date(new Date().getTime()));
                 iUserSeries.setInt(6, userSeries.getSeason());
                 iUserSeries.setInt(7, userSeries.getEpisode());
+                System.err.println(iUserSeries);
                 System.err.println("INSERT USER SERIES");
                 if (iUserSeries.executeUpdate() == 1) {
                     rs = iUserSeries.getGeneratedKeys();

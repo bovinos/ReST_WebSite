@@ -88,64 +88,6 @@ input:default {
   height: 100%;
   vertical-align: middle; }
 
-.rating.star.firstStar:hover {
-  content: '\e033';
-  /* stella piena */ }
-  .rating.star.firstStar:hover ~ .rating.star:before {
-    content: '\e031';
-    /* stella vuota */ }
-.rating.star.secondStar:hover {
-  content: '\e033';
-  /* stella piena */ }
-  .rating.star.secondStar:hover ~ .rating.firstStar:before {
-    content: '\e033';
-    /* stella piena */ }
-  .rating.star.secondStar:hover ~ .rating.star.thirdStar:before {
-    content: '\e031';
-    /* stella vuota */ }
-  .rating.star.secondStar:hover ~ .rating.star.fourthStar:before {
-    content: '\e031';
-    /* stella vuota */ }
-  .rating.star.secondStar:hover ~ .rating.star.fifthStar:before {
-    content: '\e031';
-    /* stella vuota */ }
-.rating.star.thirdStar:hover {
-  content: '\e033';
-  /* stella piena */ }
-  .rating.star.thirdStar:hover ~ .rating.firstStar:before {
-    content: '\e033';
-    /* stella piena */ }
-  .rating.star.thirdStar:hover ~ .rating.star.secondStar:before {
-    content: '\e033';
-    /* stella piena */ }
-  .rating.star.thirdStar:hover ~ .rating.star.fourthStar:before {
-    content: '\e031';
-    /* stella vuota */ }
-  .rating.star.thirdStar:hover ~ .rating.star.fifthStar:before {
-    content: '\e031';
-    /* stella vuota */ }
-.rating.star.fourthStar:hover {
-  content: '\e033';
-  /* stella piena */ }
-  .rating.star.fourthStar:hover ~ .rating.firstStar:before {
-    content: '\e033';
-    /* stella piena */ }
-  .rating.star.fourthStar:hover ~ .rating.star.secondStar:before {
-    content: '\e033';
-    /* stella piena */ }
-  .rating.star.fourthStar:hover ~ .rating.star.thirdStar:before {
-    content: '\e033';
-    /* stella piena */ }
-  .rating.star.fourthStar:hover ~ .rating.star.fifthStar:before {
-    content: '\e031';
-    /* stella vuota */ }
-.rating.star.fifthStar:hover {
-  content: '\e033';
-  /* stella piena */ }
-  .rating.star.fifthStar:hover ~ .rating.star:before {
-    content: '\e033';
-    /* stella piena */ }
-
 html, body {
   font-family: OpenSans, Verdana, Arial, Helvetica;
   /* pi├╣ in l├á inserire web font e gestire la tipografia in generale */

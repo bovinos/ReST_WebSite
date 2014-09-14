@@ -35,11 +35,11 @@ public class UserSeriesMySQL implements UserSeries {
         userID = 0;
         series = null;
         seriesID = 0;
-        rating = "";
+        rating = UserSeries.ZERO;
         anticipationNotification = null;
         addDate = null;
         season = 0;
-        episode = -1; // poichè episode potrebbe essere 0 ( il plot )
+        episode = 0;
         dirty = false;
 
         dataLayer = dl;
