@@ -1,1 +1,29 @@
-<div>userBroadcastProgramming.ftl.html</div>
+<div id="broadcastProgramming">
+
+    <div id="schedule">
+        <div id='today' class="row">
+            <h1 class="day">Oggi</h1>
+            <#list todayEpisode as e>
+            <div class="imgContainer four columns">
+                <h2>${strip_slashes(e.series.name)?html}</h2>
+                <img src="${strip_slashes(e.series.imageURL)}" alt="series image"/>
+                <h3 class="left">e.get</h3>
+            </div>
+            </#list>
+        </div>    
+
+        <h1 class="day">Domani</h1>
+
+        <h1 class="day"></h1>
+
+        <h1 class="day"></h1>
+
+        <h1 class="day"></h1>
+
+        <h1 class="day"></h1>
+
+        <h1 class="day"></h1>
+
+    </div>
+
+</div>

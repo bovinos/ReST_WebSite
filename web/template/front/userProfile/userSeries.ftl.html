@@ -64,7 +64,7 @@
             </div>
             <div class="goToCircleAndAnticipationNotification three columns">
                 <a href="CerchiaSerie?id=${s.ID}" class="top">Vai alla cerchia</a>
-                <p class="bottom">Anticipo notifica: </p>
+                <p class="bottom">Anticipo notifica: ${s.userSeries[s_index].anticipationNotification!"Notifica non impostata"}</p>
             </div>
             <div class="removeSeries one column omega verticalCenter">
                 <a href="#"><span class="icon_trash_alt"></span>Elimina serie</a>

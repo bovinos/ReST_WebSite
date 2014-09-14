@@ -1053,6 +1053,10 @@ a {
     #userSeries .series .nameAndLastEpisodeSeen h1 {
       font-size: 2rem;
       color: #1695A3; }
+    #userSeries .series .ratingAndNextEpisode h1 {
+      display: inline; }
+    #userSeries .series .ratingAndNextEpisode a {
+      font-size: 1.5rem; }
     #userSeries .series .removeSeries {
       font-size: 5rem;
       overflow: hidden; }

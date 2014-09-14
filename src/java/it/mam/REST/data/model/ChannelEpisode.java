@@ -10,13 +10,13 @@ public interface ChannelEpisode {
 
     int getID();
 
-    int getChannelID();
+    Channel getChannel();
 
-    void setChannelID(int ID);
+    void setChannel(Channel channel);
 
-    int getEpisodeID();
+    Episode getEpisode();
 
-    void setEpisodeID(int ID);
+    void setEpisode(Episode episode);
 
     Date getDate();
 

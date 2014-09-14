@@ -1,7 +1,9 @@
 package it.mam.REST.data.impl;
 
+import it.mam.REST.data.model.CastMember;
 import it.mam.REST.data.model.CastMemberSeries;
 import it.mam.REST.data.model.RESTDataLayer;
+import it.mam.REST.data.model.Series;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -12,7 +14,9 @@ import java.sql.SQLException;
 public class CastMemberSeriesMySQL implements CastMemberSeries {
 
     private int ID;
+    private CastMember castMember;
     private int castMemberID;
+    private Series series;
     private int seriesID;
     private String role;
     protected boolean dirty;
@@ -22,7 +26,9 @@ public class CastMemberSeriesMySQL implements CastMemberSeries {
     public CastMemberSeriesMySQL(RESTDataLayer dl) {
 
         ID = 0;
+        castMember = null;
         castMemberID = 0;
+        series = null;
         seriesID = 0;
         role = "";
         dirty = false;
@@ -47,24 +53,32 @@ public class CastMemberSeriesMySQL implements CastMemberSeries {
     }
 
     @Override
-    public int getCastMemberID() {
-        return castMemberID;
+    public CastMember getCastMember() {
+        if (castMember == null && castMemberID > 0) {
+            castMember = dataLayer.getCastMember(castMemberID);
+        }
+        return castMember;
     }
 
     @Override
-    public void setCastMemberID(int castMemberID) {
-        this.castMemberID = castMemberID;
+    public void setCastMember(CastMember castMember) {
+        this.castMember = castMember;
+        castMemberID = castMember.getID();
         dirty = true;
     }
 
     @Override
-    public int getSeriesID() {
-        return seriesID;
+    public Series getSeries() {
+        if (series == null && seriesID > 0) {
+            series = dataLayer.getSeries(seriesID);
+        }
+        return series;
     }
 
     @Override
-    public void setSeriesID(int seriesID) {
-        this.seriesID = seriesID;
+    public void setSeries(Series series) {
+        this.series = series;
+        seriesID = series.getID();
         dirty = true;
     }
 
@@ -93,9 +107,17 @@ public class CastMemberSeriesMySQL implements CastMemberSeries {
     public void copyFrom(CastMemberSeries castMemberSeries) {
 
         ID = castMemberSeries.getID();
-        castMemberID = castMemberSeries.getCastMemberID();
-        seriesID = castMemberSeries.getSeriesID();
         role = castMemberSeries.getRole();
+
+        if (castMemberSeries.getCastMember() != null) {
+            castMemberID = castMemberSeries.getCastMember().getID();
+        }
+        if (castMemberSeries.getSeries() != null) {
+            seriesID = castMemberSeries.getSeries().getID();
+        }
+
+        castMember = null;
+        series = null;
 
         dirty = true;
     }
