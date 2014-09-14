@@ -107,11 +107,7 @@ public class MyProfile extends RESTBaseController {
         User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
         getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
-        if(series.getID() - 1 <= 0){
         response.sendRedirect("ProfiloPersonale?sezione=1");
-        }else{
-        response.sendRedirect("ProfiloPersonale?sezione=1#s" + (series.getID() - 1));
-        }
     }
     
     @Override

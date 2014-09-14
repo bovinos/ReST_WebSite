@@ -79,12 +79,26 @@ public class SeriesCard extends RESTBaseController {
 
     }
 
+    private void action_removeSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
+        getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
+        response.sendRedirect("SchedaSerie?id=" + series.getID());
+
+    }
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
         if (request.getParameter("a") != null) {
             try {
                 action_addSeries(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
+        } else if (request.getParameter("d") != null) {
+            try {
+                action_removeSeries(request, response);
             } catch (IOException ex) {
                 action_error(request, response, ex.getMessage());
             }
