@@ -17,13 +17,13 @@ public interface UserSeries {
 
     int getID();
 
-    int getUserID();
+    User getUser();
 
-    void setUserID(int ID);
+    void setUser(User user);
 
-    int getSeriesID();
+    Series getSeries();
 
-    void setSeriesID(int ID);
+    void setSeries(Series series);
 
     String getRating();
 

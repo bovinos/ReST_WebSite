@@ -1,6 +1,8 @@
 package it.mam.REST.data.impl;
 
+import it.mam.REST.data.model.Channel;
 import it.mam.REST.data.model.ChannelEpisode;
+import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.RESTDataLayer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +15,9 @@ import java.util.Date;
 public class ChannelEpisodeMySQL implements ChannelEpisode {
 
     private int ID;
+    private Channel channel;
     private int channelID;
+    private Episode episode;
     private int episodeID;
     private Date date;
     protected boolean dirty;
@@ -23,7 +27,9 @@ public class ChannelEpisodeMySQL implements ChannelEpisode {
     public ChannelEpisodeMySQL(RESTDataLayer dl) {
 
         ID = 0;
+        channel = null;
         channelID = 0;
+        episode = null;
         episodeID = 0;
         date = null;
         dirty = false;
@@ -48,24 +54,32 @@ public class ChannelEpisodeMySQL implements ChannelEpisode {
     }
 
     @Override
-    public int getChannelID() {
-        return channelID;
+    public Channel getChannel() {
+        if (channel == null && channelID > 0) {
+            channel = dataLayer.getChannel(channelID);
+        }
+        return channel;
     }
 
     @Override
-    public void setChannelID(int channelID) {
-        this.channelID = channelID;
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+        channelID = channel.getID();
         dirty = true;
     }
 
     @Override
-    public int getEpisodeID() {
-        return episodeID;
+    public Episode getEpisode() {
+        if (episode == null && episodeID > 0) {
+            episode = dataLayer.getEpisode(episodeID);
+        }
+        return episode;
     }
 
     @Override
-    public void setEpisodeID(int episodeID) {
-        this.episodeID = episodeID;
+    public void setEpisode(Episode episode) {
+        this.episode = episode;
+        episodeID = episode.getID();
         dirty = true;
     }
 
@@ -88,16 +102,23 @@ public class ChannelEpisodeMySQL implements ChannelEpisode {
     @Override
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
-        dirty = true;
     }
 
     @Override
     public void copyFrom(ChannelEpisode channelEpisode) {
 
         ID = channelEpisode.getID();
-        channelID = channelEpisode.getChannelID();
-        episodeID = channelEpisode.getEpisodeID();
         date = channelEpisode.getDate();
+
+        if (channelEpisode.getChannel() != null) {
+            channelID = channelEpisode.getChannel().getID();
+        }
+        if (channelEpisode.getEpisode() != null) {
+            episodeID = channelEpisode.getEpisode().getID();
+        }
+
+        channel = null;
+        episode = null;
 
         dirty = true;
     }

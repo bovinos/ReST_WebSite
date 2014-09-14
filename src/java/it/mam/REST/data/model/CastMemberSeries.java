@@ -8,13 +8,13 @@ public interface CastMemberSeries {
 
     int getID();
 
-    int getCastMemberID();
+    CastMember getCastMember();
 
-    void setCastMemberID(int ID);
+    void setCastMember(CastMember castMember);
 
-    int getSeriesID();
+    Series getSeries();
 
-    void setSeriesID(int ID);
+    void setSeries(Series series);
 
     String getRole();
 

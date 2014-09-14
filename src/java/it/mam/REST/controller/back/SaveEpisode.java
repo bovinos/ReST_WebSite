@@ -1,4 +1,3 @@
-
 package it.mam.REST.controller.back;
 
 import it.mam.REST.controller.RESTBaseController;
@@ -33,42 +32,41 @@ public class SaveEpisode extends RESTBaseController {
 
         Episode episode = getDataLayer().createEpisode();
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
-        if (checkEpisodeInputData(request, response)){
-            
+        if (checkEpisodeInputData(request, response)) {
+
             episode.setTitle(request.getParameter("title"));
             episode.setDescription((request.getParameter("description")));
             episode.setNumber(SecurityLayer.checkNumeric(request.getParameter("number")));
             episode.setSeason(SecurityLayer.checkNumeric(request.getParameter("season")));
             episode.setSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("idseries"))));
             //Ricavo tutti i canali che l'utente ha scelto per l'episodio, li trasformo in lista e li setto nell'episodio
-            String [] channels = request.getParameterValues("channels");
+            String[] channels = request.getParameterValues("channels");
             List<Channel> channelList = new ArrayList();
-            for(String c: channels) {
-                try{
-                   channelList.add(getDataLayer().getChannel(SecurityLayer.checkNumeric(c)));
-                    } catch (NumberFormatException e) {
-                        action_error(request, response, "Field Error");
-                    }
+            for (String c : channels) {
+                try {
+                    channelList.add(getDataLayer().getChannel(SecurityLayer.checkNumeric(c)));
+                } catch (NumberFormatException e) {
+                    action_error(request, response, "Field Error");
+                }
 
             }
             episode.setChannels(channelList);
-          } else {
+        } else {
             action_error(request, response, "Inserire i campi obbligatori");
         }
-     
+
         getDataLayer().storeEpisode(RESTSecurityLayer.addSlashes(episode));
-            
- 
+
         //Aggiungo la data alla relazione MA È SBAGLIATO! In questo modo la data è la stessa per tutti i canali! 
         //Sistemare con i campi ricevuti nella request! E possibilmente spostare il controllo dell'if nel metodo in fondo!
         ChannelEpisode ce = getDataLayer().createChannelEpisode();
-     if (request.getParameter("date") != null && request.getParameter("date").length() > 0){
-         ce.setDate((SecurityLayer.checkDate(request.getParameter("date")).getTime()));
-     }
-        ce.setEpisodeID(episode.getID());
-        
-        for(Channel channel: episode.getChannels()){
-            ce.setChannelID(channel.getID());
+        if (request.getParameter("date") != null && request.getParameter("date").length() > 0) {
+            ce.setDate((SecurityLayer.checkDate(request.getParameter("date")).getTime()));
+        }
+        ce.setEpisode(episode);
+
+        for (Channel channel : episode.getChannels()) {
+            ce.setChannel(channel);
             getDataLayer().storeChannelEpisode(ce);
         }
 
@@ -76,7 +74,7 @@ public class SaveEpisode extends RESTBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-try {
+        try {
             action_episode_save(request, response);
         } catch (IOException ex) {
             action_error(request, response, ex.getMessage());
@@ -87,7 +85,8 @@ try {
     public String getServletInfo() {
         return "Short description";
     }
-   private boolean checkEpisodeInputData(HttpServletRequest request, HttpServletResponse response){
+
+    private boolean checkEpisodeInputData(HttpServletRequest request, HttpServletResponse response) {
         return (request.getParameter("title") != null && request.getParameter("title").length() > 0
                 && request.getParameter("description") != null && request.getParameter("description").length() > 0
                 && request.getParameter("number") != null && request.getParameter("number").length() > 0
@@ -95,4 +94,4 @@ try {
                 && request.getParameter("idseries") != null && request.getParameter("idseries").length() > 0
                 && request.getParameterValues("channels") != null && request.getParameterValues("channels").length > 0);
     }
-} 
+}

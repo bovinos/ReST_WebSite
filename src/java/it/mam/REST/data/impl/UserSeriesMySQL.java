@@ -1,6 +1,8 @@
 package it.mam.REST.data.impl;
 
 import it.mam.REST.data.model.RESTDataLayer;
+import it.mam.REST.data.model.Series;
+import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +15,9 @@ import java.util.Date;
 public class UserSeriesMySQL implements UserSeries {
 
     private int ID;
+    private User user;
     private int userID;
+    private Series series;
     private int seriesID;
     private String rating;
     private Date anticipationNotification;
@@ -27,7 +31,9 @@ public class UserSeriesMySQL implements UserSeries {
     public UserSeriesMySQL(RESTDataLayer dl) {
 
         ID = 0;
+        user = null;
         userID = 0;
+        series = null;
         seriesID = 0;
         rating = "";
         anticipationNotification = null;
@@ -60,24 +66,32 @@ public class UserSeriesMySQL implements UserSeries {
     }
 
     @Override
-    public int getUserID() {
-        return userID;
+    public User getUser() {
+        if (user == null && userID > 0) {
+            user = dataLayer.getUser(userID);
+        }
+        return user;
     }
 
     @Override
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUser(User user) {
+        this.user = user;
+        userID = user.getID();
         dirty = true;
     }
 
     @Override
-    public int getSeriesID() {
-        return seriesID;
+    public Series getSeries() {
+        if (series == null && seriesID > 0) {
+            series = dataLayer.getSeries(seriesID);
+        }
+        return series;
     }
 
     @Override
-    public void setSeriesID(int seriesID) {
-        this.seriesID = seriesID;
+    public void setSeries(Series series) {
+        this.series = series;
+        seriesID = series.getID();
         dirty = true;
     }
 
@@ -150,16 +164,23 @@ public class UserSeriesMySQL implements UserSeries {
     public void copyFrom(UserSeries userSeries) {
 
         ID = userSeries.getID();
-        userID = userSeries.getUserID();
-        seriesID = userSeries.getSeriesID();
         rating = userSeries.getRating();
         anticipationNotification = userSeries.getAnticipationNotification();
         addDate = userSeries.getAddDate();
         season = userSeries.getSeason();
         episode = userSeries.getEpisode();
 
-        dirty = true;
+        if (userSeries.getUser() != null) {
+            userID = userSeries.getUser().getID();
+        }
+        if (userSeries.getSeries() != null) {
+            seriesID = userSeries.getSeries().getID();
+        }
 
+        user = null;
+        series = null;
+
+        dirty = true;
     }
 
 }

@@ -93,6 +93,7 @@ public class MyProfile extends RESTBaseController {
                 default:
                     action_error(request, response, "Internal Error");
             }
+            System.err.println("PRIMA DI STORE USER SERIES");
             getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
             // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
             // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima xD

@@ -1478,6 +1478,17 @@ a{
             }
         }
 
+        .ratingAndNextEpisode{
+
+            h1{
+                display: inline;
+            }
+
+            a{
+                font-size: 1.5rem;
+            }
+        }
+
         .removeSeries{
             font-size: 5rem;
             overflow: hidden;
