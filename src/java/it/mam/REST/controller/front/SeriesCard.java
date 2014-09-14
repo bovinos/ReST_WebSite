@@ -53,19 +53,19 @@ public class SeriesCard extends RESTBaseController {
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
-        String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
+        String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
-        
+
         //Vedo se la serie è già fra i preferiti dell'utente attuale
         boolean favourite;
         UserSeries us = getDataLayer().getUserSeries(user, s);
         favourite = (us != null);
         request.setAttribute("favourite", favourite);
-        
-       result.activate("seriesCard.ftl.html", request, response); 
-        
+
+        result.activate("seriesCard.ftl.html", request, response);
+
     }
 
     private void action_addSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -75,25 +75,25 @@ public class SeriesCard extends RESTBaseController {
         us.setUser(user);
         us.setSeries(series);
         getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-        response.sendRedirect("SchedaSerie");
+        response.sendRedirect("SchedaSerie?id=" + series.getID());
 
     }
-    
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        
-        if(request.getParameter("a") != null){
+
+        if (request.getParameter("a") != null) {
             try {
-            action_addSeries(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-        }
+                action_addSeries(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
         } else {
-        try {
-            action_series_info(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-        }
+            try {
+                action_series_info(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
         }
     }
 
