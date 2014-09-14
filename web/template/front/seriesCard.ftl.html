@@ -15,8 +15,11 @@
     <div id="buttons">
         <a href="#">Vai alle news della serie</a>
         <a href="#">Cerca serie simili</a>
-        <a href="#">Aggiungi tra le preferite</a>
-        <!-- <a>Rimuovi questa serie dalle preferite</a> -->
+        <#if sessionUsername?? && favourite>
+        <a href="?d=${series.ID}">Rimuovi questa serie dalle preferite</a>
+        <#else>
+        <a href="?a=${series.ID}">Aggiungi tra le preferite</a>
+        </#if>
         <a href="CerchiaSerie?id=${series.ID}" class="fullPage">Vai alla cerchia</a>
     </div>
 
