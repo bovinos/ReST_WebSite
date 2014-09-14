@@ -68,6 +68,8 @@ public class SeriesCard extends RESTBaseController {
     }
 
     private void action_addSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        if (SecurityLayer.checkSession(request) == null) result.activate("logIn.ftl.html", request, response);
         User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("a")));
         UserSeries us = getDataLayer().createUserSeries();
