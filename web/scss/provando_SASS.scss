@@ -159,6 +159,87 @@ input:default{
 
 }
 
+.rating.star{
+
+    &.firstStar:hover{
+        content: '\e033'; /* stella piena */
+
+        & ~ .rating.star:before{
+            content: '\e031'; /* stella vuota */
+        }
+    }
+
+    &.secondStar:hover{
+        content: '\e033'; /* stella piena */
+
+        & ~ .rating.firstStar:before{
+            content: '\e033'; /* stella piena */
+        }
+
+        & ~ .rating.star.thirdStar:before{
+            content: '\e031'; /* stella vuota */
+        }
+
+        & ~ .rating.star.fourthStar:before{
+            content: '\e031'; /* stella vuota */
+        }
+
+        & ~ .rating.star.fifthStar:before{
+            content: '\e031'; /* stella vuota */
+        }
+    }
+
+    &.thirdStar:hover{
+        content: '\e033'; /* stella piena */
+
+        & ~ .rating.firstStar:before{
+            content: '\e033'; /* stella piena */
+        }
+
+        & ~ .rating.star.secondStar:before{
+            content: '\e033'; /* stella piena */
+        }
+
+        & ~ .rating.star.fourthStar:before{
+            content: '\e031'; /* stella vuota */
+        }
+
+        & ~ .rating.star.fifthStar:before{
+            content: '\e031'; /* stella vuota */
+        }
+    }
+
+    &.fourthStar:hover{
+        content: '\e033'; /* stella piena */
+
+        & ~ .rating.firstStar:before{
+            content: '\e033'; /* stella piena */
+        }
+
+        & ~ .rating.star.secondStar:before{
+            content: '\e033'; /* stella piena */
+        }
+
+        & ~ .rating.star.thirdStar:before{
+            content: '\e033'; /* stella piena */
+        }
+
+        & ~ .rating.star.fifthStar:before{
+            content: '\e031'; /* stella vuota */
+        }
+    }
+
+    &.fifthStar:hover{
+        content: '\e033'; /* stella piena */
+
+        & ~ .rating.star:before{
+            content: '\e033'; /* stella piena */
+        }
+    }
+}
+
+
+
 
 html, body{
     font-family: OpenSans, Verdana, Arial, Helvetica; /* più in là inserire web font e gestire la tipografia in generale */

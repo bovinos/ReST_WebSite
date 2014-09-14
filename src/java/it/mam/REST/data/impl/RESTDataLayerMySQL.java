@@ -3068,8 +3068,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 } else {
                     iUserSeries.setNull(1, java.sql.Types.INTEGER);
                 }
-                if (userSeries.getUser() != null) {
-                    iUserSeries.setInt(2, userSeries.getUser().getID());
+                if (userSeries.getSeries() != null) {
+                    iUserSeries.setInt(2, userSeries.getSeries().getID());
                 } else {
                     iUserSeries.setNull(2, java.sql.Types.INTEGER);
                 }
@@ -3113,11 +3113,12 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             } else {
                 dUserSeries.setNull(1, java.sql.Types.INTEGER);
             }
-            if (userSeries.getUser() != null) {
-                dUserSeries.setInt(2, userSeries.getUser().getID());
+            if (userSeries.getSeries() != null) {
+                dUserSeries.setInt(2, userSeries.getSeries().getID());
             } else {
                 dUserSeries.setNull(2, java.sql.Types.INTEGER);
             }
+            System.err.println("PRIMA DI DELETE USER SERIES");
             dUserSeries.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
