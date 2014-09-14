@@ -50,9 +50,8 @@ public class SeriesCard extends RESTBaseController {
         }
         request.setAttribute("seasons", seasonList);
         //Controllo la sessione e creo l'utente
-        if (SecurityLayer.checkSession(request) == null) {
-            result.activate("logIn.ftl.html", request, response);
-        }
+        if (SecurityLayer.checkSession(request) != null) {
+
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
@@ -63,7 +62,7 @@ public class SeriesCard extends RESTBaseController {
         UserSeries us = getDataLayer().getUserSeries(user, s);
         favourite = (us != null);
         request.setAttribute("favourite", favourite);
-        
+        }
        result.activate("seriesCard.ftl.html", request, response); 
         
     }
