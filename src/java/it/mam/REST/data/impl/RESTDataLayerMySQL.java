@@ -3048,8 +3048,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 } else {
                     uUserSeries.setNull(1, java.sql.Types.INTEGER);
                 }
-                if (userSeries.getUser() != null) {
-                    uUserSeries.setInt(2, userSeries.getUser().getID());
+                if (userSeries.getSeries() != null) {
+                    uUserSeries.setInt(2, userSeries.getSeries().getID());
                 } else {
                     uUserSeries.setNull(2, java.sql.Types.INTEGER);
                 }
@@ -3059,6 +3059,8 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 uUserSeries.setInt(6, userSeries.getSeason());
                 uUserSeries.setInt(7, userSeries.getEpisode());
                 uUserSeries.setInt(8, ID);
+                System.err.println(uUserSeries);
+                System.err.println("UPDATE USER SERIES");
                 uUserSeries.executeUpdate();
             } else { // insert
                 if (userSeries.getUser() != null) {
@@ -3076,6 +3078,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 iUserSeries.setDate(5, new java.sql.Date(userSeries.getAddDate().getTime()));
                 iUserSeries.setInt(6, userSeries.getSeason());
                 iUserSeries.setInt(7, userSeries.getEpisode());
+                System.err.println("INSERT USER SERIES");
                 if (iUserSeries.executeUpdate() == 1) {
                     rs = iUserSeries.getGeneratedKeys();
                     if (rs.next()) {
@@ -3084,6 +3087,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 }
             }
             if (ID > 0) {
+                System.err.println("COPY FROM USER SERIES");
                 userSeries.copyFrom(getUserSeries(ID));
             }
             userSeries.setDirty(false);
