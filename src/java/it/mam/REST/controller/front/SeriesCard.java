@@ -75,7 +75,7 @@ public class SeriesCard extends RESTBaseController {
         us.setUser(user);
         us.setSeries(series);
         getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-        response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
+        response.sendRedirect("SchedaSerie");
 
     }
     
