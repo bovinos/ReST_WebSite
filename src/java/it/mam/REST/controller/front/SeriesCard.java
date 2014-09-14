@@ -5,6 +5,7 @@ import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Season;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
+import it.mam.REST.data.model.UserSeries;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -29,12 +30,12 @@ public class SeriesCard extends RESTBaseController {
         fail.activate(message, request, response);
     }
 
-    // prende tutte le news e le passa al template lista_news.ftl.html
-    private void action_series_info(HttpServletRequest request, HttpServletResponse response, int id) throws ServletException, IOException {
+    // prende tutte le serie, le stagioni e l'utente e passa al template seriesCard.ftl.html
+    private void action_series_info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        Series s = getDataLayer().getSeries(id);
+        Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
         request.setAttribute("series", s);
         List<Season> seasonList = new ArrayList();
         List<Episode> episodeList = s.getEpisodes();
@@ -48,24 +49,47 @@ public class SeriesCard extends RESTBaseController {
         }
         request.setAttribute("seasons", seasonList);
         //Controllo la sessione e creo l'utente
-        if (SecurityLayer.checkSession(request) != null){
+        if (SecurityLayer.checkSession(request) == null) {
+            result.activate("logIn.ftl.html", request, response);
+        }
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
-        }
-        result.activate("seriesCard.ftl.html", request, response);
+        
+        //Vedo se la serie è già fra i preferiti dell'utente attuale
+        boolean favourite;
+        UserSeries us = getDataLayer().getUserSeries(user, s);
+        favourite = (us != null);
+        request.setAttribute("favourite", favourite);
+        
+       result.activate("seriesCard.ftl.html", request, response); 
+        
     }
 
+    private void action_addSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("a")));
+        getDataLayer().storeUserSeries(getDataLayer().getUserSeries(user, series));
+        response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
+
+    }
+    
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-
-        int id;
-        try {
-            id = SecurityLayer.checkNumeric(request.getParameter("id"));
-            action_series_info(request, response, id);
+        
+        if(request.getParameter("a") != null){
+            try {
+            action_addSeries(request, response);
         } catch (IOException ex) {
             action_error(request, response, ex.getMessage());
+        }
+        } else {
+        try {
+            action_series_info(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
         }
     }
 

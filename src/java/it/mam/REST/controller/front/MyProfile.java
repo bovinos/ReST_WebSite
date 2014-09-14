@@ -103,18 +103,35 @@ public class MyProfile extends RESTBaseController {
 
     }
 
+    private void action_delete_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
+        getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
+        if(series.getID() - 1 < 0){
+        response.sendRedirect("ProfiloPersonale?sezione=1");
+        }else{
+        response.sendRedirect("ProfiloPersonale?sezione=1#s" + (series.getID() - 1));
+        }
+    }
+    
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
         switch (section) {
             case 1:
-                if (request.getParameter("s") != null && request.getParameter("r") != null) {
-                    try {
-                        action_rating_ProfileUserSeries(request, response);
-                    } catch (IOException ex) {
-                        action_error(request, response, ex.getMessage());
-                    }
+                if(request.getParameter("r") != null && request.getParameter("s") != null){
+                try {
+                    action_rating_ProfileUserSeries(request, response);
+                } catch (IOException ex) {
+                    action_error(request, response, ex.getMessage());
+                }
+                } else if (request.getParameter("d") != null) {
+                 try {
+                    action_delete_ProfileUserSeries(request, response);
+                } catch (IOException ex) {
+                    action_error(request, response, ex.getMessage());
+                } 
                 } else {
                     try {
                         action_activate_ProfileUserSeries(request, response);
