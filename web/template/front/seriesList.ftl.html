@@ -54,8 +54,8 @@
                 </div>
             </div>
             <div>
-                <div class="selectContainer multipleSelection">
-                    <select name="fc" multiple="multiple" size="7">
+                <div class="selectContainer singleSelection">
+                    <select name="fc">
                         <optgroup label="Filtra per canali"> 
                             <#list channels as c>
                             <option value="${c.ID}">${strip_slashes(c.name)?html}</option>

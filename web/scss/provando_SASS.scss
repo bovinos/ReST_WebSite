@@ -497,12 +497,18 @@ button{
                 width: 120%; /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
                 cursor: pointer;
             }
+
+            optgroup{
+                width: 99%;
+                border-right: 1px solid black;
+            }
         }
 
         &.multipleSelection{
             width: 80%;
 
             select{
+                border: 1px solid $turquoise;
                 width: 100%;
 
                 optgroup{

@@ -390,9 +390,13 @@ button {
         width: 120%;
         /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
         cursor: pointer; }
+      #leftCol .selectContainer.singleSelection optgroup {
+        width: 99%;
+        border-right: 1px solid black; }
     #leftCol .selectContainer.multipleSelection {
       width: 80%; }
       #leftCol .selectContainer.multipleSelection select {
+        border: 1px solid #1695A3;
         width: 100%; }
         #leftCol .selectContainer.multipleSelection select optgroup {
           color: #1695A3; }
