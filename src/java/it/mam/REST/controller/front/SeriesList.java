@@ -54,58 +54,54 @@ public class SeriesList extends RESTBaseController {
         List<Series> seriesList = getDataLayer().getSeries();
 
         //Filtro Serie per Nome
-        if (request.getParameter("fn") != null && request.getParameter("fn").length() > 0) {
+        if(request.getParameter("fn") != null && request.getParameter("fn").length() > 0){
             List<Series> filteredSeries = new ArrayList();
-            for (Series s : seriesList) {
-                if (s.getName().equals(request.getParameter("fn"))) {
+            for(Series s: seriesList){
+                if(s.getName().equals(request.getParameter("fn"))){
                     filteredSeries.add(s);
                 }
             }
-            seriesList = filteredSeries;
+          seriesList = filteredSeries;
         }
         //Filtro Serie per Genere
-        if (request.getParameterValues("fg") != null && request.getParameterValues("fg").length > 0) {
+        if(request.getParameterValues("fg") != null && request.getParameterValues("fg").length > 0){
             List<Series> filteredSeries = new ArrayList();
             List<Genre> genresList = new ArrayList();
             for (String g : request.getParameterValues("fg")) {
                 genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(g)));
             }
-            for (Series s : seriesList) {
-                for (Genre g : genresList) {
-                    if (s.getGenres().contains(g)) {
-                        filteredSeries.add(s);
-                    }
+            for(Series s: seriesList){
+                for(Genre g: genresList){
+                if(s.getGenres().contains(g)){
+                    filteredSeries.add(s);
+                }
                 }
             }
             seriesList = filteredSeries;
         }
 
         //Filtro serie per stato
-        if (request.getParameter("fs") != null && request.getParameter("fs").length() > 0) {
+        if(request.getParameter("fs") != null && request.getParameter("fs").length() > 0){
             List<Series> filteredSeries = new ArrayList();
             int status = SecurityLayer.checkNumeric(request.getParameter("fs"));
-            switch (status) {
-                case 1:
-                    for (Series s : seriesList) {
-                        if (s.getState().equals(Series.ONGOING)) {
-                            filteredSeries.add(s);
-                        }
+            switch (status){
+                case 1: 
+                    for(Series s: seriesList){
+                        if(s.getState().equals(Series.ONGOING)) filteredSeries.add(s);
                     }
                     break;
                 case 2:
-                    for (Series s : seriesList) {
-                        if (s.getState().equals(Series.COMPLETE)) {
-                            filteredSeries.add(s);
-                        }
+                    for(Series s: seriesList){
+                        if(s.getState().equals(Series.COMPLETE)) filteredSeries.add(s);
                     }
                     break;
                 default:
                     action_error(request, response, "Internal Error");
             }
-            seriesList = filteredSeries;
+            seriesList =filteredSeries;
         }
         //Filtro serie per canale
-        if (request.getParameterValues("fc") != null && request.getParameterValues("fc").length > 0) {
+          if(request.getParameterValues("fc") != null && request.getParameterValues("fc").length > 0){
             List<Series> filteredSeries = new ArrayList();
             List<Channel> channelList = new ArrayList();
             for (String c : request.getParameterValues("fc")) {
@@ -123,37 +119,33 @@ public class SeriesList extends RESTBaseController {
                         }
                     }
                 }
-                for (boolean b : ok) {
-                    if (b == false) {
-                        break;
-                    }
-                    filteredSeries.add(s);
-                }
+               }
+              for(boolean b: ok){
+                  if (b == false) break;
+                  filteredSeries.add(s);
+              }
             }
             seriesList = filteredSeries;
         }
-        //Ordinamento
-        if (request.getParameter("o") != null && request.getParameter("o").length() > 0) {
-            int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
-            switch (ordertype) {
-                case 1:
-                    RESTSortLayer.sortSeriesByPopularity(seriesList);
-                    break;
-                case 2:
-                    RESTSortLayer.sortSeriesByRating(seriesList);
-                    break;
-                case 3:
-                    RESTSortLayer.sortSeriesByYear(seriesList);
-                    break;
-                case 4:
-                    RESTSortLayer.sortSeriesByName(seriesList);
-                    break;
-                default:
-                    action_error(request, response, "Internal Error");
-            }
+          //Ordinamento
+          if(request.getParameter("o") != null && request.getParameter("o").length() > 0){
+        int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
+        switch(ordertype) {
+            case 1: RESTSortLayer.sortSeriesByPopularity(seriesList);
+            break;
+            case 2: RESTSortLayer.sortSeriesByRating(seriesList);
+            break;
+            case 3: RESTSortLayer.sortSeriesByYear(seriesList);
+            break;
+            case 4: RESTSortLayer.sortSeriesByName(seriesList);
+            break;
+            default: action_error(request, response, "Internal Error");
         }
-        request.setAttribute("series", seriesList);
-        result.activate("seriesList.ftl.html", request, response);
+    }  
+          request.setAttribute("series", seriesList);
+          request.setAttribute("genres", getDataLayer().getGenres());
+          request.setAttribute("channels", getDataLayer().getChannels());
+           result.activate("seriesList.ftl.html", request, response);
     }
 
     @Override
