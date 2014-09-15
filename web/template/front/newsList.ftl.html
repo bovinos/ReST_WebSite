@@ -43,7 +43,7 @@
             </div>
             <div>
                 <div class="selectContainer singleSelection">
-                    <select name="fs" multiple="multiple" size="7">
+                    <select name="fs">
                         <optgroup label="Filtra per serie"> 
                             <#list series as s>
                             <option value="${s.ID}">${strip_slashes(s.name)?html}</option>

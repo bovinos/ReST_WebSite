@@ -1,12 +1,16 @@
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.News;
+import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,22 +32,87 @@ public class NewsList extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("news", getDataLayer().getNews());
+        request.setAttribute("series", getDataLayer().getSeries()); // per i filtri
         //Controllo che la sessione attuale sia ancora valida
-        if (SecurityLayer.checkSession(request) != null){
-        String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
-        request.setAttribute("sessionUsername", username);
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
+        if (SecurityLayer.checkSession(request) != null) {
+            String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
+            request.setAttribute("sessionUsername", username);
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            request.setAttribute("user", user);
         }
         result.activate("newsList.ftl.html", request, response);
     }
 
+    private void action_FilterAndOrder_newslist(HttpServletRequest request, HttpServletResponse response) {
+        TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("series", getDataLayer().getSeries()); // per i filtri
+        //Controllo che la sessione attuale sia ancora valida
+        User user = null;
+        if (SecurityLayer.checkSession(request) != null) {
+            String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
+            request.setAttribute("sessionUsername", username);
+            user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            request.setAttribute("user", user);
+        }
+
+        List<News> newsList = getDataLayer().getNews();
+        //Filtro News per Nome
+        if (request.getParameter("fn") != null && !request.getParameter("fn").trim().isEmpty()) {
+            List<News> filteredNews = new ArrayList();
+            String name = ((request.getParameter("fn")).trim()).toLowerCase();
+            for (News n : newsList) {
+                if (((n.getTitle().toLowerCase()).contains(name))) {
+                    filteredNews.add(n);
+                }
+            }
+            newsList = filteredNews;
+        }
+
+        //Filtro per serie
+        if (request.getParameter("fs") != null && SecurityLayer.checkNumeric(request.getParameter("fs")) != 0) {
+            List<News> filteredNews = new ArrayList();
+            Series selectedSeries = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("fs")));
+            for (News n : newsList) {
+                if (n.getSeries().contains(selectedSeries)) {
+                    filteredNews.add(n);
+                }
+            }
+            newsList = filteredNews;
+        }
+
+        //Filtro tra "Le Mie Serie"
+        // se la sessione non è attiva, cioè non c'è un utente loggato, è impossibile filtrare per le serie preferite
+        if (user != null && SecurityLayer.checkNumeric(request.getParameter("fmys")) == 1) {
+            List<News> filteredNews = new ArrayList();
+            List<Series> usersSeries = user.getSeries();
+            for (News n : newsList) {
+                for (Series s : usersSeries) {
+                    if (n.getSeries().contains(s)) {
+                        filteredNews.add(n);
+                    }
+                }
+            }
+            newsList = filteredNews;
+        }
+
+        //ordinamenti
+    }
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        try {
-            action_news_list(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
+        if (request.getParameter("s") != null) {
+            try {
+                action_FilterAndOrder_newslist(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
+        } else {
+            try {
+                action_news_list(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
         }
     }
 

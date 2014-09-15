@@ -163,4 +163,27 @@ public class GenreMySQL implements Genre {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "Name: " + name + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "Series: " + series + "\n"
+                + "Users: " + users;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (!(obj instanceof Genre)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo Genre quindi posso fare il cast
+        Genre g = (Genre) obj;
+        return ID == g.getID();
+
+    }
+
 }
