@@ -57,47 +57,54 @@ public class SeriesList extends RESTBaseController {
         List<Series> seriesList = getDataLayer().getSeries();
         
         //Filtro Serie per Nome
-        if(request.getParameter("fn") != null){
+        if(request.getParameter("fn") != null && request.getParameter("fn").length() > 0){
+            List<Series> filteredSeries = new ArrayList();
             for(Series s: seriesList){
-                if(!(s.getName().equals(request.getParameter("fn")))){
-                    seriesList.remove(s);
+                if(s.getName().equals(request.getParameter("fn"))){
+                    filteredSeries.add(s);
                 }
             }
+          seriesList = filteredSeries;
         }
         //Filtro Serie per Genere
-        if(request.getParameterValues("fg") != null){
+        if(request.getParameterValues("fg") != null && request.getParameterValues("fg").length > 0){
+            List<Series> filteredSeries = new ArrayList();
             List<Genre> genresList = new ArrayList();
             for(String g: request.getParameterValues("fg")){
                 genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(g)));
             }
             for(Series s: seriesList){
                 for(Genre g: genresList){
-                if(!(s.getGenres().contains(g))){
-                    seriesList.remove(s);
+                if(s.getGenres().contains(g)){
+                    filteredSeries.add(s);
                 }
                 }
             }
+            seriesList = filteredSeries;
         }
         
         //Filtro serie per stato
-        if(request.getParameterValues("fs") != null){
+        if(request.getParameter("fs") != null && request.getParameter("fs").length() > 0){
+            List<Series> filteredSeries = new ArrayList();
             int status = SecurityLayer.checkNumeric(request.getParameter("fs"));
             switch (status){
                 case 1: 
                     for(Series s: seriesList){
-                        if(s.getState().equals(Series.COMPLETE)) seriesList.remove(s);
+                        if(s.getState().equals(Series.ONGOING)) filteredSeries.add(s);
                     }
                 break;
                 case 2:
                     for(Series s: seriesList){
-                        if(s.getState().equals(Series.ONGOING)) seriesList.remove(s);
+                        if(s.getState().equals(Series.COMPLETE)) filteredSeries.add(s);
                     }
                 break;
                 default: action_error(request, response, "Internal Error");
             }
+            seriesList =filteredSeries;
         }
         //Filtro serie per canale
-          if(request.getParameterValues("fc") != null){
+          if(request.getParameterValues("fc") != null && request.getParameterValues("fc").length > 0){
+            List<Series> filteredSeries = new ArrayList();
             List<Channel> channelList = new ArrayList();
             for(String c: request.getParameterValues("fc")){
                 channelList.add(getDataLayer().getChannel(SecurityLayer.checkNumeric(c)));
@@ -114,12 +121,14 @@ public class SeriesList extends RESTBaseController {
                 }
                }
               for(boolean b: ok){
-                  if (b == false) seriesList.remove(s);
+                  if (b == false) break;
+                  filteredSeries.add(s);
               }
             }
+            seriesList = filteredSeries;
         }
           //Ordinamento
-          if(request.getParameterValues("fc") != null){
+          if(request.getParameter("o") != null && request.getParameter("o").length() > 0){
         int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
         switch(ordertype) {
             case 1: RESTSortLayer.sortSeriesByPopularity(seriesList);
