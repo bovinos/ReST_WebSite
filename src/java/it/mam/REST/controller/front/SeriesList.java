@@ -105,7 +105,7 @@ public class SeriesList extends RESTBaseController {
             seriesList = filteredSeries;
         }
         //Filtro serie per canale
-        if (request.getParameterValues("fc") != null && request.getParameterValues("fc").length > 0) {
+        if (request.getParameterValues("fc") != null && SecurityLayer.checkNumeric(request.getParameter("fc")) != 0 && request.getParameterValues("fc").length > 0) {
             List<Series> filteredSeries = new ArrayList();
             Calendar calendar = Calendar.getInstance();
             Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("fc")));

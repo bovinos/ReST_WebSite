@@ -57,6 +57,7 @@
                 <div class="selectContainer singleSelection">
                     <select name="fc">
                         <optgroup label="Filtra per canali"> 
+                            <option value="0">Nessun canale</option>
                             <#list channels as c>
                             <option value="${c.ID}">${strip_slashes(c.name)?html}</option>
                             </#list>
