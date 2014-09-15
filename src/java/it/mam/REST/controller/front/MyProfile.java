@@ -32,12 +32,16 @@ public class MyProfile extends RESTBaseController {
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
+        try{
         String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
         request.setAttribute("userProfileContent_tpl", "userBroadcastProgramming.ftl.html");
         result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
     }
 
     //Attiva il template delle cerchie
@@ -46,12 +50,16 @@ public class MyProfile extends RESTBaseController {
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
+        try{
         String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
         request.setAttribute("userProfileContent_tpl", "userCircles.ftl.html");
         result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
     }
 
     // attiva il template "le mie serie"
@@ -60,15 +68,20 @@ public class MyProfile extends RESTBaseController {
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
+        try{
         String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
         request.setAttribute("userProfileContent_tpl", "userSeries.ftl.html");
         result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
     }
 
     private void action_rating_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
         User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s")));
         UserSeries us = getDataLayer().getUserSeries(user, series);
@@ -100,18 +113,25 @@ public class MyProfile extends RESTBaseController {
             response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
 
         }
-
+        } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
     }
 
     private void action_delete_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
         User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
         getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
         response.sendRedirect("ProfiloPersonale?sezione=1");
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
     }
     
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try{
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
         switch (section) {
@@ -152,6 +172,9 @@ public class MyProfile extends RESTBaseController {
                 break;
             default:
                 action_error(request, response, "The requested resource is not available");
+        }
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
         }
     }
 

@@ -34,8 +34,12 @@ public class SeriesCircle extends RESTBaseController {
         if (SecurityLayer.checkSession(request) != null){
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
+        try {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
+        }   catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
         }
         result.activate("seriesCircle.ftl.html", request, response);
     }
@@ -49,6 +53,8 @@ public class SeriesCircle extends RESTBaseController {
             action_series_messages(request, response, id_series);
         } catch (IOException ex) {
             action_error(request, response, ex.getMessage());
+        } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
         }
     }
 

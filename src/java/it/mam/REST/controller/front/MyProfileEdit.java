@@ -35,12 +35,16 @@ public class MyProfileEdit extends RESTBaseController {
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
+        try {
         String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
         request.setAttribute("userProfileContent_tpl", "userSignUpData.ftl.html");
         result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
     }
 
     private void action_submit_ProfileUserSignUpData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -71,12 +75,16 @@ public class MyProfileEdit extends RESTBaseController {
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
+        try{
         String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
         request.setAttribute("userProfileContent_tpl", "userOptionalData.ftl.html");
         result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
     }
 
     private void action_submit_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

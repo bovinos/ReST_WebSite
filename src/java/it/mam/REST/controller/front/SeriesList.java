@@ -38,11 +38,15 @@ public class SeriesList extends RESTBaseController {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("series", getDataLayer().getSeries());
         //Controllo la sessione e creo l'utente
+        try{
         if (SecurityLayer.checkSession(request) != null) {
             String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
             request.setAttribute("sessionUsername", username);
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+        }
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
         }
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
@@ -55,6 +59,7 @@ public class SeriesList extends RESTBaseController {
         List<Series> seriesList = getDataLayer().getSeries();
         
           //Filtro serie per canale, MESSO PER PRIMO perché gli altri usano la lista di serie derivata da lui.
+        try{
           if (request.getParameter("fc") != null && SecurityLayer.checkNumeric(request.getParameter("fc")) != 0 ){
             List<Series> filteredSeries = new ArrayList();
             Calendar calendar = Calendar.getInstance();
@@ -66,6 +71,9 @@ public class SeriesList extends RESTBaseController {
             }
             seriesList = filteredSeries;
           }
+           } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
 
         //Filtro Serie per Nome
         if (request.getParameter("fn") != null && request.getParameter("fn").length() > 0) {
@@ -83,7 +91,11 @@ public class SeriesList extends RESTBaseController {
             List<Series> filteredSeries = new ArrayList();
             List<Genre> genresList = new ArrayList();
             for (String g : request.getParameterValues("fg")) {
+                try{
                 genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(g)));
+                 } catch (NumberFormatException ex) {
+                action_error(request, response, "Field Error");
+        }
             }
             for (Series s : seriesList) {
                 if (s.getGenres().containsAll(genresList)) {
@@ -96,7 +108,10 @@ public class SeriesList extends RESTBaseController {
         //Filtro serie per stato
         if (request.getParameter("fs") != null && request.getParameter("fs").length() > 0) {
             List<Series> filteredSeries = new ArrayList();
+            
+            try{
             int status = SecurityLayer.checkNumeric(request.getParameter("fs"));
+            
             switch (status) {
                 case 1:
                     for (Series s : seriesList) {
@@ -116,11 +131,15 @@ public class SeriesList extends RESTBaseController {
                     action_error(request, response, "Internal Error");
             }
             seriesList = filteredSeries;
+             } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+            }
         }
-       
+
            
         //Ordinamento
         if (request.getParameter("o") != null && request.getParameter("o").length() > 0) {
+            try {
             int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
             switch (ordertype) {
                 case 1:
@@ -138,6 +157,9 @@ public class SeriesList extends RESTBaseController {
                 default:
                     action_error(request, response, "Internal Error");
             }
+             } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
         }
         request.setAttribute("series", seriesList);
         request.setAttribute("genres", getDataLayer().getGenres());

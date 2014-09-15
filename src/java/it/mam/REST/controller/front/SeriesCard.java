@@ -36,8 +36,10 @@ public class SeriesCard extends RESTBaseController {
 
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        try{
         Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
         request.setAttribute("series", s);
+        
         List<Season> seasonList = new ArrayList();
         List<Episode> episodeList = s.getEpisodes();
         Season sn = null;
@@ -49,6 +51,7 @@ public class SeriesCard extends RESTBaseController {
             sn.getEpisodes().add(e);
         }
         request.setAttribute("seasons", seasonList);
+        
         //Controllo la sessione e creo l'utente
         if (SecurityLayer.checkSession(request) != null) {
 
@@ -63,6 +66,9 @@ public class SeriesCard extends RESTBaseController {
             favourite = (us != null);
             request.setAttribute("favourite", favourite);
         }
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
         result.activate("seriesCard.ftl.html", request, response);
 
     }
@@ -70,6 +76,7 @@ public class SeriesCard extends RESTBaseController {
     private void action_addSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         if (SecurityLayer.checkSession(request) == null) result.activate("logIn.ftl.html", request, response);
+        try{
         User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("a")));
         UserSeries us = getDataLayer().createUserSeries();
@@ -77,15 +84,20 @@ public class SeriesCard extends RESTBaseController {
         us.setSeries(series);
         getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
         response.sendRedirect("SchedaSerie?id=" + series.getID());
-
+        } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
     }
 
     private void action_removeSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
         User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
         getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
         response.sendRedirect("SchedaSerie?id=" + series.getID());
-
+        } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
     }
 
     @Override
