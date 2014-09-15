@@ -42,6 +42,17 @@ public class RESTSortLayer {
         });
         return seriesList;
     }
+        
+     public static List<Series> sortSeriesByYear(List<Series> seriesList){
+            seriesList.sort(new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                return (((Series)o1).getYear() > ((Series)o2).getYear()? 1 
+                        : ((Series)o1).getYear()== ((Series)o2).getYear()? 0: -1);
+            }
+        });
+        return seriesList;
+    }
     
     private static float getMediumRating (Series s){
     List<UserSeries> usList = s.getUserSeries();
