@@ -58,8 +58,9 @@ public class SeriesList extends RESTBaseController {
         //Filtro Serie per Nome
         if(request.getParameter("fn") != null && request.getParameter("fn").length() > 0){
             List<Series> filteredSeries = new ArrayList();
+            String name = ((request.getParameter("fn")).trim()).toLowerCase();
             for(Series s: seriesList){
-                if(s.getName().equals(request.getParameter("fn"))){
+                if(((s.getName().toLowerCase()).contains(name))){
                     filteredSeries.add(s);
                 }
             }

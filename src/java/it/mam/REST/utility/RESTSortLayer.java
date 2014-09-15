@@ -36,7 +36,7 @@ public class RESTSortLayer {
             seriesList.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
-                return (((Series)o1).getAddCount() > ((Series)o2).getAddCount()? 1 
+                return (((Series)o1).getAddCount() < ((Series)o2).getAddCount()? 1 
                         : ((Series)o1).getAddCount() == ((Series)o2).getAddCount()? 0: -1);
             }
         });
