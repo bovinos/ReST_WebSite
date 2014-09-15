@@ -7,7 +7,6 @@ import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
-import it.mam.REST.data.model.UserSeries;
 import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
@@ -38,119 +37,131 @@ public class SeriesList extends RESTBaseController {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("series", getDataLayer().getSeries());
         //Controllo la sessione e creo l'utente
-        if (SecurityLayer.checkSession(request) != null){
-        String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
-        request.setAttribute("sessionUsername", username);
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
+        if (SecurityLayer.checkSession(request) != null) {
+            String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
+            request.setAttribute("sessionUsername", username);
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            request.setAttribute("user", user);
         }
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
         result.activate("seriesList.ftl.html", request, response);
     }
 
-
-    
-    private void action_FilterAndOrder_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    private void action_FilterAndOrder_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         List<Series> seriesList = getDataLayer().getSeries();
-        
+
         //Filtro Serie per Nome
-        if(request.getParameter("fn") != null){
-            for(Series s: seriesList){
-                if(!(s.getName().equals(request.getParameter("fn")))){
+        if (request.getParameter("fn") != null) {
+            for (Series s : seriesList) {
+                if (!(s.getName().equals(request.getParameter("fn")))) {
                     seriesList.remove(s);
                 }
             }
         }
         //Filtro Serie per Genere
-        if(request.getParameterValues("fg") != null){
+        if (request.getParameterValues("fg") != null) {
             List<Genre> genresList = new ArrayList();
-            for(String g: request.getParameterValues("fg")){
+            for (String g : request.getParameterValues("fg")) {
                 genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(g)));
             }
-            for(Series s: seriesList){
-                for(Genre g: genresList){
-                if(!(s.getGenres().contains(g))){
-                    seriesList.remove(s);
-                }
+            for (Series s : seriesList) {
+                for (Genre g : genresList) {
+                    if (!(s.getGenres().contains(g))) {
+                        seriesList.remove(s);
+                    }
                 }
             }
         }
-        
+
         //Filtro serie per stato
-        if(request.getParameterValues("fs") != null){
+        if (request.getParameterValues("fs") != null) {
             int status = SecurityLayer.checkNumeric(request.getParameter("fs"));
-            switch (status){
-                case 1: 
-                    for(Series s: seriesList){
-                        if(s.getState().equals(Series.COMPLETE)) seriesList.remove(s);
+            switch (status) {
+                case 1:
+                    for (Series s : seriesList) {
+                        if (s.getState().equals(Series.COMPLETE)) {
+                            seriesList.remove(s);
+                        }
                     }
-                break;
+                    break;
                 case 2:
-                    for(Series s: seriesList){
-                        if(s.getState().equals(Series.ONGOING)) seriesList.remove(s);
+                    for (Series s : seriesList) {
+                        if (s.getState().equals(Series.ONGOING)) {
+                            seriesList.remove(s);
+                        }
                     }
-                break;
-                default: action_error(request, response, "Internal Error");
+                    break;
+                default:
+                    action_error(request, response, "Internal Error");
             }
         }
         //Filtro serie per canale
-          if(request.getParameterValues("fc") != null){
+        if (request.getParameterValues("fc") != null) {
             List<Channel> channelList = new ArrayList();
-            for(String c: request.getParameterValues("fc")){
+            for (String c : request.getParameterValues("fc")) {
                 channelList.add(getDataLayer().getChannel(SecurityLayer.checkNumeric(c)));
             }
-            for(Series s: seriesList){
+            for (Series s : seriesList) {
                 List<Episode> epList = s.getEpisodes();
                 boolean[] ok = new boolean[epList.size()];
-                for(int i = 0; i < epList.size(); i++){
+                for (int i = 0; i < epList.size(); i++) {
                     List<ChannelEpisode> ce = epList.get(i).getChannelEpisode();
-                    for(Channel c: channelList){
-                   if (epList.get(i).getChannels().contains(c)){
-                       ok[i] = true;
-                       break;}
+                    for (Channel c : channelList) {
+                        if (epList.get(i).getChannels().contains(c)) {
+                            ok[i] = true;
+                            break;
+                        }
+                    }
                 }
-               }
-              for(boolean b: ok){
-                  if (b == false) seriesList.remove(s);
-              }
+                for (boolean b : ok) {
+                    if (b == false) {
+                        seriesList.remove(s);
+                    }
+                }
             }
         }
-          //Ordinamento
-          if(request.getParameterValues("fc") != null){
-        int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
-        switch(ordertype) {
-            case 1: RESTSortLayer.sortSeriesByPopularity(seriesList);
-            break;
-            case 2: RESTSortLayer.sortSeriesByRating(seriesList);
-            break;
-            case 3: RESTSortLayer.sortSeriesByYear(seriesList);
-            break;
-            case 4: RESTSortLayer.sortSeriesByName(seriesList);
-            break;
-            default: action_error(request, response, "Internal Error");
+        //Ordinamento
+        if (request.getParameterValues("fc") != null) {
+            int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
+            switch (ordertype) {
+                case 1:
+                    RESTSortLayer.sortSeriesByPopularity(seriesList);
+                    break;
+                case 2:
+                    RESTSortLayer.sortSeriesByRating(seriesList);
+                    break;
+                case 3:
+                    RESTSortLayer.sortSeriesByYear(seriesList);
+                    break;
+                case 4:
+                    RESTSortLayer.sortSeriesByName(seriesList);
+                    break;
+                default:
+                    action_error(request, response, "Internal Error");
+            }
         }
-    }  
-          request.setAttribute("series", seriesList);
-           result.activate("seriesList.ftl.html", request, response);
+        request.setAttribute("series", seriesList);
+        result.activate("seriesList.ftl.html", request, response);
     }
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-    if (request.getParameter("s")!= null){
-        try {
-            action_FilterAndOrder_series_list(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
+        if (request.getParameter("s") != null) {
+            try {
+                action_FilterAndOrder_series_list(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
+        } else {
+            try {
+                action_series_list(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
         }
-    } else {
-        try {
-            action_series_list(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-        }
-    }
     }
 
     @Override

@@ -198,163 +198,6 @@ button{
     }
 }
 
-input{
-
-    &[type="checkbox"]{
-        position: absolute;
-        left: -9999px; /* nascondiamo la checkbox originale */
-
-        & + label{
-            position: relative;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        &:checked + label:before{
-            font-family: 'ElegantIcons';
-            content: '\5a';
-            margin-right: 10px;
-            position: relative;
-            top: 5px;
-            font-size: 2.5rem;
-            color: $turquoise;
-        }
-
-        &:not(:checked) + label:before{
-            font-family: 'ElegantIcons';
-            content: '\56';
-            margin-right: 10px;
-            position: relative;
-            top: 5px;
-            font-size: 2.5rem;
-            color: $turquoise;
-        }
-    }
-
-    &[type="text"]{
-        display: inline-block;
-        background: transparent;
-        border-bottom: 1px solid $turquoise;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        color: $primaryTextColor;
-        font-size: 1.5rem;
-        width: 60%;
-        @include transition(border-bottom-color, 0.3s);
-
-        &:focus{
-            border-bottom-color: $orange;
-            @include transition(border-bottom-color, 0.3s);
-        }
-    }
-
-    &[type="radio"]{
-        position: absolute;
-        left: -9999px;
-
-        & + label{
-            position: relative;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        &:checked + label:before{
-            font-family: 'ElegantIcons';
-            content: '\5c';
-            margin-right: 10px;
-            position: relative;
-            top: 5px;
-            font-size: 2.5rem;
-            color: $turquoise;
-        }
-
-        &:not(:checked) + label:before{
-            font-family: 'ElegantIcons';
-            content: '\5b';
-            margin-right: 10px;
-            position: relative;
-            top: 5px;
-            font-size: 2.5rem;
-            color: $turquoise;
-        }
-    }
-
-    &[type="date"]{
-        padding: 5px;
-        width: 75%;
-        @include borderRadius(5px);
-        border: 1px solid $turquoise;
-        /* DA FARE!!! */
-        /* è impossibile fare il date picker senza JS xD */
-    }
-}
-
-.selectContainer{
-    width: 80%;
-    position: relative;
-
-    &.singleSelection{
-        overflow: hidden;
-
-        &:after{
-            position: absolute;
-            right: 0;
-            top: 0;
-            line-height: 2; /* per piazzarla al centro verticalmente */
-            color: $turquoise;
-            border-right: 1px solid $turquoise;
-            font-family: 'ElegantIcons';
-            font-size: 1.5rem;
-            content: '\43';
-            pointer-events: none; /* per far aprire la select anche cliccando sulla freccia */
-        }
-
-        select{
-            padding: 5px;
-            @include borderRadius(5px);
-            border: 1px solid $turquoise;
-            width: 120%; /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
-            cursor: pointer;
-        }
-    }
-
-    &.multipleSelection{
-
-        select{
-            width: 100%;
-
-            optgroup{
-                color: $turquoise;
-
-                option{ /* su chrome non funziona */
-                    color: #000000;
-                    padding: 3px 4px; 
-
-                    &:before{
-                        font-family: 'ElegantIcons';
-                        content: "\4e";
-                        color: #FFFFFF;
-                        margin-right: 5px;
-                        opacity: 0;
-                        @include transition(opacity, 0.3s);
-                    }
-
-                    &:checked{
-
-                        &:before{
-                            opacity: 1;
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-}
-
-
-
 /* SLIDER
 =============================================================================================== */
 #slider{
@@ -608,6 +451,162 @@ input{
         }
     }
 
+    input[type="text"]{
+        display: inline-block;
+        background: transparent;
+        border-bottom: 1px solid $turquoise;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        color: $primaryTextColor;
+        font-size: 1.5rem;
+        width: 60%;
+        @include transition(border-bottom-color, 0.3s);
+
+        &:focus{
+            border-bottom-color: $orange;
+            @include transition(border-bottom-color, 0.3s);
+        }
+    }
+
+    .selectContainer{
+        padding-left: 0;
+        position: relative;
+
+        &.singleSelection{
+            width: 80%;
+            overflow: hidden;
+
+            &:after{
+                position: absolute;
+                right: 0;
+                top: 0;
+                line-height: 2; /* per piazzarla al centro verticalmente */
+                color: $turquoise;
+                border-right: 1px solid $turquoise;
+                font-family: 'ElegantIcons';
+                font-size: 1.5rem;
+                content: '\43';
+                pointer-events: none; /* per far aprire la select anche cliccando sulla freccia */
+            }
+
+            select{
+                padding: 5px;
+                @include borderRadius(5px);
+                border: 1px solid $turquoise;
+                width: 120%; /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
+                cursor: pointer;
+            }
+        }
+
+        &.multipleSelection{
+            width: 80%;
+
+            select{
+                width: 100%;
+
+                optgroup{
+                    color: $turquoise;
+
+                    option{ /* su chrome non funziona */
+                        color: #000000;
+                        padding: 3px 4px; 
+
+                        &:before{
+                            font-family: 'ElegantIcons';
+                            content: "\4e";
+                            color: #FFFFFF;
+                            margin-right: 5px;
+                            opacity: 0;
+                            @include transition(opacity, 0.3s);
+                        }
+
+                        &:checked{
+
+                            &:before{
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    /* nascondiamo la checkbox originale */
+    input[type="checkbox"]{
+        position: absolute;
+        left: -9999px;
+
+        & + label{
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        &:checked + label:before{
+            font-family: 'ElegantIcons';
+            content: '\5a';
+            margin-right: 10px;
+            position: relative;
+            top: 5px;
+            font-size: 2.5rem;
+            color: $turquoise;
+        }
+
+        &:not(:checked) + label:before{
+            font-family: 'ElegantIcons';
+            content: '\56';
+            margin-right: 10px;
+            position: relative;
+            top: 5px;
+            font-size: 2.5rem;
+            color: $turquoise;
+        }
+    }
+
+    input[type="date"]{
+        padding: 5px;
+        width: 75%;
+        @include borderRadius(5px);
+        border: 1px solid $turquoise;
+        /* DA FARE!!! */
+        /* è impossibile fare il date picker senza JS xD */
+    }
+
+    input[type="radio"]{
+
+        position: absolute;
+        left: -9999px;
+
+        & + label{
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        &:checked + label:before{
+            font-family: 'ElegantIcons';
+            content: '\5c';
+            margin-right: 10px;
+            position: relative;
+            top: 5px;
+            font-size: 2.5rem;
+            color: $turquoise;
+        }
+
+        &:not(:checked) + label:before{
+            font-family: 'ElegantIcons';
+            content: '\5b';
+            margin-right: 10px;
+            position: relative;
+            top: 5px;
+            font-size: 2.5rem;
+            color: $turquoise;
+        }
+    }
+
     button{
         width: 80%;
         height: 30px;
@@ -647,7 +646,8 @@ input{
         }
     }
 
-    #LogIn, #LogOut{
+
+    #LogIn{
         float: right;
         padding: 0 20px 2px 20px; /* 2px bottom per dare l'impressione che il bottone sia agganciato alla topbar */
         margin: 0;
@@ -664,6 +664,10 @@ input{
             @include transition(background, 0.3s);
         }
 
+    }
+
+    #LogOut{
+        @extend #LogIn;
     }
 
     #menu{
@@ -754,6 +758,7 @@ input{
             }
         }
     }
+
 }
 
 
@@ -880,10 +885,18 @@ input{
 
 /* NEWS LIST PAGE
 =============================================================================================== */
-#newsFilter, #newsSorting{
+#newsFilter{
 
-    &>div{
+    div{
         margin-bottom: 50px;
+        padding-left: 10%;
+    }
+}
+
+#newsSorting{
+
+    div{
+        margin-bottom: 20px;
         padding-left: 10%;
     }
 }
@@ -976,10 +989,18 @@ input{
 /* SERIES LIST PAGE
 =============================================================================================== */
 
-#seriesFilter, #SeriesSorting{
+#seriesFilter{
 
-    &>div{
+    div{
         margin-bottom: 50px;
+        padding-left: 10%;
+    }
+}
+
+#SeriesSorting{
+
+    div{
+        margin-bottom: 20px;
         padding-left: 10%;
     }
 }
@@ -1423,6 +1444,7 @@ input{
     @extend #formLogIn;
 }
 
+
 /* PROFILO UTENTE
 ===============================================================================================
 =============================================================================================== */
@@ -1470,6 +1492,7 @@ input{
         }
     }
 }
+
 
 /* USER SERIES PAGE
 =============================================================================================== */

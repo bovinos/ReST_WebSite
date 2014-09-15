@@ -38,42 +38,46 @@
         <div id="newsFilter">
             <h1>Filtra per</h1>
             <div>
-                <button id="searchButtonFilter" data-icon="&#x55;"></button> 
-                <input type="text" />
+                <button type="submit" name="s" value="1" id="searchButtonFilter" data-icon="&#x55;"></button> 
+                <input type="text" name="fn" placeholder="Filtra la serie per nome" maxlength="60" pattern="[a-zA-Z0-9\s]*" title="puoi inserire solo caratteri alfanumerici e spazi"/>
             </div>
             <div>
                 <div class="selectContainer singleSelection">
-                    <select>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
-                        <option>Serie 1</option>
+                    <select name="fs" multiple="multiple" size="7">
+                        <optgroup label="Filtra per serie"> 
+                            <#list series as s>
+                            <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
+                            </#list>
+                        </optgroup>
                     </select>
                 </div>
             </div>
             <div>
                 <span id="mySeriesFilter">
-                    <input type="checkbox" name="mySeriesFilter" id="mySeriesFilterCheckbox" value="true" />
+                    <input type="checkbox" name="fmys" id="mySeriesFilterCheckbox" value="1" />
                     <label for="mySeriesFilterCheckbox">Solo news relative alle mie serie</label>
                 </span>
             </div>
             <div>
-                <input type="date"/>
+                <input name="fd" type="date"/>
+            </div>
+            <div>
+                <button type="submit" name="s" value="1">Filtra</button>
             </div>
         </div><!-- FINE filtri -->
         <!-- Ordinamenti -->
         <div id="newsSorting">
             <h1>Ordina per</h1>
             <div>
-                <input type="radio" name="sortOption" id="sortForCommentsRadio">
+                <input type="radio" name="o" id="sortForCommentsRadio">
                 <label for="sortForCommentsRadio">Pi&ugrave; commentate</label>
             </div>
             <div>
-                <input type="radio" name="sortOption" id="sortForLikeRadio">
+                <input type="radio" name="o" id="sortForLikeRadio">
                 <label for="sortForLikeRadio">Numero di Like</label>
+            </div>
+            <div>
+                <button type="submit" name="s" value="1">Ordina</button>
             </div>
         </div>
     </form>
