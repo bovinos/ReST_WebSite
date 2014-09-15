@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -103,10 +102,13 @@ public class SeriesList extends RESTBaseController {
             seriesList =filteredSeries;
         }
         //Filtro serie per canale
-          if(request.getParameterValues("fc") != null && request.getParameterValues("fc").length > 0){
+          if (request.getParameter("fc") != null && SecurityLayer.checkNumeric(request.getParameter("fc")) != 0 ){
             List<Series> filteredSeries = new ArrayList();
             Calendar calendar = Calendar.getInstance();
             Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("fc")));
+            for(ChannelEpisode Che: getDataLayer().getChannelEpisode()){
+                
+            }
             for(Series s: seriesList){
                 List<Episode> epList = s.getEpisodes();
                 for(Episode e: epList){
