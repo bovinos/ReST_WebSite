@@ -33,12 +33,13 @@
 <!-- COLONNA SINISTRA
 ============================================================================================= -->
 <div id="leftCol" class="four columns alpha">
-    <!-- Filtri -->
-    <div id="newsFilter">
-        <h1>Filtra per</h1>
-        <form id="newsFilterForm">
+    <form id="newsFilterForm">
+        <!-- Filtri -->
+        <div id="newsFilter">
+            <h1>Filtra per</h1>
             <div>
-                <span id="searchButtonFilter" data-icon="&#x55;"></span> <input type="search" />
+                <button id="searchButtonFilter" data-icon="&#x55;"></button> 
+                <input type="text" />
             </div>
             <div>
                 <div class="selectContainer singleSelection">
@@ -62,20 +63,20 @@
             <div>
                 <input type="date"/>
             </div>
-        </form>
-    </div><!-- FINE filtri -->
-    <!-- Ordinamenti -->
-    <div id="newsSorting">
-        <h1>Ordina per</h1>
-        <div>
-            <input type="radio" name="sortOption" id="sortForCommentsRadio">
-            <label for="sortForCommentsRadio">Pi&ugrave; commentate</label>
+        </div><!-- FINE filtri -->
+        <!-- Ordinamenti -->
+        <div id="newsSorting">
+            <h1>Ordina per</h1>
+            <div>
+                <input type="radio" name="sortOption" id="sortForCommentsRadio">
+                <label for="sortForCommentsRadio">Pi&ugrave; commentate</label>
+            </div>
+            <div>
+                <input type="radio" name="sortOption" id="sortForLikeRadio">
+                <label for="sortForLikeRadio">Numero di Like</label>
+            </div>
         </div>
-        <div>
-            <input type="radio" name="sortOption" id="sortForLikeRadio">
-            <label for="sortForLikeRadio">Numero di Like</label>
-        </div>
-    </div>
+    </form>
 </div>
 
 <!-- LISTA NEWS

@@ -39,63 +39,64 @@
         <div id="seriesFilter">
             <h1>Filtra per</h1>
             <div>
-                <button type="submit" name="filterSearch" value="1" id="searchButtonFilter" data-icon="&#x55;"></button> <input type="search" />
+                <button type="submit" name="s" value="1" id="searchButtonFilter" data-icon="&#x55;"></button> 
+                <input type="text" name="fn" placeholder="Filtra la serie per nome" maxlength="60" pattern="[a-zA-Z0-9\s]*" title="puoi inserire solo caratteri alfanumerici e spazi"/>
             </div>
             <div>
                 <div class="selectContainer multipleSelection">
-                    <select name="g" multiple="multiple">
-                        <#list genres as g>
-                        <option name="sg" value="${g.ID}">${strip_slashes(g.name)?html}</option>
-                        </#list>
+                    <select name="fg" multiple="multiple" size="7" >
+                        <optgroup label="Filtra per generi"> 
+                            <#list genres as g>
+                            <option value="${g.ID}">${strip_slashes(g.name)?html}</option>
+                            </#list>
+                        </optgroup>
                     </select>
                 </div>
             </div>
             <div>
                 <div class="selectContainer multipleSelection">
-                    <select name="c" multiple="multiple">
-                        <#list channels as c>
-                        <option name="sg" value="${c.ID}">${strip_slashes(c.name)?html}</option>
-                        </#list>
+                    <select name="fc" multiple="multiple" size="7">
+                        <optgroup label="Filtra per canali"> 
+                            <#list channels as c>
+                            <option value="${c.ID}">${strip_slashes(c.name)?html}</option>
+                            </#list>
+                        </optgroup>
                     </select>
                 </div>
             </div>
             <div>
-                <input type="radio" name="filterOption" value="ONGOING" id="filterOnGoingSeriesRadio">
+                <input type="radio" name="fs" value="1" id="filterOnGoingSeriesRadio">
                 <label for="filterOnGoingSeriesRadio">In corso</label>
             </div>
             <div>
-                <input type="radio" name="filterOption" value="COMPLETE" id="filterCompleteSeriesRadio">
+                <input type="radio" name="fs" value="2" id="filterCompleteSeriesRadio">
                 <label for="filterCompleteSeriesRadio">Completa</label>
             </div>
             <div>
-                <button type="submit" name="filter" value="1">Filtra</button>
+                <button type="submit" name="s" value="1">Filtra</button>
             </div>
         </div><!-- FINE filtri -->
         <!-- Ordinamenti -->
         <div id="SeriesSorting">
             <h1>Ordina per</h1>
             <div>
-                <input type="radio" name="sortOption" value="popularity" id="sortForPopularityRadio">
+                <input type="radio" name="o" value="1" id="sortForPopularityRadio">
                 <label for="sortForPopularityRadio">Popolarit&agrave;</label>
             </div>
             <div>
-                <input type="radio" name="sortOption" value="genre" id="sortForGenreRadio">
-                <label for="sortForGenreRadio">Genere</label>
-            </div>
-            <div>
-                <input type="radio" name="sortOption" value="rating" id="sortForRateRadio">
+                <input type="radio" name="o" value="2" id="sortForRateRadio">
                 <label for="sortForRateRadio">Valutazione</label>
             </div>
             <div>
-                <input type="radio" name="sortOption" value="year" id="sortForYearRadio">
+                <input type="radio" name="o" value="3" id="sortForYearRadio">
                 <label for="sortForYearRadio">Anno</label>
             </div>
             <div>
-                <input type="radio" name="sortOption" value="name" id="sortForNameRadio">
+                <input type="radio" name="o" value="4" id="sortForNameRadio">
                 <label for="sortForNameRadio">Nome</label>
             </div>
             <div>
-                <button type="submit" name="sorting" value="1">Ordina</button>
+                <button type="submit" name="s" value="1">Ordina</button>
             </div>
         </div>
     </form>
