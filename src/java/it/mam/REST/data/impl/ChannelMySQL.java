@@ -168,7 +168,7 @@ public class ChannelMySQL implements Channel {
     public String toString() {
         return "ID: " + ID + "\n"
                 + "Name: " + name + "\n"
-                + "Number: " + Number + "\n"
+                + "Number: " + number + "\n"
                 + "Type: " + type + "\n"
                 + "Dirty: " + dirty + "\n"
                 + "Episodes: " + episodes + "\n"
