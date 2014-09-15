@@ -53,6 +53,19 @@ public class SeriesList extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         List<Series> seriesList = getDataLayer().getSeries();
+        
+          //Filtro serie per canale, MESSO PER PRIMO perché gli altri usano la lista di serie derivata da lui.
+          if (request.getParameter("fc") != null && SecurityLayer.checkNumeric(request.getParameter("fc")) != 0 ){
+            List<Series> filteredSeries = new ArrayList();
+            Calendar calendar = Calendar.getInstance();
+            Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("fc")));
+            for(ChannelEpisode ce: getDataLayer().getChannelEpisode()){
+                 if(ce.getDate().after(calendar.getTime())&& ce.getChannel().equals(c) && !(filteredSeries.contains(ce.getEpisode().getSeries()))){
+                filteredSeries.add(ce.getEpisode().getSeries());
+            }
+            }
+            seriesList = filteredSeries;
+          }
 
         //Filtro Serie per Nome
         if (request.getParameter("fn") != null && request.getParameter("fn").length() > 0) {
@@ -104,56 +117,8 @@ public class SeriesList extends RESTBaseController {
             }
             seriesList = filteredSeries;
         }
-        //Filtro serie per canale
-          if (request.getParameter("fc") != null && SecurityLayer.checkNumeric(request.getParameter("fc")) != 0 ){
-            List<Series> filteredSeries = new ArrayList();
-            Calendar calendar = Calendar.getInstance();
-            Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("fc")));
-            for(ChannelEpisode Che: getDataLayer().getChannelEpisode()){
-                
-            }
-            for(Series s: seriesList){
-                List<Episode> epList = s.getEpisodes();
-                for (Episode e : epList) {
-                    List<ChannelEpisode> ceList = e.getChannelEpisode();
-                    List<ChannelEpisode> recent = new ArrayList();
-                    for (ChannelEpisode ce : ceList) {
-                        if (ce.getDate().after(calendar.getTime())) {
-                            recent.add(ce);
-                        }
-                    }
-                    if (recent.isEmpty()) {
-                        continue;
-                    }
-                    for (ChannelEpisode ce : recent) {
-                        if (ce.getChannel().equals(c)) {
-                            filteredSeries.add(s);
-                        }
-                    }
-                }
-            }
-            seriesList = filteredSeries;
-        }
-        /*
-         for(Series s: seriesList){
-         List<Episode> epList = s.getEpisodes();
-         boolean[] ok = new boolean[epList.size()];
-         for(int i = 0; i < epList.size(); i++){
-         List<ChannelEpisode> ce = epList.get(i).getChannelEpisode();        
-         for(Channel c: channelList){
-         if (epList.get(i).getChannels().contains(c)){
-         ok[i] = true;
-         break;}
-         }
-         }
-         for(boolean b: ok){
-         if (b == false) break;
-         filteredSeries.add(s);
-         }
-         }
-         seriesList = filteredSeries;
-         }
-         */
+       
+           
         //Ordinamento
         if (request.getParameter("o") != null && request.getParameter("o").length() > 0) {
             int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));

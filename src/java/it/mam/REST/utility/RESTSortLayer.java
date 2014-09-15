@@ -54,7 +54,7 @@ public class RESTSortLayer {
         return seriesList;
     }
     
-    private static float getMediumRating (Series s){
+    private static int getMediumRating (Series s){
     List<UserSeries> usList = s.getUserSeries();
     int count = 0;
     int ratingsum = 0;
@@ -62,6 +62,6 @@ public class RESTSortLayer {
         ratingsum += Integer.parseInt(us.getRating());
         count++;
     }
-    return ((float)ratingsum/count);
+    return Math.round(ratingsum/count);
     }
 }
