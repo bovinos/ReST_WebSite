@@ -54,6 +54,7 @@ time, mark, audio, video {
 input:focus, select:focus {
   outline: none; }
 
+/* per far capire all'utente se ci├▓ che ha scritto ├¿ valido: fa match con il pattern */
 input:valid ~ span.formValidInput {
   display: inline-block;
   color: green; }
@@ -71,9 +72,6 @@ input:invalid {
   input:invalid ~ span.formValidInput {
     display: none; }
 
-input:default {
-  background: black; }
-
 .formInput {
   position: relative; }
   .formInput .formValidInput, .formInput .formInvalidInput {
@@ -82,6 +80,7 @@ input:default {
     top: 5px;
     font-size: 1.7rem; }
 
+/* per tutti qugli elementi da centrare verticalmente in mezzo al vuoto */
 .verticalCenter:before {
   content: '';
   display: inline-block;
@@ -115,6 +114,17 @@ a {
     transition: color 0.3s ease-in-out;
     -webkit-transition: color 0.3s ease-in-out;
     -moz-transition: color 0.3s ease-in-out; }
+
+button {
+  border: none;
+  background-color: #1695A3;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  -webkit-transition: background-color 0.3s ease-in-out;
+  -moz-transition: background-color 0.3s ease-in-out; }
+  button:hover {
+    background-color: #EB7F00; }
 
 /* SLIDER
 =============================================================================================== */
@@ -322,12 +332,19 @@ a {
     text-align: center;
     margin-bottom: 40px;
     padding: 10px 0;
-    background: #1695A3;
+    background: #225378;
     color: #FFFFFF; }
-  #leftCol #searchSpanFilter {
+  #leftCol #searchButtonFilter {
     font-size: 1.8rem;
-    color: #1695A3; }
-  #leftCol input[type="search"] {
+    color: #1695A3;
+    width: auto;
+    background: none;
+    transition: color 0.3s ease-in-out;
+    -webkit-transition: color 0.3s ease-in-out;
+    -moz-transition: color 0.3s ease-in-out; }
+    #leftCol #searchButtonFilter:hover {
+      color: #EB7F00; }
+  #leftCol input[type="text"] {
     display: inline-block;
     background: transparent;
     border-bottom: 1px solid #1695A3;
@@ -336,42 +353,68 @@ a {
     border-right: none;
     color: #444444;
     font-size: 1.5rem;
-    width: 70%;
+    width: 60%;
     transition: border-bottom-color 0.3s ease-in-out;
     -webkit-transition: border-bottom-color 0.3s ease-in-out;
     -moz-transition: border-bottom-color 0.3s ease-in-out; }
-    #leftCol input[type="search"]:focus {
+    #leftCol input[type="text"]:focus {
       border-bottom-color: #EB7F00;
       transition: border-bottom-color 0.3s ease-in-out;
       -webkit-transition: border-bottom-color 0.3s ease-in-out;
       -moz-transition: border-bottom-color 0.3s ease-in-out; }
   #leftCol .selectContainer {
-    width: 80%;
-    overflow: hidden;
     padding-left: 0;
     position: relative; }
-    #leftCol .selectContainer:after {
-      position: absolute;
-      right: 0;
-      top: 0;
-      line-height: 2;
-      /* per piazzarla al centro verticalmente */
-      color: #1695A3;
-      border-right: 1px solid #1695A3;
-      font-family: 'ElegantIcons';
-      font-size: 1.5rem;
-      content: '\43';
-      pointer-events: none;
-      /* per far aprire la select anche cliccando sulla freccia */ }
-    #leftCol .selectContainer select {
-      padding: 5px;
-      border-radius: 5px;
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
-      border: 1px solid #1695A3;
-      width: 120%;
-      /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
-      cursor: pointer; }
+    #leftCol .selectContainer.singleSelection {
+      width: 80%;
+      overflow: hidden; }
+      #leftCol .selectContainer.singleSelection:after {
+        position: absolute;
+        right: 0;
+        top: 0;
+        line-height: 2;
+        /* per piazzarla al centro verticalmente */
+        color: #1695A3;
+        border-right: 1px solid #1695A3;
+        font-family: 'ElegantIcons';
+        font-size: 1.5rem;
+        content: '\43';
+        pointer-events: none;
+        /* per far aprire la select anche cliccando sulla freccia */ }
+      #leftCol .selectContainer.singleSelection select {
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border: 1px solid #1695A3;
+        width: 120%;
+        /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
+        cursor: pointer; }
+      #leftCol .selectContainer.singleSelection optgroup {
+        width: 99%;
+        border-right: 1px solid black; }
+    #leftCol .selectContainer.multipleSelection {
+      width: 80%; }
+      #leftCol .selectContainer.multipleSelection select {
+        border: 1px solid #1695A3;
+        width: 100%; }
+        #leftCol .selectContainer.multipleSelection select optgroup {
+          color: #1695A3; }
+          #leftCol .selectContainer.multipleSelection select optgroup option {
+            /* su chrome non funziona */
+            color: #000000;
+            padding: 3px 4px; }
+            #leftCol .selectContainer.multipleSelection select optgroup option:before {
+              font-family: 'ElegantIcons';
+              content: "\4e";
+              color: #FFFFFF;
+              margin-right: 5px;
+              opacity: 0;
+              transition: opacity 0.3s ease-in-out;
+              -webkit-transition: opacity 0.3s ease-in-out;
+              -moz-transition: opacity 0.3s ease-in-out; }
+            #leftCol .selectContainer.multipleSelection select optgroup option:checked:before {
+              opacity: 1; }
   #leftCol input[type="checkbox"] {
     position: absolute;
     left: -9999px; }
@@ -427,6 +470,11 @@ a {
       top: 5px;
       font-size: 2.5rem;
       color: #1695A3; }
+  #leftCol button {
+    width: 80%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 1.5rem; }
 
 /* TOPBAR
 =============================================================================================== */
@@ -513,35 +561,28 @@ a {
         -webkit-transition: color 0.3s ease-in-out;
         -moz-transition: color 0.3s ease-in-out; }
     #topBar #search #searchForm {
-      display: inline-block;
-      overflow: hidden;
-      transition: width 0.5s ease-in-out;
-      -webkit-transition: width 0.5s ease-in-out;
-      -moz-transition: width 0.5s ease-in-out; }
+      overflow: hidden; }
       #topBar #search #searchForm input {
+        opacity: 0;
         background: transparent;
         border-bottom: 1px solid #1695A3;
         border-top: none;
         border-left: none;
         border-right: none;
+        padding-bottom: 3px;
         color: #ACF0F2;
         font-size: 1.5rem;
-        width: 100%;
-        transition: border-bottom-color 0.3s ease-in-out;
-        -webkit-transition: border-bottom-color 0.3s ease-in-out;
-        -moz-transition: border-bottom-color 0.3s ease-in-out; }
+        width: 0;
+        transition: all 0.5s ease-in-out;
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out; }
         #topBar #search #searchForm input:focus {
+          opacity: 1;
           border-bottom-color: #EB7F00;
-          transition: border-bottom-color 0.3s ease-in-out;
-          -webkit-transition: border-bottom-color 0.3s ease-in-out;
-          -moz-transition: border-bottom-color 0.3s ease-in-out; }
-      #topBar #search #searchForm.show {
-        width: 200px;
-        transition: width 0.5s ease-in-out;
-        -webkit-transition: width 0.5s ease-in-out;
-        -moz-transition: width 0.5s ease-in-out; }
-      #topBar #search #searchForm.hide {
-        width: 0; }
+          width: 200px; }
+      #topBar #search #searchForm:hover input {
+        opacity: 1;
+        width: 200px; }
 
 /* HEADER
 =============================================================================================== */

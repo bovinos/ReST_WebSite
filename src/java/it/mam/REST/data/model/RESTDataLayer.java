@@ -233,6 +233,8 @@ public interface RESTDataLayer extends DataLayer {
 
     CastMemberSeries getCastMemberSeries(int castMemberSeriesID);
 
+    List<CastMemberSeries> getCastMemberSeries();
+
     List<CastMemberSeries> getCastMemberSeries(CastMember castMember);
 
     List<CastMemberSeries> getCastMemberSeries(Series series);
@@ -249,6 +251,8 @@ public interface RESTDataLayer extends DataLayer {
     ChannelEpisode createChannelEpisode();
 
     ChannelEpisode getChannelEpisode(int channelEpisodeID);
+
+    List<ChannelEpisode> getChannelEpisode();
 
     List<ChannelEpisode> getChannelEpisode(Channel channel);
 
@@ -268,6 +272,8 @@ public interface RESTDataLayer extends DataLayer {
     UserSeries getUserSeries(int userSeriesID);
 
     UserSeries getUserSeries(User user, Series series);
+
+    List getUserSeries();
 
     List<UserSeries> getUserSeries(User user);
 
