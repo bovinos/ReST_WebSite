@@ -7,7 +7,6 @@ import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
-import it.mam.REST.data.model.UserSeries;
 import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
@@ -143,6 +142,8 @@ public class SeriesList extends RESTBaseController {
         }
     }  
           request.setAttribute("series", seriesList);
+          request.setAttribute("genres", getDataLayer().getGenres());
+          request.setAttribute("channels", getDataLayer().getChannels());
            result.activate("seriesList.ftl.html", request, response);
     }
     @Override
