@@ -4,6 +4,7 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
+import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -43,7 +44,7 @@ public class NewsList extends RESTBaseController {
         result.activate("newsList.ftl.html", request, response);
     }
 
-    private void action_FilterAndOrder_newslist(HttpServletRequest request, HttpServletResponse response) {
+    private void action_FilterAndOrder_newslist(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("series", getDataLayer().getSeries()); // per i filtri
@@ -97,6 +98,22 @@ public class NewsList extends RESTBaseController {
         }
 
         //ordinamenti
+        if (request.getParameter("o") != null) {
+            int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
+            switch (ordertype) {
+                case 1:
+                    RESTSortLayer.sortNewsByNumberOfComments(newsList);
+                    break;
+                case 2:
+                    RESTSortLayer.sortNewsByNumberOfLike(newsList);
+                    break;
+                default:
+                    action_error(request, response, "Internal Error");
+            }
+        }
+
+        request.setAttribute("news", newsList);
+        result.activate("newsList.ftl.html", request, response);
     }
 
     @Override

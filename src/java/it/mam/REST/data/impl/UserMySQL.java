@@ -493,4 +493,40 @@ public class UserMySQL implements User {
         userSeries = null;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "Age: " + age + "\n"
+                + "Gender: " + gender + "\n"
+                + "ImageURL: " + imageURL + "\n"
+                + "NotificationStatus: " + notificationStatus + "\n"
+                + "Mail: " + mail + "\n"
+                + "Name: " + name + "\n"
+                + "Password: " + password + "\n"
+                + "Surname: " + surname + "\n"
+                + "Username: " + username + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "GroupID: " + groupID + "\n"
+                + "Group: " + group + "\n"
+                + "Comments: " + comments + "\n"
+                + "Genres: " + genres + "\n"
+                + "Messages: " + messages + "\n"
+                + "News: " + news + "\n"
+                + "Series: " + series + "\n"
+                + "UserSeries: " + userSeries;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof User)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo User quindi posso fare il cast
+        User u = (User) obj;
+        return ID == u.getID();
+    }
+
 }

@@ -177,13 +177,12 @@ public class GenreMySQL implements Genre {
         if (this == obj) { // se hanno lo stesso riferimento restituisco true
             return true;
         }
-        if (!(obj instanceof Genre)) { // se non sono dello stesso "tipo" restituisco false
+        if (obj == null || !(obj instanceof Genre)) { // se non sono dello stesso "tipo" restituisco false
             return false;
         }
         // vuol dire che obj è di tipo Genre quindi posso fare il cast
         Genre g = (Genre) obj;
         return ID == g.getID();
-
     }
 
 }

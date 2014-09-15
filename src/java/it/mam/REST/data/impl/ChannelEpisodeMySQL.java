@@ -123,4 +123,28 @@ public class ChannelEpisodeMySQL implements ChannelEpisode {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "Date: " + date + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "ChannelID: " + channelID + "\n"
+                + "Channel: " + channel + "\n"
+                + "EpisodeID: " + episodeID + "\n"
+                + "Episode: " + episode;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof ChannelEpisode)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo ChannelEpisode quindi posso fare il cast
+        ChannelEpisode ce = (ChannelEpisode) obj;
+        return ID == ce.getID();
+    }
+
 }

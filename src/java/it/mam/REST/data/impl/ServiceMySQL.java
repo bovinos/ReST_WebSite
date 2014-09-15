@@ -149,4 +149,27 @@ public class ServiceMySQL implements Service {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "Description: " + description + "\n"
+                + "Name: " + name + "\n"
+                + "ScriptName: " + scriptName + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "Groups: " + groups;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof Service)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo Service quindi posso fare il cast
+        Service s = (Service) obj;
+        return ID == s.getID();
+    }
+
 }

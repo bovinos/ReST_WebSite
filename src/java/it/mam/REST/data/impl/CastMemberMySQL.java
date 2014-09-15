@@ -223,4 +223,31 @@ public class CastMemberMySQL implements CastMember {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "BirthDate: " + birthDate + "\n"
+                + "Country: " + country + "\n"
+                + "Gender: " + gender + "\n"
+                + "Gender: " + imageURL + "\n"
+                + "name: " + name + "\n"
+                + "Surname: " + surname + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "Series: " + series + "\n"
+                + "CastMemberSeries: " + castMemberSeries;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof CastMember)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo CastMember quindi posso fare il cast
+        CastMember cm = (CastMember) obj;
+        return ID == cm.getID();
+    }
+
 }

@@ -122,4 +122,28 @@ public class CastMemberSeriesMySQL implements CastMemberSeries {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "Role: " + role + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "CastMemberID: " + castMemberID + "\n"
+                + "CastMember: " + castMember + "\n"
+                + "SeriesID: " + seriesID + "\n"
+                + "Series: " + series;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof CastMemberSeries)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo CastMemberSeries quindi posso fare il cast
+        CastMemberSeries cms = (CastMemberSeries) obj;
+        return ID == cms.getID();
+    }
+
 }

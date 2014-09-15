@@ -206,4 +206,30 @@ public class EpisodeMySQL implements Episode {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "Description: " + description + "\n"
+                + "Number: " + number + "\n"
+                + "Season: " + season + "\n"
+                + "Title: " + title + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "SeriesID: " + seriesID + "\n"
+                + "Series: " + series + "\n"
+                + "ChannelEpisode: " + channelEpisode;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof Episode)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo Episode quindi posso fare il cast
+        Episode e = (Episode) obj;
+        return ID == e.getID();
+    }
+
 }

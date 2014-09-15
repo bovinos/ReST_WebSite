@@ -205,4 +205,34 @@ public class CommentMySQL implements Comment {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "Date: " + date + "\n"
+                + "Dislikes: " + dislikes + "\n"
+                + "Likes: " + likes + "\n"
+                + "Text: " + text + "\n"
+                + "Title: " + title + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "UserID: " + userID + "\n"
+                + "User: " + user + "\n"
+                + "NewsID: " + newsID + "\n"
+                + "News: " + news + "\n"
+                + "SeriesID: " + seriesID + "\n"
+                + "Series: " + series;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof Comment)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo Comment quindi posso fare il cast
+        Comment c = (Comment) obj;
+        return ID == c.getID();
+    }
+
 }

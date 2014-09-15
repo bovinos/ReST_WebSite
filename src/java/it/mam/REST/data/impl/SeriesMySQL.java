@@ -508,4 +508,38 @@ public class SeriesMySQL implements Series {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "AddCount: " + addCount + "\n"
+                + "Description: " + description + "\n"
+                + "ImageURL: " + imageURL + "\n"
+                + "Name: " + name + "\n"
+                + "State: " + state + "\n"
+                + "Year: " + year + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "CastMember: " + castMembers + "\n"
+                + "CastMemberSeries: " + castMemberSeries + "\n"
+                + "Comments: " + comments + "\n"
+                + "Episodes: " + episodes + "\n"
+                + "Genres: " + genres + "\n"
+                + "Messages " + messages + "\n"
+                + "News: " + news + "\n"
+                + "Users: " + users + "\n"
+                + "UserSeries: " + userSeries;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof Series)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo Series quindi posso fare il cast
+        Series s = (Series) obj;
+        return ID == s.getID();
+    }
+
 }

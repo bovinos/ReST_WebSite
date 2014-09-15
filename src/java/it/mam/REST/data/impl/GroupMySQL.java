@@ -178,4 +178,27 @@ public class GroupMySQL implements Group {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "Description: " + description + "\n"
+                + "Name: " + name + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "Services: " + services + "\n"
+                + "Users: " + users;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof Group)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo Group quindi posso fare il cast
+        Group g = (Group) obj;
+        return ID == g.getID();
+    }
+
 }

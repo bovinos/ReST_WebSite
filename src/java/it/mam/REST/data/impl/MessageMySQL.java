@@ -152,4 +152,30 @@ public class MessageMySQL implements Message {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "Date: " + date + "\n"
+                + "Text: " + text + "\n"
+                + "Title: " + title + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "UserID: " + userID + "\n"
+                + "User: " + user + "\n"
+                + "SeriesID: " + seriesID + "\n"
+                + "Series: " + series;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof Message)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo Message quindi posso fare il cast
+        Message m = (Message) obj;
+        return ID == m.getID();
+    }
+
 }

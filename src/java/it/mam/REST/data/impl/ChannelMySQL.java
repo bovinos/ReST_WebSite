@@ -164,4 +164,28 @@ public class ChannelMySQL implements Channel {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "Name: " + name + "\n"
+                + "Number: " + Number + "\n"
+                + "Type: " + type + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "Episodes: " + episodes + "\n"
+                + "ChannelEpisode: " + channelEpisode;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof Channel)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo Channel quindi posso fare il cast
+        Channel c = (Channel) obj;
+        return ID == c.getID();
+    }
+
 }

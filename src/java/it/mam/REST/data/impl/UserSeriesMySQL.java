@@ -183,4 +183,32 @@ public class UserSeriesMySQL implements UserSeries {
         dirty = true;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ID + "\n"
+                + "Rating: " + rating + "\n"
+                + "AnticipationNotification: " + anticipationNotification + "\n"
+                + "AddDate: " + addDate + "\n"
+                + "Season: " + season + "\n"
+                + "Episode: " + episode + "\n"
+                + "Dirty: " + dirty + "\n"
+                + "UserID: " + userID + "\n"
+                + "User: " + user + "\n"
+                + "SeriesID: " + seriesID + "\n"
+                + "Series: " + series;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // se hanno lo stesso riferimento restituisco true
+            return true;
+        }
+        if (obj == null || !(obj instanceof UserSeries)) { // se non sono dello stesso "tipo" restituisco false
+            return false;
+        }
+        // vuol dire che obj è di tipo UserSeries quindi posso fare il cast
+        UserSeries us = (UserSeries) obj;
+        return ID == us.getID();
+    }
+
 }

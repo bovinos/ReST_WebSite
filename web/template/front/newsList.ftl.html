@@ -45,6 +45,7 @@
                 <div class="selectContainer singleSelection">
                     <select name="fs">
                         <optgroup label="Filtra per serie"> 
+                            <option value="0">Nessuna Serie</option>
                             <#list series as s>
                             <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
                             </#list>
@@ -52,12 +53,15 @@
                     </select>
                 </div>
             </div>
+            <#if user??>
             <div>
                 <span id="mySeriesFilter">
+
                     <input type="checkbox" name="fmys" id="mySeriesFilterCheckbox" value="1" />
                     <label for="mySeriesFilterCheckbox">Solo news relative alle mie serie</label>
                 </span>
             </div>
+            </#if>
             <div>
                 <input name="fd" type="date"/>
             </div>
@@ -69,11 +73,11 @@
         <div id="newsSorting">
             <h1>Ordina per</h1>
             <div>
-                <input type="radio" name="o" id="sortForCommentsRadio">
+                <input type="radio" name="o" value="1" id="sortForCommentsRadio">
                 <label for="sortForCommentsRadio">Pi&ugrave; commentate</label>
             </div>
             <div>
-                <input type="radio" name="o" id="sortForLikeRadio">
+                <input type="radio" name="o" value="2" id="sortForLikeRadio">
                 <label for="sortForLikeRadio">Numero di Like</label>
             </div>
             <div>
