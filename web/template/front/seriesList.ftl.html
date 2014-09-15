@@ -34,71 +34,71 @@
 ============================================================================================= -->
 <div id="leftCol" class="four columns alpha">
     <!-- Filtri -->
-    <div id="seriesFilter">
-        <h1>Filtra per</h1>
-        <form id="seriesFilterForm">
+
+    <form action="ListaSerie" method="GET" id="seriesFilterForm">
+        <div id="seriesFilter">
+            <h1>Filtra per</h1>
             <div>
-                <span id="searchSpanFilter" data-icon="&#x55;"></span> <input type="search" />
+                <button type="submit" name="filterSearch" value="1" id="searchButtonFilter" data-icon="&#x55;"></button> <input type="search" />
             </div>
             <div>
-                <div class="selectContainer">
-                    <select>
-                        <option>Genere 1</option>
-                        <option>Genere 1</option>
-                        <option>Genere 1</option>
-                        <option>Genere 1</option>
-                        <option>Genere 1</option>
-                        <option>Genere 1</option>
-                        <option>Genere 1</option>
+                <div class="selectContainer multipleSelection">
+                    <select name="g" multiple="multiple">
+                        <#list genres as g>
+                        <option name="sg" value="${g.ID}">${strip_slashes(g.name)?html}</option>
+                        </#list>
                     </select>
                 </div>
             </div>
             <div>
-                <div class="selectContainer">
-                    <select>
-                        <option>Canale 1</option>
-                        <option>Canale 1</option>
-                        <option>Canale 1</option>
-                        <option>Canale 1</option>
-                        <option>Canale 1</option>
-                        <option>Canale 1</option>
+                <div class="selectContainer multipleSelection">
+                    <select name="c" multiple="multiple">
+                        <#list channels as c>
+                        <option name="sg" value="${c.ID}">${strip_slashes(c.name)?html}</option>
+                        </#list>
                     </select>
                 </div>
             </div>
             <div>
-                <input type="radio" name="filterOption" id="filterOnGoingSeriesRadio">
+                <input type="radio" name="filterOption" value="ONGOING" id="filterOnGoingSeriesRadio">
                 <label for="filterOnGoingSeriesRadio">In corso</label>
             </div>
             <div>
-                <input type="radio" name="filterOption" id="filterCompleteSeriesRadio">
+                <input type="radio" name="filterOption" value="COMPLETE" id="filterCompleteSeriesRadio">
                 <label for="filterCompleteSeriesRadio">Completa</label>
             </div>
-        </form>
-    </div><!-- FINE filtri -->
-    <!-- Ordinamenti -->
-    <div id="SeriesSorting">
-        <h1>Ordina per</h1>
-        <div>
-            <input type="radio" name="sortOption" id="sortForPopularityRadio">
-            <label for="sortForPopularityRadio">Popolarit&agrave;</label>
+            <div>
+                <button type="submit" name="filter" value="1">Filtra</button>
+            </div>
+        </div><!-- FINE filtri -->
+        <!-- Ordinamenti -->
+        <div id="SeriesSorting">
+            <h1>Ordina per</h1>
+            <div>
+                <input type="radio" name="sortOption" value="popularity" id="sortForPopularityRadio">
+                <label for="sortForPopularityRadio">Popolarit&agrave;</label>
+            </div>
+            <div>
+                <input type="radio" name="sortOption" value="genre" id="sortForGenreRadio">
+                <label for="sortForGenreRadio">Genere</label>
+            </div>
+            <div>
+                <input type="radio" name="sortOption" value="rating" id="sortForRateRadio">
+                <label for="sortForRateRadio">Valutazione</label>
+            </div>
+            <div>
+                <input type="radio" name="sortOption" value="year" id="sortForYearRadio">
+                <label for="sortForYearRadio">Anno</label>
+            </div>
+            <div>
+                <input type="radio" name="sortOption" value="name" id="sortForNameRadio">
+                <label for="sortForNameRadio">Nome</label>
+            </div>
+            <div>
+                <button type="submit" name="sorting" value="1">Ordina</button>
+            </div>
         </div>
-        <div>
-            <input type="radio" name="sortOption" id="sortForGenreRadio">
-            <label for="sortForGenreRadio">Genere</label>
-        </div>
-        <div>
-            <input type="radio" name="sortOption" id="sortForRateRadio">
-            <label for="sortForRateRadio">Valutazione</label>
-        </div>
-        <div>
-            <input type="radio" name="sortOption" id="sortForYearRadio">
-            <label for="sortForYearRadio">Anno</label>
-        </div>
-        <div>
-            <input type="radio" name="sortOption" id="sortForNameRadio">
-            <label for="sortForNameRadio">Nome</label>
-        </div>
-    </div>
+    </form>
 </div>
 
 <!-- LISTA SERIE

@@ -116,6 +116,17 @@ a {
     -webkit-transition: color 0.3s ease-in-out;
     -moz-transition: color 0.3s ease-in-out; }
 
+button {
+  border: none;
+  background-color: #1695A3;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background-color o 0.3s ease-in-out;
+  -webkit-transition: background-color o 0.3s ease-in-out;
+  -moz-transition: background-color o 0.3s ease-in-out; }
+  button:hover {
+    background-color: #EB7F00; }
+
 /* SLIDER
 =============================================================================================== */
 #slider {
@@ -324,9 +335,16 @@ a {
     padding: 10px 0;
     background: #1695A3;
     color: #FFFFFF; }
-  #leftCol #searchSpanFilter {
+  #leftCol #searchButtonFilter {
     font-size: 1.8rem;
-    color: #1695A3; }
+    color: #1695A3;
+    width: auto;
+    background: none;
+    transition: color 0.3s ease-in-out;
+    -webkit-transition: color 0.3s ease-in-out;
+    -moz-transition: color 0.3s ease-in-out; }
+    #leftCol #searchButtonFilter:hover {
+      color: #EB7F00; }
   #leftCol input[type="search"] {
     display: inline-block;
     background: transparent;
@@ -346,32 +364,51 @@ a {
       -webkit-transition: border-bottom-color 0.3s ease-in-out;
       -moz-transition: border-bottom-color 0.3s ease-in-out; }
   #leftCol .selectContainer {
-    width: 80%;
-    overflow: hidden;
     padding-left: 0;
     position: relative; }
-    #leftCol .selectContainer:after {
-      position: absolute;
-      right: 0;
-      top: 0;
-      line-height: 2;
-      /* per piazzarla al centro verticalmente */
-      color: #1695A3;
-      border-right: 1px solid #1695A3;
-      font-family: 'ElegantIcons';
-      font-size: 1.5rem;
-      content: '\43';
-      pointer-events: none;
-      /* per far aprire la select anche cliccando sulla freccia */ }
-    #leftCol .selectContainer select {
-      padding: 5px;
-      border-radius: 5px;
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
-      border: 1px solid #1695A3;
-      width: 120%;
-      /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
-      cursor: pointer; }
+    #leftCol .selectContainer.singleSelection {
+      width: 80%;
+      overflow: hidden; }
+      #leftCol .selectContainer.singleSelection:after {
+        position: absolute;
+        right: 0;
+        top: 0;
+        line-height: 2;
+        /* per piazzarla al centro verticalmente */
+        color: #1695A3;
+        border-right: 1px solid #1695A3;
+        font-family: 'ElegantIcons';
+        font-size: 1.5rem;
+        content: '\43';
+        pointer-events: none;
+        /* per far aprire la select anche cliccando sulla freccia */ }
+      #leftCol .selectContainer.singleSelection select {
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border: 1px solid #1695A3;
+        width: 120%;
+        /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
+        cursor: pointer; }
+    #leftCol .selectContainer.multipleSelection {
+      width: 80%; }
+      #leftCol .selectContainer.multipleSelection select {
+        width: 100%; }
+        #leftCol .selectContainer.multipleSelection select option {
+          /* su chrome non funziona */
+          padding: 3px 4px; }
+          #leftCol .selectContainer.multipleSelection select option:before {
+            font-family: 'ElegantIcons';
+            content: "\4e";
+            color: #FFFFFF;
+            margin-right: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            -webkit-transition: opacity 0.3s ease-in-out;
+            -moz-transition: opacity 0.3s ease-in-out; }
+          #leftCol .selectContainer.multipleSelection select option:checked:before {
+            opacity: 1; }
   #leftCol input[type="checkbox"] {
     position: absolute;
     left: -9999px; }
@@ -427,6 +464,11 @@ a {
       top: 5px;
       font-size: 2.5rem;
       color: #1695A3; }
+  #leftCol button {
+    width: 80%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 1.5rem; }
 
 /* TOPBAR
 =============================================================================================== */

@@ -186,6 +186,18 @@ a{
     }
 }
 
+button{
+    border: none;
+    background-color: $turquoise;
+    color: #FFFFFF;
+    cursor: pointer;
+    @include transition(background-color, o.3s);
+
+    &:hover{
+        background-color: $orange;
+    }
+}
+
 
 
 /* SLIDER
@@ -429,9 +441,16 @@ a{
         color: #FFFFFF;
     }
 
-    #searchSpanFilter{
+    #searchButtonFilter{
         font-size: 1.8rem;
         color: $turquoise;
+        width: auto;
+        background: none;
+        @include transition(color, 0.3s);
+
+        &:hover{
+            color: $orange;
+        }
     }
 
     input[type="search"]{
@@ -453,35 +472,62 @@ a{
     }
 
     .selectContainer{
-        width: 80%;
-        overflow: hidden;
         padding-left: 0;
         position: relative;
 
-        &:after{
-            position: absolute;
-            right: 0;
-            top: 0;
-            line-height: 2; /* per piazzarla al centro verticalmente */
-            color: $turquoise;
-            border-right: 1px solid $turquoise;
-            font-family: 'ElegantIcons';
-            font-size: 1.5rem;
-            content: '\43';
-            pointer-events: none; /* per far aprire la select anche cliccando sulla freccia */
+        &.singleSelection{
+            width: 80%;
+            overflow: hidden;
+
+            &:after{
+                position: absolute;
+                right: 0;
+                top: 0;
+                line-height: 2; /* per piazzarla al centro verticalmente */
+                color: $turquoise;
+                border-right: 1px solid $turquoise;
+                font-family: 'ElegantIcons';
+                font-size: 1.5rem;
+                content: '\43';
+                pointer-events: none; /* per far aprire la select anche cliccando sulla freccia */
+            }
+
+            select{
+                padding: 5px;
+                @include borderRadius(5px);
+                border: 1px solid $turquoise;
+                width: 120%; /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
+                cursor: pointer;
+            }
         }
 
-        select{
-            padding: 5px;
-            @include borderRadius(5px);
-            border: 1px solid $turquoise;
-            width: 120%; /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
-            cursor: pointer;
+        &.multipleSelection{
+            width: 80%;
 
+            select{
+                width: 100%;
 
-            option{
+                option{ /* su chrome non funziona */
+                    padding: 3px 4px; 
 
+                    &:before{
+                        font-family: 'ElegantIcons';
+                        content: "\4e";
+                        color: #FFFFFF;
+                        margin-right: 5px;
+                        opacity: 0;
+                        @include transition(opacity, 0.3s);
+                    }
+
+                    &:checked{
+
+                        &:before{
+                            opacity: 1;
+                        }
+                    }
+                }
             }
+
         }
     }
 
@@ -556,6 +602,13 @@ a{
             font-size: 2.5rem;
             color: $turquoise;
         }
+    }
+
+    button{
+        width: 80%;
+        height: 30px;
+        line-height: 30px;
+        font-size: 1.5rem;
     }
 }
 
