@@ -38,8 +38,12 @@ public class NewsList extends RESTBaseController {
         if (SecurityLayer.checkSession(request) != null) {
             String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
             request.setAttribute("sessionUsername", username);
+            try{
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+             } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
         }
         result.activate("newsList.ftl.html", request, response);
     }
@@ -53,8 +57,12 @@ public class NewsList extends RESTBaseController {
         if (SecurityLayer.checkSession(request) != null) {
             String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
             request.setAttribute("sessionUsername", username);
+            try{
             user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+             } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
         }
 
         List<News> newsList = getDataLayer().getNews();
@@ -73,6 +81,7 @@ public class NewsList extends RESTBaseController {
         //Filtro per serie
         if (request.getParameter("fs") != null && SecurityLayer.checkNumeric(request.getParameter("fs")) != 0) {
             List<News> filteredNews = new ArrayList();
+            try{
             Series selectedSeries = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("fs")));
             for (News n : newsList) {
                 if (n.getSeries().contains(selectedSeries)) {
@@ -80,10 +89,14 @@ public class NewsList extends RESTBaseController {
                 }
             }
             newsList = filteredNews;
+             } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
         }
 
         //Filtro tra "Le Mie Serie"
         // se la sessione non è attiva, cioè non c'è un utente loggato, è impossibile filtrare per le serie preferite
+        try{
         if (user != null && SecurityLayer.checkNumeric(request.getParameter("fmys")) == 1) {
             List<News> filteredNews = new ArrayList();
             List<Series> usersSeries = user.getSeries();
@@ -96,7 +109,9 @@ public class NewsList extends RESTBaseController {
             }
             newsList = filteredNews;
         }
-
+        } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
         //ordinamenti
         if (request.getParameter("o") != null) {
             int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));

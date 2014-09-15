@@ -54,16 +54,14 @@ public class RESTSortLayer {
         });
         return seriesList;
     }
-
-    private static float getMediumRating(Series s) {
-        List<UserSeries> usList = s.getUserSeries();
-        int count = 0;
-        int ratingsum = 0;
-        for (UserSeries us : usList) {
-            ratingsum += Integer.parseInt(us.getRating());
-            count++;
-        }
-        return ((float) ratingsum / count);
+    
+    private static int getMediumRating (Series s){
+    List<UserSeries> usList = s.getUserSeries();
+    int count = 0;
+    int ratingsum = 0;
+    for(UserSeries us: usList){
+        ratingsum += Integer.parseInt(us.getRating());
+        count++;
     }
 
     // NEWS

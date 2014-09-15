@@ -33,10 +33,14 @@ public class NewsCard extends RESTBaseController{
         request.setAttribute("news", getDataLayer().getNews(id));
         //Controllo che la sessione attuale sia ancora valida
         if (SecurityLayer.checkSession(request) != null){
+            try{
         String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
         request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
         }
         result.activate("newsCard.ftl.html", request, response);
     }
@@ -46,7 +50,7 @@ public class NewsCard extends RESTBaseController{
         try {
             int id = SecurityLayer.checkNumeric(request.getParameter("id"));
             action_news_info(request, response, id);
-        } catch (ServletException | IOException | NumberFormatException ex) {
+        } catch (IOException | NumberFormatException ex) {
             action_error(request, response, "Errore caricamento dati");
         }
     }

@@ -38,11 +38,15 @@ public class SeriesList extends RESTBaseController {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("series", getDataLayer().getSeries());
         //Controllo la sessione e creo l'utente
+        try{
         if (SecurityLayer.checkSession(request) != null) {
             String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
             request.setAttribute("sessionUsername", username);
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+        }
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
         }
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
@@ -53,6 +57,23 @@ public class SeriesList extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         List<Series> seriesList = getDataLayer().getSeries();
+        
+          //Filtro serie per canale, MESSO PER PRIMO perché gli altri usano la lista di serie derivata da lui.
+        try{
+          if (request.getParameter("fc") != null && SecurityLayer.checkNumeric(request.getParameter("fc")) != 0 ){
+            List<Series> filteredSeries = new ArrayList();
+            Calendar calendar = Calendar.getInstance();
+            Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("fc")));
+            for(ChannelEpisode ce: getDataLayer().getChannelEpisode()){
+                 if(ce.getDate().after(calendar.getTime())&& ce.getChannel().equals(c) && !(filteredSeries.contains(ce.getEpisode().getSeries()))){
+                filteredSeries.add(ce.getEpisode().getSeries());
+            }
+            }
+            seriesList = filteredSeries;
+          }
+           } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
 
         //Filtro Serie per Nome
         if (request.getParameter("fn") != null && request.getParameter("fn").length() > 0) {
@@ -70,7 +91,11 @@ public class SeriesList extends RESTBaseController {
             List<Series> filteredSeries = new ArrayList();
             List<Genre> genresList = new ArrayList();
             for (String g : request.getParameterValues("fg")) {
+                try{
                 genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(g)));
+                 } catch (NumberFormatException ex) {
+                action_error(request, response, "Field Error");
+        }
             }
             for (Series s : seriesList) {
                 if (s.getGenres().containsAll(genresList)) {
@@ -83,7 +108,10 @@ public class SeriesList extends RESTBaseController {
         //Filtro serie per stato
         if (request.getParameter("fs") != null && request.getParameter("fs").length() > 0) {
             List<Series> filteredSeries = new ArrayList();
+            
+            try{
             int status = SecurityLayer.checkNumeric(request.getParameter("fs"));
+            
             switch (status) {
                 case 1:
                     for (Series s : seriesList) {
@@ -103,59 +131,15 @@ public class SeriesList extends RESTBaseController {
                     action_error(request, response, "Internal Error");
             }
             seriesList = filteredSeries;
-        }
-        //Filtro serie per canale
-          if (request.getParameter("fc") != null && SecurityLayer.checkNumeric(request.getParameter("fc")) != 0 ){
-            List<Series> filteredSeries = new ArrayList();
-            Calendar calendar = Calendar.getInstance();
-            Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("fc")));
-            for(ChannelEpisode Che: getDataLayer().getChannelEpisode()){
-                
+             } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
             }
-            for(Series s: seriesList){
-                List<Episode> epList = s.getEpisodes();
-                for (Episode e : epList) {
-                    List<ChannelEpisode> ceList = e.getChannelEpisode();
-                    List<ChannelEpisode> recent = new ArrayList();
-                    for (ChannelEpisode ce : ceList) {
-                        if (ce.getDate().after(calendar.getTime())) {
-                            recent.add(ce);
-                        }
-                    }
-                    if (recent.isEmpty()) {
-                        continue;
-                    }
-                    for (ChannelEpisode ce : recent) {
-                        if (ce.getChannel().equals(c)) {
-                            filteredSeries.add(s);
-                        }
-                    }
-                }
-            }
-            seriesList = filteredSeries;
         }
-        /*
-         for(Series s: seriesList){
-         List<Episode> epList = s.getEpisodes();
-         boolean[] ok = new boolean[epList.size()];
-         for(int i = 0; i < epList.size(); i++){
-         List<ChannelEpisode> ce = epList.get(i).getChannelEpisode();        
-         for(Channel c: channelList){
-         if (epList.get(i).getChannels().contains(c)){
-         ok[i] = true;
-         break;}
-         }
-         }
-         for(boolean b: ok){
-         if (b == false) break;
-         filteredSeries.add(s);
-         }
-         }
-         seriesList = filteredSeries;
-         }
-         */
+
+           
         //Ordinamento
         if (request.getParameter("o") != null && request.getParameter("o").length() > 0) {
+            try {
             int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
             switch (ordertype) {
                 case 1:
@@ -173,6 +157,9 @@ public class SeriesList extends RESTBaseController {
                 default:
                     action_error(request, response, "Internal Error");
             }
+             } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
         }
         request.setAttribute("series", seriesList);
         request.setAttribute("genres", getDataLayer().getGenres());
