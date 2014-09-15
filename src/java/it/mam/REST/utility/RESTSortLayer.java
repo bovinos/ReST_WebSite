@@ -15,7 +15,7 @@ public class RESTSortLayer {
             seriesList.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
-                return ((Series)o1).getName().compareToIgnoreCase(((Series)o1).getName());
+                return ((Series)o1).getName().compareToIgnoreCase(((Series)o2).getName());
             }
         });
         return seriesList;

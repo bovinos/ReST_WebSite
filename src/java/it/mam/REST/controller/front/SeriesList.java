@@ -14,7 +14,9 @@ import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,10 +76,8 @@ public class SeriesList extends RESTBaseController {
                 genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(g)));
             }
             for(Series s: seriesList){
-                for(Genre g: genresList){
-                if(s.getGenres().contains(g)){
+                if(s.getGenres().containsAll(genresList)){
                     filteredSeries.add(s);
-                }
                 }
             }
             seriesList = filteredSeries;
@@ -105,15 +105,32 @@ public class SeriesList extends RESTBaseController {
         //Filtro serie per canale
           if(request.getParameterValues("fc") != null && request.getParameterValues("fc").length > 0){
             List<Series> filteredSeries = new ArrayList();
-            List<Channel> channelList = new ArrayList();
-            for(String c: request.getParameterValues("fc")){
-                channelList.add(getDataLayer().getChannel(SecurityLayer.checkNumeric(c)));
+            Calendar calendar = Calendar.getInstance();
+            Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("fc")));
+            for(Series s: seriesList){
+                List<Episode> epList = s.getEpisodes();
+                for(Episode e: epList){
+                List<ChannelEpisode> ceList = e.getChannelEpisode();
+                List<ChannelEpisode> recent = new ArrayList();
+                for(ChannelEpisode ce: ceList) {
+                    if (ce.getDate().after(calendar.getTime())) { recent.add(ce);}
+                }
+                if(recent.isEmpty()) continue;
+                for(ChannelEpisode ce: recent){
+                    if(ce.getChannel().equals(c)){
+                        filteredSeries.add(s);
+                    }
+                }
             }
+            }
+            seriesList = filteredSeries;
+          }
+            /*
             for(Series s: seriesList){
                 List<Episode> epList = s.getEpisodes();
                 boolean[] ok = new boolean[epList.size()];
                 for(int i = 0; i < epList.size(); i++){
-                    List<ChannelEpisode> ce = epList.get(i).getChannelEpisode();
+                    List<ChannelEpisode> ce = epList.get(i).getChannelEpisode();        
                     for(Channel c: channelList){
                    if (epList.get(i).getChannels().contains(c)){
                        ok[i] = true;
@@ -127,6 +144,7 @@ public class SeriesList extends RESTBaseController {
             }
             seriesList = filteredSeries;
         }
+         */           
           //Ordinamento
           if(request.getParameter("o") != null && request.getParameter("o").length() > 0){
         int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
