@@ -87,6 +87,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             dUser;
 
     // Relationship
+    // Relationship with attribute
     private PreparedStatement sCastMemberSeriesByID, sCastMemberSeries, sCastMemberSeriesByCastMember, sCastMemberSeriesBySeries, sCastMemberSeriesByCastMemberAndSeries,
             iCastMemberSeries,
             uCastMemberSeries,
@@ -99,6 +100,20 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             iUserSeries,
             uUserSeries,
             dUserSeries;
+
+    // Relationship without attribute
+    private PreparedStatement iCommentSeries,
+            dCommentSeries;
+    private PreparedStatement iGenreSeries,
+            dGenreSeries;
+    private PreparedStatement iNewsComment,
+            dNewsComment;
+    private PreparedStatement iNewsSeries,
+            dNewsSeries;
+    private PreparedStatement iServiceGroup,
+            dServiceGroup;
+    private PreparedStatement iUserGenre,
+            dUserGenre;
 
     // Other
     private PreparedStatement sLastEpisodeSeen;
@@ -228,6 +243,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             dUser = connection.prepareStatement("DELETE FROM e_user WHERE ID=?");
 
             // Relationship
+            // Relationship with attribute
             // CastMemberSeries
             sCastMemberSeriesByID = connection.prepareStatement("SELECT * FROM r_cast_member_series WHERE ID=?");
             sCastMemberSeries = connection.prepareStatement("SELECT ID FROM r_cast_member_series");
@@ -257,6 +273,31 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             iUserSeries = connection.prepareStatement("INSERT INTO r_user_series (ID_user, ID_series, rating, anticipation_notification, add_date, season, episode) VALUES(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uUserSeries = connection.prepareStatement("UPDATE r_user_series SET ID_user=?, ID_series=?, rating=?, anticipation_notification=?, add_date=?, season=?, episode=? WHERE ID=?");
             dUserSeries = connection.prepareStatement("DELETE FROM r_user_series WHERE ID_user=? AND ID_series=?");
+
+            // Relationship without attribute
+            // CommentSeries
+            iCommentSeries = connection.prepareStatement("INSERT INTO r_comment_series (ID_comment, ID_series) VALUES (?, ?)");
+            dCommentSeries = connection.prepareStatement("DELETE FROM r_comment_series WHERE ID_comment=? AND ID_Series=?");
+
+            // GenreSeries
+            iGenreSeries = connection.prepareStatement("INSERT INTO r_genre_series (ID_genre , ID_series) VALUES (?, ?)");
+            dGenreSeries = connection.prepareStatement("DELETE FROM r_genre_series WHERE ID_genre=? AND ID_series=?");
+
+            // NewsComment
+            iNewsComment = connection.prepareStatement("INSERT INTO r_news_comment (ID_news , ID_comment) VALUES (?, ?)");
+            dNewsComment = connection.prepareStatement("DELETE FROM r_news_comment WHERE ID_news=? AND ID_comment=?");
+
+            // NewsSeries
+            iNewsSeries = connection.prepareStatement("INSERT INTO r_news_series (ID_news , ID_series) VALUES (?, ?)");
+            dNewsSeries = connection.prepareStatement("DELETE FROM r_news_series WHERE ID_news=? AND ID_series=?");
+
+            // ServiceGroup
+            iServiceGroup = connection.prepareStatement("INSERT INTO r_service_group (ID_service , ID_group) VALUES (?, ?)");
+            dServiceGroup = connection.prepareStatement("DELETE FROM r_service_group WHERE ID_service=? AND ID_group=?");
+
+            // UserGenre
+            iUserGenre = connection.prepareStatement("INSERT INTO r_user_genre (ID_user , ID_genre) VALUES (?, ?)");
+            dUserGenre = connection.prepareStatement("DELETE FROM r_user_genre WHERE ID_user=? AND ID_genre=?");
 
             // Other
             sLastEpisodeSeen = connection.prepareStatement("SELECT season, episode FROM r_user_series WHERE  ID_user=? AND ID_series=?");
@@ -409,9 +450,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                     }
                 }
             }
-            // now we store the relatoinship only if they are not null
-            if (castMember.isSeriesSet()) {
-                storeCastMemberSeriesRelationship(ID, castMember.getSeries());
+            // Store relationship
+            for (CastMemberSeries cms : castMember.getCastMemberSeries()) {
+                storeCastMemberSeries(cms);
             }
             if (ID > 0) { // the object is on DB and have a key
                 castMember.copyFrom(getCastMember(ID)); // copy the DB object on the current object
@@ -438,25 +479,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             dCastMember.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void storeCastMemberSeriesRelationship(int ID, List<Series> series) {
-        // iCastMemberSeries = "INSERT INTO r_cast_member_series (ID_cast_member, ID_series, role) VALUES(?, ?, ?)"
-        for (Series s : series) {
-            try {
-                if (s.getID() > 0) { // series is on DB already
-                    iCastMemberSeries.setInt(1, ID);
-                    iCastMemberSeries.setInt(2, s.getID());
-                    iCastMemberSeries.setString(3, null); // role?
-                    iCastMemberSeries.executeUpdate();
-                } else { //what are we doing if the series isn't on DB?
-
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
         }
     }
 
@@ -594,6 +616,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                         ID = rs.getInt(1);
                     }
                 }
+            }
+            // store relationship
+            for (ChannelEpisode ce : channel.getChannelEpisode()) {
+                storeChannelEpisode(ce);
             }
             if (ID > 0) {
                 channel.copyFrom(getChannel(ID));
@@ -795,6 +821,13 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                         ID = rs.getInt(1);
                     }
                 }
+            }
+            // store relationship
+            if (comment.getNews() != null) {
+                storeNewsComment(comment.getNews().getID(), ID);
+            }
+            if (comment.getSeries() != null) {
+                storeCommentSeries(ID, comment.getSeries().getID());
             }
             if (ID > 0) {
                 comment.copyFrom(getComment(ID));
@@ -1024,6 +1057,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 }
 
             }
+            // store relationship
+            for (ChannelEpisode ce : episode.getChannelEpisode()) {
+                storeChannelEpisode(ce);
+            }
             if (ID > 0) {
                 episode.copyFrom(getEpisode(ID));
             }
@@ -1182,6 +1219,13 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                     }
                 }
 
+            }
+            // store relationship
+            for (Series s : genre.getSeries()) {
+                storeGenreSeries(ID, s.getID());
+            }
+            for (User u : genre.getUsers()) {
+                storeUserGenre(u.getID(), ID);
             }
             if (ID > 0) {
                 genre.copyFrom(getGenre(ID));
@@ -1342,7 +1386,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                         ID = rs.getInt(1);
                     }
                 }
-
+            }
+            // store relationship
+            for (Service s : group.getServices()) {
+                storeServiceGroup(s.getID(), ID);
             }
             if (ID > 0) {
                 group.copyFrom(getGroup(ID));
@@ -1544,7 +1591,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                         ID = rs.getInt(1);
                     }
                 }
-
             }
             if (ID > 0) {
                 message.copyFrom(getMessage(ID));
@@ -1748,7 +1794,13 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                         ID = rs.getInt(1);
                     }
                 }
-
+            }
+            // store relationship
+            for (Series s : news.getSeries()) {
+                storeNewsSeries(ID, s.getID());
+            }
+            for (Comment c : news.getComments()) {
+                storeNewsComment(ID, c.getID());
             }
             if (ID > 0) {
                 news.copyFrom(getNews(ID));
@@ -2068,7 +2120,22 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                         ID = rs.getInt(1);
                     }
                 }
-
+            }
+            // store relationship
+            for (UserSeries us : series.getUserSeries()) {
+                storeUserSeries(us);
+            }
+            for (CastMemberSeries cms : series.getCastMemberSeries()) {
+                storeCastMemberSeries(cms);
+            }
+            for (Genre g : series.getGenres()) {
+                storeGenreSeries(g.getID(), ID);
+            }
+            for (News n : series.getNews()) {
+                storeNewsSeries(n.getID(), ID);
+            }
+            for (Comment c : series.getComments()) {
+                storeCommentSeries(c.getID(), ID);
             }
             if (ID > 0) {
                 series.copyFrom(getSeries(ID));
@@ -2206,7 +2273,10 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                         ID = rs.getInt(1);
                     }
                 }
-
+            }
+            // store relationship
+            for (Group g : service.getGroups()) {
+                storeServiceGroup(ID, g.getID());
             }
             if (ID > 0) {
                 service.copyFrom(getService(ID));
@@ -2517,7 +2587,13 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                         ID = rs.getInt(1);
                     }
                 }
-
+            }
+            // store relationship
+            for (UserSeries us : user.getUserSeries()) {
+                storeUserSeries(us);
+            }
+            for (Genre g : user.getGenres()) {
+                storeUserGenre(ID, g.getID());
             }
             if (ID > 0) {
                 user.copyFrom(getUser(ID));
@@ -2548,7 +2624,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     // ============================================================================================
-    // CAST MEMBER SERIES
+    // CastMemberSeries
     // ============================================================================================
     @Override
     public CastMemberSeries createCastMemberSeries() {
@@ -2762,7 +2838,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     // ============================================================================================
-    // CHANNEL EPISODE
+    // ChannelEpisode
     // ============================================================================================
     @Override
     public ChannelEpisode createChannelEpisode() {
@@ -2976,7 +3052,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     // ============================================================================================
-    // USER SERIES
+    // UserSeries
     // ============================================================================================
     @Override
     public UserSeries createUserSeries() {
@@ -3211,7 +3287,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     // ============================================================================================
-    // OTHER
+    // Other
     // ============================================================================================
     @Override
     // sLastEpisodeSeen = "SELECT season, episode FROM r_user_series WHERE  ID_user=? AND ID_series=?"
@@ -3264,6 +3340,159 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             }
         }
         return result;
+    }
+
+    // ============================================================================================
+    // Private Metods (SAVING THE RELATIONSHIP)
+    // ============================================================================================
+    // ============================================================================================
+    // CommentSeries
+    // ============================================================================================
+    // iCommentSeries = "INSERT INTO r_comment_series (ID_comment, ID_series) VALUES (?, ?)"
+    private void storeCommentSeries(int commentID, int seriesID) {
+        try {
+            iCommentSeries.setInt(1, commentID);
+            iCommentSeries.setInt(2, seriesID);
+            iCommentSeries.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // dCommentSeries = "DELETE FROM r_comment_series WHERE ID_comment=? AND ID_Series=?"
+    private void deleteCommentSeries(int commentID, int seriesID) {
+        try {
+            dCommentSeries.setInt(1, commentID);
+            dCommentSeries.setInt(2, seriesID);
+            dCommentSeries.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // ============================================================================================
+    // GenreSeries
+    // ============================================================================================
+    // iGenreSeries = "INSERT INTO r_genre_series (ID_genre , ID_series) VALUES (?, ?)"
+    private void storeGenreSeries(int genreID, int seriesID) {
+        try {
+            iGenreSeries.setInt(1, genreID);
+            iGenreSeries.setInt(2, seriesID);
+            iGenreSeries.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // dGenreSeries = "DELETE FROM r_genre_series WHERE ID_genre=? AND ID_series=?"
+    private void deleteGenreSeries(int genreID, int seriesID) {
+        try {
+            dGenreSeries.setInt(1, genreID);
+            dGenreSeries.setInt(2, seriesID);
+            dGenreSeries.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // ============================================================================================
+    // NewsComment
+    // ============================================================================================
+    // iNewsComment = "INSERT INTO r_news_comment (ID_news , ID_comment) VALUES (?, ?)"
+    private void storeNewsComment(int newsID, int commentID) {
+        try {
+            iNewsComment.setInt(1, newsID);
+            iNewsComment.setInt(2, commentID);
+            iNewsComment.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // dNewsComment = "DELETE FROM r_news_comment WHERE ID_news=? AND ID_comment=?"
+    private void deleteNewsComment(int newsID, int commentID) {
+        try {
+            dNewsComment.setInt(1, newsID);
+            dNewsComment.setInt(2, commentID);
+            dNewsComment.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // ============================================================================================
+    // NewsSeries
+    // ============================================================================================
+    // iNewsSeries = "INSERT INTO r_news_series (ID_news , ID_series) VALUES (?, ?)"
+    private void storeNewsSeries(int newsID, int seriesID) {
+        try {
+            iNewsSeries.setInt(1, newsID);
+            iNewsSeries.setInt(2, seriesID);
+            iNewsSeries.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // dNewsSeries = "DELETE FROM r_news_series WHERE ID_news=? AND ID_series=?"
+    private void deleteNewsSeries(int newsID, int seriesID) {
+        try {
+            dNewsSeries.setInt(1, newsID);
+            dNewsSeries.setInt(2, seriesID);
+            dNewsSeries.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // ============================================================================================
+    // ServiceGroup
+    // ============================================================================================
+    // iServiceGroup = "INSERT INTO r_service_group (ID_service , ID_group) VALUES (?, ?)"
+    private void storeServiceGroup(int serviceID, int groupID) {
+        try {
+            iServiceGroup.setInt(1, serviceID);
+            iServiceGroup.setInt(2, groupID);
+            iServiceGroup.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // dServiceGroup  = "DELETE FROM r_service_group WHERE ID_service=? AND ID_group=?"
+    private void deleteServiceGroup(int serviceID, int groupID) {
+        try {
+            dServiceGroup.setInt(1, serviceID);
+            dServiceGroup.setInt(2, groupID);
+            dServiceGroup.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // ============================================================================================
+    // UserGenre
+    // ============================================================================================
+    // iUserGenre = "INSERT INTO r_user_genre (ID_user , ID_genre) VALUES (?, ?)"
+    private void storeUserGenre(int userID, int genreID) {
+        try {
+            iUserGenre.setInt(1, userID);
+            iUserGenre.setInt(2, genreID);
+            iUserGenre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // dUserGenre  = "DELETE FROM r_user_genre WHERE ID_user=? AND ID_genre=?"
+    private void deleteUserGenre(int userID, int genreID) {
+        try {
+            dUserGenre.setInt(1, userID);
+            dUserGenre.setInt(2, genreID);
+            dUserGenre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
