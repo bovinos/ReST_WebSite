@@ -1344,7 +1344,7 @@ button{
     margin-top: 30px;
     margin-bottom: 30px;
 
-    h1{
+    h1.newstitle{
         text-align: center;
         font-family: Laila;
         color: $turquoise;
@@ -1360,7 +1360,7 @@ button{
         margin-bottom: 20px;
     }
 
-    .imgContainer{
+    .newsImgContainer{
         width: 100%;
         text-align: center;
         position: relative;
@@ -1653,8 +1653,57 @@ button{
     }
 }
 
+/* USER SING UP DATA PAGE
+=============================================================================================== */
+#modifySignUpData{
+    margin-top: 25px;
+    margin-bottom: 10px;
+    text-align: center;
+    @extend #formLogIn;  
 
+    form{
+        border: none;
+        @include boxShadow(0, 0, 0, transparent);
+    }
+}
 
+/* USER OPTIONAL DATA PAGE
+=============================================================================================== */
+#optionalData{
+    @extend #modifySignUpData;
+
+    input[type="radio"]{
+
+        position: absolute;
+        left: -9999px;
+
+        & + label{
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        &:checked + label:before{
+            font-family: 'ElegantIcons';
+            content: '\5c';
+            margin-right: 10px;
+            position: relative;
+            top: 5px;
+            font-size: 2.5rem;
+            color: $turquoise;
+        }
+
+        &:not(:checked) + label:before{
+            font-family: 'ElegantIcons';
+            content: '\5b';
+            margin-right: 10px;
+            position: relative;
+            top: 5px;
+            font-size: 2.5rem;
+            color: $turquoise;
+        }
+    }
+}
 
 
 

@@ -965,7 +965,7 @@ button {
 #newsCard {
   margin-top: 30px;
   margin-bottom: 30px; }
-  #newsCard h1 {
+  #newsCard h1.newstitle {
     text-align: center;
     font-family: Laila;
     color: #1695A3;
@@ -977,13 +977,13 @@ button {
     color: #1695A3;
     font-size: 3rem;
     margin-bottom: 20px; }
-  #newsCard .imgContainer {
+  #newsCard .newsImgContainer {
     width: 100%;
     text-align: center;
     position: relative;
     overflow: hidden;
     margin-bottom: 40px; }
-    #newsCard .imgContainer img {
+    #newsCard .newsImgContainer img {
       max-width: 100%;
       height: auto; }
   #newsCard #newsText {
@@ -1049,15 +1049,15 @@ button {
 
 /* LOGIN
 =============================================================================================== */
-#formLogIn, #formSignUp {
+#formLogIn, #formSignUp, #modifySignUpData, #optionalData {
   background-color: #FFFFFF;
   height: 100%;
   text-align: center; }
-  #formLogIn .row, #formSignUp .row {
+  #formLogIn .row, #formSignUp .row, #modifySignUpData .row, #optionalData .row {
     margin-bottom: 15px; }
-    #formLogIn .row:last-of-type, #formSignUp .row:last-of-type {
+    #formLogIn .row:last-of-type, #formSignUp .row:last-of-type, #modifySignUpData .row:last-of-type, #optionalData .row:last-of-type {
       margin-bottom: 10px; }
-  #formLogIn form, #formSignUp form {
+  #formLogIn form, #formSignUp form, #modifySignUpData form, #optionalData form {
     display: inline-block;
     padding: 30px 50px;
     vertical-align: middle;
@@ -1069,11 +1069,11 @@ button {
     -moz-box-shadow: 0 0 10px #1695A3;
     box-shadow: 0 0 10px #1695A3;
     text-align: right; }
-    #formLogIn form label, #formSignUp form label {
+    #formLogIn form label, #formSignUp form label, #modifySignUpData form label, #optionalData form label {
       font-size: 1.5rem;
       margin-right: 10px;
       color: #1695A3; }
-    #formLogIn form input, #formSignUp form input {
+    #formLogIn form input, #formSignUp form input, #modifySignUpData form input, #optionalData form input {
       border: 1px solid #1695A3;
       outline: none;
       font-size: 1.5rem;
@@ -1082,7 +1082,7 @@ button {
       -webkit-border-radius: 4px;
       -moz-border-radius: 4px;
       padding: 3px 5px; }
-    #formLogIn form button, #formSignUp form button {
+    #formLogIn form button, #formSignUp form button, #modifySignUpData form button, #optionalData form button {
       margin-top: 30px;
       background-color: #1695A3;
       width: 100%;
@@ -1094,9 +1094,9 @@ button {
       transition: background-color 0.3s ease-in-out;
       -webkit-transition: background-color 0.3s ease-in-out;
       -moz-transition: background-color 0.3s ease-in-out; }
-      #formLogIn form button:hover, #formSignUp form button:hover {
+      #formLogIn form button:hover, #formSignUp form button:hover, #modifySignUpData form button:hover, #optionalData form button:hover {
         background-color: #EB7F00; }
-    #formLogIn form #signUp, #formSignUp form #signUp {
+    #formLogIn form #signUp, #formSignUp form #signUp, #modifySignUpData form #signUp, #optionalData form #signUp {
       margin-top: 10px; }
 
 /* SIGNUP
@@ -1173,5 +1173,43 @@ button {
           transition: color 0.3s ease-in-out;
           -webkit-transition: color 0.3s ease-in-out;
           -moz-transition: color 0.3s ease-in-out; }
+
+/* USER SING UP DATA PAGE
+=============================================================================================== */
+#modifySignUpData, #optionalData {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  text-align: center; }
+  #modifySignUpData form, #optionalData form {
+    border: none;
+    -webkit-box-shadow: 0 0 0 transparent;
+    -moz-box-shadow: 0 0 0 transparent;
+    box-shadow: 0 0 0 transparent; }
+
+/* USER OPTIONAL DATA PAGE
+=============================================================================================== */
+#optionalData input[type="radio"] {
+  position: absolute;
+  left: -9999px; }
+  #optionalData input[type="radio"] + label {
+    position: relative;
+    cursor: pointer;
+    font-size: 1.5rem; }
+  #optionalData input[type="radio"]:checked + label:before {
+    font-family: 'ElegantIcons';
+    content: '\5c';
+    margin-right: 10px;
+    position: relative;
+    top: 5px;
+    font-size: 2.5rem;
+    color: #1695A3; }
+  #optionalData input[type="radio"]:not(:checked) + label:before {
+    font-family: 'ElegantIcons';
+    content: '\5b';
+    margin-right: 10px;
+    position: relative;
+    top: 5px;
+    font-size: 2.5rem;
+    color: #1695A3; }
 
 /*# sourceMappingURL=provando_SASS.css.map */
