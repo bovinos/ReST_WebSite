@@ -27,6 +27,15 @@
 
     <p id="seriesDescription">${strip_slashes(series.description)?html}</p>
 
+    <h2>Generi</h2>
+    <#if (series.genres?size > 0)>
+    <ul>
+        <#list series.genres as g>
+        <li>${strip_slashes(g.name)?html}</li>
+        </#list>
+    </ul>
+    </#if>
+
     <!-- Controllo se esistono stagioni per questa serie -->
     <#if (seasons?size > 0)>
     <div id="seasonList" class="accordion">

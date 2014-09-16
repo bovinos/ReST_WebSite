@@ -102,7 +102,7 @@ public class NewsList extends RESTBaseController {
         //Filtro tra "Le Mie Serie"
         // se la sessione non è attiva, cioè non c'è un utente loggato, è impossibile filtrare per le serie preferite
         try {
-            if (user != null && SecurityLayer.checkNumeric(request.getParameter("fmys")) == 1) {
+            if (user != null && request.getParameter("fmys") != null && SecurityLayer.checkNumeric(request.getParameter("fmys")) == 1) {
                 List<News> filteredNews = new ArrayList();
                 List<Series> usersSeries = user.getSeries();
                 for (News n : newsList) {
@@ -115,7 +115,7 @@ public class NewsList extends RESTBaseController {
                 newsList = filteredNews;
             }
         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            action_error(request, response, "Field Error X");
         }
 
         // Filtro per data
