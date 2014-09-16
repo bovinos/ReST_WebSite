@@ -42,21 +42,6 @@ public class MyProfile extends RESTBaseController {
         }
     }
 
-    //Attiva il template delle cerchie
-    private void action_activate_ProfileUserCircles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        TemplateResult result = new TemplateResult(getServletContext());
-        if (SecurityLayer.checkSession(request) == null) {
-            result.activate("logIn.ftl.html", request, response);
-        }
-        try{
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
-        request.setAttribute("userProfileContent_tpl", "userCircles.ftl.html");
-        result.activate("userProfile/userProfileOutline.ftl.html", request, response);
-         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
-        }
-    }
 
     // attiva il template "le mie serie"
     private void action_activate_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -114,6 +99,7 @@ public class MyProfile extends RESTBaseController {
 
     private void action_delete_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
+
         User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
         getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
@@ -151,13 +137,6 @@ public class MyProfile extends RESTBaseController {
                 }
                 break;
             case 2:
-                try {
-                    action_activate_ProfileUserCircles(request, response);
-                } catch (IOException ex) {
-                    action_error(request, response, ex.getMessage());
-                }
-                break;
-            case 3:
                 try {
                     action_activate_ProfileUserBroadcastProgramming(request, response);
                 } catch (IOException ex) {
