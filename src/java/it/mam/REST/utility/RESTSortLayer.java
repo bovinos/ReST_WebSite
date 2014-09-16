@@ -26,7 +26,7 @@ public class RESTSortLayer {
         seriesList.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
-                return (getMediumRating((Series) o1) > getMediumRating((Series) o2) ? 1
+                return (getMediumRating((Series) o1) < getMediumRating((Series) o2) ? 1
                         : getMediumRating((Series) o1) == getMediumRating((Series) o2) ? 0 : -1);
             }
         });
@@ -63,6 +63,7 @@ public class RESTSortLayer {
             ratingsum += Integer.parseInt(us.getRating());
             count++;
         }
+        if(count == 0) return 0;
         return Math.floorDiv(ratingsum, count);
     }
 
