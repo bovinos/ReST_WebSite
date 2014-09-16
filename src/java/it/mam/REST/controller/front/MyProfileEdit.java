@@ -66,6 +66,7 @@ public class MyProfileEdit extends RESTBaseController {
             user.setPassword(Utility.stringToMD5(Utility.stringToMD5(request.getParameter("newpassword"))));
         }
         getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
+        response.sendRedirect("ModificaProfiloPersonale?sezione=1");
     }
 
     private void action_activate_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -120,7 +121,7 @@ public class MyProfileEdit extends RESTBaseController {
         }
 
         getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
-        response.sendRedirect("ProfiloPersonaleDatiUtente");
+        response.sendRedirect("ModificaProfiloPersonale?sezione=2");
 
     }
 
@@ -159,7 +160,7 @@ public class MyProfileEdit extends RESTBaseController {
             us.setAnticipationNotification(SecurityLayer.checkDate(request.getParameter("anticipation")).getTime());
             getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
         }
-
+        response.sendRedirect("ModificaProfiloPersonale?sezione=3");
     }
 
     @Override
