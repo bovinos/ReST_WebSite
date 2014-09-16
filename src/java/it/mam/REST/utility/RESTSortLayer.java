@@ -63,7 +63,9 @@ public class RESTSortLayer {
             ratingsum += Integer.parseInt(us.getRating());
             count++;
         }
-        if(count == 0) return 0;
+        if (count == 0) {
+            return 0;
+        }
         return Math.floorDiv(ratingsum, count);
     }
 
@@ -72,7 +74,7 @@ public class RESTSortLayer {
         newsList.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
-                return ((News) o1).getComments().size() > ((News) o2).getComments().size() ? 1 : ((News) o1).getComments().size() == ((News) o2).getComments().size() ? 0 : -1;
+                return ((News) o1).getComments().size() < ((News) o2).getComments().size() ? 1 : ((News) o1).getComments().size() == ((News) o2).getComments().size() ? 0 : -1;
             }
         });
     }
@@ -81,7 +83,7 @@ public class RESTSortLayer {
         newsList.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
-                return ((News) o1).getLikes() > ((News) o2).getLikes() ? 1 : ((News) o1).getLikes() == ((News) o2).getLikes() ? 0 : -1;
+                return ((News) o1).getLikes() < ((News) o2).getLikes() ? 1 : ((News) o1).getLikes() == ((News) o2).getLikes() ? 0 : -1;
             }
         });
     }
@@ -90,7 +92,7 @@ public class RESTSortLayer {
         newsList.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
-                return ((News) o1).getDate().compareTo(((News) o1).getDate());
+                return ((News) o2).getDate().compareTo(((News) o1).getDate());
             }
         });
     }
