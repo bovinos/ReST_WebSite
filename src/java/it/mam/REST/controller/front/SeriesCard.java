@@ -136,6 +136,7 @@ public class SeriesCard extends RESTBaseController {
         try{
         TemplateResult result = new TemplateResult(getServletContext());
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
+        if(checkSeriesCommentInputData(request, response)){
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
         Calendar c = Calendar.getInstance();
@@ -149,6 +150,9 @@ public class SeriesCard extends RESTBaseController {
         comment.setSeries(series);
         getDataLayer().storeComment(comment);
         response.sendRedirect("SchedaSerie?id=" + series.getID());
+        } else {
+            action_error(request, response, "Inserisci i campi obbligatori!");
+        }
         }catch (NumberFormatException ex){
             action_error(request, response, "Field Error");
         }
@@ -195,7 +199,11 @@ public class SeriesCard extends RESTBaseController {
             }
         }
     }
-
+private boolean checkSeriesCommentInputData(HttpServletRequest request, HttpServletResponse response){
+        return request.getParameter("commentTitle") != null && request.getParameter("commentTitle").length() > 0
+                && request.getParameter("commentText") != null && request.getParameter("commentText").length() > 0;
+    }
+    
     @Override
     public String getServletInfo() {
         return "Short description";

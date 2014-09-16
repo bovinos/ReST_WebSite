@@ -50,6 +50,7 @@ public class NewsCard extends RESTBaseController{
         try{
         TemplateResult result = new TemplateResult(getServletContext());
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
+        if(checkNewsCommentInputData(request, response)){
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         News news = getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("nid")));
         Calendar c = Calendar.getInstance();
@@ -63,6 +64,7 @@ public class NewsCard extends RESTBaseController{
         comment.setNews(news);
         getDataLayer().storeComment(comment);
         response.sendRedirect("SchedaNews?id=" + news.getID());
+        } else action_error(request, response, "Inserisci i campi obbligatori!");
         }catch (NumberFormatException ex){
             action_error(request, response, "Field Error");
         }
@@ -84,7 +86,10 @@ public class NewsCard extends RESTBaseController{
         }
         }
     }
-
+private boolean checkNewsCommentInputData(HttpServletRequest request, HttpServletResponse response){
+        return request.getParameter("commentTitle") != null && request.getParameter("commentTitle").length() > 0
+                && request.getParameter("commentText") != null && request.getParameter("commentText").length() > 0;
+    }
     @Override
     public String getServletInfo() {
         return "Short description";
