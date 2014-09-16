@@ -4,6 +4,7 @@ import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.UserSeries;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,6 +12,11 @@ import java.util.List;
  * @author Mirko
  */
 public class RESTSortLayer {
+
+    public static final long SECOND_IN_MILLISECONS = 1000;
+    public static final long MINUTE_IN_MILLISECONS = 60 * RESTSortLayer.SECOND_IN_MILLISECONS;
+    public static final long HOUR_IN_MILLISECONS = 60 * RESTSortLayer.MINUTE_IN_MILLISECONS;
+    public static final long DAY_IN_MILLISECONDS = 24 * RESTSortLayer.HOUR_IN_MILLISECONS;
 
     public static List<Series> sortSeriesByName(List<Series> seriesList) {
         seriesList.sort(new Comparator() {
@@ -55,6 +61,32 @@ public class RESTSortLayer {
         return seriesList;
     }
 
+    public static List<Series> trendify(List<Series> seriesList) {
+        Date comparisonDate = new Date();
+        comparisonDate.setTime(comparisonDate.getTime() - (RESTSortLayer.DAY_IN_MILLISECONDS * 30));
+        seriesList.sort(new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                Series s1 = (Series) o1;
+                int s1TrendyIndex = 0;
+                Series s2 = (Series) o2;
+                int s2TrendyIndex = 0;
+                for (UserSeries us : s1.getUserSeries()) {
+                    if (us.getAddDate().after(comparisonDate)) {
+                        s1TrendyIndex++;
+                    }
+                }
+                for (UserSeries us : s2.getUserSeries()) {
+                    if (us.getAddDate().after(comparisonDate)) {
+                        s2TrendyIndex++;
+                    }
+                }
+                return s1TrendyIndex < s2TrendyIndex ? 1 : s1TrendyIndex == s2TrendyIndex ? 0 : -1;
+            }
+        });
+        return seriesList;
+    }
+
     private static int getMediumRating(Series s) {
         List<UserSeries> usList = s.getUserSeries();
         int count = 0;
@@ -70,30 +102,33 @@ public class RESTSortLayer {
     }
 
     // NEWS
-    public static void sortNewsByNumberOfComments(List<News> newsList) {
+    public static List<News> sortNewsByNumberOfComments(List<News> newsList) {
         newsList.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
                 return ((News) o1).getComments().size() < ((News) o2).getComments().size() ? 1 : ((News) o1).getComments().size() == ((News) o2).getComments().size() ? 0 : -1;
             }
         });
+        return newsList;
     }
 
-    public static void sortNewsByNumberOfLike(List<News> newsList) {
+    public static List<News> sortNewsByNumberOfLike(List<News> newsList) {
         newsList.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
                 return ((News) o1).getLikes() < ((News) o2).getLikes() ? 1 : ((News) o1).getLikes() == ((News) o2).getLikes() ? 0 : -1;
             }
         });
+        return newsList;
     }
 
-    public static void sortNewsByDate(List<News> newsList) {
+    public static List<News> sortNewsByDate(List<News> newsList) {
         newsList.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
                 return ((News) o2).getDate().compareTo(((News) o1).getDate());
             }
         });
+        return newsList;
     }
 }
