@@ -971,6 +971,12 @@ button {
     color: #1695A3;
     font-size: 4rem;
     margin-bottom: 20px; }
+  #newsCard h2 {
+    text-align: center;
+    font-family: Laila;
+    color: #1695A3;
+    font-size: 3rem;
+    margin-bottom: 20px; }
   #newsCard .imgContainer {
     width: 100%;
     text-align: center;

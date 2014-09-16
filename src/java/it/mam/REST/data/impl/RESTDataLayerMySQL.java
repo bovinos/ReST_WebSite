@@ -794,7 +794,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 // uComment = "UPDATE e_comment SET title=?, text=?, date=?, likes=?, dislikes=?, ID_user=? WHERE ID=?"
                 uComment.setString(1, comment.getTitle());
                 uComment.setString(2, comment.getText());
-                uComment.setDate(3, new java.sql.Date(comment.getDate().getTime()));
+                uComment.setTimestamp(3, new java.sql.Timestamp(comment.getDate().getTime()));
                 uComment.setInt(4, comment.getLikes());
                 uComment.setInt(5, comment.getDislikes());
                 if (comment.getUser() != null) {
@@ -807,7 +807,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             } else { // Insert
                 iComment.setString(1, comment.getTitle());
                 iComment.setString(2, comment.getText());
-                iComment.setDate(3, new java.sql.Date(comment.getDate().getTime()));
+                iComment.setTimestamp(3, new java.sql.Timestamp(comment.getDate().getTime()));
                 iComment.setInt(4, comment.getLikes());
                 iComment.setInt(5, comment.getDislikes());
                 if (comment.getUser() != null) {
