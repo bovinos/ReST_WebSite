@@ -115,7 +115,7 @@ public class NewsList extends RESTBaseController {
                 newsList = filteredNews;
             }
         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error X");
+            action_error(request, response, "Field Error");
         }
 
         // Filtro per data
