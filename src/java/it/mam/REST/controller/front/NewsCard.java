@@ -34,8 +34,6 @@ public class NewsCard extends RESTBaseController{
         //Controllo che la sessione attuale sia ancora valida
         if (SecurityLayer.checkSession(request) != null){
             try{
-        String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
-        request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
          } catch (NumberFormatException ex) {

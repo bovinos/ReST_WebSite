@@ -57,9 +57,6 @@ public class SeriesCard extends RESTBaseController {
 
             //Controllo la sessione e creo l'utente
             if (SecurityLayer.checkSession(request) != null) {
-
-                String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
-                request.setAttribute("sessionUsername", username);
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
 
@@ -82,7 +79,7 @@ public class SeriesCard extends RESTBaseController {
             result.activate("logIn.ftl.html", request, response);
         }
         try {
-            User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+            User user = getDataLayer().getUser((SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString())));
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("a")));
             UserSeries us = getDataLayer().createUserSeries();
             us.setUser(user);
@@ -136,9 +133,10 @@ public class SeriesCard extends RESTBaseController {
     }
     
     private void action_comment_series (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try{
         TemplateResult result = new TemplateResult(getServletContext());
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((String)(request.getSession().getAttribute("userid"))));
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
         Calendar c = Calendar.getInstance();
         String title = request.getParameter("commentTitle");
@@ -150,7 +148,10 @@ public class SeriesCard extends RESTBaseController {
         comment.setDate(c.getTime());
         comment.setSeries(series);
         getDataLayer().storeComment(comment);
-        response.sendRedirect("SchedaSerie?id=" + series.getID());;
+        response.sendRedirect("SchedaSerie?id=" + series.getID());
+        }catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
     }
 
     @Override

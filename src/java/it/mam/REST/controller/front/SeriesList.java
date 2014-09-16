@@ -40,8 +40,6 @@ public class SeriesList extends RESTBaseController {
         //Controllo la sessione e creo l'utente
         try{
         if (SecurityLayer.checkSession(request) != null) {
-            String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
-            request.setAttribute("sessionUsername", username);
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
         }

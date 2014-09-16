@@ -32,8 +32,6 @@ public class SeriesCircle extends RESTBaseController {
         request.setAttribute("series", getDataLayer().getSeries(id_series));
         //Controllo che la sessione attuale sia ancora valida
         if (SecurityLayer.checkSession(request) != null){
-        String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
-        request.setAttribute("sessionUsername", username);
         try {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
