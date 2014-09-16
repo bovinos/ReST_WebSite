@@ -11,6 +11,7 @@ import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,12 +39,12 @@ public class NewsList extends RESTBaseController {
         if (SecurityLayer.checkSession(request) != null) {
             String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
             request.setAttribute("sessionUsername", username);
-            try{
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            request.setAttribute("user", user);
-             } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
-        }
+            try {
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                request.setAttribute("user", user);
+            } catch (NumberFormatException ex) {
+                action_error(request, response, "Field Error");
+            }
         }
         result.activate("newsList.ftl.html", request, response);
     }
@@ -57,12 +58,12 @@ public class NewsList extends RESTBaseController {
         if (SecurityLayer.checkSession(request) != null) {
             String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
             request.setAttribute("sessionUsername", username);
-            try{
-            user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            request.setAttribute("user", user);
-             } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
-        }
+            try {
+                user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                request.setAttribute("user", user);
+            } catch (NumberFormatException ex) {
+                action_error(request, response, "Field Error");
+            }
         }
 
         List<News> newsList = getDataLayer().getNews();
@@ -81,37 +82,61 @@ public class NewsList extends RESTBaseController {
         //Filtro per serie
         if (request.getParameter("fs") != null && SecurityLayer.checkNumeric(request.getParameter("fs")) != 0) {
             List<News> filteredNews = new ArrayList();
-            try{
-            Series selectedSeries = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("fs")));
-            for (News n : newsList) {
-                if (n.getSeries().contains(selectedSeries)) {
-                    filteredNews.add(n);
+            try {
+                Series selectedSeries = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("fs")));
+                for (News n : newsList) {
+                    if (n.getSeries().contains(selectedSeries)) {
+                        filteredNews.add(n);
+                    }
                 }
+                newsList = filteredNews;
+            } catch (NumberFormatException ex) {
+                action_error(request, response, "Field Error");
             }
-            newsList = filteredNews;
-             } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
-        }
         }
 
         //Filtro tra "Le Mie Serie"
         // se la sessione non è attiva, cioè non c'è un utente loggato, è impossibile filtrare per le serie preferite
-        try{
-        if (user != null && SecurityLayer.checkNumeric(request.getParameter("fmys")) == 1) {
-            List<News> filteredNews = new ArrayList();
-            List<Series> usersSeries = user.getSeries();
-            for (News n : newsList) {
-                for (Series s : usersSeries) {
-                    if (n.getSeries().contains(s)) {
-                        filteredNews.add(n);
+        try {
+            if (user != null && SecurityLayer.checkNumeric(request.getParameter("fmys")) == 1) {
+                List<News> filteredNews = new ArrayList();
+                List<Series> usersSeries = user.getSeries();
+                for (News n : newsList) {
+                    for (Series s : usersSeries) {
+                        if (n.getSeries().contains(s)) {
+                            filteredNews.add(n);
+                        }
                     }
                 }
+                newsList = filteredNews;
             }
-            newsList = filteredNews;
-        }
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
+
+        // Filtro per data
+        /**
+         * < Il filtro per data come deve funzionare di preciso? xD >
+         */
+        if (request.getParameter("fd") != null && !request.getParameter("fd").trim().isEmpty()) {
+            List<News> filteredNews = new ArrayList();
+            try {
+                Calendar c = SecurityLayer.checkDate(request.getParameter("fd").trim());
+                for (News n : newsList) {
+                    Calendar currentNewsDate = Calendar.getInstance();
+                    currentNewsDate.setTime(n.getDate());
+                    if (currentNewsDate.get(Calendar.YEAR) == c.get(Calendar.YEAR)
+                            && currentNewsDate.get(Calendar.MONTH) == c.get(Calendar.MONTH)
+                            && currentNewsDate.get(Calendar.DAY_OF_MONTH) == c.get(Calendar.DAY_OF_MONTH)) {
+                        filteredNews.add(n);
+                    }
+                }
+            } catch (NumberFormatException ex) {
+                action_error(request, response, "Field Error");
+            }
+            newsList = filteredNews;
+        }
+
         //ordinamenti
         if (request.getParameter("o") != null) {
             int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
@@ -121,6 +146,9 @@ public class NewsList extends RESTBaseController {
                     break;
                 case 2:
                     RESTSortLayer.sortNewsByNumberOfLike(newsList);
+                    break;
+                case 3:
+                    RESTSortLayer.sortNewsByDate(newsList);
                     break;
                 default:
                     action_error(request, response, "Internal Error");

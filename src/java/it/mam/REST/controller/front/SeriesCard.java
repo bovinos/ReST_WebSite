@@ -2,6 +2,7 @@ package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Episode;
+import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.Season;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
@@ -36,37 +37,37 @@ public class SeriesCard extends RESTBaseController {
 
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        try{
-        Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
-        request.setAttribute("series", s);
-        
-        List<Season> seasonList = new ArrayList();
-        List<Episode> episodeList = s.getEpisodes();
-        Season sn = null;
-        for (Episode e : episodeList) {
-            if (sn == null || sn.getNumber() != e.getSeason()) {
-                sn = new Season(e.getSeason(), new ArrayList());
-                seasonList.add(sn);
+        try {
+            Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
+            request.setAttribute("series", s);
+
+            List<Season> seasonList = new ArrayList();
+            List<Episode> episodeList = s.getEpisodes();
+            Season sn = null;
+            for (Episode e : episodeList) {
+                if (sn == null || sn.getNumber() != e.getSeason()) {
+                    sn = new Season(e.getSeason(), new ArrayList());
+                    seasonList.add(sn);
+                }
+                sn.getEpisodes().add(e);
             }
-            sn.getEpisodes().add(e);
-        }
-        request.setAttribute("seasons", seasonList);
-        
-        //Controllo la sessione e creo l'utente
-        if (SecurityLayer.checkSession(request) != null) {
+            request.setAttribute("seasons", seasonList);
 
-            String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
-            request.setAttribute("sessionUsername", username);
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            request.setAttribute("user", user);
+            //Controllo la sessione e creo l'utente
+            if (SecurityLayer.checkSession(request) != null) {
 
-            //Vedo se la serie è già fra i preferiti dell'utente attuale
-            boolean favourite;
-            UserSeries us = getDataLayer().getUserSeries(user, s);
-            favourite = (us != null);
-            request.setAttribute("favourite", favourite);
-        }
-         } catch (NumberFormatException ex) {
+                String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
+                request.setAttribute("sessionUsername", username);
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                request.setAttribute("user", user);
+
+                //Vedo se la serie è già fra i preferiti dell'utente attuale
+                boolean favourite;
+                UserSeries us = getDataLayer().getUserSeries(user, s);
+                favourite = (us != null);
+                request.setAttribute("favourite", favourite);
+            }
+        } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
         result.activate("seriesCard.ftl.html", request, response);
@@ -75,26 +76,54 @@ public class SeriesCard extends RESTBaseController {
 
     private void action_addSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
-        if (SecurityLayer.checkSession(request) == null) result.activate("logIn.ftl.html", request, response);
-        try{
-        User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
-        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("a")));
-        UserSeries us = getDataLayer().createUserSeries();
-        us.setUser(user);
-        us.setSeries(series);
-        getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-        response.sendRedirect("SchedaSerie?id=" + series.getID());
+        if (SecurityLayer.checkSession(request) == null) {
+            result.activate("logIn.ftl.html", request, response);
+        }
+        try {
+            User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("a")));
+            UserSeries us = getDataLayer().createUserSeries();
+            us.setUser(user);
+            us.setSeries(series);
+            getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+            response.sendRedirect("SchedaSerie?id=" + series.getID());
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
     }
 
     private void action_removeSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try{
-        User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
-        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
-        getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
-        response.sendRedirect("SchedaSerie?id=" + series.getID());
+        try {
+            User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
+            getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
+            response.sendRedirect("SchedaSerie?id=" + series.getID());
+        } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
+    }
+
+    private void action_go_to_series_news(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            // è come se nella schermata della lista delle news avessero deciso di filtrare per la serie x => fs=ID di x
+            // e poi avessero cliccato il bottone per filtrare => s=1
+            response.sendRedirect("ListaNews?s=1&fs=" + SecurityLayer.checkNumeric(request.getParameter("n")));
+        } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
+        }
+    }
+
+    private void action_find_similar_series(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("g")));
+            String location = "";
+            // delle serie sono simili se hanno in comune tutti i generi
+            for (Genre g : s.getGenres()) {
+                location += "fg=" + g.getID() + "&";
+            }
+            // è come se nella schermata della lista delle serie l'utente ha cliccato su tutti i generi di questa serie fg=genreID&fg=genreID...
+            // e poi ha cliccato sul bottone per filtrare s=1
+            response.sendRedirect("ListaSerie?" + location + "s=1");
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
@@ -112,6 +141,18 @@ public class SeriesCard extends RESTBaseController {
         } else if (request.getParameter("d") != null) {
             try {
                 action_removeSeries(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
+        } else if (request.getParameter("n") != null) {
+            try {
+                action_go_to_series_news(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
+        } else if (request.getParameter("g") != null) {
+            try {
+                action_find_similar_series(request, response);
             } catch (IOException ex) {
                 action_error(request, response, ex.getMessage());
             }

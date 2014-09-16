@@ -84,4 +84,13 @@ public class RESTSortLayer {
             }
         });
     }
+
+    public static void sortNewsByDate(List<News> newsList) {
+        newsList.sort(new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                return ((News) o1).getDate().compareTo(((News) o1).getDate());
+            }
+        });
+    }
 }
