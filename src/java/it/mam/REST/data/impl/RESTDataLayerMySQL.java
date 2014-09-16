@@ -807,7 +807,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             } else { // Insert
                 iComment.setString(1, comment.getTitle());
                 iComment.setString(2, comment.getText());
-                iComment.setDate(3, null);
+                iComment.setDate(3, new java.sql.Date(comment.getDate().getTime()));
                 iComment.setInt(4, comment.getLikes());
                 iComment.setInt(5, comment.getDislikes());
                 if (comment.getUser() != null) {

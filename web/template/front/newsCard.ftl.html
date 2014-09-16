@@ -27,10 +27,13 @@
         </div>
     </div>
 
+    <h2>Commenti</h2>
 </div>
+
 
 <!-- COMMENTI 
 ============================================================================================== -->
+
 <!-- Controllo se esistono Commenti per questa serie -->
 <#if (news.comments?size > 0)>
 <div id="commentsList">
@@ -73,10 +76,10 @@
 </div>
 </#if> <!-- FINE STAMPA DEI COMMENTI -->
 
+
 <!-- INSERISCI IL TUO COMMENTO
 ============================================================================================== -->
 <div class="insertAComment">
-    <h1>Commenta la news</h1>
     <form action="SchedaNews" method="POST" id="newsCommentForm" class="commentForm row">
         <input type="hidden" name="nid" value="${news.ID}"/>
         <input name="commentTitle" type="text" id="newsCommentTitle" class="titleCommentForm row" maxlength="60" placeholder="Titolo commento" required="required">
@@ -84,3 +87,4 @@
         <button type="submit" name="ncs" value="1">Commenta</button>
     </form>
 </div>
+
