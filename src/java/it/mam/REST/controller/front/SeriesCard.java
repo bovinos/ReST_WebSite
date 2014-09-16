@@ -1,6 +1,7 @@
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.Comment;
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.Season;
@@ -14,6 +15,7 @@ import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -55,9 +57,6 @@ public class SeriesCard extends RESTBaseController {
 
             //Controllo la sessione e creo l'utente
             if (SecurityLayer.checkSession(request) != null) {
-
-                String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
-                request.setAttribute("sessionUsername", username);
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
 
@@ -80,12 +79,14 @@ public class SeriesCard extends RESTBaseController {
             result.activate("logIn.ftl.html", request, response);
         }
         try {
-            User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+            User user = getDataLayer().getUser((SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString())));
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("a")));
             UserSeries us = getDataLayer().createUserSeries();
             us.setUser(user);
             us.setSeries(series);
             getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+            series.setAddCount((series.getAddCount())+1);
+            getDataLayer().storeSeries(series);
             response.sendRedirect("SchedaSerie?id=" + series.getID());
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
@@ -97,6 +98,8 @@ public class SeriesCard extends RESTBaseController {
             User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
             getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
+            series.setAddCount((series.getAddCount())-1);
+            getDataLayer().storeSeries(series);
             response.sendRedirect("SchedaSerie?id=" + series.getID());
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
@@ -128,6 +131,32 @@ public class SeriesCard extends RESTBaseController {
             action_error(request, response, "Field Error");
         }
     }
+    
+    private void action_comment_series (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
+        if(checkSeriesCommentInputData(request, response)){
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
+        Calendar c = Calendar.getInstance();
+        String title = request.getParameter("commentTitle");
+        String text = request.getParameter("commentText");
+        Comment comment = getDataLayer().createComment();
+        comment.setTitle(title);
+        comment.setText(text);
+        comment.setUser(user);
+        comment.setDate(c.getTime());
+        comment.setSeries(series);
+        getDataLayer().storeComment(comment);
+        response.sendRedirect("SchedaSerie?id=" + series.getID());
+        } else {
+            action_error(request, response, "Inserisci i campi obbligatori!");
+        }
+        }catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
+    }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
@@ -156,6 +185,12 @@ public class SeriesCard extends RESTBaseController {
             } catch (IOException ex) {
                 action_error(request, response, ex.getMessage());
             }
+        } else if (request.getParameter("scs") != null) {
+            try {
+                action_comment_series(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
         } else {
             try {
                 action_series_info(request, response);
@@ -164,7 +199,11 @@ public class SeriesCard extends RESTBaseController {
             }
         }
     }
-
+private boolean checkSeriesCommentInputData(HttpServletRequest request, HttpServletResponse response){
+        return request.getParameter("commentTitle") != null && request.getParameter("commentTitle").length() > 0
+                && request.getParameter("commentText") != null && request.getParameter("commentText").length() > 0;
+    }
+    
     @Override
     public String getServletInfo() {
         return "Short description";

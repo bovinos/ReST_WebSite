@@ -37,14 +37,12 @@ public class SeriesList extends RESTBaseController {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("series", getDataLayer().getSeries());
         //Controllo la sessione e creo l'utente
-        try {
-            if (SecurityLayer.checkSession(request) != null) {
-                String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
-                request.setAttribute("sessionUsername", username);
-                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-                request.setAttribute("user", user);
-            }
-        } catch (NumberFormatException ex) {
+        try{
+        if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            request.setAttribute("user", user);
+        }
+         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
         request.setAttribute("genres", getDataLayer().getGenres());

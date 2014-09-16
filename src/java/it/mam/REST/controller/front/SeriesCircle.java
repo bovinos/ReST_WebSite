@@ -1,12 +1,15 @@
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.Message;
+import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,15 +28,12 @@ public class SeriesCircle extends RESTBaseController {
     }
 
     // prende tutti i messaggi di una determinata serie e li passa al template seriesCircle.ftl
-    private void action_series_messages(HttpServletRequest request, HttpServletResponse response, int id_series) throws ServletException, IOException {
-
+    private void action_activate_circle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        request.setAttribute("series", getDataLayer().getSeries(id_series));
+        request.setAttribute("series", getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id"))));
         //Controllo che la sessione attuale sia ancora valida
         if (SecurityLayer.checkSession(request) != null){
-        String username = SecurityLayer.addSlashes((String)request.getSession().getAttribute("username"));
-        request.setAttribute("sessionUsername", username);
         try {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
@@ -44,17 +44,42 @@ public class SeriesCircle extends RESTBaseController {
         result.activate("seriesCircle.ftl.html", request, response);
     }
 
+    private void action_message_circle (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
+        Calendar c = Calendar.getInstance();
+        String title = request.getParameter("messageTitle");
+        String text = request.getParameter("messageText");
+        Message message = getDataLayer().createMessage();
+        message.setTitle(title);
+        message.setText(text);
+        message.setUser(user);
+        message.setDate(c.getTime());
+        message.setSeries(series);
+        getDataLayer().storeMessage(message);
+        response.sendRedirect("CerchiaSerie?id=" + series.getID());
+        }catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
+    }
+    
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-
-        int id_series;
-        try {
-            id_series = SecurityLayer.checkNumeric(request.getParameter("id"));
-            action_series_messages(request, response, id_series);
+        if(request.getParameter("scms") != null){
+       try {
+            action_message_circle(request, response);
         } catch (IOException ex) {
             action_error(request, response, ex.getMessage());
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+    }  
+        }else {
+        try {
+            action_activate_circle(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+    }
         }
     }
 

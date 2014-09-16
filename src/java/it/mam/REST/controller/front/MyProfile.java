@@ -33,8 +33,6 @@ public class MyProfile extends RESTBaseController {
             result.activate("logIn.ftl.html", request, response);
         }
         try{
-        String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
-        request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
         request.setAttribute("userProfileContent_tpl", "userBroadcastProgramming.ftl.html");
@@ -51,8 +49,6 @@ public class MyProfile extends RESTBaseController {
             result.activate("logIn.ftl.html", request, response);
         }
         try{
-        String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
-        request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
         request.setAttribute("userProfileContent_tpl", "userCircles.ftl.html");
@@ -69,8 +65,6 @@ public class MyProfile extends RESTBaseController {
             result.activate("logIn.ftl.html", request, response);
         }
         try{
-        String username = SecurityLayer.addSlashes((String) request.getSession().getAttribute("username"));
-        request.setAttribute("sessionUsername", username);
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
         request.setAttribute("userProfileContent_tpl", "userSeries.ftl.html");
