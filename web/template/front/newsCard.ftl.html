@@ -72,3 +72,14 @@
     <p>Purtroppo questa News non ha ancora commenti.</p>
 </div>
 </#if> <!-- FINE STAMPA DEI COMMENTI -->
+
+<!-- INSERISCI IL TUO COMMENTO
+============================================================================================== -->
+<#if user??>
+<form action="SchedaNews" method="POST" id="newsCommentForm" class="commentForm row">
+    <input type="hidden" name="nid" value="${news.ID}"/>
+    <input name="commentTitle" type="text" id="newsCommentTitle" class="titleCommentForm row" maxlength="60" placeholder="Titolo commento" required="required">
+    <textarea name="commentText" id="newsCommentText" class="textCommentForm row" rows="10" placeholder="Inserisci qui il tuo commento..." required="required" ></textarea>
+    <button type="submit" name="ncs" value="1">Commenta</button>
+</form>
+</#if>
