@@ -1,15 +1,21 @@
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.ChannelEpisode;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
+import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +42,25 @@ public class MyProfile extends RESTBaseController {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
         request.setAttribute("userProfileContent_tpl", "userBroadcastProgramming.ftl.html");
+        Calendar IterationCalendar = Calendar.getInstance();
+        Calendar EpisodeCalendar = Calendar.getInstance();
+        List<List<ChannelEpisode>> days = new ArrayList();
+        List<ChannelEpisode> ceList = getDataLayer().getChannelEpisode();
+        List<ChannelEpisode> ceResult = new ArrayList();
+        for(int i = 0; i < 7; i++){
+          IterationCalendar.clear();
+          IterationCalendar.setTimeInMillis(new Date().getTime() + (i* RESTSortLayer.DAY_IN_MILLISECONDS));
+          for(ChannelEpisode ce: ceList){
+              EpisodeCalendar.setTimeInMillis(ce.getDate().getTime());
+              if(EpisodeCalendar.get(Calendar.DAY_OF_MONTH) == IterationCalendar.get(Calendar.DAY_OF_MONTH) 
+                      && EpisodeCalendar.get(Calendar.MONTH) == IterationCalendar.get(Calendar.MONTH)
+                      && EpisodeCalendar.get(Calendar.YEAR) == IterationCalendar.get(Calendar.YEAR)){
+                  ceResult.add(ce);
+              }
+          }
+          days.add(ceResult);
+        }
+        request.setAttribute("days", days);
         result.activate("userProfile/userProfileOutline.ftl.html", request, response);
          } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
