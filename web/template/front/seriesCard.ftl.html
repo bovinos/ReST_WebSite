@@ -15,7 +15,7 @@
     <div id="buttons">
         <a href="?n=${series.ID}">Vai alle news della serie</a>
         <a href="?g=${series.ID}">Cerca serie simili</a>
-        <#if sessionUsername?? && favourite?? && favourite>
+        <#if user?? && favourite?? && favourite>
         <a href="?d=${series.ID}">Rimuovi questa serie dalle preferite</a>
         <#else>
         <a href="?a=${series.ID}">Aggiungi tra le preferite</a>
@@ -107,8 +107,11 @@
 
 <!-- INSERISCI IL TUO COMMENTO
 ============================================================================================== -->
+<#if user??>
 <form action="SchedaSerie" method="POST" id="seriesCommentForm" class="commentForm row">
+    <input type="hidden" name="sid" value="${series.ID}"/>
     <input name="commentTitle" type="text" id="seriesCommentTitle" class="titleCommentForm row" maxlength="60" placeholder="Titolo commento" required="required">
     <textarea name="commentText" id="seriesCommentText" class="textCommentForm row" rows="10" placeholder="Inserisci qui il tuo commento..." required="required" ></textarea>
     <button type="submit" name="scs" value="1">Commenta</button>
 </form>
+</#if>
