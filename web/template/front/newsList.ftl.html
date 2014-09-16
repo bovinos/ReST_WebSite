@@ -19,11 +19,9 @@
         <label for="button-5" class="arrows" id="arrow-5"><span class="arrow_carrot-right"></span></label>
         <div id="slideshow-inner">
             <ul>
-                <li id="slide1"><img src="http://img2.wikia.nocookie.net/__cb20130603145612/nonciclopedia/images/1/1c/How_I_met_your_mother_cast.png" alt="Prima immagine slider" /></li>
-                <li id="slide2"> <img src="http://www.glama.it/wp-content/uploads/2013/12/fringe-why-the-fourth-season-actually-mattered-and-what-exactly-rewriting-time-means-anyway.jpg" alt="Seconda immagine slider" /></li>
-                <li id="slide3"><img src="http://chiazzetta.it/blog/wp-content/uploads/2013/04/The-Walking-Dead-55.jpeg" alt="Terza immagine slider" /></li>
-                <li id="slide4"><img src="http://www.hdwallpapers.in/walls/arrow_tv_series-wide.jpg" alt="Quarta immagine slider" /></li>
-                <li id="slide5"><img src="http://images8.alphacoders.com/431/431311.jpg" alt="Quinta immagine slider" /></li>
+                <#list trendiestSeries as s>
+                <li id="slide${s_index + 1}"><img src="${strip_slashes(s.imageURL)?html}" alt="Immagine di ${strip_slashes(s.name)}" /></li>
+                </#list>
             </ul>
         </div>
     </div>

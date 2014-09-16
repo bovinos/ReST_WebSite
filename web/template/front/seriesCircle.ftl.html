@@ -48,13 +48,14 @@
 
     <!-- INSERISCI IL TUO MESSAGGIO
 ============================================================================================== -->
-    <#if user??>
-    <form action="CerchiaSerie" method="POST" id="seriesCirleMessageForm" class="messageForm row">
-        <input type="hidden" name="sid" value="${series.ID}"/>
-        <input name="messageTitle" type="text" id="seriesCircleMessageTitle" class="titleMessageForm row" maxlength="60" placeholder="Titolo messaggio" required="required">
-        <textarea name="messageText" id="seriesCircelMessageText" class="textMessageForm row" rows="10" placeholder="Inserisci qui il tuo messaggio..." required="required" ></textarea>
-        <button type="submit" name="scms" value="1">Commenta</button>
-    </form>
-    </#if>
+    <div class="insertAMessage">
+        <h1>Invia un messaggio</h1>
+        <form action="CerchiaSerie" method="POST" id="seriesCirleMessageForm" class="messageForm row">
+            <input type="hidden" name="sid" value="${series.ID}"/>
+            <input name="messageTitle" type="text" id="seriesCircleMessageTitle" class="titleMessageForm row" maxlength="60" placeholder="Titolo messaggio" required="required">
+            <textarea name="messageText" id="seriesCircelMessageText" class="textMessageForm row" rows="10" placeholder="Inserisci qui il tuo messaggio..." required="required" ></textarea>
+            <button type="submit" name="scms" value="1">Commenta</button>
+        </form>
+    </div>
 
 </div><!-- FINE #seriesCircle -->

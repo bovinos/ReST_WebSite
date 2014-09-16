@@ -17,10 +17,10 @@
         <a href="?g=${series.ID}">Cerca serie simili</a>
         <#if user?? && favourite?? && favourite>
         <a href="?d=${series.ID}">Rimuovi questa serie dalle preferite</a>
+        <a href="CerchiaSerie?id=${series.ID}" class="fullPage">Vai alla cerchia</a>
         <#else>
         <a href="?a=${series.ID}">Aggiungi tra le preferite</a>
         </#if>
-        <a href="CerchiaSerie?id=${series.ID}" class="fullPage">Vai alla cerchia</a>
     </div>
 
     <h2>Trama</h2>
@@ -107,11 +107,12 @@
 
 <!-- INSERISCI IL TUO COMMENTO
 ============================================================================================== -->
-<#if user??>
-<form action="SchedaSerie" method="POST" id="seriesCommentForm" class="commentForm row">
-    <input type="hidden" name="sid" value="${series.ID}"/>
-    <input name="commentTitle" type="text" id="seriesCommentTitle" class="titleCommentForm row" maxlength="60" placeholder="Titolo commento" required="required">
-    <textarea name="commentText" id="seriesCommentText" class="textCommentForm row" rows="10" placeholder="Inserisci qui il tuo commento..." required="required" ></textarea>
-    <button type="submit" name="scs" value="1">Commenta</button>
-</form>
-</#if>
+<div class="insertAComment">
+    <h1>Commenta la serie</h1>
+    <form action="SchedaSerie" method="POST" id="seriesCommentForm" class="commentForm row">
+        <input type="hidden" name="sid" value="${series.ID}"/>
+        <input name="commentTitle" type="text" id="seriesCommentTitle" class="titleCommentForm row" maxlength="60" placeholder="Titolo commento" required="required">
+        <textarea name="commentText" id="seriesCommentText" class="textCommentForm row" rows="10" placeholder="Inserisci qui il tuo commento..." required="required" ></textarea>
+        <button type="submit" name="scs" value="1">Commenta</button>
+    </form>
+</div>

@@ -44,6 +44,10 @@ public class NewsList extends RESTBaseController {
                 action_error(request, response, "Field Error");
             }
         }
+
+        //genero e inserisco nella request le 5 serie più trendy
+        request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
+
         result.activate("newsList.ftl.html", request, response);
     }
 
@@ -51,6 +55,10 @@ public class NewsList extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("series", getDataLayer().getSeries()); // per i filtri
+
+        //genero e inserisco nella request le 5 serie più trendy
+        request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
+
         //Controllo che la sessione attuale sia ancora valida
         User user = null;
         if (SecurityLayer.checkSession(request) != null) {
@@ -111,9 +119,6 @@ public class NewsList extends RESTBaseController {
         }
 
         // Filtro per data
-        /**
-         * < Il filtro per data come deve funzionare di preciso? xD >
-         */
         if (request.getParameter("fd") != null && !request.getParameter("fd").trim().isEmpty()) {
             List<News> filteredNews = new ArrayList();
             try {

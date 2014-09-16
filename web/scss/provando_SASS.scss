@@ -198,42 +198,54 @@ button{
     }
 }
 
-.commentForm, .messageForm{
-    text-align: center;
+.insertAComment, .insertAMessage{
     margin: 50px 0;
 
-    .titleCommentForm, .titleMessageForm{
-        display: block;
-        margin: 0 auto 50px auto;
-        width: 80%;
-        border: 1px solid $turquoise;
-        padding: 5px 8px;
-        font-size: 1.6rem;
-        color: $primaryTextColor;
-        @include borderRadius(100px);
+    h1{
+        color: $turquoise;
+        font-size: 3rem;
+        text-align: center;
     }
 
-    .textCommentForm, .textMessageForm{
-        display: block;
-        margin: 0 auto 50px auto;
-        width: 80%;
-        max-width: 80%;
-        min-width: 80%;
-        border: 1px solid $turquoise;
-        padding: 10px 15px;
-        font-size: 1.6rem;
-        color: $primaryTextColor;
-        @include borderRadius(10px);
-    }
+    .commentForm, .messageForm{
+        text-align: center;
+        margin: 50px 0;
 
-    button{
-        display: inline-block;
-        font-size: 2rem;
-        width: 80%;
-        height: 50px;
-        line-height: 50px;
+        .titleCommentForm, .titleMessageForm{
+            display: block;
+            margin: 0 auto 50px auto;
+            width: 80%;
+            border: 1px solid $turquoise;
+            padding: 5px 8px;
+            font-size: 1.6rem;
+            color: $primaryTextColor;
+            @include borderRadius(100px);
+        }
+
+        .textCommentForm, .textMessageForm{
+            display: block;
+            margin: 0 auto 50px auto;
+            width: 80%;
+            max-width: 80%;
+            min-width: 80%;
+            border: 1px solid $turquoise;
+            padding: 10px 15px;
+            font-size: 1.6rem;
+            color: $primaryTextColor;
+            @include borderRadius(10px);
+        }
+
+        button{
+            display: inline-block;
+            font-size: 2rem;
+            width: 80%;
+            height: 50px;
+            line-height: 50px;
+        }
     }
 }
+
+
 
 /* SLIDER
 =============================================================================================== */

@@ -3,7 +3,6 @@ package it.mam.REST.controller.front;
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Channel;
 import it.mam.REST.data.model.ChannelEpisode;
-import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
@@ -48,6 +47,10 @@ public class SeriesList extends RESTBaseController {
         }
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
+
+        //genero e inserisco nella request le 5 serie più trendy
+        request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
+
         result.activate("seriesList.ftl.html", request, response);
     }
 
@@ -55,21 +58,21 @@ public class SeriesList extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         List<Series> seriesList = getDataLayer().getSeries();
-        
-          //Filtro serie per canale, MESSO PER PRIMO perché gli altri usano la lista di serie derivata da lui.
-        try{
-          if (request.getParameter("fc") != null && SecurityLayer.checkNumeric(request.getParameter("fc")) != 0 ){
-            List<Series> filteredSeries = new ArrayList();
-            Calendar calendar = Calendar.getInstance();
-            Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("fc")));
-            for(ChannelEpisode ce: getDataLayer().getChannelEpisode()){
-                 if(ce.getDate().after(calendar.getTime())&& ce.getChannel().equals(c) && !(filteredSeries.contains(ce.getEpisode().getSeries()))){
-                filteredSeries.add(ce.getEpisode().getSeries());
+
+        //Filtro serie per canale, MESSO PER PRIMO perché gli altri usano la lista di serie derivata da lui.
+        try {
+            if (request.getParameter("fc") != null && SecurityLayer.checkNumeric(request.getParameter("fc")) != 0) {
+                List<Series> filteredSeries = new ArrayList();
+                Calendar calendar = Calendar.getInstance();
+                Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("fc")));
+                for (ChannelEpisode ce : getDataLayer().getChannelEpisode()) {
+                    if (ce.getDate().after(calendar.getTime()) && ce.getChannel().equals(c) && !(filteredSeries.contains(ce.getEpisode().getSeries()))) {
+                        filteredSeries.add(ce.getEpisode().getSeries());
+                    }
+                }
+                seriesList = filteredSeries;
             }
-            }
-            seriesList = filteredSeries;
-          }
-           } catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
 
@@ -89,11 +92,11 @@ public class SeriesList extends RESTBaseController {
             List<Series> filteredSeries = new ArrayList();
             List<Genre> genresList = new ArrayList();
             for (String g : request.getParameterValues("fg")) {
-                try{
-                genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(g)));
-                 } catch (NumberFormatException ex) {
-                action_error(request, response, "Field Error");
-        }
+                try {
+                    genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(g)));
+                } catch (NumberFormatException ex) {
+                    action_error(request, response, "Field Error");
+                }
             }
             for (Series s : seriesList) {
                 if (s.getGenres().containsAll(genresList)) {
@@ -106,62 +109,65 @@ public class SeriesList extends RESTBaseController {
         //Filtro serie per stato
         if (request.getParameter("fs") != null && request.getParameter("fs").length() > 0) {
             List<Series> filteredSeries = new ArrayList();
-            
-            try{
-            int status = SecurityLayer.checkNumeric(request.getParameter("fs"));
-            
-            switch (status) {
-                case 1:
-                    for (Series s : seriesList) {
-                        if (s.getState().equals(Series.ONGOING)) {
-                            filteredSeries.add(s);
+
+            try {
+                int status = SecurityLayer.checkNumeric(request.getParameter("fs"));
+
+                switch (status) {
+                    case 1:
+                        for (Series s : seriesList) {
+                            if (s.getState().equals(Series.ONGOING)) {
+                                filteredSeries.add(s);
+                            }
                         }
-                    }
-                    break;
-                case 2:
-                    for (Series s : seriesList) {
-                        if (s.getState().equals(Series.COMPLETE)) {
-                            filteredSeries.add(s);
+                        break;
+                    case 2:
+                        for (Series s : seriesList) {
+                            if (s.getState().equals(Series.COMPLETE)) {
+                                filteredSeries.add(s);
+                            }
                         }
-                    }
-                    break;
-                default:
-                    action_error(request, response, "Internal Error");
-            }
-            seriesList = filteredSeries;
-             } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+                        break;
+                    default:
+                        action_error(request, response, "Internal Error");
+                }
+                seriesList = filteredSeries;
+            } catch (NumberFormatException ex) {
+                action_error(request, response, "Field Error");
             }
         }
 
-           
         //Ordinamento
         if (request.getParameter("o") != null && request.getParameter("o").length() > 0) {
             try {
-            int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
-            switch (ordertype) {
-                case 1:
-                    RESTSortLayer.sortSeriesByPopularity(seriesList);
-                    break;
-                case 2:
-                    RESTSortLayer.sortSeriesByRating(seriesList);
-                    break;
-                case 3:
-                    RESTSortLayer.sortSeriesByYear(seriesList);
-                    break;
-                case 4:
-                    RESTSortLayer.sortSeriesByName(seriesList);
-                    break;
-                default:
-                    action_error(request, response, "Internal Error");
+                int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
+                switch (ordertype) {
+                    case 1:
+                        RESTSortLayer.sortSeriesByPopularity(seriesList);
+                        break;
+                    case 2:
+                        RESTSortLayer.sortSeriesByRating(seriesList);
+                        break;
+                    case 3:
+                        RESTSortLayer.sortSeriesByYear(seriesList);
+                        break;
+                    case 4:
+                        RESTSortLayer.sortSeriesByName(seriesList);
+                        break;
+                    default:
+                        action_error(request, response, "Internal Error");
+                }
+            } catch (NumberFormatException ex) {
+                action_error(request, response, "Field Error");
             }
-             } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
-        }
         }
         request.setAttribute("series", seriesList);
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
+
+        //genero e inserisco nella request le 5 serie più trendy
+        request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
+
         result.activate("seriesList.ftl.html", request, response);
     }
 
