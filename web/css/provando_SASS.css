@@ -828,7 +828,8 @@ button {
     text-align: center;
     font-family: Laila;
     color: #1695A3;
-    font-size: 3rem; }
+    font-size: 3rem;
+    margin-bottom: 20px; }
   #seriesCard .imgContainer {
     width: 100%;
     text-align: center;
@@ -872,12 +873,26 @@ button {
         width: 99.3%;
         margin-top: 5px; }
   #seriesCard #seriesDescription {
-    margin-top: 10px;
-    margin-bottom: 30px;
+    margin: 0 auto 50px auto;
     text-align: center;
     font-size: 1.5rem;
     line-height: 1.4;
+    width: 90%;
     color: #444444; }
+  #seriesCard #genreList {
+    text-align: center;
+    margin-bottom: 50px; }
+    #seriesCard #genreList li {
+      display: inline;
+      color: #FFFFFF;
+      background-color: #EB7F00;
+      border-radius: 100px;
+      -webkit-border-radius: 100px;
+      -moz-border-radius: 100px;
+      padding: 5px 10px;
+      font-size: 1.3rem; }
+  #seriesCard #seasonList {
+    margin-bottom: 50px; }
   #seriesCard .episode {
     border-bottom: 1px solid rgba(22, 149, 163, 0.6); }
     #seriesCard .episode:last-of-type {
