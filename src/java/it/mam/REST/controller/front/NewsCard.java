@@ -75,14 +75,14 @@ public class NewsCard extends RESTBaseController{
         if(request.getParameter("ncs") != null){
         try {
             action_comment_news(request, response);
-        } catch (IOException | NumberFormatException ex) {
-            action_error(request, response, "Errore caricamento dati");
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
         }
         } else {
             try {
             action_news_info(request, response);
         } catch (IOException | NumberFormatException ex) {
-            action_error(request, response, "Errore caricamento dati");
+            action_error(request, response, ex.getMessage());
         }
         }
     }
