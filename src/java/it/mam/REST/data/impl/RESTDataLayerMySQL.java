@@ -433,7 +433,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 uCastMember.setDate(3, new java.sql.Date(castMember.getBirthDate().getTime()));
                 uCastMember.setString(4, castMember.getGender());
                 uCastMember.setString(5, castMember.getCountry());
-                uCastMember.setString(6, castMember.getImageURL());
+                if (castMember.getImageURL() != null && !castMember.getImageURL().isEmpty()) {
+                    uCastMember.setString(6, castMember.getImageURL());
+                } else {
+                    uCastMember.setNull(6, java.sql.Types.VARCHAR);
+                }
                 uCastMember.setInt(7, ID);
                 uCastMember.executeUpdate();
             } else { // Insert
@@ -442,7 +446,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 iCastMember.setDate(3, null);
                 iCastMember.setString(4, castMember.getGender());
                 iCastMember.setString(5, castMember.getCountry());
-                iCastMember.setString(6, castMember.getImageURL());
+                if (castMember.getImageURL() != null && !castMember.getImageURL().isEmpty()) {
+                    iCastMember.setString(6, castMember.getImageURL());
+                } else {
+                    iCastMember.setNull(6, java.sql.Types.VARCHAR);
+                }
                 if (iCastMember.executeUpdate() == 1) { // query successful
                     rs = iCastMember.getGeneratedKeys(); // to get the key of record inserted
                     if (rs.next()) {
@@ -2553,20 +2561,36 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 uUser.setString(1, user.getUsername());
                 uUser.setString(2, user.getPassword());
                 uUser.setString(3, user.getMail());
-                uUser.setString(4, user.getName());
-                uUser.setString(5, user.getSurname());
-                uUser.setInt(6, user.getAge());
-                if (user.getGender() != null) {
+                if (user.getName() != null && !user.getName().isEmpty()) {
+                    uUser.setString(4, user.getName());
+                } else {
+                    uUser.setNull(4, java.sql.Types.VARCHAR);
+                }
+                if (user.getSurname() != null && !user.getSurname().isEmpty()) {
+                    uUser.setString(5, user.getSurname());
+                } else {
+                    uUser.setNull(5, java.sql.Types.VARCHAR);
+                }
+                if (user.getAge() != 0) {
+                    uUser.setInt(6, user.getAge());
+                } else {
+                    uUser.setNull(6, java.sql.Types.INTEGER);
+                }
+                if (user.getGender() != null && !user.getGender().isEmpty()) {
                     uUser.setString(7, user.getGender());
                 } else {
-                    uUser.setNull(7, java.sql.Types.NULL);
+                    uUser.setNull(7, java.sql.Types.CHAR);
                 }
-                uUser.setString(8, user.getImageURL());
+                if (user.getImageURL() != null && !user.getImageURL().isEmpty()) {
+                    uUser.setString(8, user.getImageURL());
+                } else {
+                    uUser.setNull(8, java.sql.Types.VARCHAR);
+                }
                 uUser.setBoolean(9, user.getNotificationStatus());
                 if (user.getGroup() != null) {
                     uUser.setInt(10, user.getGroup().getID());
                 } else {
-                    uUser.setNull(10, java.sql.Types.INTEGER);
+                    iUser.setInt(10, Group.USER);
                 }
                 uUser.setInt(11, ID);
                 uUser.executeUpdate();
@@ -2574,20 +2598,36 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 iUser.setString(1, user.getUsername());
                 iUser.setString(2, user.getPassword());
                 iUser.setString(3, user.getMail());
-                iUser.setString(4, user.getName());
-                iUser.setString(5, user.getSurname());
-                iUser.setInt(6, user.getAge());
-                if (user.getGender() != null) {
+                if (user.getName() != null && !user.getName().isEmpty()) {
+                    iUser.setString(4, user.getName());
+                } else {
+                    iUser.setNull(4, java.sql.Types.VARCHAR);
+                }
+                if (user.getSurname() != null && !user.getSurname().isEmpty()) {
+                    iUser.setString(5, user.getSurname());
+                } else {
+                    iUser.setNull(5, java.sql.Types.VARCHAR);
+                }
+                if (user.getAge() != 0) {
+                    iUser.setInt(6, user.getAge());
+                } else {
+                    iUser.setNull(6, java.sql.Types.INTEGER);
+                }
+                if (user.getGender() != null && !user.getGender().isEmpty()) {
                     iUser.setString(7, user.getGender());
                 } else {
-                    iUser.setNull(7, java.sql.Types.NULL);
+                    iUser.setNull(7, java.sql.Types.CHAR);
                 }
-                iUser.setString(8, user.getImageURL());
+                if (user.getImageURL() != null && !user.getImageURL().isEmpty()) {
+                    iUser.setString(8, user.getImageURL());
+                } else {
+                    iUser.setNull(8, java.sql.Types.VARCHAR);
+                }
                 iUser.setBoolean(9, user.getNotificationStatus());
                 if (user.getGroup() != null) {
                     iUser.setInt(10, user.getGroup().getID());
                 } else {
-                    iUser.setNull(10, java.sql.Types.INTEGER);
+                    iUser.setInt(10, Group.USER);
                 }
                 if (iUser.executeUpdate() == 1) {
                     rs = iUser.getGeneratedKeys();

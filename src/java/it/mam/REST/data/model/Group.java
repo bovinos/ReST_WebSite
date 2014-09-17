@@ -8,6 +8,9 @@ import java.util.List;
  */
 public interface Group {
 
+    int ADMIN = 1;
+    int USER = 2;
+
     int getID();
 
     String getName();
