@@ -137,7 +137,6 @@ public class MyProfileEdit extends RESTBaseController {
         try{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
-        request.setAttribute("notificationStatus", user.getNotificationStatus());
         request.setAttribute("userProfileContent_tpl", "userNotifySettings.ftl.html");
         result.activate("userProfile/userProfileOutline.ftl.html", request, response);
         } catch (NumberFormatException ex){
