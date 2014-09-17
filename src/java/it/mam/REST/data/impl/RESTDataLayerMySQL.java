@@ -239,7 +239,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sUsersByGenre = connection.prepareStatement("SELECT ID_user FROM r_user_genre WHERE ID_genre=?");
             sUsersByGroup = connection.prepareStatement("SELECT ID FROM e_user WHERE ID_group=?");
             iUser = connection.prepareStatement("INSERT INTO e_user (username, password, mail, name, surname, age, gender, image_URL, notification_status, ID_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            uUser = connection.prepareStatement("UPDATE e_user SET username=?, password=?, mail=?, name=? surname=?, age=?, gender=?, image_URL=?, notification_status=?, ID_group=? WHERE ID=?");
+            uUser = connection.prepareStatement("UPDATE e_user SET username=?, password=?, mail=?, name=?, surname=?, age=?, gender=?, image_URL=?, notification_status=?, ID_group=? WHERE ID=?");
             dUser = connection.prepareStatement("DELETE FROM e_user WHERE ID=?");
 
             // Relationship

@@ -1010,10 +1010,6 @@ button{
 
                     &:before{
                         margin-right: 3px;
-                        @include transition(color, 0.3s);
-                    }
-
-                    &:hover:before{
                         color: #33cc00;
                     }
                 }
@@ -1022,10 +1018,6 @@ button{
 
                     &:before{
                         margin-right: 3px;
-                        @include transition(color, 0.3s);
-                    }
-
-                    &:hover:before{
                         color: #cc0000;
                     }
                 }
@@ -1144,7 +1136,7 @@ button{
         margin-bottom: 20px;
     }
 
-    .imgContainer{
+    .imgSeriesContainer{
         background: transparent url('../img/placeholder.jpg') no-repeat;
         background-size: cover;
         min-height: 300px;
@@ -1310,6 +1302,10 @@ button{
         .right{
             float: right;
 
+            a{
+                color: $secondaryTextColor;
+            }
+
             .like{
                 margin-right: 10px;
 
@@ -1393,6 +1389,10 @@ button{
 
         .right{
             float: right;
+
+            a{
+                color: $secondaryTextColor;
+            }
 
             .authorAndDate{
                 margin-bottom: 5px;
@@ -1509,6 +1509,9 @@ button{
         }
 
         #signUp{
+            text-align: right;
+            color: $primaryTextColor;
+            font-size: 1.3rem;
             margin-top: 10px;
         }
     }
