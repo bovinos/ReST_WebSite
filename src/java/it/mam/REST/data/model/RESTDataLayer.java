@@ -290,4 +290,6 @@ public interface RESTDataLayer extends DataLayer {
 
     int getSeriesGeneralRating(Series series);
 
+    public List<Series> getHintSeries(User user);
+
 }
