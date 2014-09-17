@@ -42,7 +42,7 @@ public class GroupMySQL implements Group {
         this(dataLayer);
         ID = rs.getInt("ID");
         name = rs.getString("name");
-        description = rs.getString("desription");
+        description = rs.getString("description");
     }
 
     @Override
