@@ -19,11 +19,11 @@ import it.mam.REST.data.model.UserSeries;
 public class RESTSecurityLayer {
     public static User stripSlashes(User user){
         user.setUsername(SecurityLayer.stripSlashes(user.getUsername()));
-        user.setName(SecurityLayer.stripSlashes(user.getName()));
-        user.setSurname(SecurityLayer.stripSlashes(user.getSurname()));
+        if(user.getName() != null) {user.setName(SecurityLayer.stripSlashes(user.getName()));}
+        if(user.getSurname() != null) { user.setSurname(SecurityLayer.stripSlashes(user.getSurname()));}
         user.setMail(SecurityLayer.stripSlashes(user.getMail()));
-        user.setImageURL(SecurityLayer.stripSlashes(user.getImageURL()));
-        user.setGender(SecurityLayer.stripSlashes(user.getGender()));
+         if(user.getImageURL()!= null) {user.setImageURL(SecurityLayer.stripSlashes(user.getImageURL()));}
+         if(user.getGender()!= null) {user.setGender(SecurityLayer.stripSlashes(user.getGender()));}
         return user;
     }
     public static News stripSlashes(News news){
@@ -74,11 +74,11 @@ public class RESTSecurityLayer {
     
         public static User addSlashes(User user){
         user.setUsername(SecurityLayer.addSlashes(user.getUsername()));
-        user.setName(SecurityLayer.addSlashes(user.getName()));
-        user.setSurname(SecurityLayer.addSlashes(user.getSurname()));
+        if(user.getName() != null) {user.setName(SecurityLayer.addSlashes(user.getName()));}
+        if(user.getSurname() != null) { user.setSurname(SecurityLayer.addSlashes(user.getSurname()));}
         user.setMail(SecurityLayer.addSlashes(user.getMail()));
-        user.setImageURL(SecurityLayer.addSlashes(user.getImageURL()));
-        user.setGender(SecurityLayer.addSlashes(user.getGender()));
+         if(user.getImageURL()!= null) {user.setImageURL(SecurityLayer.addSlashes(user.getImageURL()));}
+         if(user.getGender()!= null) {user.setGender(SecurityLayer.addSlashes(user.getGender()));}
         return user;
     }
     public static News addSlashes(News news){

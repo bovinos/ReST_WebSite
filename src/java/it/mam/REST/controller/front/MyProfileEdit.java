@@ -47,8 +47,7 @@ public class MyProfileEdit extends RESTBaseController {
 
     private void action_submit_ProfileUserSignUpData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user;
-
-        user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+        user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
         if ((request.getParameter("username") != null && request.getParameter("username").length() > 0)
                 && !(request.getParameter("username").equals(user.getUsername()))) {
             user.setUsername(request.getParameter("username"));
@@ -63,6 +62,7 @@ public class MyProfileEdit extends RESTBaseController {
                 && (request.getParameter("newpassword") != null && request.getParameter("newpassword").length() > 0)
                 && (request.getParameter("confirmpassword") != null && request.getParameter("confirmpassword").length() > 0)
                 && (request.getParameter("newpassword").equals(request.getParameter("confirmpassword")))) {
+            System.err.println("Sono dentro xD");
             user.setPassword(Utility.stringToMD5(Utility.stringToMD5(request.getParameter("newpassword"))));
         }
         getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
