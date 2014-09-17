@@ -1,27 +1,24 @@
 
 <div id='optionalData'>
     <form action="ModificaProfiloPersonale" method="POST">
+        <input type="hidden" name="sezione" value="2" />
         <div class="row formInput">
-            <label for="name">Nome:</label>
             <input type ="text" id="name" name ="name"  autofocus="autofocus" maxlength="20" placeholder="Nome" pattern="[A-Z][a-z]+" title="Il nome deve essere una sequenza di massimo 20 lettere in cui solo la prima &egrave; maiuscola" tabindex="1" />
         </div>
         <div class="row formInput">
-            <label for="surname">Cognome:</label>
             <input type="text" id="surname" name="surname" maxlength="20" placeholder="Cognome" pattern="[A-Z][a-z]+" title="Il cognome deve essere una sequenza di massimo 20 lettere in cui solo la prima &egrave; maiuscola" tabindex="2" />
         </div>
         <div class="row formInput">
-            <label for="age">Et&agrave;:</label>
             <input type="text" id="age" name="age" placeholder="Et&agrave;" pattern="[1-9][0-9]" title="questo campo deve essere un numero che va da 10 a 99" tabindex="2" />
+        </div>
+        <div class="row formInput">
+            <input type="url" id="image" name="image" placeholder="URL immagine" tabindex="4" />
         </div>
         <div class="row formInput">
             <input type="radio" id="male" name="gender" tabindex="3" />
             <label for="male"> M</label>
             <input type="radio" id="female" name="gender" tabindex="3" />
             <label for="female"> F</label>
-        </div>
-        <div class="row formInput">
-            <label for="image">Immagine:</label>
-            <input type="url" id="image" name="image" placeholder="URL immagine" tabindex="4" />
         </div>
         <button type="submit" name="modifyOptionalData" value="1">Invia</button>
     </form>

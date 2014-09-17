@@ -1,33 +1,36 @@
 
 <div id="userProfile">
-    <div id="userProfileOutlineHeader" class="row">
-        <div class="imgContainer">
-            <#if user.imageURL??>
-            <img id="userAvatar" src="${strip_slashes(user.imageURL)}" alt="Avatar di ${strip_slashes(user.username)?html}" />
-            <#else>
-            <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User avatar placeholder"/>
-            </#if>
-        </div>
-        <p id="userUsername">${strip_slashes(user.username)?html}</p>
-    </div>
+
 
     <div id="userProfileOutlineBody" class="row">
-        <nav id="leftCol" class="four columns alpha">
-            <h1>Nome Categoria</h1>
-            <ul>
-                <li><a href="ProfiloPersonale?sezione=1">Le mie Serie</a></li>
-                <li><a href="ProfiloPersonale?sezione=2">Palinsesto</a></li>
-            </ul>
+        <div id="leftCol" class="four columns alpha">
+            <div id="userImageAndUsername" class="row">
+                <p id="userUsername" class="row">${strip_slashes(user.username)?html}</p>
+                <div class="imgContainer row">
+                    <#if user.imageURL??>
+                    <img id="userAvatar" src="${strip_slashes(user.imageURL)}" alt="Avatar di ${strip_slashes(user.username)?html}" />
+                    <#else>
+                    <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User avatar placeholder"/>
+                    </#if>
+                </div>
+            </div>
+            <nav>
+                <h1>Nome Categoria</h1>
+                <ul>
+                    <li><a href="ProfiloPersonale?sezione=1">Le mie Serie</a></li>
+                    <li><a href="ProfiloPersonale?sezione=2">Palinsesto</a></li>
+                </ul>
 
-            <h1>Impostazioni</h1>
-            <ul>
-                <li><a href="ModificaProfiloPersonale?sezione=1">Modifica dati registrazione</a></li>
-                <li><a href="ModificaProfiloPersonale?sezione=2">Modifica dati opzionali</a></li>
-                <li><a href="ModificaProfiloPersonale?sezione=3">Impostazioni notifiche</a></li>
-            </ul>
-        </nav>
+                <h1>Impostazioni</h1>
+                <ul>
+                    <li><a href="ModificaProfiloPersonale?sezione=1">Modifica dati registrazione</a></li>
+                    <li><a href="ModificaProfiloPersonale?sezione=2">Modifica dati opzionali</a></li>
+                    <li><a href="ModificaProfiloPersonale?sezione=3">Impostazioni notifiche</a></li>
+                </ul>
+            </nav>
+        </div>
 
-        <div id="userProfileContent" class='twelve columns'>
+        <div id="userProfileContent" class='twelve columns omega'>
             <#include userProfileContent_tpl>
         </div>
     </div>

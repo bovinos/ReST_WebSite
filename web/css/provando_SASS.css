@@ -46,7 +46,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+time, mark, audio, video, input {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box; }
@@ -700,54 +700,58 @@ button {
   margin-bottom: 20px;
   padding-left: 10%; }
 
-#newsList .news {
-  padding: 25px 0;
-  border-bottom: 1px solid rgba(22, 149, 163, 0.4); }
-  #newsList .news:last-of-type {
-    /* l'ultimo elemento che ha classe news */
-    border-bottom: none; }
-#newsList .imgContainer {
-  display: inline-block;
-  width: 75px;
-  height: 75px; }
-  #newsList .imgContainer img {
-    width: 100%;
-    height: 100%;
-    overflow: hidden; }
-#newsList .header h1 {
-  font-family: Laila;
-  margin-bottom: 10px;
-  font-size: 2.5rem;
-  color: #1695A3; }
-#newsList .body p {
-  color: #444444;
-  font-size: 1.5rem;
-  line-height: 1.4;
-  margin-bottom: 10px; }
-#newsList .footer {
-  font-size: 1.2rem;
-  overflow: hidden;
-  color: #999999; }
-  #newsList .footer .left {
-    float: left; }
-  #newsList .footer .right {
-    float: right; }
-    #newsList .footer .right .like {
-      margin-right: 10px; }
-      #newsList .footer .right .like:before {
-        margin-right: 3px;
-        transition: color 0.3s ease-in-out;
-        -webkit-transition: color 0.3s ease-in-out;
-        -moz-transition: color 0.3s ease-in-out; }
-      #newsList .footer .right .like:hover:before {
-        color: #33cc00; }
-    #newsList .footer .right .dislike:before {
-      margin-right: 3px;
-      transition: color 0.3s ease-in-out;
-      -webkit-transition: color 0.3s ease-in-out;
-      -moz-transition: color 0.3s ease-in-out; }
-    #newsList .footer .right .dislike:hover:before {
-      color: #cc0000; }
+#newsList {
+  margin-top: 25px; }
+  #newsList .news {
+    padding: 5px;
+    -webkit-box-shadow: 0 0 3px #1695A3;
+    -moz-box-shadow: 0 0 3px #1695A3;
+    box-shadow: 0 0 3px #1695A3;
+    margin-bottom: 10px;
+    width: 31%; }
+    #newsList .news .head {
+      position: relative;
+      text-align: center;
+      margin-bottom: 15px; }
+      #newsList .news .head a.right {
+        position: absolute;
+        right: 5%;
+        font-size: 2.5rem; }
+      #newsList .news .head .center {
+        font-family: Laila;
+        display: inline-block;
+        font-size: 2rem;
+        margin-top: 5px; }
+    #newsList .news .body p {
+      text-align: center;
+      font-size: 1.4rem;
+      color: #444444;
+      line-height: 2rem;
+      margin-bottom: 10px; }
+    #newsList .news .footer {
+      font-size: 1.2rem;
+      overflow: hidden;
+      color: #999999; }
+      #newsList .news .footer .left {
+        float: left; }
+      #newsList .news .footer .right {
+        float: right; }
+        #newsList .news .footer .right .like {
+          margin-right: 10px; }
+          #newsList .news .footer .right .like:before {
+            margin-right: 3px;
+            transition: color 0.3s ease-in-out;
+            -webkit-transition: color 0.3s ease-in-out;
+            -moz-transition: color 0.3s ease-in-out; }
+          #newsList .news .footer .right .like:hover:before {
+            color: #33cc00; }
+        #newsList .news .footer .right .dislike:before {
+          margin-right: 3px;
+          transition: color 0.3s ease-in-out;
+          -webkit-transition: color 0.3s ease-in-out;
+          -moz-transition: color 0.3s ease-in-out; }
+        #newsList .news .footer .right .dislike:hover:before {
+          color: #cc0000; }
 
 /* SERIES LIST PAGE
 =============================================================================================== */
@@ -1049,54 +1053,43 @@ button {
 
 /* LOGIN
 =============================================================================================== */
-#formLogIn, #formSignUp, #modifySignUpData, #optionalData {
-  background-color: #FFFFFF;
+#formLogIn, #formSignUp, #modifySignUpData, #optionalData, #notifySettings {
   height: 100%;
-  text-align: center; }
-  #formLogIn .row, #formSignUp .row, #modifySignUpData .row, #optionalData .row {
+  text-align: center;
+  margin: 200px auto; }
+  #formLogIn .row, #formSignUp .row, #modifySignUpData .row, #optionalData .row, #notifySettings .row {
     margin-bottom: 15px; }
-    #formLogIn .row:last-of-type, #formSignUp .row:last-of-type, #modifySignUpData .row:last-of-type, #optionalData .row:last-of-type {
+    #formLogIn .row:last-of-type, #formSignUp .row:last-of-type, #modifySignUpData .row:last-of-type, #optionalData .row:last-of-type, #notifySettings .row:last-of-type {
       margin-bottom: 10px; }
-  #formLogIn form, #formSignUp form, #modifySignUpData form, #optionalData form {
+  #formLogIn form, #formSignUp form, #modifySignUpData form, #optionalData form, #notifySettings form {
     display: inline-block;
-    padding: 30px 50px;
-    vertical-align: middle;
-    border: 3px solid #1695a3;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-box-shadow: 0 0 10px #1695A3;
-    -moz-box-shadow: 0 0 10px #1695A3;
-    box-shadow: 0 0 10px #1695A3;
-    text-align: right; }
-    #formLogIn form label, #formSignUp form label, #modifySignUpData form label, #optionalData form label {
-      font-size: 1.5rem;
-      margin-right: 10px;
-      color: #1695A3; }
-    #formLogIn form input, #formSignUp form input, #modifySignUpData form input, #optionalData form input {
+    width: 40%;
+    vertical-align: middle; }
+    #formLogIn form input, #formSignUp form input, #modifySignUpData form input, #optionalData form input, #notifySettings form input {
+      width: 100%;
       border: 1px solid #1695A3;
       outline: none;
-      font-size: 1.5rem;
+      font-size: 2rem;
       color: #1695A3;
       border-radius: 4px;
       -webkit-border-radius: 4px;
       -moz-border-radius: 4px;
-      padding: 3px 5px; }
-    #formLogIn form button, #formSignUp form button, #modifySignUpData form button, #optionalData form button {
+      padding: 10px 20px; }
+    #formLogIn form button, #formSignUp form button, #modifySignUpData form button, #optionalData form button, #notifySettings form button {
       margin-top: 30px;
       background-color: #1695A3;
       width: 100%;
       border: none;
-      padding: 10px 0;
+      padding: 15px 0;
       color: #FFFFFF;
-      font-size: 1.5rem;
+      font-size: 2rem;
       cursor: pointer;
       transition: background-color 0.3s ease-in-out;
       -webkit-transition: background-color 0.3s ease-in-out;
       -moz-transition: background-color 0.3s ease-in-out; }
-      #formLogIn form button:hover, #formSignUp form button:hover, #modifySignUpData form button:hover, #optionalData form button:hover {
+      #formLogIn form button:hover, #formSignUp form button:hover, #modifySignUpData form button:hover, #optionalData form button:hover, #notifySettings form button:hover {
         background-color: #EB7F00; }
-    #formLogIn form #signUp, #formSignUp form #signUp, #modifySignUpData form #signUp, #optionalData form #signUp {
+    #formLogIn form #signUp, #formSignUp form #signUp, #modifySignUpData form #signUp, #optionalData form #signUp, #notifySettings form #signUp {
       margin-top: 10px; }
 
 /* SIGNUP
@@ -1104,26 +1097,22 @@ button {
 /* PROFILO UTENTE
 ===============================================================================================
 =============================================================================================== */
-#userProfile #userProfileOutlineHeader {
+#userProfile #userImageAndUsername {
   margin-top: 20px;
   padding-left: 10%; }
-  #userProfile #userProfileOutlineHeader .imgContainer {
-    margin-right: 40px;
-    display: inline-block;
+  #userProfile #userImageAndUsername .imgContainer {
+    margin: 0 auto 20px auto;
     width: 150px;
     height: 150px;
     overflow: hidden; }
-    #userProfile #userProfileOutlineHeader .imgContainer img {
+    #userProfile #userImageAndUsername .imgContainer img {
       max-width: 100%;
       height: auto; }
-  #userProfile #userProfileOutlineHeader #userUsername {
-    display: inline-block;
-    max-height: 200px;
-    font-size: 3rem;
-    color: #1695A3;
-    font-family: Laila;
-    position: relative;
-    top: -65px; }
+  #userProfile #userImageAndUsername #userUsername {
+    text-align: center;
+    font-size: 2rem;
+    color: #225378;
+    font-family: Laila; }
 #userProfile nav li {
   font-size: 1.5rem;
   margin-bottom: 20px;
@@ -1137,54 +1126,72 @@ button {
   margin-top: 25px;
   font-size: 1.2rem; }
   #userSeries .series {
-    padding: 20px 0;
-    border-bottom: 1px solid rgba(22, 149, 163, 0.7);
-    color: #444444;
-    position: relative; }
-    #userSeries .series .bottom {
-      position: absolute;
-      bottom: 20%; }
-    #userSeries .series .imgContainer {
-      display: inline-block;
-      height: 135px;
-      overflow: hidden; }
-      #userSeries .series .imgContainer img {
-        width: 100%;
-        height: 100%;
-        overflow: hidden; }
-    #userSeries .series .nameAndLastEpisodeSeen h1 {
-      font-size: 2rem;
-      color: #1695A3; }
-    #userSeries .series .ratingAndNextEpisode h1 {
-      display: inline; }
-    #userSeries .series .ratingAndNextEpisode a {
-      font-size: 1.5rem; }
-    #userSeries .series .removeSeries {
-      font-size: 5rem;
-      overflow: hidden; }
-      #userSeries .series .removeSeries a {
-        font-size: 1rem;
-        color: transparent; }
-        #userSeries .series .removeSeries a:hover span {
+    padding: 5px;
+    -webkit-box-shadow: 0 0 3px #1695A3;
+    -moz-box-shadow: 0 0 3px #1695A3;
+    box-shadow: 0 0 3px #1695A3;
+    margin-bottom: 10px;
+    width: 32%; }
+    #userSeries .series .head {
+      position: relative;
+      text-align: center;
+      margin-bottom: 20px; }
+      #userSeries .series .head a.left, #userSeries .series .head a.right {
+        color: #999999;
+        font-size: 2.5rem;
+        transition: color 0.3s ease-in-out;
+        -webkit-transition: color 0.3s ease-in-out;
+        -moz-transition: color 0.3s ease-in-out; }
+      #userSeries .series .head a.left {
+        position: absolute;
+        left: 0; }
+        #userSeries .series .head a.left:hover {
+          color: #EB7F00; }
+      #userSeries .series .head a.right {
+        position: absolute;
+        right: 0; }
+        #userSeries .series .head a.right:hover {
           color: #cc0000; }
-        #userSeries .series .removeSeries a span {
-          color: #999999;
-          font-size: 5rem;
-          transition: color 0.3s ease-in-out;
-          -webkit-transition: color 0.3s ease-in-out;
-          -moz-transition: color 0.3s ease-in-out; }
+      #userSeries .series .head .center {
+        display: inline-block;
+        font-size: 2rem;
+        margin-top: 5px; }
+    #userSeries .series .imgContainer {
+      position: relative;
+      display: inline-block;
+      width: 98%; }
+      #userSeries .series .imgContainer img {
+        max-width: 100%;
+        height: auto;
+        overflow: hidden; }
+      #userSeries .series .imgContainer .ratingBox {
+        position: absolute;
+        bottom: 5%;
+        right: 5%;
+        padding: 5px 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 2px;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        font-size: 1.5rem; }
+    #userSeries .series .mySeriesInfo {
+      text-align: center;
+      font-size: 1.4rem;
+      color: #444444; }
+      #userSeries .series .mySeriesInfo h1 {
+        display: inline; }
 
 /* USER SING UP DATA PAGE
 =============================================================================================== */
-#modifySignUpData, #optionalData {
+#modifySignUpData, #optionalData, #notifySettings {
   margin-top: 25px;
-  margin-bottom: 10px;
-  text-align: center; }
-  #modifySignUpData form, #optionalData form {
-    border: none;
-    -webkit-box-shadow: 0 0 0 transparent;
-    -moz-box-shadow: 0 0 0 transparent;
-    box-shadow: 0 0 0 transparent; }
+  margin-bottom: 10px; }
+  #modifySignUpData form, #optionalData form, #notifySettings form {
+    width: 70%; }
+    #modifySignUpData form label, #optionalData form label, #notifySettings form label {
+      font-size: 2rem;
+      margin-right: 10px;
+      color: #1695A3; }
 
 /* USER OPTIONAL DATA PAGE
 =============================================================================================== */
@@ -1211,5 +1218,35 @@ button {
     top: 5px;
     font-size: 2.5rem;
     color: #1695A3; }
+
+/* USER NOTIFY SETTING PAGE
+=============================================================================================== */
+#notifySettings form {
+  text-align: center; }
+  #notifySettings form .row {
+    margin-bottom: 30px; }
+  #notifySettings form input[type="checkbox"] {
+    position: absolute;
+    left: -9999px; }
+    #notifySettings form input[type="checkbox"] + label {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.5rem; }
+    #notifySettings form input[type="checkbox"]:checked + label:after {
+      font-family: 'ElegantIcons';
+      content: '\5a';
+      margin-left: 10px;
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
+    #notifySettings form input[type="checkbox"]:not(:checked) + label:after {
+      font-family: 'ElegantIcons';
+      content: '\56';
+      margin-left: 10px;
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

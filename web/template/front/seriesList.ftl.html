@@ -28,101 +28,100 @@
 </div>
 
 
-<!-- COLONNA SINISTRA
-============================================================================================= -->
-<div id="leftCol" class="four columns alpha">
-    <!-- Filtri -->
+<div class="row">
+    <!-- COLONNA SINISTRA
+    ============================================================================================= -->
+    <div id="leftCol" class="four columns alpha">
+        <!-- Filtri -->
 
-    <form action="ListaSerie" method="GET" id="seriesFilterForm">
-        <div id="seriesFilter">
-            <h1>Filtra per</h1>
-            <div>
-                <button type="submit" name="s" value="1" id="searchButtonFilter" data-icon="&#x55;"></button> 
-                <input type="text" name="fn" placeholder="Filtra la serie per nome" maxlength="60" pattern="[a-zA-Z0-9\s]*" title="puoi inserire solo caratteri alfanumerici e spazi"/>
-            </div>
-            <div>
-                <div class="selectContainer multipleSelection">
-                    <select name="fg" multiple="multiple" size="7" >
-                        <optgroup label="Filtra per generi"> 
-                            <#list genres as g>
-                            <option value="${g.ID}">${strip_slashes(g.name)?html}</option>
-                            </#list>
-                        </optgroup>
-                    </select>
+        <form action="ListaSerie" method="GET" id="seriesFilterForm">
+            <div id="seriesFilter">
+                <h1>Filtra per</h1>
+                <div>
+                    <button type="submit" name="s" value="1" id="searchButtonFilter" data-icon="&#x55;"></button> 
+                    <input type="text" name="fn" placeholder="Filtra la serie per nome" maxlength="60" pattern="[a-zA-Z0-9\s]*" title="puoi inserire solo caratteri alfanumerici e spazi"/>
+                </div>
+                <div>
+                    <div class="selectContainer multipleSelection">
+                        <select name="fg" multiple="multiple" size="7" >
+                            <optgroup label="Filtra per generi"> 
+                                <#list genres as g>
+                                <option value="${g.ID}">${strip_slashes(g.name)?html}</option>
+                                </#list>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="selectContainer singleSelection">
+                        <select name="fc">
+                            <optgroup label="Filtra per canali"> 
+                                <option value="0">Nessun canale</option>
+                                <#list channels as c>
+                                <option value="${c.ID}">${strip_slashes(c.name)?html}</option>
+                                </#list>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <input type="radio" name="fs" value="1" id="filterOnGoingSeriesRadio">
+                    <label for="filterOnGoingSeriesRadio">In corso</label>
+                </div>
+                <div>
+                    <input type="radio" name="fs" value="2" id="filterCompleteSeriesRadio">
+                    <label for="filterCompleteSeriesRadio">Completa</label>
+                </div>
+                <div>
+                    <button type="submit" name="s" value="1">Filtra</button>
+                </div>
+            </div><!-- FINE filtri -->
+            <!-- Ordinamenti -->
+            <div id="SeriesSorting">
+                <h1>Ordina per</h1>
+                <div>
+                    <input type="radio" name="o" value="1" id="sortForPopularityRadio">
+                    <label for="sortForPopularityRadio">Popolarit&agrave;</label>
+                </div>
+                <div>
+                    <input type="radio" name="o" value="2" id="sortForRateRadio">
+                    <label for="sortForRateRadio">Valutazione</label>
+                </div>
+                <div>
+                    <input type="radio" name="o" value="3" id="sortForYearRadio">
+                    <label for="sortForYearRadio">Anno</label>
+                </div>
+                <div>
+                    <input type="radio" name="o" value="4" id="sortForNameRadio">
+                    <label for="sortForNameRadio">Nome</label>
+                </div>
+                <div>
+                    <button type="submit" name="s" value="1">Ordina</button>
                 </div>
             </div>
-            <div>
-                <div class="selectContainer singleSelection">
-                    <select name="fc">
-                        <optgroup label="Filtra per canali"> 
-                            <option value="0">Nessun canale</option>
-                            <#list channels as c>
-                            <option value="${c.ID}">${strip_slashes(c.name)?html}</option>
-                            </#list>
-                        </optgroup>
-                    </select>
-                </div>
-            </div>
-            <div>
-                <input type="radio" name="fs" value="1" id="filterOnGoingSeriesRadio">
-                <label for="filterOnGoingSeriesRadio">In corso</label>
-            </div>
-            <div>
-                <input type="radio" name="fs" value="2" id="filterCompleteSeriesRadio">
-                <label for="filterCompleteSeriesRadio">Completa</label>
-            </div>
-            <div>
-                <button type="submit" name="s" value="1">Filtra</button>
-            </div>
-        </div><!-- FINE filtri -->
-        <!-- Ordinamenti -->
-        <div id="SeriesSorting">
-            <h1>Ordina per</h1>
-            <div>
-                <input type="radio" name="o" value="1" id="sortForPopularityRadio">
-                <label for="sortForPopularityRadio">Popolarit&agrave;</label>
-            </div>
-            <div>
-                <input type="radio" name="o" value="2" id="sortForRateRadio">
-                <label for="sortForRateRadio">Valutazione</label>
-            </div>
-            <div>
-                <input type="radio" name="o" value="3" id="sortForYearRadio">
-                <label for="sortForYearRadio">Anno</label>
-            </div>
-            <div>
-                <input type="radio" name="o" value="4" id="sortForNameRadio">
-                <label for="sortForNameRadio">Nome</label>
-            </div>
-            <div>
-                <button type="submit" name="s" value="1">Ordina</button>
-            </div>
-        </div>
-    </form>
-</div>
-
-<!-- LISTA SERIE
-============================================================================================= -->
-<!-- controlliamo se esistono liste -->
-<#if (series?size > 0)>
-<div id="seriesList" class="twelve columns omega">
-    <!-- se esistono stampiamole tutte -->
-    <#list series as s>
-    <div class="seriesBox four columns">
-        <a href="SchedaSerie?id=${s.ID}">
-            <div class="imgContainer">
-                <img src="${strip_slashes(s.imageURL)}" alt="immagine ${strip_slashes(s.name)?html}"/>
-            </div>
-            <div class="seriesDescription">
-                <h1>${strip_slashes(s.name)?html}</h1>
-            </div>
-        </a>
+        </form>
     </div>
-    </#list>
+
+    <!-- LISTA SERIE
+    ============================================================================================= -->
+    <!-- controlliamo se esistono liste -->
+    <#if (series?size > 0)>
+    <div id="seriesList" class="twelve columns omega">
+        <!-- se esistono stampiamole tutte -->
+        <#list series as s>
+        <div class="seriesBox four columns">
+            <a href="SchedaSerie?id=${s.ID}">
+                <div class="imgContainer">
+                    <img src="${strip_slashes(s.imageURL)}" alt="immagine ${strip_slashes(s.name)?html}"/>
+                </div>
+                <div class="seriesDescription">
+                    <h1>${strip_slashes(s.name)?html}</h1>
+                </div>
+            </a>
+        </div>
+        </#list>
+    </div>
+    </#if>
+
+
 </div>
-<#else>
-<!-- altrimenti diciamo che non sono ancora presenti news -->
-<div>
-    <p>Purtroppo non sono ancora state aggiunte Serie TV.</p>
-</div>
-</#if>

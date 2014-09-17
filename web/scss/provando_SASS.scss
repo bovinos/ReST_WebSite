@@ -97,7 +97,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed, 
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video{
+time, mark, audio, video, input{
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -244,8 +244,6 @@ button{
         }
     }
 }
-
-
 
 /* SLIDER
 =============================================================================================== */
@@ -474,7 +472,6 @@ button{
 /* LEFT COL
 =============================================================================================== */
 #leftCol{
-
     margin-top: 25px;
     margin-bottom: 10px;
 
@@ -957,88 +954,85 @@ button{
 }
 
 #newsList{
+    margin-top: 25px;
 
     .news{
-        padding: 25px 0;
-        border-bottom: 1px solid rgba(22, 149, 163, 0.4);
+        padding: 5px;
+        @include boxShadow(0, 0, 3px, $turquoise);
+        margin-bottom: 10px;
+        width: 31%;
 
-        &:last-of-type{ /* l'ultimo elemento che ha classe news */
-            border-bottom: none;
+        .head{
+            position: relative;
+            text-align: center;
+            margin-bottom: 15px;
+
+
+            a.right {
+                position: absolute;
+                right: 5%;
+                font-size: 2.5rem;
+            }
+
+            .center{
+                font-family: Laila;
+                display: inline-block;
+                font-size: 2rem;
+                margin-top: 5px;
+            }
         }
-    }
 
-    .imgContainer{
-        display: inline-block;
-        width: 75px;
-        height: 75px;
+        .body{
 
-        img{
-            width: 100%;
-            height: 100%;
+            p{
+                text-align: center;
+                font-size: 1.4rem;
+                color: $primaryTextColor;
+                line-height: 2rem;
+                margin-bottom: 10px;
+            }
+        }
+
+        .footer{
+            font-size: 1.2rem;
             overflow: hidden;
-        }
-    }
+            color: $secondaryTextColor;
 
-    .header{
-
-        h1{
-            font-family: Laila;
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-            color: $turquoise;
-        }
-
-    }
-
-    .body{
-
-        p{
-            color: $primaryTextColor;
-            font-size: 1.5rem;
-            line-height: 1.4;
-            margin-bottom: 10px;
-        }
-    }
-
-    .footer{
-        font-size: 1.2rem;
-        overflow: hidden;
-        color: $secondaryTextColor;
-
-        .left{
-            float: left;
-        }
-
-        .right{
-            float: right;
-
-            .like{
-                margin-right: 10px;
-
-                &:before{
-                    margin-right: 3px;
-                    @include transition(color, 0.3s);
-                }
-
-                &:hover:before{
-                    color: #33cc00;
-                }
+            .left{
+                float: left;
             }
 
-            .dislike{
+            .right{
+                float: right;
 
-                &:before{
-                    margin-right: 3px;
-                    @include transition(color, 0.3s);
+                .like{
+                    margin-right: 10px;
+
+                    &:before{
+                        margin-right: 3px;
+                        @include transition(color, 0.3s);
+                    }
+
+                    &:hover:before{
+                        color: #33cc00;
+                    }
                 }
 
-                &:hover:before{
-                    color: #cc0000;
+                .dislike{
+
+                    &:before{
+                        margin-right: 3px;
+                        @include transition(color, 0.3s);
+                    }
+
+                    &:hover:before{
+                        color: #cc0000;
+                    }
                 }
             }
         }
-    }
 
+    }
 }
 
 /* SERIES LIST PAGE
@@ -1462,9 +1456,9 @@ button{
 /* LOGIN
 =============================================================================================== */
 #formLogIn{
-    background-color: #FFFFFF;
     height: 100%;
     text-align: center;
+    margin: 200px auto;
 
     .row{
         margin-bottom: 15px;
@@ -1475,27 +1469,18 @@ button{
     }
 
     form{
-        display: inline-block;
-        padding: 30px 50px;
+        display: inline-block;  
+        width: 40%;
         vertical-align: middle;
-        border: 3px solid rgba(22, 149, 163, 1);
-        @include borderRadius(3px);
-        @include boxShadow(0, 0, 10px, $turquoise);
-        text-align: right;
-
-        label{
-            font-size: 1.5rem;
-            margin-right: 10px;
-            color: $turquoise;
-        }
 
         input{
+            width: 100%;
             border: 1px solid $turquoise;
             outline: none;
-            font-size: 1.5rem;
+            font-size: 2rem;
             color: $turquoise;
             @include borderRadius(4px);
-            padding: 3px 5px;
+            padding: 10px 20px;
         }
 
         button{
@@ -1503,9 +1488,9 @@ button{
             background-color: $turquoise;
             width: 100%;
             border: none;
-            padding: 10px 0;
+            padding: 15px 0;
             color: #FFFFFF;
-            font-size: 1.5rem;
+            font-size: 2rem;
             cursor: pointer;
             @include transition(background-color, 0.3s);
 
@@ -1526,19 +1511,17 @@ button{
     @extend #formLogIn;
 }
 
-
 /* PROFILO UTENTE
 ===============================================================================================
 =============================================================================================== */
 #userProfile{
 
-    #userProfileOutlineHeader{
+    #userImageAndUsername{
         margin-top: 20px;
         padding-left: 10%;
 
         .imgContainer{
-            margin-right: 40px;
-            display: inline-block;
+            margin: 0 auto 20px auto;
             width: 150px;
             height: 150px;
             overflow: hidden;
@@ -1550,18 +1533,14 @@ button{
         }
 
         #userUsername{
-            display: inline-block;
-            max-height: 200px;
-            font-size: 3rem;
-            color: $turquoise;
+            text-align: center;
+            font-size: 2rem;
+            color: $blue;
             font-family: Laila;
-            position: relative;
-            top: -65px;
         }
     }
 
     nav{
-
 
         li{
             font-size: 1.5rem;
@@ -1575,7 +1554,6 @@ button{
     }
 }
 
-
 /* USER SERIES PAGE
 =============================================================================================== */
 #userSeries{
@@ -1583,71 +1561,76 @@ button{
     font-size: 1.2rem;
 
     .series{
-        padding: 20px 0;
-        border-bottom: 1px solid rgba(22, 149, 163, 0.7);
-        color: $primaryTextColor;
-        position: relative;
+        padding: 5px;
+        @include boxShadow(0, 0, 3px, $turquoise);
+        margin-bottom: 10px;
+        width: 32%;
 
-        .top{
+        .head{
+            position: relative;
+            text-align: center;
+            margin-bottom: 20px;
 
-        }
+            a.left, a.right{
+                color: $secondaryTextColor;
+                font-size: 2.5rem;
+                @include transition(color, 0.3s);
+            }
 
-        .bottom{
-            position: absolute;
-            bottom: 20%;
+            a.left{
+                position: absolute;
+                left: 0;
+
+                &:hover{
+                    color: $orange;
+                }
+            }
+
+            a.right {
+                position: absolute;
+                right: 0;
+
+                &:hover{
+                    color: #cc0000;
+                }
+            }
+
+            .center{
+                display: inline-block;
+                font-size: 2rem;
+                margin-top: 5px;
+            }
         }
 
         .imgContainer{
+            position: relative;
             display: inline-block;
-            height: 135px;
-            overflow: hidden;
+            width: 98%;
 
             img{
-                width: 100%;
-                height: 100%;
+                max-width: 100%;
+                height: auto;
                 overflow: hidden;
             }
-        }
 
-        .nameAndLastEpisodeSeen{
-
-            h1{
-                font-size: 2rem;
-                color: $turquoise;
-            }
-        }
-
-        .ratingAndNextEpisode{
-
-            h1{
-                display: inline;
-            }
-
-            a{
+            .ratingBox{
+                position: absolute;
+                bottom: 5%;
+                right: 5%;
+                padding: 5px 10px;
+                background-color: rgba(255, 255, 255, 0.8);
+                @include borderRadius(2px);
                 font-size: 1.5rem;
             }
         }
 
-        .removeSeries{
-            font-size: 5rem;
-            overflow: hidden;
+        .mySeriesInfo{
+            text-align: center;
+            font-size: 1.4rem;
+            color: $primaryTextColor;
 
-            a{
-                font-size: 1rem;
-                color: transparent;
-
-                &:hover{
-
-                    span{
-                        color: #cc0000;
-                    }
-                }
-
-                span{
-                    color: $secondaryTextColor;
-                    font-size: 5rem;
-                    @include transition(color, 0.3s);
-                }
+            h1{
+                display: inline;
             }
         }
     }
@@ -1658,12 +1641,16 @@ button{
 #modifySignUpData{
     margin-top: 25px;
     margin-bottom: 10px;
-    text-align: center;
     @extend #formLogIn;  
 
     form{
-        border: none;
-        @include boxShadow(0, 0, 0, transparent);
+        width: 70%;
+
+        label{
+            font-size: 2rem;
+            margin-right: 10px;
+            color: $turquoise;
+        }
     }
 }
 
@@ -1671,6 +1658,7 @@ button{
 =============================================================================================== */
 #optionalData{
     @extend #modifySignUpData;
+
 
     input[type="radio"]{
 
@@ -1705,6 +1693,52 @@ button{
     }
 }
 
+/* USER NOTIFY SETTING PAGE
+=============================================================================================== */
+#notifySettings{
+    @extend #modifySignUpData;
+
+    form{
+        text-align: center;
+
+        .row{
+            margin-bottom: 30px;
+        }
+
+        input[type="checkbox"]{
+            position: absolute;
+            left: -9999px;
+
+            & + label{
+                position: relative;
+                cursor: pointer;
+                font-size: 1.5rem;
+            }
+
+            &:checked + label:after{
+                font-family: 'ElegantIcons';
+                content: '\5a';
+                margin-left: 10px;
+                position: relative;
+                top: 5px;
+                font-size: 2.5rem;
+                color: $turquoise;
+            }
+
+            &:not(:checked) + label:after{
+                font-family: 'ElegantIcons';
+                content: '\56';
+                margin-left: 10px;
+                position: relative;
+                top: 5px;
+                font-size: 2.5rem;
+                color: $turquoise;
+            }
+        }
+    }
+
+
+}
 
 
 

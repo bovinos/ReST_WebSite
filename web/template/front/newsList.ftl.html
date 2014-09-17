@@ -27,105 +27,112 @@
     </div>
 </div>
 
-
-<!-- COLONNA SINISTRA
-============================================================================================= -->
-<div id="leftCol" class="four columns alpha">
-    <form id="newsFilterForm">
-        <!-- Filtri -->
-        <div id="newsFilter">
-            <h1>Filtra per</h1>
-            <div>
-                <button type="submit" name="s" value="1" id="searchButtonFilter" data-icon="&#x55;"></button> 
-                <input type="text" name="fn" placeholder="Filtra le news per nome" maxlength="60" pattern="[a-zA-Z0-9\s]*" title="puoi inserire solo caratteri alfanumerici e spazi"/>
-            </div>
-            <div>
-                <div class="selectContainer singleSelection">
-                    <select name="fs">
-                        <optgroup label="Filtra per serie"> 
-                            <option value="0">Nessuna Serie</option>
-                            <#list series as s>
-                            <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
-                            </#list>
-                        </optgroup>
-                    </select>
+<div class="row">
+    <!-- COLONNA SINISTRA
+    ============================================================================================= -->
+    <div id="leftCol" class="four columns alpha">
+        <form id="newsFilterForm">
+            <!-- Filtri -->
+            <div id="newsFilter">
+                <h1>Filtra per</h1>
+                <div>
+                    <button type="submit" name="s" value="1" id="searchButtonFilter" data-icon="&#x55;"></button> 
+                    <input type="text" name="fn" placeholder="Filtra le news per nome" maxlength="60" pattern="[a-zA-Z0-9\s]*" title="puoi inserire solo caratteri alfanumerici e spazi"/>
+                </div>
+                <div>
+                    <div class="selectContainer singleSelection">
+                        <select name="fs">
+                            <optgroup label="Filtra per serie"> 
+                                <option value="0">Nessuna Serie</option>
+                                <#list series as s>
+                                <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
+                                </#list>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <#if user??>
+                <div>
+                    <span id="mySeriesFilter">
+                        <input type="checkbox" name="fmys" id="mySeriesFilterCheckbox" value="1" />
+                        <label for="mySeriesFilterCheckbox">Solo news relative alle mie serie</label>
+                    </span>
+                </div>
+                </#if>
+                <div>
+                    <input name="fd" type="date"/>
+                </div>
+                <div>
+                    <button type="submit" name="s" value="1">Filtra</button>
+                </div>
+            </div><!-- FINE filtri -->
+            <!-- Ordinamenti -->
+            <div id="newsSorting">
+                <h1>Ordina per</h1>
+                <div>
+                    <input type="radio" name="o" value="1" id="sortForCommentsRadio">
+                    <label for="sortForCommentsRadio">Pi&ugrave; commentate</label>
+                </div>
+                <div>
+                    <input type="radio" name="o" value="2" id="sortForLikeRadio">
+                    <label for="sortForLikeRadio">Numero di Like</label>
+                </div>
+                <div>
+                    <input type="radio" name="o" value="3" id="sortForDate">
+                    <label for="sortForDate">Pi&ugrave; recenti</label>
+                </div>
+                <div>
+                    <button type="submit" name="s" value="1">Ordina</button>
                 </div>
             </div>
-            <#if user??>
-            <div>
-                <span id="mySeriesFilter">
+        </form>
+    </div>
 
-                    <input type="checkbox" name="fmys" id="mySeriesFilterCheckbox" value="1" />
-                    <label for="mySeriesFilterCheckbox">Solo news relative alle mie serie</label>
-                </span>
-            </div>
+    <!-- LISTA NEWS
+    ============================================================================================= -->
+    <!-- controlliamo se esistono liste -->
+    <#if (news?size > 0)>
+    <!-- se esistono stampiamole tutte -->
+    <div id="newsList" class="twelve columns row omega">
+        <#list news as n>
+        <!-- stampo una riga ogni 3 elementi e se non sono agli ultimi 3 elementi -->
+        <#if ((n_index % 3) == 0) && ((n_index + 3) <= news?size)>
+        <div class="row">
             </#if>
-            <div>
-                <input name="fd" type="date"/>
-            </div>
-            <div>
-                <button type="submit" name="s" value="1">Filtra</button>
-            </div>
-        </div><!-- FINE filtri -->
-        <!-- Ordinamenti -->
-        <div id="newsSorting">
-            <h1>Ordina per</h1>
-            <div>
-                <input type="radio" name="o" value="1" id="sortForCommentsRadio">
-                <label for="sortForCommentsRadio">Pi&ugrave; commentate</label>
-            </div>
-            <div>
-                <input type="radio" name="o" value="2" id="sortForLikeRadio">
-                <label for="sortForLikeRadio">Numero di Like</label>
-            </div>
-            <div>
-                <input type="radio" name="o" value="3" id="sortForDate">
-                <label for="sortForDate">Pi&ugrave; recenti</label>
-            </div>
-            <div>
-                <button type="submit" name="s" value="1">Ordina</button>
-            </div>
-        </div>
-    </form>
-</div>
-
-<!-- LISTA NEWS
-============================================================================================= -->
-<!-- controlliamo se esistono liste -->
-<#if (news?size > 0)>
-<!-- se esistono stampiamole tutte -->
-<div id="newsList" class="twelve columns">
-    <#list news as n>
-    <div class="news row">
-        <div class="imgContainer two columns">
-            <img src="${strip_slashes(n.imageURL)}" alt="News image"/>
-        </div>
-        <div class="notImgContainer fourteen columns">
-            <div class="header">
-                <h1><a href="SchedaNews?id=${n.ID}">${strip_slashes(n.title)?html}</a></h1>
-            </div>
-            <div class="body">
-                <p>${strip_slashes(n.text)?html}</p>
-            </div>
-            <div class="footer">
-                <div class="left">
-                    <p>${strip_slashes(n.user.username)?html}, ${strip_slashes(n.date)?html}</p>
+            <div class="news columns">
+                <div class="head row">
+                    <h1 class="center"><a href="SchedaNews?id=${n.ID}">${strip_slashes(n.title)?html}</a></h1>
+                    <a href="SchedaNews?id=${n.ID}" class="readMore right"><span class="arrow_right_alt"></span></a>
                 </div>
-                <div class="right">
+                <div class="body row">
                     <p>
-                        <span class="like" data-icon="&#xe0dd;">${strip_slashes(n.likes)?html}</span>
-                        <span class="dislike" data-icon="&#xe0f1;">${strip_slashes(n.dislikes)?html}</span>
+                        <#list strip_slashes(n.text)?word_list as word>
+                        <!-- trasformiamo il testo in una lista di parole e stampiamo solo le prime 5 parole -->
+                        <#if word_index < 50>
+                        ${word?html}
+                        </#if>
+                        </#list>
+                        ...
                     </p>
                 </div>
+                <div class="footer row">
+                    <div class="left">
+                        <p>${strip_slashes(n.user.username)?html}, ${strip_slashes(n.date)?html}</p>
+                    </div>
+                    <div class="right">
+                        <p>
+                            <span class="like" data-icon="&#xe0dd;">${strip_slashes(n.likes)?html}</span>
+                            <span class="dislike" data-icon="&#xe0f1;">${strip_slashes(n.dislikes)?html}</span>
+                        </p>
+                    </div>
+                </div>
             </div>
+            <#if ((n_index + 1) % 3)  == 0>
         </div>
+        </#if>
+        </#list>
     </div>
-    </#list>
+    </#if>
+
 </div>
-<#else>
-<!-- altrimenti diciamo che non sono ancora presenti news -->
-<div>
-    <p>Purtroppo non sono ancora presenti delle news.</p>
-</div>
-</#if>
 
