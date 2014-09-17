@@ -741,17 +741,9 @@ button {
           margin-right: 10px; }
           #newsList .news .footer .right .like:before {
             margin-right: 3px;
-            transition: color 0.3s ease-in-out;
-            -webkit-transition: color 0.3s ease-in-out;
-            -moz-transition: color 0.3s ease-in-out; }
-          #newsList .news .footer .right .like:hover:before {
             color: #33cc00; }
         #newsList .news .footer .right .dislike:before {
           margin-right: 3px;
-          transition: color 0.3s ease-in-out;
-          -webkit-transition: color 0.3s ease-in-out;
-          -moz-transition: color 0.3s ease-in-out; }
-        #newsList .news .footer .right .dislike:hover:before {
           color: #cc0000; }
 
 /* SERIES LIST PAGE
@@ -840,14 +832,14 @@ button {
     color: #1695A3;
     font-size: 3rem;
     margin-bottom: 20px; }
-  #seriesCard .imgContainer {
+  #seriesCard .imgSeriesContainer {
     background: transparent url("../img/placeholder.jpg") no-repeat;
     background-size: cover;
     min-height: 300px;
     width: 100%;
     text-align: center;
     position: relative; }
-    #seriesCard .imgContainer h1 {
+    #seriesCard .imgSeriesContainer h1 {
       position: absolute;
       top: 0;
       left: 0;
@@ -859,7 +851,7 @@ button {
       font-family: Laila;
       color: rgba(255, 255, 255, 0.9);
       font-size: 4rem; }
-    #seriesCard .imgContainer img {
+    #seriesCard .imgSeriesContainer img {
       width: 100%;
       height: auto; }
   #seriesCard #buttons {
@@ -956,6 +948,8 @@ button {
     float: left; }
   #commentsList .footer .right {
     float: right; }
+    #commentsList .footer .right a {
+      color: #999999; }
     #commentsList .footer .right .like {
       margin-right: 10px; }
       #commentsList .footer .right .like:before {
@@ -1014,6 +1008,8 @@ button {
       float: left; }
     #newsCard .footer .right {
       float: right; }
+      #newsCard .footer .right a {
+        color: #999999; }
       #newsCard .footer .right .authorAndDate {
         margin-bottom: 5px; }
       #newsCard .footer .right .like {
@@ -1102,6 +1098,9 @@ button {
       #formLogIn form button:hover, #formSignUp form button:hover, #modifySignUpData form button:hover, #optionalData form button:hover, #notifySettings form button:hover {
         background-color: #EB7F00; }
     #formLogIn form #signUp, #formSignUp form #signUp, #modifySignUpData form #signUp, #optionalData form #signUp, #notifySettings form #signUp {
+      text-align: right;
+      color: #444444;
+      font-size: 1.3rem;
       margin-top: 10px; }
 
 /* SIGNUP

@@ -4,7 +4,7 @@
 <div id="seriesCard">
 
 
-    <div class="imgContainer">
+    <div class="imgSeriesContainer">
         <h1>${series.name}</h1>
         <img src="${strip_slashes(series.imageURL)}" alt="Immagine ${strip_slashes(series.name)?html}"/>
         <div id="seriesRate">
@@ -122,8 +122,8 @@
                     </div>
                     <div class="right">
                         <p>
-                            <span class="like" data-icon="&#xe0dd;">${strip_slashes(c.likes)?html}</span>
-                            <span class="dislike" data-icon="&#xe0f1;">${strip_slashes(c.dislikes)?html}</span>
+                            <a href='?lc=${c.ID}'><span class="like" data-icon="&#xe0dd;">${strip_slashes(c.likes)?html}</span></a>
+                            <a href='?dc=${c.ID}'><span class="dislike" data-icon="&#xe0f1;">${strip_slashes(c.dislikes)?html}</span></a>
                         </p>
                     </div>
                 </div>
