@@ -47,10 +47,10 @@ public class NewsList extends RESTBaseController {
 
         //genero e inserisco nella request le 5 serie più trendy
         request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
-        
+
         result.activate("newsList.ftl.html", request, response);
     }
-    
+
     private void action_FilterAndOrder_newslist(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -69,7 +69,7 @@ public class NewsList extends RESTBaseController {
                 action_error(request, response, "Field Error");
             }
         }
-        
+
         List<News> newsList = getDataLayer().getNews();
         //Filtro News per Nome
         if (request.getParameter("fn") != null && !request.getParameter("fn").trim().isEmpty()) {
@@ -155,14 +155,21 @@ public class NewsList extends RESTBaseController {
                     action_error(request, response, "Internal Error");
             }
         }
-        
+
         request.setAttribute("news", newsList);
         result.activate("newsList.ftl.html", request, response);
     }
-    
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        System.out.print(getDataLayer().getHintSeries(getDataLayer().getUser(6)));
+        List<Series> sl = getDataLayer().getHintSeries(getDataLayer().getUser(6));
+        System.out.println("================================================================================");
+        System.out.println(sl.size());
+        System.out.println("================================================================================");
+        for (Series s : sl) {
+            System.out.println(s);
+            System.out.println("================================================================================");
+        }
         if (request.getParameter("s") != null) {
             try {
                 action_FilterAndOrder_newslist(request, response);
@@ -177,10 +184,10 @@ public class NewsList extends RESTBaseController {
             }
         }
     }
-    
+
     @Override
     public String getServletInfo() {
         return "Short description";
     }
-    
+
 }

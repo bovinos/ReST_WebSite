@@ -3401,32 +3401,24 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // se l'utente non ha serie semplicemente consigliamo quelle più trendy
             result = RESTSortLayer.trendify(getSeries());
         } else { // l'utente ha almeno una serie
-            // prendo tutti gli utenti che hanno la prima tra le serie nella lista dell'utente
-            List<User> usersWithAllTheSeries = getUsers(userSeries.get(0));
-            List<User> usersWithThisSeries = new ArrayList();
-            for (int i = 1; i < userSeries.size(); i++) {
-                usersWithThisSeries = getUsers(userSeries.get(i));
-                usersWithAllTheSeries = getCommonUsers(usersWithAllTheSeries, usersWithThisSeries);
-            }
-            // ora ogni utente nella lista ha almeno le stesse serie di quell'utente
-            // sicuramente in questa lista c'è l'utente preso in input
-            // ora andiamo a prendere tutte le serie di questi utenti eccezion fatta per l'utentie preso in input
-            for (User u : usersWithAllTheSeries) {
-                if (!u.equals(user)) {
-                    result.addAll(u.getSeries());
+
+            for (User u : getUsers()) { // per tutti gli utenti
+                if (u.getSeries().containsAll(userSeries)) { // se l'utente in questione ha tutte le serie dell'utente preso in input
+                    result.addAll(u.getSeries());  // aggiungi tutte le sue serie al risultato
                 }
             }
+
             // ora ho una lista di serie da cui togliere quelle dell'utente in input
             result = getDifferentSeries(result, userSeries);
-            // ora che ho tolto le serie dell'utente in input devo semplicemente ordinare la lista in base a quante
+            // ora che ho tolto le serie dell'utente in input devo semplicemente ordinare la lista in base a quante volte
             // compare la serie 
-
-            // ordino le serie in base in ordine alfabetico
-            result = RESTSortLayer.sortSeriesByName(result);
 
             if (result.isEmpty()) {
                 return result;
             }
+
+            // ordino le serie alfabeticamente
+            result = RESTSortLayer.sortSeriesByName(result);
 
             // ora contiamo le occorrenze
             int count = 1;
@@ -3434,19 +3426,25 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             Series[] seriesArray = new Series[result.size()];
             for (int i = 1; i < result.size(); i++) {
                 if (result.get(i).equals(result.get(i - 1))) {
+                    // se la serie è la stessa di quella precedente
+                    // icremento il contatore e negli array che mi terranno traccia della serie
+                    // e di quante volte quella serie compare nella lista metto
+                    // -1 ad indicare che quella cella dell'array non è riferita a nessuna serie
+                    // e null alla serie che appunto non c'è
                     count++;
-                    countArray[i] = -1;
-                    seriesArray[i] = null;
+                    countArray[i - 1] = -1;
+                    seriesArray[i - 1] = null;
                 } else {
-                    countArray[i] = count;
-                    seriesArray[i] = result.get(i - 1);
+                    // appena trovo che la serie corrente è diversa da quella precedente
+                    // cioè ho cambiato serie,
+                    countArray[i - 1] = count;
+                    seriesArray[i - 1] = result.get(i - 1);
                     count = 1;
                 }
             }
-            if (count != 1) { // cioè all'ultimo elemento ho fatto count++ e non l'ho inserito nell'array
-                countArray[result.size() - 1] = count;
-                seriesArray[result.size() - 1] = result.get(result.size() - 1);
-            }
+            // cioè all'ultimo elemento che non ho salvato
+            countArray[result.size() - 1] = count;
+            seriesArray[result.size() - 1] = result.get(result.size() - 1);
 
             result.clear(); // ora non mi serve più la lista contenente le serie a doppione
 
@@ -3454,6 +3452,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // una serie compare nella lista
             int max;
             int maxIndex;
+            System.out.println("Lunghezza countArray: " + countArray.length);
             do {
                 maxIndex = 0;
                 max = -1;
@@ -3466,6 +3465,14 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                     }
                 }
                 if (max != -1) {
+                    if (seriesArray[maxIndex] == null) {
+                        System.out.println("Series ID: " + "null");
+                    } else {
+                        System.out.println("Series ID: " + seriesArray[maxIndex].getID());
+                    }
+                    System.out.println("max: " + max);
+                    System.out.println("maxIndex: " + maxIndex);
+                    System.out.println("**************************************************************************************");
                     result.add(seriesArray[maxIndex]);
                     countArray[maxIndex] = -1;
                     seriesArray[maxIndex] = null;
@@ -3474,19 +3481,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // alla fine di questo ciclo result conerrà la lista delle serie da dare come suggerimento
             // ordinate per "popolarità" tra gli utenti che hanno almeno tutte le serie dell'utente preso in input
         }
-        return result;
-    }
-
-    private List<User> getCommonUsers(List<User> usersWithAllTheSeries, List<User> usersWithThisSeries) {
-
-        List<User> result = new ArrayList();
-
-        for (User u : usersWithAllTheSeries) {
-            if (usersWithThisSeries.contains(u)) {
-                result.add(u);
-            }
-        }
-
         return result;
     }
 
