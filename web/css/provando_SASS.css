@@ -265,7 +265,8 @@ button {
     #slider #slideshow-wrap #slideshow-inner {
       width: 100%;
       height: 100%;
-      background-color: black;
+      background: transparent url("../img/placeholder.jpg") no-repeat;
+      background-size: cover;
       overflow: hidden;
       position: relative; }
       #slider #slideshow-wrap #slideshow-inner ul {
@@ -769,7 +770,12 @@ button {
   #seriesList .seriesBox {
     margin-bottom: 30px;
     text-align: center;
-    position: relative; }
+    position: relative;
+    background: transparent url("../img/placeholder.jpg") no-repeat;
+    background-size: cover;
+    -webkit-box-shadow: 0 0 3px #1695A3;
+    -moz-box-shadow: 0 0 3px #1695A3;
+    box-shadow: 0 0 3px #1695A3; }
     #seriesList .seriesBox a {
       display: inline-block;
       width: 100%;
@@ -837,6 +843,7 @@ button {
   #seriesCard .imgContainer {
     width: 100%;
     text-align: center;
+    background: transparent url("../img/placeholder.jpg") no-repeat;
     position: relative; }
     #seriesCard .imgContainer h1 {
       position: absolute;
@@ -1232,10 +1239,16 @@ button {
   margin-bottom: 10px; }
   #modifySignUpData form, #optionalData form, #notifySettings form {
     width: 70%; }
-    #modifySignUpData form label, #optionalData form label, #notifySettings form label {
-      font-size: 2rem;
-      margin-right: 10px;
-      color: #1695A3; }
+    #modifySignUpData form fieldset, #optionalData form fieldset, #notifySettings form fieldset {
+      border-top: 1px solid rgba(22, 149, 163, 0.4);
+      padding: 20px 0;
+      margin-bottom: 10px; }
+      #modifySignUpData form fieldset legend, #optionalData form fieldset legend, #notifySettings form fieldset legend {
+        position: relative;
+        left: 5%;
+        padding: 0 5px;
+        font-size: 1.4rem;
+        color: #999999; }
 
 /* USER OPTIONAL DATA PAGE
 =============================================================================================== */
@@ -1273,6 +1286,7 @@ button {
     position: absolute;
     left: -9999px; }
     #notifySettings form input[type="checkbox"] + label {
+      color: #444444;
       position: relative;
       cursor: pointer;
       font-size: 1.5rem; }
