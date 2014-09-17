@@ -1285,6 +1285,13 @@ button {
 =============================================================================================== */
 #notifySettings form {
   text-align: center; }
+  #notifySettings form fieldset {
+    border: 1px solid rgba(22, 149, 163, 0.4);
+    padding: 10px 20px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    margin-top: 30px; }
   #notifySettings form .row {
     margin-bottom: 30px; }
   #notifySettings form input[type="checkbox"] {
@@ -1311,6 +1318,8 @@ button {
       top: 5px;
       font-size: 2.5rem;
       color: #1695A3; }
+    #notifySettings form input[type="checkbox"]:not(:checked) ~ fieldset {
+      display: none; }
   #notifySettings form input[type="radio"] {
     position: absolute;
     left: -9999px; }

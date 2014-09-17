@@ -1785,6 +1785,13 @@ button{
     form{
         text-align: center;
 
+        fieldset{
+            border: 1px solid rgba(22, 149, 163, 0.4);
+            padding: 10px 20px;
+            @include borderRadius(5px);
+            margin-top: 30px;
+        }
+
         .row{
             margin-bottom: 30px;
         }
@@ -1818,6 +1825,10 @@ button{
                 top: 5px;
                 font-size: 2.5rem;
                 color: $turquoise;
+            }
+
+            &:not(:checked) ~ fieldset{
+                display: none;
             }
         }
 

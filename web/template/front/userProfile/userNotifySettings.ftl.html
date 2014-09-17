@@ -3,20 +3,27 @@
     <form action="ModificaProfiloPersonale" method="GET">
         <input type="hidden" name="sezione" value="3" />
         <div class="row">
+            <#if user.notificationStatus>
+            <input type="checkbox" checked='checked' name="a" id="notificationActive" value="1" tabindex="1" />
+            <#else>
             <input type="checkbox" name="a" id="notificationActive" value="1" tabindex="1" />
+            </#if>
             <label for="notificationActive">Attiva le notifiche</label>
-        </div>
-        <div class="row">
-            <input type="radio" id="oneHour" name="t" value='1' tabindex="2" />
-            <label for="oneHour"> 1 ora</label>
-            <input type="radio" id="threeHours" name="t" value='3' tabindex="3" />
-            <label for="threeHours"> 3 ore</label>
-            <input type="radio" id="sixHours" name="t" value='6' tabindex="4" />
-            <label for="sixHours"> 6 ore</label>
-            <input type="radio" id="twelveHours" name="t" value='12' tabindex="5" />
-            <label for="twelveHours"> 12 ore</label>
-            <input type="radio" id="oneDay" name="t" value='24' tabindex="6" />
-            <label for="oneHour"> 1 giorno</label>
+            <div class='row'>   
+            </div>
+            <fieldset>
+                <legend>Imposta l'anticipo per tutte le serie</legend>
+                <input type="radio" id="oneHour" name="t" value='1' tabindex="2" />
+                <label for="oneHour"> 1 ora</label>
+                <input type="radio" id="threeHours" name="t" value='3' tabindex="3" />
+                <label for="threeHours"> 3 ore</label>
+                <input type="radio" id="sixHours" name="t" value='6' tabindex="4" />
+                <label for="sixHours"> 6 ore</label>
+                <input type="radio" id="twelveHours" name="t" value='12' tabindex="5" />
+                <label for="twelveHours"> 12 ore</label>
+                <input type="radio" id="oneDay" name="t" value='24' tabindex="6" />
+                <label for="oneHour"> 1 giorno</label>
+            </fieldset>
         </div>
         <button type="submit" name="modifyNotifySettings" value="1">Modifica</button>
     </form>
