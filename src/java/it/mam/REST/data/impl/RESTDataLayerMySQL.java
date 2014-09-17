@@ -15,6 +15,7 @@ import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.Service;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
+import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.data.DataLayerException;
 import it.univaq.f4i.iw.framework.data.DataLayerMysqlImpl;
 import java.sql.PreparedStatement;
@@ -3387,6 +3388,118 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 }
             }
         }
+        return result;
+    }
+
+    @Override
+    public List<Series> getHintSeries(User user) {
+
+        List<Series> result = new ArrayList();
+
+        List<Series> userSeries = user.getSeries();
+        if (userSeries.isEmpty()) { // cerca in generale perché l'utente non ha serie preferite
+            // se l'utente non ha serie semplicemente consigliamo quelle più trendy
+            result = RESTSortLayer.trendify(getSeries());
+        } else { // l'utente ha almeno una serie
+            // prendo tutti gli utenti che hanno la prima tra le serie nella lista dell'utente
+            List<User> usersWithAllTheSeries = getUsers(userSeries.get(0));
+            List<User> usersWithThisSeries = new ArrayList();
+            for (int i = 1; i < userSeries.size(); i++) {
+                usersWithThisSeries = getUsers(userSeries.get(i));
+                usersWithAllTheSeries = getCommonUsers(usersWithAllTheSeries, usersWithThisSeries);
+            }
+            // ora ogni utente nella lista ha almeno le stesse serie di quell'utente
+            // sicuramente in questa lista c'è l'utente preso in input
+            // ora andiamo a prendere tutte le serie di questi utenti eccezion fatta per l'utentie preso in input
+            for (User u : usersWithAllTheSeries) {
+                if (!u.equals(user)) {
+                    result.addAll(u.getSeries());
+                }
+            }
+            // ora ho una lista di serie da cui togliere quelle dell'utente in input
+            result = getDifferentSeries(result, userSeries);
+            // ora che ho tolto le serie dell'utente in input devo semplicemente ordinare la lista in base a quante
+            // compare la serie 
+
+            // ordino le serie in base in ordine alfabetico
+            result = RESTSortLayer.sortSeriesByName(result);
+
+            if (result.isEmpty()) {
+                return result;
+            }
+
+            // ora contiamo le occorrenze
+            int count = 1;
+            int[] countArray = new int[result.size()];
+            Series[] seriesArray = new Series[result.size()];
+            for (int i = 1; i < result.size(); i++) {
+                if (result.get(i).equals(result.get(i - 1))) {
+                    count++;
+                    countArray[i] = -1;
+                    seriesArray[i] = null;
+                } else {
+                    countArray[i] = count;
+                    seriesArray[i] = result.get(i - 1);
+                    count = 1;
+                }
+            }
+            if (count != 1) { // cioè all'ultimo elemento ho fatto count++ e non l'ho inserito nell'array
+                countArray[result.size() - 1] = count;
+                seriesArray[result.size() - 1] = result.get(result.size() - 1);
+            }
+
+            result.clear(); // ora non mi serve più la lista contenente le serie a doppione
+
+            // ora temp è una lista senza doppioni e countArray un array che contiene il numero di volte che
+            // una serie compare nella lista
+            int max;
+            int maxIndex;
+            do {
+                maxIndex = 0;
+                max = -1;
+                for (int i = 0; i < countArray.length; i++) {
+                    if (countArray[i] != -1) {
+                        if (max == -1 || countArray[i] > max) {
+                            max = countArray[i];
+                            maxIndex = i;
+                        }
+                    }
+                }
+                if (max != -1) {
+                    result.add(seriesArray[maxIndex]);
+                    countArray[maxIndex] = -1;
+                    seriesArray[maxIndex] = null;
+                }
+            } while (max != -1);
+            // alla fine di questo ciclo result conerrà la lista delle serie da dare come suggerimento
+            // ordinate per "popolarità" tra gli utenti che hanno almeno tutte le serie dell'utente preso in input
+        }
+        return result;
+    }
+
+    private List<User> getCommonUsers(List<User> usersWithAllTheSeries, List<User> usersWithThisSeries) {
+
+        List<User> result = new ArrayList();
+
+        for (User u : usersWithAllTheSeries) {
+            if (usersWithThisSeries.contains(u)) {
+                result.add(u);
+            }
+        }
+
+        return result;
+    }
+
+    private List<Series> getDifferentSeries(List<Series> l1, List<Series> l2) {
+
+        List<Series> result = new ArrayList();
+
+        for (Series s : l1) {
+            if (!l2.contains(s)) {
+                result.add(s);
+            }
+        }
+
         return result;
     }
 
