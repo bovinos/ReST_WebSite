@@ -38,7 +38,7 @@ public class SignUp extends RESTBaseController {
 
             getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
             // complimenti ti sei loggato
-            response.sendRedirect("ListaNews");
+            response.sendRedirect("LogIn");
         } else {
             // errore uno dei campi è vuoto
             action_error(request, response, "Uno dei campi è vuoto");
