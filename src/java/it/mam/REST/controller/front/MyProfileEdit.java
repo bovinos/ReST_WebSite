@@ -110,7 +110,7 @@ public class MyProfileEdit extends RESTBaseController {
             }
             if (request.getParameter("imageURL") != null && request.getParameter("imageURL").length() > 0
                     && !(request.getParameter("imageURL").equals(user.getImageURL()))) {
-                user.setImageURL(request.getParameter("ImageURL"));
+                user.setImageURL(request.getParameter("imageURL"));
             }
            
             if (request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0) {
