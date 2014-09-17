@@ -117,7 +117,7 @@
                 </div>
                 <div class="footer row">
                     <div class="left">
-                        <p>${strip_slashes(n.user.username)?html}, ${strip_slashes(n.date)?html}</p>
+                        <p>${strip_slashes(n.user.username)?html}, ${n.date?date?string.short}</p>
                     </div>
                     <div class="right">
                         <p>

@@ -1146,7 +1146,7 @@ button {
         position: absolute;
         left: 0; }
         #userSeries .series .head a.left:hover {
-          color: #EB7F00; }
+          color: #ACF0F2; }
       #userSeries .series .head a.right {
         position: absolute;
         right: 0; }
@@ -1181,10 +1181,15 @@ button {
       #userSeries .series .mySeriesInfo h1 {
         display: inline; }
 
+/* USER BROADCAST PROGRAMMING PAGE
+=============================================================================================== */
+#userBroadcastProgramming {
+  margin-top: 25px; }
+
 /* USER SING UP DATA PAGE
 =============================================================================================== */
 #modifySignUpData, #optionalData, #notifySettings {
-  margin-top: 25px;
+  margin-top: 15%;
   margin-bottom: 10px; }
   #modifySignUpData form, #optionalData form, #notifySettings form {
     width: 70%; }

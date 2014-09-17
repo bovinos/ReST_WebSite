@@ -38,35 +38,36 @@ public class MyProfile extends RESTBaseController {
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
-        try{
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
-        request.setAttribute("userProfileContent_tpl", "userBroadcastProgramming.ftl.html");
-        Calendar IterationCalendar = Calendar.getInstance();
-        Calendar EpisodeCalendar = Calendar.getInstance();
-        List<List<ChannelEpisode>> days = new ArrayList();
-        List<ChannelEpisode> ceList = getDataLayer().getChannelEpisode();
-        List<ChannelEpisode> ceResult = new ArrayList();
-        for(int i = 0; i < 7; i++){
-          IterationCalendar.clear();
-          IterationCalendar.setTimeInMillis(new Date().getTime() + (i* RESTSortLayer.DAY_IN_MILLISECONDS));
-          for(ChannelEpisode ce: ceList){
-              EpisodeCalendar.setTimeInMillis(ce.getDate().getTime());
-              if(EpisodeCalendar.get(Calendar.DAY_OF_MONTH) == IterationCalendar.get(Calendar.DAY_OF_MONTH) 
-                      && EpisodeCalendar.get(Calendar.MONTH) == IterationCalendar.get(Calendar.MONTH)
-                      && EpisodeCalendar.get(Calendar.YEAR) == IterationCalendar.get(Calendar.YEAR)){
-                  ceResult.add(ce);
-              }
-          }
-          days.add(ceResult);
-        }
-        request.setAttribute("days", days);
-        result.activate("userProfile/userProfileOutline.ftl.html", request, response);
-         } catch (NumberFormatException ex) {
+        try {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            request.setAttribute("user", user);
+            request.setAttribute("userProfileContent_tpl", "userBroadcastProgramming.ftl.html");
+            Calendar iterationCalendar = Calendar.getInstance();
+            Calendar episodeCalendar = Calendar.getInstance();
+            List<List<ChannelEpisode>> schedule = new ArrayList();
+            List<Date> days = new ArrayList();
+            List<ChannelEpisode> ceList = getDataLayer().getChannelEpisode();
+            for (int i = 0; i < 7; i++) {
+                List<ChannelEpisode> ceResult = new ArrayList();
+                iterationCalendar.setTimeInMillis(new Date().getTime() + (i * RESTSortLayer.DAY_IN_MILLISECONDS));
+                days.add(iterationCalendar.getTime());
+                for (ChannelEpisode ce : ceList) {
+                    episodeCalendar.setTimeInMillis(ce.getDate().getTime());
+                    if (episodeCalendar.get(Calendar.DAY_OF_MONTH) == iterationCalendar.get(Calendar.DAY_OF_MONTH)
+                            && episodeCalendar.get(Calendar.MONTH) == iterationCalendar.get(Calendar.MONTH)
+                            && episodeCalendar.get(Calendar.YEAR) == iterationCalendar.get(Calendar.YEAR)) {
+                        ceResult.add(ce);
+                    }
+                }
+                schedule.add(ceResult);
+            }
+            request.setAttribute("schedule", schedule);
+            request.setAttribute("days", days);
+            result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
     }
-
 
     // attiva il template "le mie serie"
     private void action_activate_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -74,104 +75,104 @@ public class MyProfile extends RESTBaseController {
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
-        try{
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
-        request.setAttribute("userProfileContent_tpl", "userSeries.ftl.html");
-        result.activate("userProfile/userProfileOutline.ftl.html", request, response);
-         } catch (NumberFormatException ex) {
+        try {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            request.setAttribute("user", user);
+            request.setAttribute("userProfileContent_tpl", "userSeries.ftl.html");
+            result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
     }
 
     private void action_rating_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try{
-        User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
-        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s")));
-        UserSeries us = getDataLayer().getUserSeries(user, series);
-        if (!(request.getParameter("r").equals(us.getRating()))) {
-            int rating = SecurityLayer.checkNumeric(request.getParameter("r"));
-            switch (rating) {
-                case 1:
-                    us.setRating(UserSeries.ONE);
-                    break;
-                case 2:
-                    us.setRating(UserSeries.TWO);
-                    break;
-                case 3:
-                    us.setRating(UserSeries.THREE);
-                    break;
-                case 4:
-                    us.setRating(UserSeries.FOUR);
-                    break;
-                case 5:
-                    us.setRating(UserSeries.FIVE);
-                    break;
-                default:
-                    action_error(request, response, "Internal Error");
-            }
-            System.err.println("PRIMA DI STORE USER SERIES");
-            getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-            // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
-            // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima xD
-            response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
+        try {
+            User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s")));
+            UserSeries us = getDataLayer().getUserSeries(user, series);
+            if (!(request.getParameter("r").equals(us.getRating()))) {
+                int rating = SecurityLayer.checkNumeric(request.getParameter("r"));
+                switch (rating) {
+                    case 1:
+                        us.setRating(UserSeries.ONE);
+                        break;
+                    case 2:
+                        us.setRating(UserSeries.TWO);
+                        break;
+                    case 3:
+                        us.setRating(UserSeries.THREE);
+                        break;
+                    case 4:
+                        us.setRating(UserSeries.FOUR);
+                        break;
+                    case 5:
+                        us.setRating(UserSeries.FIVE);
+                        break;
+                    default:
+                        action_error(request, response, "Internal Error");
+                }
+                System.err.println("PRIMA DI STORE USER SERIES");
+                getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+                // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
+                // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima xD
+                response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
 
-        }
+            }
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
     }
 
     private void action_delete_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try{
+        try {
 
-        User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
-        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
-        getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
-        response.sendRedirect("ProfiloPersonale?sezione=1");
-         } catch (NumberFormatException ex) {
+            User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
+            getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
+            response.sendRedirect("ProfiloPersonale?sezione=1");
+        } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
     }
-    
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        try{
-        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
-        switch (section) {
-            case 1:
-                if(request.getParameter("r") != null && request.getParameter("s") != null){
-                try {
-                    action_rating_ProfileUserSeries(request, response);
-                } catch (IOException ex) {
-                    action_error(request, response, ex.getMessage());
-                }
-                } else if (request.getParameter("d") != null) {
-                 try {
-                    action_delete_ProfileUserSeries(request, response);
-                } catch (IOException ex) {
-                    action_error(request, response, ex.getMessage());
-                } 
-                } else {
+        try {
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
+            switch (section) {
+                case 1:
+                    if (request.getParameter("r") != null && request.getParameter("s") != null) {
+                        try {
+                            action_rating_ProfileUserSeries(request, response);
+                        } catch (IOException ex) {
+                            action_error(request, response, ex.getMessage());
+                        }
+                    } else if (request.getParameter("d") != null) {
+                        try {
+                            action_delete_ProfileUserSeries(request, response);
+                        } catch (IOException ex) {
+                            action_error(request, response, ex.getMessage());
+                        }
+                    } else {
+                        try {
+                            action_activate_ProfileUserSeries(request, response);
+                        } catch (IOException ex) {
+                            action_error(request, response, ex.getMessage());
+                        }
+                    }
+                    break;
+                case 2:
                     try {
-                        action_activate_ProfileUserSeries(request, response);
+                        action_activate_ProfileUserBroadcastProgramming(request, response);
                     } catch (IOException ex) {
                         action_error(request, response, ex.getMessage());
                     }
-                }
-                break;
-            case 2:
-                try {
-                    action_activate_ProfileUserBroadcastProgramming(request, response);
-                } catch (IOException ex) {
-                    action_error(request, response, ex.getMessage());
-                }
-                break;
-            default:
-                action_error(request, response, "The requested resource is not available");
-        }
-         } catch (NumberFormatException ex) {
+                    break;
+                default:
+                    action_error(request, response, "The requested resource is not available");
+            }
+        } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
     }

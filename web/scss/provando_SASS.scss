@@ -145,7 +145,6 @@ input:invalid{
     }
 }
 
-
 /* per tutti qugli elementi da centrare verticalmente in mezzo al vuoto */
 .verticalCenter{
 
@@ -1582,7 +1581,7 @@ button{
                 left: 0;
 
                 &:hover{
-                    color: $orange;
+                    color: $skyBlue;
                 }
             }
 
@@ -1636,10 +1635,20 @@ button{
     }
 }
 
+/* USER BROADCAST PROGRAMMING PAGE
+=============================================================================================== */
+#userBroadcastProgramming{
+    margin-top: 25px;
+
+    .day{
+
+    }
+}
+
 /* USER SING UP DATA PAGE
 =============================================================================================== */
 #modifySignUpData{
-    margin-top: 25px;
+    margin-top: 15%;
     margin-bottom: 10px;
     @extend #formLogIn;  
 

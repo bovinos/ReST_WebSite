@@ -32,7 +32,7 @@
                 </div>
                 <div class="footer">
                     <div class="right">
-                        <p>${strip_slashes(m.user.username)?html}, ${strip_slashes(m.date)?html} </p>
+                        <p>${strip_slashes(m.user.username)?html}, ${m.date?date?string.short} </p>
                     </div>
                 </div>
             </div>

@@ -1,28 +1,49 @@
-<div id="broadcastProgramming">
+<div id="userBroadcastProgramming">
 
-    <div id="schedule">
-        <div id='today' class="row">
-            <h1 class="day">Oggi</h1>
-            <#list todayEpisode as e>
-            <div class="imgContainer four columns">
-                <h2>${strip_slashes(e.series.name)?html}</h2>
-                <img src="${strip_slashes(e.series.imageURL)}" alt="series image"/>
-                <h3 class="left">e.get</h3>
+    <div id="schedule" class='accordion'>
+        <#list days as day>
+        <div id='Giorno${day_index + 1}' class='day accordionSection'>
+            <h1 class='accordionSectionTitle'><a href="#Giorno${day_index + 1}">${day?date?string.short}</a></h1>
+            <div class='accordionContent'>
+                <#if (schedule[day_index]?size > 0) >
+                <#list schedule[day_index] as ce>
+                <!-- stampo una riga ogni 3 elementi e se non sono agli ultimi 3 elementi -->
+                <#if ((ce_index % 3) == 0) && ((ce_index + 3) <= schedule[day_index]?size)>
+                <div class="row">
+                    </#if>
+                    <div class="daysEpisode column omega">
+                        <div class="head row">
+                            <h1 class="center"><a href="SchedaSerie?id=${ce.episode.series.ID}">${strip_slashes(ce.episode.series.name)}</a></h1>
+                        </div>
+                        <div class="body row">
+
+                        </div>
+                    </div>
+                    <li>${strip_slashes(ce.episode.title)}, ${strip_slashes(ce.channel.name)}</li>
+                    </#list>
+                    <#else>
+                    <p>Non ci sono episodi per questo giorno</p>
+                    </#if>
+
+                    <#if ((us_index + 1) % 3)  == 0>
+                </div>
+                </#if>
+
+
+
+
+                <ul>
+                    <#if (schedule[day_index]?size > 0) >
+                    <#list schedule[day_index] as ce>
+                    <li>${strip_slashes(ce.episode.title)}, ${strip_slashes(ce.channel.name)}</li>
+                    </#list>
+                    <#else>
+                    <li>Non ci sono episodi per questo giorno</li>
+                    </#if>
+                </ul>
             </div>
-            </#list>
-        </div>    
-
-        <h1 class="day">Domani</h1>
-
-        <h1 class="day"></h1>
-
-        <h1 class="day"></h1>
-
-        <h1 class="day"></h1>
-
-        <h1 class="day"></h1>
-
-        <h1 class="day"></h1>
+        </div>
+        </#list>
 
     </div>
 
