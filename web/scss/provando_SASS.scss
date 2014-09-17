@@ -1743,6 +1743,45 @@ button{
 #optionalData{
     @extend #modifySignUpData;
 
+    .selectContainer{
+        padding-left: 0;
+        position: relative;
+
+        &.multipleSelection{
+            width: 100%;
+
+            select{
+                border: 1px solid $turquoise;
+                width: 100%;
+
+                optgroup{
+                    color: $turquoise;
+
+                    option{ /* su chrome non funziona */
+                        color: #000000;
+                        padding: 3px 4px; 
+
+                        &:before{
+                            font-family: 'ElegantIcons';
+                            content: "\4e";
+                            color: #FFFFFF;
+                            margin-right: 5px;
+                            opacity: 0;
+                            @include transition(opacity, 0.3s);
+                        }
+
+                        &:checked{
+
+                            &:before{
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
 
     input[type="radio"]{
 

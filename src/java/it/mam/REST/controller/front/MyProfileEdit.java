@@ -12,7 +12,6 @@ import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,39 +38,39 @@ public class MyProfileEdit extends RESTBaseController {
             result.activate("logIn.ftl.html", request, response);
         }
         try {
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
-        request.setAttribute("userProfileContent_tpl", "userSignUpData.ftl.html");
-        result.activate("userProfile/userProfileOutline.ftl.html", request, response);
-         } catch (NumberFormatException ex) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            request.setAttribute("user", user);
+            request.setAttribute("userProfileContent_tpl", "userSignUpData.ftl.html");
+            result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
     }
 
     private void action_submit_ProfileUserSignUpData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try{
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
-        if ((request.getParameter("username") != null && request.getParameter("username").length() > 0)
-                && !(request.getParameter("username").equals(user.getUsername()))) {
-            user.setUsername(request.getParameter("username"));
-        }
-        if ((request.getParameter("mail") != null && request.getParameter("mail").length() > 0)
-                && !(request.getParameter("mail").equals(user.getMail()))) {
-            user.setMail(request.getParameter("mail"));
-        }
-
-        if (request.getParameter("oldpassword") != null && request.getParameter("oldpassword").length() > 0
-                && (Utility.stringToMD5(Utility.stringToMD5(request.getParameter("oldpassword")))).equals(user.getPassword())
-                && (request.getParameter("newpassword") != null && request.getParameter("newpassword").length() > 0)
-                && (request.getParameter("confirmpassword") != null && request.getParameter("confirmpassword").length() > 0)
-                && (request.getParameter("newpassword").equals(request.getParameter("confirmpassword")))) {
-            user.setPassword(Utility.stringToMD5(Utility.stringToMD5(request.getParameter("newpassword"))));
-        }
-        getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
-        response.sendRedirect("ModificaProfiloPersonale?sezione=1");
-        } catch (NumberFormatException e) {
-                action_error(request, response, "Field Error");
+        try {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
+            if ((request.getParameter("username") != null && request.getParameter("username").length() > 0)
+                    && !(request.getParameter("username").equals(user.getUsername()))) {
+                user.setUsername(request.getParameter("username"));
             }
+            if ((request.getParameter("mail") != null && request.getParameter("mail").length() > 0)
+                    && !(request.getParameter("mail").equals(user.getMail()))) {
+                user.setMail(request.getParameter("mail"));
+            }
+
+            if (request.getParameter("oldpassword") != null && request.getParameter("oldpassword").length() > 0
+                    && (Utility.stringToMD5(Utility.stringToMD5(request.getParameter("oldpassword")))).equals(user.getPassword())
+                    && (request.getParameter("newpassword") != null && request.getParameter("newpassword").length() > 0)
+                    && (request.getParameter("confirmpassword") != null && request.getParameter("confirmpassword").length() > 0)
+                    && (request.getParameter("newpassword").equals(request.getParameter("confirmpassword")))) {
+                user.setPassword(Utility.stringToMD5(Utility.stringToMD5(request.getParameter("newpassword"))));
+            }
+            getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
+            response.sendRedirect("ModificaProfiloPersonale?sezione=1");
+        } catch (NumberFormatException e) {
+            action_error(request, response, "Field Error");
+        }
     }
 
     private void action_activate_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -79,54 +78,54 @@ public class MyProfileEdit extends RESTBaseController {
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
-        try{
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
-        request.setAttribute("genres", getDataLayer().getGenres());
-        request.setAttribute("userProfileContent_tpl", "userOptionalData.ftl.html");
-        result.activate("userProfile/userProfileOutline.ftl.html", request, response);
-         } catch (NumberFormatException ex) {
+        try {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            request.setAttribute("user", user);
+            request.setAttribute("genres", getDataLayer().getGenres());
+            request.setAttribute("userProfileContent_tpl", "userOptionalData.ftl.html");
+            result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
     }
 
     private void action_submit_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    try{
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        if ((request.getParameter("name") != null && request.getParameter("name").length() > 0)
-                && !(request.getParameter("name").equals(user.getName()))) {
-            user.setName(request.getParameter("name"));
-        }
-        if (!((request.getParameter("surname") != null && request.getParameter("surname").length() > 0))
-                && !(request.getParameter("surname").equals(user.getSurname()))) {
-            user.setSurname(request.getParameter("surname"));
-        }
-        if (!((request.getParameter("age") != null && request.getParameter("age").length() > 0))
-                && !(request.getParameter("age").equals(String.valueOf(user.getAge())))) {
-            try {
-                user.setAge(SecurityLayer.checkNumeric(request.getParameter("age")));
-            } catch (NumberFormatException e) {
-                action_error(request, response, "Field Error");
+        try {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            if (request.getParameter("name") != null && request.getParameter("name").length() > 0
+                    && !(request.getParameter("name").equals(user.getName()))) {
+                user.setName(request.getParameter("name"));
             }
-        }
-        if (!(request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0)) {
-            String[] genres = request.getParameterValues("genres");
-            List<Genre> genresList = new ArrayList();
-            for (String s : genres) {
-            
+            if (request.getParameter("surname") != null && request.getParameter("surname").length() > 0
+                    && !(request.getParameter("surname").equals(user.getSurname()))) {
+                user.setSurname(request.getParameter("surname"));
+            }
+            if (request.getParameter("age") != null && request.getParameter("age").length() > 0
+                    && !(request.getParameter("age").equals(String.valueOf(user.getAge())))) {
+                try {
+                    user.setAge(SecurityLayer.checkNumeric(request.getParameter("age")));
+                } catch (NumberFormatException e) {
+                    action_error(request, response, "Field Error");
+                }
+            }
+            if (request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0) {
+                String[] genres = request.getParameterValues("genres");
+                List<Genre> genresList = new ArrayList();
+                for (String s : genres) {
+
                     //prendo il genere dal DB e NON ci metto gli slash perché nel DB ce li ha già e non serve di toglierli perché non devo usarlo
                     genresList.add(RESTSecurityLayer.addSlashes(getDataLayer().getGenre(SecurityLayer.checkNumeric(s))));
+                }
+                if (!(genresList.equals(user.getGenres()))) {
+                    user.setGenres(genresList);
+                }
             }
-            if (!(genresList.equals(user.getGenres()))) {
-                user.setGenres(genresList);
-            }
+            System.err.println(user);
+            getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
+            response.sendRedirect("ModificaProfiloPersonale?sezione=2");
+        } catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
         }
-        System.err.println(user);
-        getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
-        response.sendRedirect("ModificaProfiloPersonale?sezione=2");
-    } catch (NumberFormatException ex) {
-        action_error(request, response, "Field Error");
-    }
     }
 
     private void action_activate_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -134,43 +133,45 @@ public class MyProfileEdit extends RESTBaseController {
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
-        try{
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
-        request.setAttribute("userProfileContent_tpl", "userNotifySettings.ftl.html");
-        result.activate("userProfile/userProfileOutline.ftl.html", request, response);
-        } catch (NumberFormatException ex){
+        try {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            request.setAttribute("user", user);
+            request.setAttribute("userProfileContent_tpl", "userNotifySettings.ftl.html");
+            result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
-                
+
     }
 
     private void action_submit_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try{
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        switch (SecurityLayer.checkNumeric(request.getParameter("a"))) {
-            case 0:
-                System.err.println("Sono nel case 0");
-                user.setNotificationStatus(false);
-                if(request.getParameter("t") != null && request.getParameter("t").length() > 0) { action_error(request, response, "Field Error");}
-                break;
-            case 1:
-                System.err.println("Sono nel case 1");
-                user.setNotificationStatus(true);
-                 if(request.getParameter("t") != null && request.getParameter("t").length() > 0){    
-                  List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
-                  for (UserSeries us : userseriesList) {
-                 us.setAnticipationNotification(new Date((SecurityLayer.checkNumeric(request.getParameter("t")) * RESTSortLayer.HOUR_IN_MILLISECONDS) - RESTSortLayer.HOUR_IN_MILLISECONDS));
-                 System.err.println(us.getAnticipationNotification());
-                 getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-                }
-        }
-                break;
-            default:
-                action_error(request, response, "Internal Error");
-        }
-        response.sendRedirect("ModificaProfiloPersonale?sezione=3");
-        }catch (NumberFormatException ex){
+        try {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            switch (SecurityLayer.checkNumeric(request.getParameter("a"))) {
+                case 0:
+                    System.err.println("Sono nel case 0");
+                    user.setNotificationStatus(false);
+                    if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
+                        action_error(request, response, "Field Error");
+                    }
+                    break;
+                case 1:
+                    System.err.println("Sono nel case 1");
+                    user.setNotificationStatus(true);
+                    if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
+                        List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
+                        for (UserSeries us : userseriesList) {
+                            us.setAnticipationNotification(new Date((SecurityLayer.checkNumeric(request.getParameter("t")) * RESTSortLayer.HOUR_IN_MILLISECONDS) - RESTSortLayer.HOUR_IN_MILLISECONDS));
+                            System.err.println(us.getAnticipationNotification());
+                            getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+                        }
+                    }
+                    break;
+                default:
+                    action_error(request, response, "Internal Error");
+            }
+            response.sendRedirect("ModificaProfiloPersonale?sezione=3");
+        } catch (NumberFormatException ex) {
             action_error(request, response, ex.getMessage());
         }
     }

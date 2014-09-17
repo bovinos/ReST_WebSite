@@ -35,7 +35,11 @@
                 <select name="genres" multiple="multiple" size="7" >
                     <optgroup label="Scegli i tui generi preferiti"> 
                         <#list genres as g>
+                        <#if true >
+                        <option value="${g.ID}" selected="selected">${strip_slashes(g.name)?html}</option>
+                        <#else>
                         <option value="${g.ID}">${strip_slashes(g.name)?html}</option>
+                        </#if>
                         </#list>
                     </optgroup>
                 </select>
