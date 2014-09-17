@@ -150,15 +150,14 @@ public class MyProfileEdit extends RESTBaseController {
                 break;
             case 1:
                 user.setNotificationStatus(true);
+                  List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
+                  for (UserSeries us : userseriesList) {
+                  us.setAnticipationNotification(SecurityLayer.checkDate(request.getParameter("anticipation")).getTime());
+                 getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+                }
                 break;
             default:
                 action_error(request, response, "Internal Error");
-        }
-
-        List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
-        for (UserSeries us : userseriesList) {
-            us.setAnticipationNotification(SecurityLayer.checkDate(request.getParameter("anticipation")).getTime());
-            getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
         }
         response.sendRedirect("ModificaProfiloPersonale?sezione=3");
     }

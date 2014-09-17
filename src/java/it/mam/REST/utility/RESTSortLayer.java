@@ -13,10 +13,10 @@ import java.util.List;
  */
 public class RESTSortLayer {
 
-    public static final long SECOND_IN_MILLISECONS = 1000;
-    public static final long MINUTE_IN_MILLISECONS = 60 * RESTSortLayer.SECOND_IN_MILLISECONS;
-    public static final long HOUR_IN_MILLISECONS = 60 * RESTSortLayer.MINUTE_IN_MILLISECONS;
-    public static final long DAY_IN_MILLISECONDS = 24 * RESTSortLayer.HOUR_IN_MILLISECONS;
+    public static final long SECOND_IN_MILLISECONDS = 1000;
+    public static final long MINUTE_IN_MILLISECONDS = 60 * RESTSortLayer.SECOND_IN_MILLISECONDS;
+    public static final long HOUR_IN_MILLISECONDS = 60 * RESTSortLayer.MINUTE_IN_MILLISECONDS;
+    public static final long DAY_IN_MILLISECONDS = 24 * RESTSortLayer.HOUR_IN_MILLISECONDS;
 
     public static List<Series> sortSeriesByName(List<Series> seriesList) {
         seriesList.sort(new Comparator() {
