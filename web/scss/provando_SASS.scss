@@ -1145,9 +1145,11 @@ button{
     }
 
     .imgContainer{
+        background: transparent url('../img/placeholder.jpg') no-repeat;
+        background-size: cover;
+        min-height: 300px;
         width: 100%;
         text-align: center;
-        background: transparent url('../img/placeholder.jpg') no-repeat;
         position: relative;
 
         h1{
@@ -1431,6 +1433,9 @@ button{
     top: -10px; /* perché vogliamo che non ci sia il margine tra logo e contenuto */
 
     .imgSeriesContainer{
+        background: transparent url('../img/placeholder.jpg') no-repeat;
+        background-size: cover;
+        min-height: 300px;
         width: 100%;
         text-align: center;
         position: relative;
@@ -1609,6 +1614,9 @@ button{
         .imgContainer{
             position: relative;
             display: inline-block;
+            background: transparent url('../img/placeholder.jpg') no-repeat;
+            background-size: cover;
+            min-height: 100px;
             width: 98%;
 
             img{
@@ -1719,8 +1727,6 @@ button{
             margin-bottom: 10px;
 
             legend{
-                position: relative;
-                left: 5%;
                 padding: 0 5px;
                 font-size: 1.4rem;
                 color: $secondaryTextColor;
