@@ -15,6 +15,17 @@
             <input type="url" id="image" name="image" placeholder="URL immagine" tabindex="4" />
         </div>
         <div class="row formInput">
+            <div class="selectContainer multipleSelection">
+                <select name="genres" multiple="multiple" size="7" >
+                    <optgroup label="Scegli i tui generi preferiti"> 
+                        <#list genres as g>
+                        <option value="${g.ID}">${strip_slashes(g.name)?html}</option>
+                        </#list>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+        <div class="row formInput">
             <input type="radio" id="male" name="gender" tabindex="3" />
             <label for="male"> M</label>
             <input type="radio" id="female" name="gender" tabindex="3" />
