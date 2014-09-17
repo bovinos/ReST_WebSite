@@ -173,7 +173,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sGenresBySeries = connection.prepareStatement("SELECT ID_genre FROM r_genre_series WHERE ID_series=?");
             sGenresByUser = connection.prepareStatement("SELECT ID_genre FROM r_user_genre WHERE ID_user=?");
             iGenre = connection.prepareStatement("INSERT INTO e_genre (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-            uGenre = connection.prepareStatement("UPDATE e_genre name=? WHERE ID=?");
+            uGenre = connection.prepareStatement("UPDATE e_genre SET name=? WHERE ID=?");
             dGenre = connection.prepareStatement("DELETE FROM e_genre WHERE ID=?");
 
             // Group
@@ -182,7 +182,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sGroups = connection.prepareStatement("SELECT ID FROM e_groups");
             sGroupsByService = connection.prepareStatement("SELECT ID_group FROM r_service_group WHERE ID_service=?");
             iGroup = connection.prepareStatement("INSERT INTO e_group (name, description) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
-            uGroup = connection.prepareStatement("UPDATE e_group name=?, description=? WHERE ID=?");
+            uGroup = connection.prepareStatement("UPDATE e_group SET name=?, description=? WHERE ID=?");
             dGroup = connection.prepareStatement("DELETE FROM e_group WHERE ID=?");
 
             // Message
@@ -192,7 +192,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sMessagesBySeries = connection.prepareStatement("SELECT ID FROM e_message WHERE ID_series=?");
             sMessagesByUserAndSeries = connection.prepareStatement("SELECT ID FROM e_message WHERE ID_user=? AND ID_series=?"); //redoundant query
             iMessage = connection.prepareStatement("INSERT INTO e_message (title, text, date, ID_user, ID_series) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            uMessage = connection.prepareStatement("UPDATE e_message title=?, text=?, date=?, ID_user=?, ID_series=? WHERE ID=?");
+            uMessage = connection.prepareStatement("UPDATE e_message SET title=?, text=?, date=?, ID_user=?, ID_series=? WHERE ID=?");
             dMessage = connection.prepareStatement("DELETE FROM e_message WHERE ID=?");
 
             // News
@@ -202,7 +202,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sNewsByUser = connection.prepareStatement("SELECT ID FROM e_news WHERE ID_user=?");
             sNewsbySeries = connection.prepareStatement("SELECT ID_news FROM r_news_series WHERE ID_series=?");
             iNews = connection.prepareStatement("INSERT INTO e_news (title, text, date, image_URL, likes, dislikes, ID_user) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            uNews = connection.prepareStatement("UPDATE e_news title=?, text=?, date=?, image_URL=?, likes=?, dislikes=?, ID_user=? WHERE ID=?");
+            uNews = connection.prepareStatement("UPDATE e_news SET title=?, text=?, date=?, image_URL=?, likes=?, dislikes=?, ID_user=? WHERE ID=?");
             dNews = connection.prepareStatement("DELETE FROM e_news WHERE ID=?");
 
             // Series
@@ -225,7 +225,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sServices = connection.prepareStatement("SELECT ID FROM e_service");
             sServicesByGroup = connection.prepareStatement("SELECT ID_service FROM r_service_group WHERE ID_group=?");
             iService = connection.prepareStatement("INSERT INTO e_service (name, description, script_name) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            uService = connection.prepareStatement("UPDATE e_service name=?, description=?, script_name=? WHERE ID=?");
+            uService = connection.prepareStatement("UPDATE e_service SET name=?, description=?, script_name=? WHERE ID=?");
             dService = connection.prepareStatement("DELETE FROM e_service WHERE ID=?");
 
             // User
@@ -239,7 +239,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sUsersByGenre = connection.prepareStatement("SELECT ID_user FROM r_user_genre WHERE ID_genre=?");
             sUsersByGroup = connection.prepareStatement("SELECT ID FROM e_user WHERE ID_group=?");
             iUser = connection.prepareStatement("INSERT INTO e_user (username, password, mail, name, surname, age, gender, image_URL, notification_status, ID_group) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            uUser = connection.prepareStatement("UPDATE e_user username=?, password=?, mail=?, name=? surname=?, age=?, gender=?, image_URL=?, notification_status=?, ID_group=? WHERE ID=?");
+            uUser = connection.prepareStatement("UPDATE e_user SET username=?, password=?, mail=?, name=? surname=?, age=?, gender=?, image_URL=?, notification_status=?, ID_group=? WHERE ID=?");
             dUser = connection.prepareStatement("DELETE FROM e_user WHERE ID=?");
 
             // Relationship
