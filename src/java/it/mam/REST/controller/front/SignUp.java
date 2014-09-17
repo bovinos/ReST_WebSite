@@ -48,8 +48,7 @@ public class SignUp extends RESTBaseController {
 
     private void action_activate_signUp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("outline_tpl", "");
-        result.activate("front/signUp.ftl.html", request, response);
+        result.activate("signUp.ftl.html", request, response);
     }
 
     @Override

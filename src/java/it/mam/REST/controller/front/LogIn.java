@@ -39,8 +39,7 @@ public class LogIn extends RESTBaseController {
 
     private void action_activate_login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("outline_tpl", "");
-        result.activate("front/logIn.ftl.html", request, response);
+        result.activate("logIn.ftl.html", request, response);
     }
 
     @Override
