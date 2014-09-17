@@ -11,6 +11,7 @@ import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -144,24 +145,29 @@ public class MyProfileEdit extends RESTBaseController {
     private void action_submit_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        switch (SecurityLayer.checkNumeric(request.getParameter("status"))) {
+        switch (SecurityLayer.checkNumeric(request.getParameter("a"))) {
             case 0:
+                System.err.println("Sono nel case 0");
                 user.setNotificationStatus(false);
                 break;
             case 1:
+                System.err.println("Sono nel case 1");
                 user.setNotificationStatus(true);
+                 if(request.getParameter("t") != null && request.getParameter("t").length() > 0){    
                   List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
                   for (UserSeries us : userseriesList) {
-                  us.setAnticipationNotification(SecurityLayer.checkDate(request.getParameter("anticipation")).getTime());
+                 System.err.println(us.getAnticipationNotification());
+                  //us.setAnticipationNotification(SecurityLayer.checkDate(new Time();
                  getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
                 }
+        }
                 break;
             default:
                 action_error(request, response, "Internal Error");
         }
         response.sendRedirect("ModificaProfiloPersonale?sezione=3");
         }catch (NumberFormatException ex){
-            action_error(request, response, "Field Error");
+            action_error(request, response, ex.getMessage());
         }
     }
 
