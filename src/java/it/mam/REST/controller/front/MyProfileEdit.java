@@ -46,8 +46,8 @@ public class MyProfileEdit extends RESTBaseController {
     }
 
     private void action_submit_ProfileUserSignUpData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user;
-        user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
+        try{
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
         if ((request.getParameter("username") != null && request.getParameter("username").length() > 0)
                 && !(request.getParameter("username").equals(user.getUsername()))) {
             user.setUsername(request.getParameter("username"));
@@ -66,6 +66,9 @@ public class MyProfileEdit extends RESTBaseController {
         }
         getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
         response.sendRedirect("ModificaProfiloPersonale?sezione=1");
+        } catch (NumberFormatException e) {
+                action_error(request, response, "Field Error");
+            }
     }
 
     private void action_activate_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -84,9 +87,8 @@ public class MyProfileEdit extends RESTBaseController {
     }
 
     private void action_submit_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user;
-
-        user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+    try{
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if ((request.getParameter("name") != null && request.getParameter("name").length() > 0)
                 && !(request.getParameter("name").equals(user.getName()))) {
             user.setName(request.getParameter("name"));
@@ -107,21 +109,20 @@ public class MyProfileEdit extends RESTBaseController {
             String[] genres = request.getParameterValues("genres");
             List<Genre> genresList = new ArrayList();
             for (String s : genres) {
-                try {
+            
                     //prendo il genere dal DB e NON ci metto gli slash perché nel DB ce li ha già e non serve di toglierli perché non devo usarlo
                     genresList.add(RESTSecurityLayer.addSlashes(getDataLayer().getGenre(SecurityLayer.checkNumeric(s))));
-                } catch (NumberFormatException e) {
-                    action_error(request, response, "Internal Error");
-                }
             }
             if (!(genresList.equals(user.getGenres()))) {
                 user.setGenres(genresList);
             }
         }
-
+        System.err.println(user);
         getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
         response.sendRedirect("ModificaProfiloPersonale?sezione=2");
-
+    } catch (NumberFormatException ex) {
+        action_error(request, response, "Field Error");
+    }
     }
 
     private void action_activate_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -141,8 +142,8 @@ public class MyProfileEdit extends RESTBaseController {
     }
 
     private void action_submit_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user;
-        user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+        try{
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         switch (SecurityLayer.checkNumeric(request.getParameter("status"))) {
             case 0:
                 user.setNotificationStatus(false);
@@ -159,6 +160,9 @@ public class MyProfileEdit extends RESTBaseController {
                 action_error(request, response, "Internal Error");
         }
         response.sendRedirect("ModificaProfiloPersonale?sezione=3");
+        }catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
     }
 
     @Override
@@ -182,7 +186,7 @@ public class MyProfileEdit extends RESTBaseController {
                 }
                 break;
             case 2: //Siamo nel ramo "Modifica dati opzionali"...
-                if (request.getParameter("ModificaDatiOpzionali") != null) { //Abbiamo inviato i dati modificati...
+                if (request.getParameter("modifyOptionalData") != null) { //Abbiamo inviato i dati modificati...
                     try {
                         action_submit_ProfileUserOptionalData(request, response);
                     } catch (IOException ex) {
@@ -197,7 +201,7 @@ public class MyProfileEdit extends RESTBaseController {
                 }
                 break;
             case 3: //Siamo nel ramo "Impostazioni Notifiche"...
-                if (request.getParameter("ImpostaNotifiche") != null) { //Abbiamo inviato i dati modificati...
+                if (request.getParameter("modifyNotifySettings") != null) { //Abbiamo inviato i dati modificati...
                     try {
                         action_submit_ProfileUserNotifySettings(request, response);
                     } catch (IOException ex) {
