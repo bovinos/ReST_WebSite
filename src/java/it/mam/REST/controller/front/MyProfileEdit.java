@@ -108,6 +108,11 @@ public class MyProfileEdit extends RESTBaseController {
                     action_error(request, response, "Field Error");
                 }
             }
+            if (request.getParameter("imageURL") != null && request.getParameter("imageURL").length() > 0
+                    && !(request.getParameter("imageURL").equals(user.getImageURL()))) {
+                user.setImageURL(request.getParameter("ImageURL"));
+            }
+           
             if (request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0) {
                 String[] genres = request.getParameterValues("genres");
                 List<Genre> genresList = new ArrayList();
@@ -118,6 +123,17 @@ public class MyProfileEdit extends RESTBaseController {
                 }
                 if (!(genresList.equals(user.getGenres()))) {
                     user.setGenres(genresList);
+                }
+            }
+            
+            if (request.getParameter("gender") != null && request.getParameter("gender").length() > 0
+                    && !(request.getParameter("gender").equals(user.getGender()))) {
+                switch(SecurityLayer.checkNumeric(request.getParameter("gender"))) {
+                    case 1: user.setGender(User.MALE);
+                    break;
+                    case 2: user.setGender(User.FEMALE);
+                    break;
+                    default: action_error(request, response, "Field Error");
                 }
             }
             System.err.println(user);
