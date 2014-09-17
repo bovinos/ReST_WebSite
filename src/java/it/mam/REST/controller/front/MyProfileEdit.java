@@ -4,6 +4,7 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
+import it.mam.REST.utility.RESTSortLayer;
 import it.mam.REST.utility.Utility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
@@ -13,6 +14,7 @@ import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -80,6 +82,7 @@ public class MyProfileEdit extends RESTBaseController {
         try{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
+        request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("userProfileContent_tpl", "userOptionalData.ftl.html");
         result.activate("userProfile/userProfileOutline.ftl.html", request, response);
          } catch (NumberFormatException ex) {
@@ -134,6 +137,7 @@ public class MyProfileEdit extends RESTBaseController {
         try{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
+        request.setAttribute("notificationStatus", user.getNotificationStatus());
         request.setAttribute("userProfileContent_tpl", "userNotifySettings.ftl.html");
         result.activate("userProfile/userProfileOutline.ftl.html", request, response);
         } catch (NumberFormatException ex){
@@ -149,6 +153,7 @@ public class MyProfileEdit extends RESTBaseController {
             case 0:
                 System.err.println("Sono nel case 0");
                 user.setNotificationStatus(false);
+                if(request.getParameter("t") != null && request.getParameter("t").length() > 0) { action_error(request, response, "Field Error");}
                 break;
             case 1:
                 System.err.println("Sono nel case 1");
@@ -156,8 +161,8 @@ public class MyProfileEdit extends RESTBaseController {
                  if(request.getParameter("t") != null && request.getParameter("t").length() > 0){    
                   List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
                   for (UserSeries us : userseriesList) {
+                 us.setAnticipationNotification(new Date((SecurityLayer.checkNumeric(request.getParameter("t")) * RESTSortLayer.HOUR_IN_MILLISECONDS) - RESTSortLayer.HOUR_IN_MILLISECONDS));
                  System.err.println(us.getAnticipationNotification());
-                  //us.setAnticipationNotification(SecurityLayer.checkDate(new Time();
                  getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
                 }
         }
