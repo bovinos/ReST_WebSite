@@ -25,22 +25,34 @@
         </div>
         <div class="row formInput">
             <#if user.imageURL?has_content >
-            <input type="url" id="image" value='${strip_slashes(user.imageURL)?html}' name="image" placeholder="URL immagine" tabindex="4" />
+            <input type="url" id="image" value='${strip_slashes(user.imageURL)?html}' name="imageURL" placeholder="URL immagine" tabindex="4" />
             <#else>
-            <input type="url" id="image" name="image" placeholder="URL immagine" tabindex="4" />
+            <input type="url" id="image" name="imageURL" placeholder="URL immagine" tabindex="4" />
             </#if>
         </div>
         <div class="row formInput">
             <div class="selectContainer multipleSelection">
                 <select name="genres" multiple="multiple" size="7" >
-                    <optgroup label="Scegli i tui generi preferiti"> 
-                        <#list genres as g>
-                        <#if true >
+                    <optgroup label="Scegli i tuoi generi preferiti">
+                        <#if (user.genres?size > 0)>
+                        <#list genres as g> 
+                        <#list user.genres as ug> <!-- per ogni genere ciclo sulla lista di generi dell'utente per vedere se c'è -->
+                        <#if (ug.ID == g.ID)> <!-- se l'ho trovato lo stampo selezionato ed esco dal ciclo -->
                         <option value="${g.ID}" selected="selected">${strip_slashes(g.name)?html}</option>
-                        <#else>
+                        <#break> <!-- esco dal ciclo -->
+                        </#if>
+                        <!-- Se arrivo a questo punto con l'ultimo elemento vuol dire che il genere non è tra quelli -->
+                        <!-- quelli dell'utente quindi lo stampo deselezionato -->
+                        <#if (ug_index == (user.genres?size - 1)) > 
                         <option value="${g.ID}">${strip_slashes(g.name)?html}</option>
                         </#if>
                         </#list>
+                        </#list>
+                        <#else> <!-- altrimenti stampali semplicemente tutti -->
+                        <#list genres as g>
+                        <option value="${g.ID}">${strip_slashes(g.name)?html}</option>
+                        </#list>
+                        </#if>
                     </optgroup>
                 </select>
             </div>

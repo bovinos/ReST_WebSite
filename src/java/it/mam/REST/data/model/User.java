@@ -8,8 +8,8 @@ import java.util.List;
  */
 public interface User {
 
-    String MALE = "MALE";
-    String FEMALE = "FEMALE";
+    String MALE = "M";
+    String FEMALE = "F";
 
     int getID();
 
