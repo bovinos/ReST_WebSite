@@ -2556,7 +2556,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 uUser.setString(4, user.getName());
                 uUser.setString(5, user.getSurname());
                 uUser.setInt(6, user.getAge());
-                uUser.setString(7, user.getGender());
+                if (user.getGender() != null) {
+                    uUser.setString(7, user.getGender());
+                } else {
+                    uUser.setNull(7, java.sql.Types.NULL);
+                }
                 uUser.setString(8, user.getImageURL());
                 uUser.setBoolean(9, user.getNotificationStatus());
                 if (user.getGroup() != null) {
@@ -2573,7 +2577,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 iUser.setString(4, user.getName());
                 iUser.setString(5, user.getSurname());
                 iUser.setInt(6, user.getAge());
-                iUser.setString(7, user.getGender());
+                if (user.getGender() != null) {
+                    iUser.setString(7, user.getGender());
+                } else {
+                    iUser.setNull(7, java.sql.Types.NULL);
+                }
                 iUser.setString(8, user.getImageURL());
                 iUser.setBoolean(9, user.getNotificationStatus());
                 if (user.getGroup() != null) {

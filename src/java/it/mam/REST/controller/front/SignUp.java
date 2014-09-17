@@ -38,7 +38,6 @@ public class SignUp extends RESTBaseController {
 
             getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
             // complimenti ti sei loggato
-            // NUOVA SCOPERTA: se hai già inviato la response allo userAgent ( ad esempio eseguendo riga 33 ) , non puoi fare la redirect!
             response.sendRedirect("ListaNews");
         } else {
             // errore uno dei campi è vuoto

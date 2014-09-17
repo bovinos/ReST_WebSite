@@ -1311,5 +1311,27 @@ button {
       top: 5px;
       font-size: 2.5rem;
       color: #1695A3; }
+  #notifySettings form input[type="radio"] {
+    position: absolute;
+    left: -9999px; }
+    #notifySettings form input[type="radio"] + label {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.5rem;
+      margin-right: 15px; }
+    #notifySettings form input[type="radio"]:checked + label:before {
+      font-family: 'ElegantIcons';
+      content: '\5c';
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
+    #notifySettings form input[type="radio"]:not(:checked) + label:before {
+      font-family: 'ElegantIcons';
+      content: '\5b';
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

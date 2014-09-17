@@ -1,13 +1,22 @@
 
 <div id="notifySettings">
-    <form action="ModificaProfiloPersonale" method="POST">
+    <form action="ModificaProfiloPersonale" method="GET">
         <input type="hidden" name="sezione" value="3" />
         <div class="row">
-            <input type="checkbox" name="a" id="notificationActive" value="1" />
+            <input type="checkbox" name="a" id="notificationActive" value="1" tabindex="1" />
             <label for="notificationActive">Attiva le notifiche</label>
         </div>
         <div class="row">
-            <input type="text" name="t" id="timeBeforeNotification" placeholder="Anticipo di notifica (hh:mm:ss)" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}"/>
+            <input type="radio" id="oneHour" name="t" value='1' tabindex="2" />
+            <label for="oneHour"> 1 ora</label>
+            <input type="radio" id="threeHours" name="t" value='3' tabindex="3" />
+            <label for="threeHours"> 3 ore</label>
+            <input type="radio" id="sixHours" name="t" value='6' tabindex="4" />
+            <label for="sixHours"> 6 ore</label>
+            <input type="radio" id="twelveHours" name="t" value='12' tabindex="5" />
+            <label for="twelveHours"> 12 ore</label>
+            <input type="radio" id="oneDay" name="t" value='24' tabindex="6" />
+            <label for="oneHour"> 1 giorno</label>
         </div>
         <button type="submit" name="modifyNotifySettings" value="1">Modifica</button>
     </form>
