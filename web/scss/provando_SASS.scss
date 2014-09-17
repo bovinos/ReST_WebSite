@@ -1564,10 +1564,10 @@ button{
         @include boxShadow(0, 0, 3px, $turquoise);
         margin-bottom: 10px;
         width: 32%;
+        text-align: center;
 
         .head{
             position: relative;
-            text-align: center;
             margin-bottom: 20px;
 
             a.left, a.right{
@@ -1624,7 +1624,7 @@ button{
         }
 
         .mySeriesInfo{
-            text-align: center;
+
             font-size: 1.4rem;
             color: $primaryTextColor;
 
@@ -1640,8 +1640,61 @@ button{
 #userBroadcastProgramming{
     margin-top: 25px;
 
-    .day{
+    .dayEpisode{
+        padding: 5px;
+        @include boxShadow(0, 0, 3px, $turquoise);
+        margin-bottom: 10px;
+        width: 32%;
+        text-align: center;
 
+        .head{
+            margin-bottom: 10px;
+
+            .center{
+                display: inline-block;
+                font-size: 2rem;
+                margin-top: 5px;
+            }
+        }
+
+        .imgContainer{
+            position: relative;
+            display: inline-block;
+            width: 98%;
+
+            img{
+                max-width: 100%;
+                height: auto;
+                overflow: hidden;
+            }
+
+            .ratingBox{
+                position: absolute;
+                bottom: 5%;
+                right: 5%;
+                padding: 5px 10px;
+                background-color: rgba(255, 255, 255, 0.8);
+                @include borderRadius(2px);
+                font-size: 1.5rem;
+            }
+        }
+
+        .dayEpisodeInfo{
+            font-size: 1.4rem;
+            color: $primaryTextColor;
+
+            h1{
+                display: inline;
+            }
+        }
+    }
+
+    .noEpisode{
+
+        p{
+            font-size: 1.5rem;
+            color: $primaryTextColor;
+        }
     }
 }
 

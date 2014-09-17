@@ -11,36 +11,31 @@
                 <#if ((ce_index % 3) == 0) && ((ce_index + 3) <= schedule[day_index]?size)>
                 <div class="row">
                     </#if>
-                    <div class="daysEpisode column omega">
+                    <div class="dayEpisode column omega">
                         <div class="head row">
                             <h1 class="center"><a href="SchedaSerie?id=${ce.episode.series.ID}">${strip_slashes(ce.episode.series.name)}</a></h1>
                         </div>
-                        <div class="body row">
-
+                        <div class="imgContainer row">
+                            <img src="${strip_slashes(ce.episode.series.imageURL)}" alt="Immagine di ${strip_slashes(ce.episode.series.name)}"/>
+                        </div>
+                        <div class="dayEpisodeInfo row">
+                            <div class="row">
+                                <p>${ce.episode.season}x${ce.episode.number} - ${strip_slashes(ce.episode.title)?html}</p>
+                            </div>
+                            <div class="row">
+                                <p>Su ${strip_slashes(ce.channel.name)?html} alle ${ce.date?time} </p>
+                            </div>
                         </div>
                     </div>
-                    <li>${strip_slashes(ce.episode.title)}, ${strip_slashes(ce.channel.name)}</li>
-                    </#list>
-                    <#else>
-                    <p>Non ci sono episodi per questo giorno</p>
-                    </#if>
-
-                    <#if ((us_index + 1) % 3)  == 0>
+                    <#if ((ce_index + 1) % 3)  == 0>
                 </div>
                 </#if>
-
-
-
-
-                <ul>
-                    <#if (schedule[day_index]?size > 0) >
-                    <#list schedule[day_index] as ce>
-                    <li>${strip_slashes(ce.episode.title)}, ${strip_slashes(ce.channel.name)}</li>
-                    </#list>
-                    <#else>
-                    <li>Non ci sono episodi per questo giorno</li>
-                    </#if>
-                </ul>
+                </#list>
+                <#else>
+                <div class='noEpisode'>
+                    <p>Non ci sono episodi per questo giorno</p>
+                </div>
+                </#if>
             </div>
         </div>
         </#list>
