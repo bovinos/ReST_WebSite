@@ -62,7 +62,6 @@ public class MyProfileEdit extends RESTBaseController {
                 && (request.getParameter("newpassword") != null && request.getParameter("newpassword").length() > 0)
                 && (request.getParameter("confirmpassword") != null && request.getParameter("confirmpassword").length() > 0)
                 && (request.getParameter("newpassword").equals(request.getParameter("confirmpassword")))) {
-            System.err.println("Sono dentro xD");
             user.setPassword(Utility.stringToMD5(Utility.stringToMD5(request.getParameter("newpassword"))));
         }
         getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
