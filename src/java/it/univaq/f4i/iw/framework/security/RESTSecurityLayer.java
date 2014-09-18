@@ -8,6 +8,7 @@ import it.mam.REST.data.model.Comment;
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.Group;
+import it.mam.REST.data.model.Message;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.Service;
@@ -73,6 +74,13 @@ public class RESTSecurityLayer {
         cms.setRole(SecurityLayer.stripSlashes(cms.getRole()));
         return cms;
     }
+        
+        public static Message stripSlashes(Message m){
+        m.setTitle(SecurityLayer.stripSlashes(m.getTitle()));
+        m.setText(SecurityLayer.stripSlashes(m.getText()));
+        return m;
+    }
+        
        public static Group stripSlashes(Group g){
         g.setName(SecurityLayer.stripSlashes(g.getName()));
         g.setDescription(SecurityLayer.stripSlashes(g.getDescription()));
@@ -140,6 +148,13 @@ public class RESTSecurityLayer {
         cms.setRole(SecurityLayer.addSlashes(cms.getRole()));
         return cms;
     }
+     
+      public static Message addSlashes(Message m){
+        m.setTitle(SecurityLayer.addSlashes(m.getTitle()));
+        m.setText(SecurityLayer.addSlashes(m.getText()));
+        return m;
+    }
+     
      public static UserSeries addSlashes(UserSeries us){
         us.setRating(SecurityLayer.addSlashes(us.getRating()));
         return us;

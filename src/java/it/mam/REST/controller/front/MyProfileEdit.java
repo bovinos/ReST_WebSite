@@ -161,29 +161,23 @@ public class MyProfileEdit extends RESTBaseController {
     private void action_submit_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            switch (SecurityLayer.checkNumeric(request.getParameter("a"))) {
-                case 0:
-                    System.err.println("Sono nel case 0");
+            if (request.getParameter("a") != null && request.getParameter("a").length() > 0) {
+                 user.setNotificationStatus(true);
+                 getDataLayer().storeUser(user);
+                 if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
+                 List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
+                 for (UserSeries us : userseriesList) {
+                      us.setAnticipationNotification(new Date((SecurityLayer.checkNumeric(request.getParameter("t")) * RESTSortLayer.HOUR_IN_MILLISECONDS) - RESTSortLayer.HOUR_IN_MILLISECONDS));
+                      getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+                        }
+                    }
+                 
+            }else {   
                     user.setNotificationStatus(false);
+                    getDataLayer().storeUser(user);
                     if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
                         action_error(request, response, "Field Error");
                     }
-                    break;
-                case 1:
-                    System.err.println("Sono nel case 1");
-                    user.setNotificationStatus(true);
-                    getDataLayer().storeUser(user);
-                    if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
-                        List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
-                        for (UserSeries us : userseriesList) {
-                            us.setAnticipationNotification(new Date((SecurityLayer.checkNumeric(request.getParameter("t")) * RESTSortLayer.HOUR_IN_MILLISECONDS) - RESTSortLayer.HOUR_IN_MILLISECONDS));
-                            System.err.println(us.getAnticipationNotification());
-                            getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-                        }
-                    }
-                    break;
-                default:
-                    action_error(request, response, "Internal Error");
             }
             response.sendRedirect("ModificaProfiloPersonale?sezione=3");
         } catch (NumberFormatException ex) {

@@ -77,9 +77,6 @@ public class NewsManagement extends RESTBaseController {
             action_error(request, response, "Inserire i campi obbligatori");
         }
                 news.setUser(user);
-        //Aggiungo la data corrente
-        Calendar c = Calendar.getInstance();
-        news.setDate(c.getTime());
         //Salvo il commento
             System.err.println(news);
         getDataLayer().storeNews(RESTSecurityLayer.addSlashes(news));

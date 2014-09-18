@@ -7,6 +7,7 @@ import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.Calendar;
@@ -59,7 +60,7 @@ public class SeriesCircle extends RESTBaseController {
         message.setUser(user);
         message.setDate(c.getTime());
         message.setSeries(series);
-        getDataLayer().storeMessage(message);
+        getDataLayer().storeMessage(RESTSecurityLayer.addSlashes(message));
         response.sendRedirect("CerchiaSerie?id=" + series.getID());
         }catch (NumberFormatException ex){
             action_error(request, response, "Field Error");
@@ -74,7 +75,7 @@ public class SeriesCircle extends RESTBaseController {
         } catch (IOException ex) {
             action_error(request, response, ex.getMessage());
     }  
-        }else {
+        } else {
         try {
             action_activate_circle(request, response);
         } catch (IOException ex) {

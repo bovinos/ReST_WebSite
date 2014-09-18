@@ -333,28 +333,28 @@ public class SeriesManagement extends RESTBaseController{
     }
     
     private boolean checkSeriesInputData(HttpServletRequest request, HttpServletResponse response){
-        return request.getParameter("name") != null && request.getParameter("name").length() > 0
-                && request.getParameter("year") != null && request.getParameter("year").length() > 0 
-                && request.getParameter("description") != null && request.getParameter("description").length() > 0
-                && request.getParameter("image_URL") != null && request.getParameter("image_URL").length() > 0
+        return request.getParameter("Seriesname") != null && request.getParameter("Seriesname").length() > 0
+                && request.getParameter("Seriesyear") != null && request.getParameter("Seriesyear").length() > 0 
+                && request.getParameter("Seriesdescription") != null && request.getParameter("Seriesdescription").length() > 0
+                && request.getParameter("SeriesimageURL") != null && request.getParameter("SeriesimageURL").length() > 0
                 && request.getParameter("state") != null && request.getParameter("state").length() > 0
                 && request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0;
                  
     }
     
      private boolean checkChannelInputData(HttpServletRequest request, HttpServletResponse response){
-        return (request.getParameter("name") != null && request.getParameter("name").length() > 0
+        return (request.getParameter("Channelname") != null && request.getParameter("Channelname").length() > 0
                 && request.getParameter("type") != null && request.getParameter("type").length() > 0)
-                && request.getParameter("number") != null && request.getParameter("number").length() > 0;
+                && request.getParameter("Channelnumber") != null && request.getParameter("Channelnumber").length() > 0;
     }
      
      private boolean checkCastMemberInputData(HttpServletRequest request, HttpServletResponse response) {
-        return request.getParameter("name") != null && request.getParameter("name").length() > 0
-                && request.getParameter("surname") != null && request.getParameter("surname").length() > 0
-                && request.getParameter("birthdate") != null && request.getParameter("birthdate").length() > 0
+        return request.getParameter("castMembername") != null && request.getParameter("castMembername").length() > 0
+                && request.getParameter("castMembersurname") != null && request.getParameter("castMembersurname").length() > 0
+                && request.getParameter("castMemberbirthDate") != null && request.getParameter("castMemberbirthDate").length() > 0
                 && request.getParameter("gender") != null && request.getParameter("gender").length() > 0
-                && request.getParameter("country") != null && request.getParameter("country").length() > 0
-                && request.getParameter("imageURL") != null && request.getParameter("imageURL").length() > 0
+                && request.getParameter("castMembercountry") != null && request.getParameter("castMembercountry").length() > 0
+                && request.getParameter("castMemberimageURL") != null && request.getParameter("castMemberimageURL").length() > 0
                 && request.getParameterValues("series") != null && request.getParameterValues("series").length > 0
                 && request.getParameterValues("roles") != null && request.getParameterValues("roles").length > 0;
 
