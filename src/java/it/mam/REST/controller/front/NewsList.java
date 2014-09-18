@@ -167,7 +167,7 @@ public class NewsList extends RESTBaseController {
         System.out.println(sl.size());
         System.out.println("================================================================================");
         for (Series s : sl) {
-            System.out.println(s);
+            System.out.println(s.getID());
             System.out.println("================================================================================");
         }
         if (request.getParameter("s") != null) {

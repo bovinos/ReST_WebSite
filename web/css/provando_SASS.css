@@ -533,6 +533,21 @@ button {
   background: #333333;
   color: #ACF0F2;
   padding: 0 1%; }
+  #topBar #adminSettings {
+    float: left;
+    margin-left: -1%;
+    margin-right: 10px; }
+    #topBar #adminSettings a {
+      font-size: 3rem;
+      color: #FFFFFF;
+      display: block;
+      padding: 0 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      -webkit-transition: background-color 0.3s ease-in-out;
+      -moz-transition: background-color 0.3s ease-in-out; }
+      #topBar #adminSettings a:hover {
+        background-color: #EB7F00; }
   #topBar .imgContainer {
     width: 50px;
     height: 50px;
@@ -1367,5 +1382,76 @@ button {
       top: 5px;
       font-size: 2.5rem;
       color: #1695A3; }
+
+/* BACK END
+===============================================================================================
+=============================================================================================== */
+#backOutline nav li {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  margin-left: 10%; }
+  #backOutline nav li:last-of-type {
+    margin-bottom: 40px; }
+
+/* INSERT NEWS
+=============================================================================================== */
+#insertNewsForm {
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 20px; }
+  #insertNewsForm form input[type="text"], #insertNewsForm form input[type="url"] {
+    display: block;
+    margin: 0 auto 25px auto;
+    width: 80%;
+    border: 1px solid #1695A3;
+    padding: 5px 8px;
+    font-size: 1.6rem;
+    color: #444444;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px; }
+  #insertNewsForm form textarea {
+    display: block;
+    margin: 0 auto 25px auto;
+    width: 80%;
+    max-width: 80%;
+    min-width: 80%;
+    border: 1px solid #1695A3;
+    padding: 10px 15px;
+    font-size: 1.6rem;
+    color: #444444;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px; }
+  #insertNewsForm form .selectContainer {
+    padding-left: 0;
+    position: relative;
+    margin: auto auto 30px auto; }
+    #insertNewsForm form .selectContainer.multipleSelection {
+      width: 80%; }
+      #insertNewsForm form .selectContainer.multipleSelection select {
+        border: 1px solid #1695A3;
+        width: 100%; }
+        #insertNewsForm form .selectContainer.multipleSelection select optgroup {
+          color: #1695A3; }
+          #insertNewsForm form .selectContainer.multipleSelection select optgroup option {
+            /* su chrome non funziona */
+            color: #000000;
+            padding: 3px 4px; }
+            #insertNewsForm form .selectContainer.multipleSelection select optgroup option:before {
+              font-family: 'ElegantIcons';
+              content: "\4e";
+              color: #FFFFFF;
+              margin-right: 5px;
+              opacity: 0;
+              transition: opacity 0.3s ease-in-out;
+              -webkit-transition: opacity 0.3s ease-in-out;
+              -moz-transition: opacity 0.3s ease-in-out; }
+            #insertNewsForm form .selectContainer.multipleSelection select optgroup option:checked:before {
+              opacity: 1; }
+  #insertNewsForm form button {
+    font-size: 1.5rem;
+    width: 80%;
+    padding: 25px 0; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

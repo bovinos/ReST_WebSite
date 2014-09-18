@@ -686,6 +686,27 @@ button{
     color: $skyBlue;
     padding: 0 1%;
 
+    #adminSettings{
+        float: left;
+        margin-left: -1%;
+        margin-right: 10px;
+
+
+        a{
+            font-size: 3rem;
+            color: #FFFFFF;
+            display: block;
+            padding: 0 10px;
+            cursor: pointer;
+            @include transition(background-color, 0.3s);
+
+
+            &:hover{
+                background-color: $orange;
+            }
+        }
+    }
+
     .imgContainer{
         width: $topBarHeight;
         height: $topBarHeight;
@@ -697,7 +718,6 @@ button{
             height: 100%;
         }
     }
-
 
     #LogIn{
         float: right;
@@ -1907,9 +1927,107 @@ button{
 
 }
 
+/* BACK END
+===============================================================================================
+=============================================================================================== */
+#backOutline{
+    nav{
+
+        li{
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            margin-left: 10%;
+
+            &:last-of-type{
+                margin-bottom: 40px;
+            }
+        }
+    }
+
+}
+
+/* INSERT NEWS
+=============================================================================================== */
+#insertNewsForm{
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 20px;
+
+    form{
+
+        input[type="text"], input[type="url"]{
+            display: block;
+            margin: 0 auto 25px auto;
+            width: 80%;
+            border: 1px solid $turquoise;
+            padding: 5px 8px;
+            font-size: 1.6rem;
+            color: $primaryTextColor;
+            @include borderRadius(4px);
+        }
 
 
+        textarea{
+            display: block;
+            margin: 0 auto 25px auto;
+            width: 80%;
+            max-width: 80%;
+            min-width: 80%;
+            border: 1px solid $turquoise;
+            padding: 10px 15px;
+            font-size: 1.6rem;
+            color: $primaryTextColor;
+            @include borderRadius(10px);
+        }
 
+        .selectContainer{
+            padding-left: 0;
+            position: relative;
+            margin: auto auto 30px auto;
+
+            &.multipleSelection{
+                width: 80%;
+
+                select{
+                    border: 1px solid $turquoise;
+                    width: 100%;
+
+                    optgroup{
+                        color: $turquoise;
+
+                        option{ /* su chrome non funziona */
+                            color: #000000;
+                            padding: 3px 4px; 
+
+                            &:before{
+                                font-family: 'ElegantIcons';
+                                content: "\4e";
+                                color: #FFFFFF;
+                                margin-right: 5px;
+                                opacity: 0;
+                                @include transition(opacity, 0.3s);
+                            }
+
+                            &:checked{
+
+                                &:before{
+                                    opacity: 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        button{
+            font-size: 1.5rem;
+            width: 80%;
+            padding: 25px 0;
+        }
+
+    }
+}
 
 
 
