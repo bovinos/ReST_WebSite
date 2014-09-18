@@ -62,13 +62,13 @@ public class SeriesManagement extends RESTBaseController{
         Series series = getDataLayer().createSeries();
         //Controllo che i campi siano validi
         if (checkSeriesInputData(request, response)){
-        series.setName(request.getParameter("name"));
-        series.setYear(SecurityLayer.checkNumeric(request.getParameter("year")));
-        series.setDescription(request.getParameter("description"));
-        series.setImageURL(request.getParameter("imageURL"));
+        series.setName(request.getParameter("SeriesName"));
+        series.setYear(SecurityLayer.checkNumeric(request.getParameter("SeriesYear")));
+        series.setDescription(request.getParameter("SeriesDescription"));
+        series.setImageURL(request.getParameter("SeriesImageURL"));
         series.setState(request.getParameter("state"));
         } else action_error(request, response, "Inserire i campi obbligatori!");
-        
+        /*
         //Mi prendo l'array dei generi dalla richiesta e lo trasformo in una lista
         String[] genres = request.getParameterValues("genres");
             List<Genre> genresList = new ArrayList();
@@ -77,6 +77,7 @@ public class SeriesManagement extends RESTBaseController{
                     genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(s)));
                 series.setGenres(genresList);
             }
+                */
         getDataLayer().storeSeries(RESTSecurityLayer.addSlashes(series));
         request.setAttribute("backContent_tpl", "insertSeries.ftl.html");
         result.activate("../back/backOutline.ftl.html", request, response);
@@ -495,12 +496,12 @@ public class SeriesManagement extends RESTBaseController{
     }
     
     private boolean checkSeriesInputData(HttpServletRequest request, HttpServletResponse response){
-        return request.getParameter("Seriesname") != null && request.getParameter("Seriesname").length() > 0
-                && request.getParameter("Seriesyear") != null && request.getParameter("Seriesyear").length() > 0 
-                && request.getParameter("Seriesdescription") != null && request.getParameter("Seriesdescription").length() > 0
-                && request.getParameter("SeriesimageURL") != null && request.getParameter("SeriesimageURL").length() > 0
-                && request.getParameter("state") != null && request.getParameter("state").length() > 0
-                && request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0;
+        return request.getParameter("SeriesName") != null && request.getParameter("SeriesName").length() > 0
+                && request.getParameter("SeriesYear") != null && request.getParameter("SeriesYear").length() > 0 
+                && request.getParameter("SeriesDescription") != null && request.getParameter("SeriesDescription").length() > 0
+                && request.getParameter("SeriesImageURL") != null && request.getParameter("SeriesImageURL").length() > 0
+                && request.getParameter("state") != null && request.getParameter("state").length() > 0;
+                //&& request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0;
                  
     }
     
