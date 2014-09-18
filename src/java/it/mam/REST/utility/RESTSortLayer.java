@@ -87,6 +87,16 @@ public class RESTSortLayer {
         return seriesList;
     }
 
+    public static List<List<Series>> sortByListSize(List<List<Series>> listOfList) {
+        listOfList.sort(new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                return ((List<Series>) o1).size() < ((List<Series>) o2).size() ? 1 : ((List<Series>) o1).size() == ((List<Series>) o2).size() ? 0 : -1;
+            }
+        });
+        return listOfList;
+    }
+
     private static int getMediumRating(Series s) {
         List<UserSeries> usList = s.getUserSeries();
         int count = 0;
@@ -131,4 +141,5 @@ public class RESTSortLayer {
         });
         return newsList;
     }
+
 }

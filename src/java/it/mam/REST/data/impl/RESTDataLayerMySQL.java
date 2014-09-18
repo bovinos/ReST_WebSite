@@ -3413,6 +3413,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // ora che ho tolto le serie dell'utente in input devo semplicemente ordinare la lista in base a quante volte
             // compare la serie 
 
+            // se la lista è vuota non andiamo avanti
             if (result.isEmpty()) {
                 return result;
             }
@@ -3420,66 +3421,41 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // ordino le serie alfabeticamente
             result = RESTSortLayer.sortSeriesByName(result);
 
-            // ora contiamo le occorrenze
-            int count = 1;
-            int[] countArray = new int[result.size()];
-            Series[] seriesArray = new Series[result.size()];
+            // lista che conterrà un insieme di liste oneSeriesList
+            List<List<Series>> oneListForOneSeries = new ArrayList();
+            // lista che la stessa serie ripetuta TOT volte
+            List<Series> oneSeriesList = new ArrayList();
+            // assegno a oneSeriesList il primo elemento di result
+            // che so non essere vuoto
+            oneSeriesList.add(result.get(0));
             for (int i = 1; i < result.size(); i++) {
+                // se la serie corrente è uguale a quella precedente
+                // allora inseriscila nella lista che sta contenendo i doppioni di quella serie
                 if (result.get(i).equals(result.get(i - 1))) {
-                    // se la serie è la stessa di quella precedente
-                    // icremento il contatore e negli array che mi terranno traccia della serie
-                    // e di quante volte quella serie compare nella lista metto
-                    // -1 ad indicare che quella cella dell'array non è riferita a nessuna serie
-                    // e null alla serie che appunto non c'è
-                    count++;
-                    countArray[i - 1] = -1;
-                    seriesArray[i - 1] = null;
+                    oneSeriesList.add(result.get(i));
                 } else {
-                    // appena trovo che la serie corrente è diversa da quella precedente
-                    // cioè ho cambiato serie,
-                    countArray[i - 1] = count;
-                    seriesArray[i - 1] = result.get(i - 1);
-                    count = 1;
+                    // altrimenti aggiungi la oneSeriesList alla lista di liste
+                    // crea una nuova lista che conterrà i doppioni di questa nuova serie
+                    // ed aggiungici questa nuova serie
+                    oneListForOneSeries.add(oneSeriesList);
+                    oneSeriesList = new ArrayList();
+                    oneSeriesList.add(result.get(i));
                 }
+
             }
-            // cioè all'ultimo elemento che non ho salvato
-            countArray[result.size() - 1] = count;
-            seriesArray[result.size() - 1] = result.get(result.size() - 1);
+            oneListForOneSeries.add(oneSeriesList); // usciti dal ciclo devo aggiungere l'ultima lista
 
-            result.clear(); // ora non mi serve più la lista contenente le serie a doppione
+            // non ho più bisogno del contenuto di result e mi serve una
+            // lista pulita in cui reinserire le serie
+            result.clear();
 
-            // ora temp è una lista senza doppioni e countArray un array che contiene il numero di volte che
-            // una serie compare nella lista
-            int max;
-            int maxIndex;
-            System.out.println("Lunghezza countArray: " + countArray.length);
-            do {
-                maxIndex = 0;
-                max = -1;
-                for (int i = 0; i < countArray.length; i++) {
-                    if (countArray[i] != -1) {
-                        if (max == -1 || countArray[i] > max) {
-                            max = countArray[i];
-                            maxIndex = i;
-                        }
-                    }
-                }
-                if (max != -1) {
-                    if (seriesArray[maxIndex] == null) {
-                        System.out.println("Series ID: " + "null");
-                    } else {
-                        System.out.println("Series ID: " + seriesArray[maxIndex].getID());
-                    }
-                    System.out.println("max: " + max);
-                    System.out.println("maxIndex: " + maxIndex);
-                    System.out.println("**************************************************************************************");
-                    result.add(seriesArray[maxIndex]);
-                    countArray[maxIndex] = -1;
-                    seriesArray[maxIndex] = null;
-                }
-            } while (max != -1);
-            // alla fine di questo ciclo result conerrà la lista delle serie da dare come suggerimento
-            // ordinate per "popolarità" tra gli utenti che hanno almeno tutte le serie dell'utente preso in input
+            // ordiniamo la lista di liste in base alla lunghezza di ogni lista al suo interno
+            // cioè sto ordinando in base al numero di occorrenze della serie
+            RESTSortLayer.sortByListSize(oneListForOneSeries);
+
+            for (List<Series> sl : oneListForOneSeries) {
+                result.add(sl.get(0)); // aggiungo a result una sola serie per ogni lista
+            }
         }
         return result;
     }

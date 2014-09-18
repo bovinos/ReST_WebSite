@@ -17,7 +17,12 @@
 
             <div id="topBar">
                 <!-- controllo sulla sessione dell'utente -->
-                <#if (user??)>
+                <#if user??>
+                <#if (user.group?? && (user.group.ID == 1))> <!-- da rimpiazzare con isAdmin che mi passerà la logica -->
+                <div id="adminSettings">
+                    <a href="GestioneNews"><span class="icon_menu"></span></a>
+                </div>
+                </#if>
                 <div class="imgContainer">
                     <a href="ProfiloPersonale?sezione=1">
                         <#if user.imageURL??>

@@ -46,7 +46,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video, input {
+time, mark, audio, video, input, textarea {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box; }
@@ -127,44 +127,151 @@ button {
     background-color: #EB7F00; }
 
 .insertAComment, .insertAMessage {
-  margin: 50px 0; }
-  .insertAComment h1, .insertAMessage h1 {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 80%; }
+
+/* FORM
+=============================================================================================== */
+.formContainer {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto; }
+  .formContainer form fieldset {
+    border-top: 1px solid rgba(22, 149, 163, 0.4);
+    padding: 20px 0;
+    margin-bottom: 10px; }
+    .formContainer form fieldset legend {
+      padding: 0 5px;
+      font-size: 1.4rem;
+      color: #999999; }
+  .formContainer form input[type="text"], .formContainer form input[type="url"], .formContainer form input[type="password"], .formContainer form input[type="email"] {
+    width: 100%;
+    border: 1px solid #1695A3;
+    outline: none;
+    font-size: 2rem;
     color: #1695A3;
-    font-size: 3rem;
-    text-align: center; }
-  .insertAComment .commentForm, .insertAComment .messageForm, .insertAMessage .commentForm, .insertAMessage .messageForm {
-    text-align: center;
-    margin: 50px 0; }
-    .insertAComment .commentForm .titleCommentForm, .insertAComment .commentForm .titleMessageForm, .insertAComment .messageForm .titleCommentForm, .insertAComment .messageForm .titleMessageForm, .insertAMessage .commentForm .titleCommentForm, .insertAMessage .commentForm .titleMessageForm, .insertAMessage .messageForm .titleCommentForm, .insertAMessage .messageForm .titleMessageForm {
-      display: block;
-      margin: 0 auto 50px auto;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    padding: 10px 20px; }
+  .formContainer form input[type="checkbox"] {
+    position: absolute;
+    left: -9999px; }
+    .formContainer form input[type="checkbox"] + label {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.5rem; }
+    .formContainer form input[type="checkbox"]:checked + label:before {
+      font-family: 'ElegantIcons';
+      content: '\5a';
+      margin-right: 10px;
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
+    .formContainer form input[type="checkbox"]:not(:checked) + label:before {
+      font-family: 'ElegantIcons';
+      content: '\56';
+      margin-right: 10px;
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
+  .formContainer form input[type="radio"] {
+    position: absolute;
+    left: -9999px; }
+    .formContainer form input[type="radio"] + label {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.5rem; }
+    .formContainer form input[type="radio"]:checked + label:before {
+      font-family: 'ElegantIcons';
+      content: '\5c';
+      margin-right: 10px;
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
+    .formContainer form input[type="radio"]:not(:checked) + label:before {
+      font-family: 'ElegantIcons';
+      content: '\5b';
+      margin-right: 10px;
+      position: relative;
+      top: 5px;
+      font-size: 2.5rem;
+      color: #1695A3; }
+  .formContainer form textarea {
+    display: block;
+    margin: 0 auto 25px auto;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    border: 1px solid #1695A3;
+    padding: 10px 15px;
+    font-size: 1.6rem;
+    color: #444444;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px; }
+  .formContainer form .selectContainer {
+    padding-left: 0;
+    position: relative; }
+    .formContainer form .selectContainer.singleSelection {
       width: 80%;
-      border: 1px solid #1695A3;
-      padding: 5px 8px;
-      font-size: 1.6rem;
-      color: #444444;
-      border-radius: 100px;
-      -webkit-border-radius: 100px;
-      -moz-border-radius: 100px; }
-    .insertAComment .commentForm .textCommentForm, .insertAComment .commentForm .textMessageForm, .insertAComment .messageForm .textCommentForm, .insertAComment .messageForm .textMessageForm, .insertAMessage .commentForm .textCommentForm, .insertAMessage .commentForm .textMessageForm, .insertAMessage .messageForm .textCommentForm, .insertAMessage .messageForm .textMessageForm {
-      display: block;
-      margin: 0 auto 50px auto;
-      width: 80%;
-      max-width: 80%;
-      min-width: 80%;
-      border: 1px solid #1695A3;
-      padding: 10px 15px;
-      font-size: 1.6rem;
-      color: #444444;
-      border-radius: 10px;
-      -webkit-border-radius: 10px;
-      -moz-border-radius: 10px; }
-    .insertAComment .commentForm button, .insertAComment .messageForm button, .insertAMessage .commentForm button, .insertAMessage .messageForm button {
-      display: inline-block;
-      font-size: 2rem;
-      width: 80%;
-      height: 50px;
-      line-height: 50px; }
+      overflow: hidden; }
+      .formContainer form .selectContainer.singleSelection:after {
+        position: absolute;
+        right: 0;
+        top: 0;
+        line-height: 2;
+        /* per piazzarla al centro verticalmente */
+        color: #1695A3;
+        border-right: 1px solid #1695A3;
+        font-family: 'ElegantIcons';
+        font-size: 1.5rem;
+        content: '\43';
+        pointer-events: none;
+        /* per far aprire la select anche cliccando sulla freccia */ }
+      .formContainer form .selectContainer.singleSelection select {
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border: 1px solid #1695A3;
+        width: 120%;
+        /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
+        cursor: pointer; }
+      .formContainer form .selectContainer.singleSelection optgroup {
+        width: 99%;
+        border-right: 1px solid black; }
+    .formContainer form .selectContainer.multipleSelection {
+      width: 100%; }
+      .formContainer form .selectContainer.multipleSelection select {
+        border: 1px solid #1695A3;
+        width: 100%; }
+        .formContainer form .selectContainer.multipleSelection select optgroup {
+          color: #1695A3; }
+          .formContainer form .selectContainer.multipleSelection select optgroup option {
+            /* su chrome non funziona */
+            color: #000000;
+            padding: 3px 4px; }
+            .formContainer form .selectContainer.multipleSelection select optgroup option:before {
+              font-family: 'ElegantIcons';
+              content: "\4e";
+              color: #FFFFFF;
+              margin-right: 5px;
+              opacity: 0;
+              transition: opacity 0.3s ease-in-out;
+              -webkit-transition: opacity 0.3s ease-in-out;
+              -moz-transition: opacity 0.3s ease-in-out; }
+            .formContainer form .selectContainer.multipleSelection select optgroup option:checked:before {
+              opacity: 1; }
+  .formContainer form button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 2rem; }
 
 /* SLIDER
 =============================================================================================== */
@@ -364,8 +471,6 @@ button {
 /* LEFT COL
 =============================================================================================== */
 #leftCol {
-  margin-top: 25px;
-  margin-bottom: 10px;
   /* nascondiamo la checkbox originale */ }
   #leftCol h1 {
     font-family: Laila;
@@ -533,6 +638,21 @@ button {
   background: #333333;
   color: #ACF0F2;
   padding: 0 1%; }
+  #topBar #adminSettings {
+    float: left;
+    margin-left: -1%;
+    margin-right: 10px; }
+    #topBar #adminSettings a {
+      font-size: 3rem;
+      color: #FFFFFF;
+      display: block;
+      padding: 0 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      -webkit-transition: background-color 0.3s ease-in-out;
+      -moz-transition: background-color 0.3s ease-in-out; }
+      #topBar #adminSettings a:hover {
+        background-color: #EB7F00; }
   #topBar .imgContainer {
     width: 50px;
     height: 50px;
@@ -634,6 +754,9 @@ button {
 
 /* BODY
 =============================================================================================== */
+#outlineBody {
+  padding: 25px 0; }
+
 /* FOOTER
 =============================================================================================== */
 #outlineFooter {
@@ -701,50 +824,48 @@ button {
   margin-bottom: 20px;
   padding-left: 10%; }
 
-#newsList {
-  margin-top: 25px; }
-  #newsList .news {
-    padding: 5px;
-    -webkit-box-shadow: 0 0 3px #1695A3;
-    -moz-box-shadow: 0 0 3px #1695A3;
-    box-shadow: 0 0 3px #1695A3;
-    margin-bottom: 10px;
-    width: 31%; }
-    #newsList .news .head {
-      position: relative;
-      text-align: center;
-      margin-bottom: 15px; }
-      #newsList .news .head a.right {
-        position: absolute;
-        right: 5%;
-        font-size: 2.5rem; }
-      #newsList .news .head .center {
-        font-family: Laila;
-        display: inline-block;
-        font-size: 2rem;
-        margin-top: 5px; }
-    #newsList .news .body p {
-      text-align: center;
-      font-size: 1.4rem;
-      color: #444444;
-      line-height: 2rem;
-      margin-bottom: 10px; }
-    #newsList .news .footer {
-      font-size: 1.2rem;
-      overflow: hidden;
-      color: #999999; }
-      #newsList .news .footer .left {
-        float: left; }
-      #newsList .news .footer .right {
-        float: right; }
-        #newsList .news .footer .right .like {
-          margin-right: 10px; }
-          #newsList .news .footer .right .like:before {
-            margin-right: 3px;
-            color: #33cc00; }
-        #newsList .news .footer .right .dislike:before {
+#newsList .news {
+  padding: 5px;
+  -webkit-box-shadow: 0 0 3px #1695A3;
+  -moz-box-shadow: 0 0 3px #1695A3;
+  box-shadow: 0 0 3px #1695A3;
+  margin-bottom: 10px;
+  width: 31%; }
+  #newsList .news .head {
+    position: relative;
+    text-align: center;
+    margin-bottom: 15px; }
+    #newsList .news .head a.right {
+      position: absolute;
+      right: 5%;
+      font-size: 2.5rem; }
+    #newsList .news .head .center {
+      font-family: Laila;
+      display: inline-block;
+      font-size: 2rem;
+      margin-top: 5px; }
+  #newsList .news .body p {
+    text-align: center;
+    font-size: 1.4rem;
+    color: #444444;
+    line-height: 2rem;
+    margin-bottom: 10px; }
+  #newsList .news .footer {
+    font-size: 1.2rem;
+    overflow: hidden;
+    color: #999999; }
+    #newsList .news .footer .left {
+      float: left; }
+    #newsList .news .footer .right {
+      float: right; }
+      #newsList .news .footer .right .like {
+        margin-right: 10px; }
+        #newsList .news .footer .right .like:before {
           margin-right: 3px;
-          color: #cc0000; }
+          color: #33cc00; }
+      #newsList .news .footer .right .dislike:before {
+        margin-right: 3px;
+        color: #cc0000; }
 
 /* SERIES LIST PAGE
 =============================================================================================== */
@@ -756,74 +877,71 @@ button {
   margin-bottom: 20px;
   padding-left: 10%; }
 
-#seriesList {
-  margin-top: 25px;
-  margin-bottom: 25px; }
-  #seriesList .seriesBox {
-    margin-bottom: 30px;
-    text-align: center;
-    position: relative;
-    background: transparent url("../img/placeholder.jpg") no-repeat;
-    background-size: cover;
-    -webkit-box-shadow: 0 0 3px #1695A3;
-    -moz-box-shadow: 0 0 3px #1695A3;
-    box-shadow: 0 0 3px #1695A3; }
-    #seriesList .seriesBox a {
+#seriesList .seriesBox {
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+  background: transparent url("../img/placeholder.jpg") no-repeat;
+  background-size: cover;
+  -webkit-box-shadow: 0 0 3px #1695A3;
+  -moz-box-shadow: 0 0 3px #1695A3;
+  box-shadow: 0 0 3px #1695A3; }
+  #seriesList .seriesBox a {
+    display: inline-block;
+    width: 100%;
+    height: 100%; }
+    #seriesList .seriesBox a:hover img {
+      -webkit-transform: scale(1.3) rotate(5deg);
+      -moz-transform: scale(1.3) rotate(5deg);
+      transform: scale(1.3) rotate(5deg); }
+    #seriesList .seriesBox a:hover > .seriesDescription {
+      max-height: 25px;
+      transition: max-height 0.5s ease-in-out;
+      -webkit-transition: max-height 0.5s ease-in-out;
+      -moz-transition: max-height 0.5s ease-in-out; }
+      #seriesList .seriesBox a:hover > .seriesDescription > h1 {
+        opacity: 1;
+        transition: opacity 0.8s ease-in-out;
+        -webkit-transition: opacity 0.8s ease-in-out;
+        -moz-transition: opacity 0.8s ease-in-out; }
+    #seriesList .seriesBox a .imgContainer {
       display: inline-block;
       width: 100%;
-      height: 100%; }
-      #seriesList .seriesBox a:hover img {
-        -webkit-transform: scale(1.3) rotate(5deg);
-        -moz-transform: scale(1.3) rotate(5deg);
-        transform: scale(1.3) rotate(5deg); }
-      #seriesList .seriesBox a:hover > .seriesDescription {
-        max-height: 25px;
-        transition: max-height 0.5s ease-in-out;
-        -webkit-transition: max-height 0.5s ease-in-out;
-        -moz-transition: max-height 0.5s ease-in-out; }
-        #seriesList .seriesBox a:hover > .seriesDescription > h1 {
-          opacity: 1;
-          transition: opacity 0.8s ease-in-out;
-          -webkit-transition: opacity 0.8s ease-in-out;
-          -moz-transition: opacity 0.8s ease-in-out; }
-      #seriesList .seriesBox a .imgContainer {
-        display: inline-block;
+      height: 135px;
+      overflow: hidden; }
+      #seriesList .seriesBox a .imgContainer img {
         width: 100%;
-        height: 135px;
-        overflow: hidden; }
-        #seriesList .seriesBox a .imgContainer img {
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-          transition: all 0.5s ease-in-out;
-          -webkit-transition: all 0.5s ease-in-out;
-          -moz-transition: all 0.5s ease-in-out; }
-      #seriesList .seriesBox a .seriesDescription {
-        background-color: rgba(0, 0, 0, 0.7);
-        height: 25px;
-        line-height: 25px;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        max-height: 0px;
-        transition: max-height 0.5s ease-in-out;
-        -webkit-transition: max-height 0.5s ease-in-out;
-        -moz-transition: max-height 0.5s ease-in-out; }
-        #seriesList .seriesBox a .seriesDescription h1 {
-          font-family: Laila;
-          color: #FFFFFF;
-          font-size: 1.5rem;
-          opacity: 0;
-          transition: opacity 0.8s ease-in-out;
-          -webkit-transition: opacity 0.8s ease-in-out;
-          -moz-transition: opacity 0.8s ease-in-out; }
+        height: 100%;
+        overflow: hidden;
+        transition: all 0.5s ease-in-out;
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out; }
+    #seriesList .seriesBox a .seriesDescription {
+      background-color: rgba(0, 0, 0, 0.7);
+      height: 25px;
+      line-height: 25px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-height: 0px;
+      transition: max-height 0.5s ease-in-out;
+      -webkit-transition: max-height 0.5s ease-in-out;
+      -moz-transition: max-height 0.5s ease-in-out; }
+      #seriesList .seriesBox a .seriesDescription h1 {
+        font-family: Laila;
+        color: #FFFFFF;
+        font-size: 1.5rem;
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+        -webkit-transition: opacity 0.8s ease-in-out;
+        -moz-transition: opacity 0.8s ease-in-out; }
 
 /* SERIES CARD PAGE
 =============================================================================================== */
 #seriesCard {
   position: relative;
-  top: -10px;
+  top: -35px;
   /* perch├® vogliamo che non ci sia il margine tra logo e contenuto */
   margin-bottom: 30px; }
   #seriesCard h2 {
@@ -969,71 +1087,68 @@ button {
 
 /* NEWS CARD PAGE
 =============================================================================================== */
-#newsCard {
-  margin-top: 30px;
-  margin-bottom: 30px; }
-  #newsCard h1.newstitle {
-    text-align: center;
-    font-family: Laila;
-    color: #1695A3;
-    font-size: 4rem;
-    margin-bottom: 20px; }
-  #newsCard h2 {
-    text-align: center;
-    font-family: Laila;
-    color: #1695A3;
-    font-size: 3rem;
-    margin-bottom: 20px; }
-  #newsCard .newsImgContainer {
-    width: 100%;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 40px; }
-    #newsCard .newsImgContainer img {
-      max-width: 100%;
-      height: auto; }
-  #newsCard #newsText {
-    margin: 0 3% 10px 3%;
-    text-align: center;
-    font-size: 1.5rem;
-    line-height: 1.4;
-    color: #444444; }
-  #newsCard .footer {
-    margin: 0 3% 30px 3%;
-    font-size: 1.2rem;
-    overflow: hidden;
-    color: #999999; }
-    #newsCard .footer .left {
-      float: left; }
-    #newsCard .footer .right {
-      float: right; }
-      #newsCard .footer .right a {
-        color: #999999; }
-      #newsCard .footer .right .authorAndDate {
-        margin-bottom: 5px; }
-      #newsCard .footer .right .like {
-        margin-right: 10px; }
-        #newsCard .footer .right .like:before {
-          margin-right: 3px;
-          transition: color 0.3s ease-in-out;
-          -webkit-transition: color 0.3s ease-in-out;
-          -moz-transition: color 0.3s ease-in-out; }
-        #newsCard .footer .right .like:hover:before {
-          color: #33cc00; }
-      #newsCard .footer .right .dislike:before {
+#newsCard h1.newstitle {
+  text-align: center;
+  font-family: Laila;
+  color: #1695A3;
+  font-size: 4rem;
+  margin-bottom: 20px; }
+#newsCard h2 {
+  text-align: center;
+  font-family: Laila;
+  color: #1695A3;
+  font-size: 3rem;
+  margin-bottom: 20px; }
+#newsCard .newsImgContainer {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 40px; }
+  #newsCard .newsImgContainer img {
+    max-width: 100%;
+    height: auto; }
+#newsCard #newsText {
+  margin: 0 3% 10px 3%;
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  color: #444444; }
+#newsCard .footer {
+  margin: 0 3% 30px 3%;
+  font-size: 1.2rem;
+  overflow: hidden;
+  color: #999999; }
+  #newsCard .footer .left {
+    float: left; }
+  #newsCard .footer .right {
+    float: right; }
+    #newsCard .footer .right a {
+      color: #999999; }
+    #newsCard .footer .right .authorAndDate {
+      margin-bottom: 5px; }
+    #newsCard .footer .right .like {
+      margin-right: 10px; }
+      #newsCard .footer .right .like:before {
         margin-right: 3px;
         transition: color 0.3s ease-in-out;
         -webkit-transition: color 0.3s ease-in-out;
         -moz-transition: color 0.3s ease-in-out; }
-      #newsCard .footer .right .dislike:hover:before {
-        color: #cc0000; }
+      #newsCard .footer .right .like:hover:before {
+        color: #33cc00; }
+    #newsCard .footer .right .dislike:before {
+      margin-right: 3px;
+      transition: color 0.3s ease-in-out;
+      -webkit-transition: color 0.3s ease-in-out;
+      -moz-transition: color 0.3s ease-in-out; }
+    #newsCard .footer .right .dislike:hover:before {
+      color: #cc0000; }
 
 /* SERIES CIRCLE PAGE
 =============================================================================================== */
 #seriesCircle {
   position: relative;
-  top: -10px;
+  top: -35px;
   /* perch├® vogliamo che non ci sia il margine tra logo e contenuto */ }
   #seriesCircle .imgSeriesContainer {
     background: transparent url("../img/placeholder.jpg") no-repeat;
@@ -1061,50 +1176,25 @@ button {
 
 /* LOGIN
 =============================================================================================== */
-#formLogIn, #formSignUp, #modifySignUpData, #optionalData, #notifySettings {
+#formLogIn {
   height: 100%;
-  text-align: center;
-  margin: 200px auto; }
-  #formLogIn .row, #formSignUp .row, #modifySignUpData .row, #optionalData .row, #notifySettings .row {
-    margin-bottom: 15px; }
-    #formLogIn .row:last-of-type, #formSignUp .row:last-of-type, #modifySignUpData .row:last-of-type, #optionalData .row:last-of-type, #notifySettings .row:last-of-type {
-      margin-bottom: 10px; }
-  #formLogIn form, #formSignUp form, #modifySignUpData form, #optionalData form, #notifySettings form {
-    display: inline-block;
-    width: 40%;
-    vertical-align: middle; }
-    #formLogIn form input, #formSignUp form input, #modifySignUpData form input, #optionalData form input, #notifySettings form input {
-      width: 100%;
-      border: 1px solid #1695A3;
-      outline: none;
-      font-size: 2rem;
-      color: #1695A3;
-      border-radius: 4px;
-      -webkit-border-radius: 4px;
-      -moz-border-radius: 4px;
-      padding: 10px 20px; }
-    #formLogIn form button, #formSignUp form button, #modifySignUpData form button, #optionalData form button, #notifySettings form button {
-      margin-top: 30px;
-      background-color: #1695A3;
-      width: 100%;
-      border: none;
-      padding: 15px 0;
-      color: #FFFFFF;
-      font-size: 2rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
-      -webkit-transition: background-color 0.3s ease-in-out;
-      -moz-transition: background-color 0.3s ease-in-out; }
-      #formLogIn form button:hover, #formSignUp form button:hover, #modifySignUpData form button:hover, #optionalData form button:hover, #notifySettings form button:hover {
-        background-color: #EB7F00; }
-    #formLogIn form #signUp, #formSignUp form #signUp, #modifySignUpData form #signUp, #optionalData form #signUp, #notifySettings form #signUp {
-      text-align: right;
-      color: #444444;
-      font-size: 1.3rem;
-      margin-top: 10px; }
+  margin-top: 200px;
+  margin-bottom: 200px;
+  width: 40%; }
+  #formLogIn #signUp {
+    text-align: right;
+    color: #444444;
+    font-size: 1.3rem;
+    margin-top: 10px; }
 
 /* SIGNUP
 =============================================================================================== */
+#formSignUp {
+  height: 100%;
+  margin-top: 200px;
+  margin-bottom: 200px;
+  width: 40%; }
+
 /* PROFILO UTENTE
 ===============================================================================================
 =============================================================================================== */
@@ -1134,7 +1224,6 @@ button {
 /* USER SERIES PAGE
 =============================================================================================== */
 #userSeries {
-  margin-top: 25px;
   font-size: 1.2rem; }
   #userSeries .series {
     padding: 5px;
@@ -1196,120 +1285,61 @@ button {
 
 /* USER BROADCAST PROGRAMMING PAGE
 =============================================================================================== */
-#userBroadcastProgramming {
-  margin-top: 25px; }
-  #userBroadcastProgramming .dayEpisode {
-    padding: 5px;
-    -webkit-box-shadow: 0 0 3px #1695A3;
-    -moz-box-shadow: 0 0 3px #1695A3;
-    box-shadow: 0 0 3px #1695A3;
-    margin-bottom: 10px;
-    width: 32%;
-    text-align: center; }
-    #userBroadcastProgramming .dayEpisode .head {
-      margin-bottom: 10px; }
-      #userBroadcastProgramming .dayEpisode .head .center {
-        display: inline-block;
-        font-size: 2rem;
-        margin-top: 5px; }
-    #userBroadcastProgramming .dayEpisode .imgContainer {
-      position: relative;
+#userBroadcastProgramming .dayEpisode {
+  padding: 5px;
+  -webkit-box-shadow: 0 0 3px #1695A3;
+  -moz-box-shadow: 0 0 3px #1695A3;
+  box-shadow: 0 0 3px #1695A3;
+  margin-bottom: 10px;
+  width: 32%;
+  text-align: center; }
+  #userBroadcastProgramming .dayEpisode .head {
+    margin-bottom: 10px; }
+    #userBroadcastProgramming .dayEpisode .head .center {
       display: inline-block;
-      width: 98%; }
-      #userBroadcastProgramming .dayEpisode .imgContainer img {
-        max-width: 100%;
-        height: auto;
-        overflow: hidden; }
-      #userBroadcastProgramming .dayEpisode .imgContainer .ratingBox {
-        position: absolute;
-        bottom: 5%;
-        right: 5%;
-        padding: 5px 10px;
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 2px;
-        -webkit-border-radius: 2px;
-        -moz-border-radius: 2px;
-        font-size: 1.5rem; }
-    #userBroadcastProgramming .dayEpisode .dayEpisodeInfo {
-      font-size: 1.4rem;
-      color: #444444; }
-      #userBroadcastProgramming .dayEpisode .dayEpisodeInfo h1 {
-        display: inline; }
-  #userBroadcastProgramming .noEpisode p {
-    font-size: 1.5rem;
+      font-size: 2rem;
+      margin-top: 5px; }
+  #userBroadcastProgramming .dayEpisode .imgContainer {
+    position: relative;
+    display: inline-block;
+    width: 98%; }
+    #userBroadcastProgramming .dayEpisode .imgContainer img {
+      max-width: 100%;
+      height: auto;
+      overflow: hidden; }
+    #userBroadcastProgramming .dayEpisode .imgContainer .ratingBox {
+      position: absolute;
+      bottom: 5%;
+      right: 5%;
+      padding: 5px 10px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 2px;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      font-size: 1.5rem; }
+  #userBroadcastProgramming .dayEpisode .dayEpisodeInfo {
+    font-size: 1.4rem;
     color: #444444; }
+    #userBroadcastProgramming .dayEpisode .dayEpisodeInfo h1 {
+      display: inline; }
+#userBroadcastProgramming .noEpisode p {
+  font-size: 1.5rem;
+  color: #444444; }
 
 /* USER SING UP DATA PAGE
 =============================================================================================== */
-#modifySignUpData, #optionalData, #notifySettings {
-  margin-top: 15%;
-  margin-bottom: 10px; }
-  #modifySignUpData form, #optionalData form, #notifySettings form {
-    width: 70%; }
-    #modifySignUpData form fieldset, #optionalData form fieldset, #notifySettings form fieldset {
-      border-top: 1px solid rgba(22, 149, 163, 0.4);
-      padding: 20px 0;
-      margin-bottom: 10px; }
-      #modifySignUpData form fieldset legend, #optionalData form fieldset legend, #notifySettings form fieldset legend {
-        padding: 0 5px;
-        font-size: 1.4rem;
-        color: #999999; }
+#modifySignUpData {
+  width: 70%; }
 
 /* USER OPTIONAL DATA PAGE
 =============================================================================================== */
-#optionalData .selectContainer {
-  padding-left: 0;
-  position: relative; }
-  #optionalData .selectContainer.multipleSelection {
-    width: 100%; }
-    #optionalData .selectContainer.multipleSelection select {
-      border: 1px solid #1695A3;
-      width: 100%; }
-      #optionalData .selectContainer.multipleSelection select optgroup {
-        color: #1695A3; }
-        #optionalData .selectContainer.multipleSelection select optgroup option {
-          /* su chrome non funziona */
-          color: #000000;
-          padding: 3px 4px; }
-          #optionalData .selectContainer.multipleSelection select optgroup option:before {
-            font-family: 'ElegantIcons';
-            content: "\4e";
-            color: #FFFFFF;
-            margin-right: 5px;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            -webkit-transition: opacity 0.3s ease-in-out;
-            -moz-transition: opacity 0.3s ease-in-out; }
-          #optionalData .selectContainer.multipleSelection select optgroup option:checked:before {
-            opacity: 1; }
-#optionalData input[type="radio"] {
-  position: absolute;
-  left: -9999px; }
-  #optionalData input[type="radio"] + label {
-    position: relative;
-    cursor: pointer;
-    font-size: 1.5rem; }
-  #optionalData input[type="radio"]:checked + label:before {
-    font-family: 'ElegantIcons';
-    content: '\5c';
-    margin-right: 10px;
-    position: relative;
-    top: 5px;
-    font-size: 2.5rem;
-    color: #1695A3; }
-  #optionalData input[type="radio"]:not(:checked) + label:before {
-    font-family: 'ElegantIcons';
-    content: '\5b';
-    margin-right: 10px;
-    position: relative;
-    top: 5px;
-    font-size: 2.5rem;
-    color: #1695A3; }
+#optionalData {
+  width: 70%; }
 
 /* USER NOTIFY SETTING PAGE
 =============================================================================================== */
-#notifySettings form {
-  text-align: center; }
+#notifySettings {
+  width: 70%; }
   #notifySettings form fieldset {
     border: 1px solid rgba(22, 149, 163, 0.4);
     padding: 10px 20px;
@@ -1317,55 +1347,54 @@ button {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     margin-top: 30px; }
-  #notifySettings form .row {
-    margin-bottom: 30px; }
-  #notifySettings form input[type="checkbox"] {
-    position: absolute;
-    left: -9999px; }
-    #notifySettings form input[type="checkbox"] + label {
-      color: #444444;
-      position: relative;
-      cursor: pointer;
-      font-size: 1.5rem; }
-    #notifySettings form input[type="checkbox"]:checked + label:after {
-      font-family: 'ElegantIcons';
-      content: '\5a';
-      margin-left: 10px;
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
-    #notifySettings form input[type="checkbox"]:not(:checked) + label:after {
-      font-family: 'ElegantIcons';
-      content: '\56';
-      margin-left: 10px;
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
-    #notifySettings form input[type="checkbox"]:not(:checked) ~ fieldset {
-      display: none; }
-  #notifySettings form input[type="radio"] {
-    position: absolute;
-    left: -9999px; }
-    #notifySettings form input[type="radio"] + label {
-      position: relative;
-      cursor: pointer;
-      font-size: 1.5rem;
-      margin-right: 15px; }
-    #notifySettings form input[type="radio"]:checked + label:before {
-      font-family: 'ElegantIcons';
-      content: '\5c';
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
-    #notifySettings form input[type="radio"]:not(:checked) + label:before {
-      font-family: 'ElegantIcons';
-      content: '\5b';
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
+  #notifySettings form input[type="checkbox"]:not(:checked) ~ fieldset {
+    display: none; }
+
+/* BACK END
+===============================================================================================
+=============================================================================================== */
+#backOutline nav li {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  margin-left: 10%; }
+  #backOutline nav li:last-of-type {
+    margin-bottom: 40px; }
+
+/* INSERT NEWS
+=============================================================================================== */
+#insertNewsForm {
+  width: 70%; }
+
+/* INSERT SERIES
+=============================================================================================== */
+#insertSeries {
+  width: 70%; }
+
+/* INSERT EPISODE
+=============================================================================================== */
+/* INSERT CHANNEL
+=============================================================================================== */
+#insertChannel {
+  width: 70%; }
+
+/* INSERT GENRE
+=============================================================================================== */
+#insertGenre {
+  width: 70%; }
+
+/* INSERT CAST MEMBER
+=============================================================================================== */
+#insertCastMember {
+  width: 70%; }
+
+/* INSERT GROUP
+=============================================================================================== */
+#insertGroup {
+  width: 70%; }
+
+/* INSERT SERVICE
+=============================================================================================== */
+#insertService {
+  width: 70%; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

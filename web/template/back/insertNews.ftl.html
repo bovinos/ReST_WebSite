@@ -1,11 +1,25 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-Error reading included file Templates/ClientSide/Templates/Licenses/license-D:\Dropbox\Progetti\Java Web\REST\cddl-netbeans-sun.txt<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+
+<div id="insertNewsForm" class="formContainer">
+    <form action="GestioneNews" method="POST">
+        <div class="row">
+            <input name="newsTitle" type="text" id="newsTitle" class="titleNewsForm row" maxlength="60" placeholder="Titolo news" required="required" tabindex="1" />
+        </div>
+        <div class="row">
+            <textarea name="newsText" id="newsText" class="textNewsForm row" rows="10" placeholder="Inserisci qui il testo della news" required="required" tabindex="2" ></textarea>
+        </div>
+        <div class="row">
+            <input type="url" id="newsImageURL" name="newsImageURL" placeholder="URL immagine" tabindex="3" />
+        </div>
+        <div class="row selectContainer multipleSelection">
+            <select name="series" multiple="multiple" size="7">
+                <optgroup label="Scegli le serie associate alla news">
+                    <#list series as s>
+                    <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
+                    </#list>
+                </optgroup>
+            </select>
+        </div>
+        <button type="submit" name="in" value="1">Aggiungi la news</button>
+    </form>
+</div>
+

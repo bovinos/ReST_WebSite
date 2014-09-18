@@ -1,0 +1,31 @@
+
+<div id='insertCastMember' class='formContainer'>
+    <form action="GestioneSerie" method="POST">
+        <input type="hidden" name="sezione" value="5" />
+        <div class="row">
+            <input name="castMemberName" type="text" maxlength="60" placeholder="Nome del membro del cast" required="required" tabindex="1" />
+        </div>
+        <div class="row">
+            <input name="castMemberSurname" type="text" maxlength="60" placeholder="Cognome del membro del cast" required="required" tabindex="2" />
+        </div>
+        <div class="row">
+            <input name="castMemberCountry" type="text" maxlength="60" placeholder="Nazionalit&ag&agrave; del membro del cast" required="required" tabindex="3" />
+        </div>
+        <div class="row">
+            <input name="castMemberCountry" type="text" maxlength="60" placeholder="Nazionalit&ag&agrave; del membro del cast" required="required" tabindex="4" />
+        </div>
+        <div class="row">
+            <input name="castMemberImageURL" type="url" maxlength="60" placeholder="Immagine del membro del cast" tabindex="5" />
+        </div>
+        <div class="row">
+            <input name="castMemberbirthDate" type="date" required="required" tabindex="6" />
+        </div>
+        <div class="row">
+            <input type="radio" id="male" name="gender" value='1' tabindex="7" />
+            <label for="male"> M</label>
+            <input type="radio" id="female" name="gender" value='2' tabindex="8" />
+            <label for="female"> F</label>
+        </div>
+        <button type="submit" name="icm" value="1">Aggiungi il membro del cast</button>
+    </form>
+</div>

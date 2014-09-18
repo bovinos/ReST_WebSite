@@ -95,6 +95,10 @@
         <servlet-name>UsersManagement</servlet-name>
         <servlet-class>it.mam.REST.controller.back.UsersManagement</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManageNews</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.ManageNews</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
         <url-pattern>/ListaNews</url-pattern>
