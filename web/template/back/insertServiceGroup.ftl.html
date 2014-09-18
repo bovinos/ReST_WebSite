@@ -1,0 +1,25 @@
+
+<div id='insertServiceGroup' class='formContainer'>
+    <form action="GestioneUtente" method="POST">
+        <input type="hidden" name="sezione" value="3" />
+        <div class='row'>
+            <div class="selectContainer singleSelection">
+                <select name="service">
+                    <#list services as s>
+                    <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
+                    </#list>
+                </select>
+            </div>
+        </div>
+        <div class='row'>
+            <div class="selectContainer singleSelection">
+                <select name="group">
+                    <#list groups as g>
+                    <option value="${g.ID}">${strip_slashes(g.name)?html}</option>
+                    </#list>
+                </select>
+            </div>
+        </div>
+        <button type="submit" name="isg" value="1">Salva</button>
+    </form>
+</div>

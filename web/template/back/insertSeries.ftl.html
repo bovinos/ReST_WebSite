@@ -15,17 +15,6 @@
             <input name="seriesYear" type="text" maxlength="60" placeholder="Anno della serie" pattern="[0-9]{4}" title="Deve essere formato da quattro cifre" required="required" tabindex="4" />
         </div>
         <div class="row">
-            <div class="selectContainer multipleSelection">
-                <select name="genres" multiple="multiple" size="7" >
-                    <optgroup label="Inserisci i generi della serie">
-                        <#list genres as g>
-                        <option value="${g.ID}">${strip_slashes(g.name)?html}</option>
-                        </#list>
-                    </optgroup>
-                </select>
-            </div>
-        </div>
-        <div class="row">
             <input type="radio" id="onGoing" checked='checked' name="state" value='1' tabindex="5" />
             <label for="onGoing">In corso</label>
             <input type="radio" id="complete" name="state" value='2' tabindex="6" />
