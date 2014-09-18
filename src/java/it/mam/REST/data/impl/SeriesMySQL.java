@@ -277,11 +277,7 @@ public class SeriesMySQL implements Series {
 
     @Override
     public void removeAllUsers() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        users = null;
+        users.clear();
         dirty = true;
     }
 
@@ -318,11 +314,7 @@ public class SeriesMySQL implements Series {
 
     @Override
     public void removeAllGenre() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        genres = null;
+        genres.clear();
         dirty = true;
     }
 
@@ -346,11 +338,7 @@ public class SeriesMySQL implements Series {
 
     @Override
     public void removeAllEpisodes() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        episodes = null;
+        episodes.clear();
         dirty = true;
     }
 
@@ -374,11 +362,7 @@ public class SeriesMySQL implements Series {
 
     @Override
     public void removeAllCastMembers() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        castMembers = null;
+        castMembers.clear();
         dirty = true;
     }
 
@@ -415,11 +399,7 @@ public class SeriesMySQL implements Series {
 
     @Override
     public void removeAllNews() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        news = null;
+        news.clear();
         dirty = true;
     }
 
@@ -443,11 +423,7 @@ public class SeriesMySQL implements Series {
 
     @Override
     public void removeAllComment() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        comments = null;
+        comments.clear();
         dirty = true;
     }
 
@@ -471,11 +447,7 @@ public class SeriesMySQL implements Series {
 
     @Override
     public void removeAllMessages() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        messages = null;
+        messages.clear();
         dirty = true;
     }
 

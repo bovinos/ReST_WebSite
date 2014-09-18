@@ -211,11 +211,7 @@ public class NewsMySQL implements News {
 
     @Override
     public void removeAllComment() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        comments = null;
+        comments.clear();
         dirty = true;
     }
 
@@ -239,11 +235,7 @@ public class NewsMySQL implements News {
 
     @Override
     public void removeAllSeries() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        series = null;
+        series.clear();
         dirty = true;
     }
 

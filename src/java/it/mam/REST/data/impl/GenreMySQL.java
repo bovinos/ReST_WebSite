@@ -102,11 +102,7 @@ public class GenreMySQL implements Genre {
 
     @Override
     public void removeAllSeries() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        series = null;
+        series.clear();
         dirty = true;
     }
 
@@ -144,11 +140,7 @@ public class GenreMySQL implements Genre {
 
     @Override
     public void removeAllUser() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        users = null;
+        users.clear();
         dirty = true;
     }
 

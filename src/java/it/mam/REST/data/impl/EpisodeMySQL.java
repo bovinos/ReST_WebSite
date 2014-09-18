@@ -167,11 +167,7 @@ public class EpisodeMySQL implements Episode {
 
     @Override
     public void removeAllChannels() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        channels = null;
+        channels.clear();
         dirty = true;
     }
 

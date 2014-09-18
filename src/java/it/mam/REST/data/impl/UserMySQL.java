@@ -315,12 +315,8 @@ public class UserMySQL implements User {
 
     @Override
     public void removeAllComment() {
-        comments = null;
+        comments.clear();
         dirty = true;
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
     }
 
     @Override
@@ -349,12 +345,8 @@ public class UserMySQL implements User {
 
     @Override
     public void removeAllSeries() {
-        series = null;
+        series.clear();
         dirty = true;
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
     }
 
     @Override
@@ -390,12 +382,8 @@ public class UserMySQL implements User {
 
     @Override
     public void removeAllGenre() {
-        genres = null;
+        genres.clear();
         dirty = true;
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
     }
 
     @Override
@@ -424,12 +412,8 @@ public class UserMySQL implements User {
 
     @Override
     public void removeAllMessages() {
-        messages = null;
+        messages.clear();
         dirty = true;
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
     }
 
     @Override
@@ -458,12 +442,8 @@ public class UserMySQL implements User {
 
     @Override
     public void removeAllNews() {
-        news = null;
+        news.clear();
         dirty = true;
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
     }
 
     @Override

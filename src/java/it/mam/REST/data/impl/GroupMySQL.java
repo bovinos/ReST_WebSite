@@ -130,12 +130,8 @@ public class GroupMySQL implements Group {
 
     @Override
     public void removeAllUsers() {
-        users = null;
+        users.clear();
         dirty = true;
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
     }
 
     @Override
