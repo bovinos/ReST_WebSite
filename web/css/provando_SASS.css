@@ -140,7 +140,7 @@ button {
       padding: 0 5px;
       font-size: 1.4rem;
       color: #999999; }
-  .formContainer form input[type="text"], .formContainer form input[type="url"], .formContainer form input[type="password"], .formContainer form input[type="email"] {
+  .formContainer form input[type="text"], .formContainer form input[type="url"], .formContainer form input[type="password"], .formContainer form input[type="email"], .formContainer form input[type="date"] {
     width: 100%;
     border: 1px solid #1695A3;
     outline: none;
@@ -212,7 +212,7 @@ button {
     padding-left: 0;
     position: relative; }
     .formContainer form .selectContainer.singleSelection {
-      width: 80%;
+      width: 100%;
       overflow: hidden; }
       .formContainer form .selectContainer.singleSelection:after {
         position: absolute;
