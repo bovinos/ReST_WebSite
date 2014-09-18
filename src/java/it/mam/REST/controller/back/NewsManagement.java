@@ -60,8 +60,8 @@ public class NewsManagement extends RESTBaseController {
         News news = getDataLayer().createNews();
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkNewsInputData(request, response)){
-            news.setTitle(request.getParameter("title"));
-            news.setText(request.getParameter("text"));
+            news.setTitle(request.getParameter("newsTitle"));
+            news.setText(request.getParameter("newsText"));
           
             //Ricavo tutte le serie che l'utente ha scelto per la sua News, le trasformo in lista e le setto nella news
             String[] series = request.getParameterValues("series");
@@ -81,6 +81,7 @@ public class NewsManagement extends RESTBaseController {
         Calendar c = Calendar.getInstance();
         news.setDate(c.getTime());
         //Salvo il commento
+            System.err.println(news);
         getDataLayer().storeNews(RESTSecurityLayer.addSlashes(news));
       } catch (NumberFormatException ex){
             action_error(request, response, "Field Error");
@@ -105,8 +106,8 @@ public class NewsManagement extends RESTBaseController {
     }
 
     private boolean checkNewsInputData(HttpServletRequest request, HttpServletResponse response){
-        return request.getParameter("title") != null && request.getParameter("title").length() > 0
-                && request.getParameter("text") != null && request.getParameter("text").length() > 0
+        return request.getParameter("newsTitle") != null && request.getParameter("newsTitle").length() > 0
+                && request.getParameter("newsText") != null && request.getParameter("newsText").length() > 0
                 && request.getParameterValues("series") != null && request.getParameterValues("series").length > 0;
     }
     

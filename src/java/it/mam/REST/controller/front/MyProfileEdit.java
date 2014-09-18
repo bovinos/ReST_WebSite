@@ -120,6 +120,7 @@ public class MyProfileEdit extends RESTBaseController {
                     //prendo il genere dal DB e NON ci metto gli slash perché nel DB ce li ha già e non serve di toglierli perché non devo usarlo
                     genresList.add(RESTSecurityLayer.addSlashes(getDataLayer().getGenre(SecurityLayer.checkNumeric(s))));
                 }
+                
                     user.setGenres(genresList);
             }
             
@@ -171,6 +172,7 @@ public class MyProfileEdit extends RESTBaseController {
                 case 1:
                     System.err.println("Sono nel case 1");
                     user.setNotificationStatus(true);
+                    getDataLayer().storeUser(user);
                     if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
                         List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
                         for (UserSeries us : userseriesList) {

@@ -28,8 +28,10 @@ public class LogIn extends RESTBaseController {
             user = getDataLayer().getUser(username, password);
             if (user == null) {
                 action_error(request, response, "Hai inserito dei dati non validi");
+                return;
             }
             SecurityLayer.createSession(request, username, user.getID());
+
         } else {
             action_error(request, response, "Non hai riempito tutti i campi necessari!");
         }
