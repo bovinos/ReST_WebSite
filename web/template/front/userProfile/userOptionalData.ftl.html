@@ -2,35 +2,35 @@
 <div id='optionalData' class="formContainer">
     <form action="ModificaProfiloPersonale" method="POST">
         <input type="hidden" name="sezione" value="2" />
-        <div class="row formInput">
+        <div class="row">
             <#if ( user.name?has_content )>
-            <input type ="text" id="name" name ="name" value='${strip_slashes(user.name)?html}' autofocus="autofocus" maxlength="20" placeholder="Nome" pattern="[A-Z][a-z]+" title="Il nome deve essere una sequenza di massimo 20 lettere in cui solo la prima &egrave; maiuscola" tabindex="1" />
+            <input type ="text" name ="name" value='${strip_slashes(user.name)?html}' autofocus="autofocus" maxlength="60" placeholder="Nome" pattern="[A-Z][a-z]+" title="Il nome deve essere una sequenza di massimo 20 lettere in cui solo la prima &egrave; maiuscola" tabindex="1" />
             <#else>
-            <input type ="text" id="name" name ="name"  autofocus="autofocus" maxlength="20" placeholder="Nome" pattern="[A-Z][a-z]+" title="Il nome deve essere una sequenza di massimo 20 lettere in cui solo la prima &egrave; maiuscola" tabindex="1" />
+            <input type ="text" name ="name"  autofocus="autofocus" maxlength="20" placeholder="Nome" pattern="[A-Z][a-z]+" title="Il nome deve essere una sequenza di massimo 20 lettere in cui solo la prima &egrave; maiuscola" tabindex="1" />
             </#if>
         </div>
-        <div class="row formInput">
+        <div class="row">
             <#if user.surname?has_content>
-            <input type="text" id="surname" name="surname" value='${strip_slashes(user.surname)?html}' maxlength="20" placeholder="Cognome" pattern="[A-Z][a-z]+" title="Il cognome deve essere una sequenza di massimo 20 lettere in cui solo la prima &egrave; maiuscola" tabindex="2" />
+            <input type="text" name="surname" value='${strip_slashes(user.surname)?html}' maxlength="60" placeholder="Cognome" pattern="[A-Z][a-z]+" title="Il cognome deve essere una sequenza di massimo 20 lettere in cui solo la prima &egrave; maiuscola" tabindex="2" />
             <#else>
-            <input type="text" id="surname" name="surname" maxlength="20" placeholder="Cognome" pattern="[A-Z][a-z]+" title="Il cognome deve essere una sequenza di massimo 20 lettere in cui solo la prima &egrave; maiuscola" tabindex="2" />
+            <input type="text" name="surname" maxlength="20" placeholder="Cognome" pattern="[A-Z][a-z]+" title="Il cognome deve essere una sequenza di massimo 20 lettere in cui solo la prima &egrave; maiuscola" tabindex="2" />
             </#if>
         </div>
-        <div class="row formInput">
+        <div class="row">
             <#if (user.age?? && (user.age != 0))>
-            <input type="text" id="age" name="age" value='${user.age}' placeholder="Et&agrave;" pattern="[1-9][0-9]" title="questo campo deve essere un numero che va da 10 a 99" tabindex="2" />
+            <input type="text" name="age" value='${user.age}' placeholder="Et&agrave;" pattern="[1-9][0-9]" title="questo campo deve essere un numero che va da 10 a 99" tabindex="3" />
             <#else>
-            <input type="text" id="age" name="age" placeholder="Et&agrave;" pattern="[1-9][0-9]" title="questo campo deve essere un numero che va da 10 a 99" tabindex="2" />
+            <input type="text" name="age" placeholder="Et&agrave;" pattern="[1-9][0-9]" title="questo campo deve essere un numero che va da 10 a 99" tabindex="3" />
             </#if>
         </div>
-        <div class="row formInput">
+        <div class="row">
             <#if user.imageURL?has_content >
-            <input type="url" id="image" value='${strip_slashes(user.imageURL)?html}' name="imageURL" placeholder="URL immagine" tabindex="4" />
+            <input type="url" value='${strip_slashes(user.imageURL)?html}' name="imageURL" placeholder="URL immagine" tabindex="4" />
             <#else>
-            <input type="url" id="image" name="imageURL" placeholder="URL immagine" tabindex="4" />
+            <input type="url" name="imageURL" placeholder="URL immagine" tabindex="4" />
             </#if>
         </div>
-        <div class="row formInput">
+        <div class="row">
             <div class="selectContainer multipleSelection">
                 <select name="genres" multiple="multiple" size="7" >
                     <optgroup label="Scegli i tuoi generi preferiti">
@@ -57,23 +57,23 @@
                 </select>
             </div>
         </div>
-        <div class="row formInput">
+        <div class="row">
             <#if user.gender?has_content >
             <#if strip_slashes(user.gender)?html?upper_case == "M">
-            <input type="radio" id="male" name="gender" checked="checked" value='1' tabindex="3" />
+            <input type="radio" id="male" name="gender" checked="checked" value='1' tabindex="5" />
             <label for="male"> M</label>
-            <input type="radio" id="female" name="gender" value='2' tabindex="3" />
+            <input type="radio" id="female" name="gender" value='2' tabindex="6" />
             <label for="female"> F</label>
             <#else>
-            <input type="radio" id="male" name="gender" value='1' tabindex="3" />
+            <input type="radio" id="male" name="gender" value='1' tabindex="5" />
             <label for="male"> M</label>
-            <input type="radio" id="female" name="gender" checked="checked" value='2' tabindex="3" />
+            <input type="radio" id="female" name="gender" checked="checked" value='2' tabindex="6" />
             <label for="female"> F</label>
             </#if>
             <#else>
-            <input type="radio" id="male" name="gender" value='1' tabindex="3" />
+            <input type="radio" id="male" name="gender" value='1' tabindex="5" />
             <label for="male"> M</label>
-            <input type="radio" id="female" name="gender" value='2' tabindex="3" />
+            <input type="radio" id="female" name="gender" value='2' tabindex="6" />
             <label for="female"> F</label>
             </#if>
         </div>

@@ -129,12 +129,8 @@ public class ServiceMySQL implements Service {
 
     @Override
     public void removeAllGroup() {
-        groups = null;
+        groups.clear();
         dirty = true;
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
     }
 
     @Override

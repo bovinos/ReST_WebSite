@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset=UTF-8>
+        <title>REST</title>
+        <link rel="stylesheet" href="css/error.css" type="text/css"/>
+    </head>
+
+    <body>
+        <div id="errorContainer">
+            <h1>Errore</h1>
+            <p>Abbiamo riscontrato il seguente errore:</p>
+            <p id="error">${error!"Unknown error"?html}</p>
+            <div>
+                <a href="ListaNews">Torna alla home</a>
+            </div>
+        </div>
+    </body>
+
+</html>

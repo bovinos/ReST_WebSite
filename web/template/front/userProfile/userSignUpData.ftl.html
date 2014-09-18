@@ -1,29 +1,29 @@
 
-<div id='modifySignUpData' class='row formContainer'>
+<div id='modifySignUpData' class='formContainer'>
     <form action="ModificaProfiloPersonale" method="POST">
         <input type="hidden" name="sezione" value="1" />
         <fieldset>
             <legend>Modifica il tuo username</legend>
-            <div class="row formInput">
-                <input type ="text" id="username" name ="username" autocomplete="on" autofocus="autofocus" maxlength="50" placeholder="Nuovo username" pattern="[a-zA-Z0-9]+" title="L'username deve essere una combinazione di massimo 50 caratteri tra cifre e lettere" tabindex="1" />
+            <div class="row">
+                <input type ="text" name ="username" autocomplete="on" autofocus="autofocus" maxlength="50" placeholder="Nuovo username" pattern="[a-zA-Z0-9]+" title="L'username deve essere una combinazione di massimo 50 caratteri tra cifre e lettere" tabindex="1" />
             </div>
         </fieldset>
         <fieldset>
             <legend>Modifica la tua password</legend>
-            <div class="row formInput">
-                <input type="password" id="oldPassword" name="oldpassword" maxlength="50" placeholder="Vecchia password" pattern="[a-zA-Z0-9]+" title="La password deve essere una combinazione di massimo 50 caratteri tra cifre e lettere" tabindex="2" />
+            <div class="row">
+                <input type="password" name="oldpassword" maxlength="50" placeholder="Vecchia password" pattern="[a-zA-Z0-9]+" title="La password deve essere una combinazione di massimo 50 caratteri tra cifre e lettere" tabindex="2" />
             </div>
-            <div class="row formInput">
-                <input type="password" id="nuovaPassword" name="newpassword" maxlength="50" placeholder="Nuova Password" pattern="[a-zA-Z0-9]+" title="La password deve essere una combinazione di massimo 50 caratteri tra cifre e lettere" tabindex="2" />
+            <div class="row">
+                <input type="password" name="newpassword" maxlength="50" placeholder="Nuova Password" pattern="[a-zA-Z0-9]+" title="La password deve essere una combinazione di massimo 50 caratteri tra cifre e lettere" tabindex="3" />
             </div>
-            <div class="row formInput">
-                <input type="password" id="confirmPassword" name="confirmpassword" maxlength="50" placeholder="Conferma nuova password" pattern="[a-zA-Z0-9]+" title="La password deve essere una combinazione di massimo 50 caratteri tra cifre e lettere" tabindex="3" />
+            <div class="row">
+                <input type="password" name="confirmpassword" maxlength="50" placeholder="Conferma nuova password" pattern="[a-zA-Z0-9]+" title="La password deve essere una combinazione di massimo 50 caratteri tra cifre e lettere" tabindex="4" />
             </div>
         </fieldset>
         <fieldset>
             <legend>Modifica la tua mail</legend>
-            <div class="row formInput">
-                <input type="email" id="email" name="mail" maxlength="50" placeholder="Nuova E-mail" tabindex="4" />
+            <div class="row">
+                <input type="email" name="mail" maxlength="50" placeholder="Nuova E-mail" tabindex="5" />
             </div>
         </fieldset>
         <button type="submit" name="modifySignUpData" value="1">Invia</button>

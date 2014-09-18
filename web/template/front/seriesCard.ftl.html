@@ -136,10 +136,15 @@
 <!-- INSERISCI IL TUO COMMENTO
 ============================================================================================== -->
 <div class="insertAComment formContainer">
-    <form action="SchedaSerie" method="POST" id="seriesCommentForm" class="commentForm row">
+    <form action="SchedaSerie" method="POST" >
         <input type="hidden" name="sid" value="${series.ID}"/>
-        <input name="commentTitle" type="text" id="seriesCommentTitle" class="titleCommentForm row" maxlength="60" placeholder="Titolo commento" required="required">
-        <textarea name="commentText" id="seriesCommentText" class="textCommentForm row" rows="10" placeholder="Inserisci qui il tuo commento..." required="required" ></textarea>
-        <button type="submit" name="scs" value="1">Commenta</button>
+        <div class='row'>
+            <input name="commentTitle" type="text" maxlength="60" placeholder="Titolo commento" required="required">
+        </div>
+        <div class='row'>
+            <textarea name="commentText" rows="10" placeholder="Inserisci qui il tuo commento..." required="required" ></textarea>
+        </div>
+        <div class='row'>
+            <button type="submit" name="scs" value="1">Commenta</button>
     </form>
 </div>

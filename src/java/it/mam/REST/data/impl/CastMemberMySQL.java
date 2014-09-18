@@ -181,11 +181,7 @@ public class CastMemberMySQL implements CastMember {
 
     @Override
     public void removeAllSeries() {
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
-        series = null;
+        series.clear();
         dirty = true;
     }
 
