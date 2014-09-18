@@ -34,6 +34,7 @@ public class NewsManagement extends RESTBaseController {
 
     // passa la lista delle serie al template "insert_news.ftl"
     private void action_insert_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
         TemplateResult result = new TemplateResult(getServletContext());
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
@@ -44,10 +45,14 @@ public class NewsManagement extends RESTBaseController {
         request.setAttribute("series", getDataLayer().getSeries());
         request.setAttribute("backContent_tpl", "insertNews.ftl.html");
         result.activate("../back/backOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
     }
 
     // controlla l'inserimento corretto di tutti i dati di una news e la salva sul DB
     private void action_save_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
         TemplateResult result = new TemplateResult(getServletContext());
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
@@ -63,12 +68,8 @@ public class NewsManagement extends RESTBaseController {
             List<Series> seriesList = new ArrayList();
             if (series != null) {
                 for (String s: series){
-                    try{
                     //prendo la serie dal DB e NON ci metto gli slash perché nel DB ce li ha già e non serve di toglierli perché non devo usarla
                     seriesList.add(getDataLayer().getSeries(SecurityLayer.checkNumeric(s)));
-                    } catch (NumberFormatException e) {
-                        action_error(request, response, "Field Error");
-                    }
                 }
                 news.setSeries(seriesList);
             }
@@ -81,6 +82,9 @@ public class NewsManagement extends RESTBaseController {
         news.setDate(c.getTime());
         //Salvo il commento
         getDataLayer().storeNews(RESTSecurityLayer.addSlashes(news));
+      } catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
     }
     
     @Override

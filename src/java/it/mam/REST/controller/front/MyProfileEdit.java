@@ -117,13 +117,10 @@ public class MyProfileEdit extends RESTBaseController {
                 String[] genres = request.getParameterValues("genres");
                 List<Genre> genresList = new ArrayList();
                 for (String s : genres) {
-
                     //prendo il genere dal DB e NON ci metto gli slash perché nel DB ce li ha già e non serve di toglierli perché non devo usarlo
                     genresList.add(RESTSecurityLayer.addSlashes(getDataLayer().getGenre(SecurityLayer.checkNumeric(s))));
                 }
-                if (!(genresList.equals(user.getGenres()))) {
                     user.setGenres(genresList);
-                }
             }
             
             if (request.getParameter("gender") != null && request.getParameter("gender").length() > 0
