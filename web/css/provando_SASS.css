@@ -126,11 +126,6 @@ button {
   button:hover {
     background-color: #EB7F00; }
 
-.insertAComment, .insertAMessage {
-  margin-top: 50px;
-  margin-bottom: 50px;
-  width: 80%; }
-
 /* FORM
 =============================================================================================== */
 .formContainer {
@@ -272,6 +267,11 @@ button {
     width: 100%;
     padding: 15px 0;
     font-size: 2rem; }
+
+.insertAComment, .insertAMessage {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 80%; }
 
 /* SLIDER
 =============================================================================================== */

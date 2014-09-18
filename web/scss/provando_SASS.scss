@@ -154,8 +154,6 @@ input:invalid{
         height: 100%;
         vertical-align: middle;
     }
-
-
 }
 
 html, body{
@@ -195,12 +193,6 @@ button{
     &:hover{
         background-color: $orange;
     }
-}
-
-.insertAComment, .insertAMessage{
-    margin-top: 50px;
-    margin-bottom: 50px;
-    width: 80%;
 }
 
 /* FORM
@@ -388,6 +380,12 @@ button{
             font-size: 2rem;
         }
     }
+}
+
+.insertAComment, .insertAMessage{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width: 80%;
 }
 
 /* SLIDER
@@ -853,6 +851,7 @@ button{
         height: $topBarHeight;
         float: left;
         margin-right: 10px;
+
 
         img{
             width: 100%;
