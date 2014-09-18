@@ -12,12 +12,10 @@ import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,6 +38,7 @@ public class NewsManagement extends RESTBaseController {
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("user", user);
         //Qui creo la lista delle serie che passo al template, in modo che si possa scegliere (opzionalmente)
         //la serie o le serie a cui la news si riferisce. Non passo la lista dei generi perché non ce n'è bisogno lì.
         request.setAttribute("series", getDataLayer().getSeries());
@@ -57,6 +56,7 @@ public class NewsManagement extends RESTBaseController {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         News news = getDataLayer().createNews();
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkNewsInputData(request, response)){
@@ -83,6 +83,7 @@ public class NewsManagement extends RESTBaseController {
       } catch (NumberFormatException ex){
             action_error(request, response, "Field Error");
         }
+        response.sendRedirect("GestioneNews");
     }
     
     @Override

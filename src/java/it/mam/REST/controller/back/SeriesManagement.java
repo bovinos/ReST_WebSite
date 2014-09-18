@@ -41,6 +41,7 @@ public class SeriesManagement extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("castMembers", getDataLayer().getCastMembers());
@@ -57,6 +58,7 @@ public class SeriesManagement extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         Series series = getDataLayer().createSeries();
         //Controllo che i campi siano validi
         if (checkSeriesInputData(request, response)){
@@ -76,9 +78,12 @@ public class SeriesManagement extends RESTBaseController{
                 series.setGenres(genresList);
             }
         getDataLayer().storeSeries(RESTSecurityLayer.addSlashes(series));
+        request.setAttribute("backContent_tpl", "insertSeries.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
        } catch (NumberFormatException ex){
             action_error(request, response, "Field Error");
         }
+
         }
 
     private void action_insert_episode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -88,6 +93,7 @@ public class SeriesManagement extends RESTBaseController{
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("user", user);
         //Qui creo la lista delle serie che passo al template, in modo che si possa scegliere (opzionalmente)
         //la serie a cui appartiene l'episodio.
         request.setAttribute("series", getDataLayer().getSeries());      
@@ -107,6 +113,7 @@ public class SeriesManagement extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         Episode episode = getDataLayer().createEpisode();
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkEpisodeInputData(request, response)) {
@@ -141,9 +148,12 @@ public class SeriesManagement extends RESTBaseController{
             ce.setChannel(channel);
             getDataLayer().storeChannelEpisode(ce);
         }
+        request.setAttribute("backContent_tpl", "insertEpisode.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
         } catch (NumberFormatException ex){
             action_error(request, response, "Field Error");
         }
+
     }
     
     private void action_insert_channel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -152,6 +162,7 @@ public class SeriesManagement extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         request.setAttribute("backContent_tpl", "insertChannel.ftl.html");
         result.activate("../back/backOutline.ftl.html", request, response);
         } catch (NumberFormatException ex){
@@ -165,6 +176,7 @@ public class SeriesManagement extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         Channel channel = getDataLayer().createChannel();
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkChannelInputData(request, response)){
@@ -177,6 +189,8 @@ public class SeriesManagement extends RESTBaseController{
         }
             
         getDataLayer().storeChannel(RESTSecurityLayer.addSlashes(channel));
+        request.setAttribute("backContent_tpl", "insertChannel.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
         } catch (NumberFormatException ex){
             action_error(request, response, "Field Error");
         }
@@ -188,6 +202,7 @@ public class SeriesManagement extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         request.setAttribute("backContent_tpl", "insertGenre.ftl.html");
         result.activate("../back/backOutline.ftl.html", request, response);
         } catch (NumberFormatException ex){
@@ -201,11 +216,14 @@ public class SeriesManagement extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         Genre genre = getDataLayer().createGenre();
         if (request.getParameter("name") != null && request.getParameter("name").length() > 0) {
             genre.setName(request.getParameter("name"));
         }
       getDataLayer().storeGenre(RESTSecurityLayer.addSlashes(genre));
+      request.setAttribute("backContent_tpl", "insertGenre.ftl.html");
+      result.activate("../back/backOutline.ftl.html", request, response);
       } catch (NumberFormatException ex){
             action_error(request, response, "Field Error");
         }
@@ -217,6 +235,7 @@ public class SeriesManagement extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("series", getDataLayer().getSeries());
         request.setAttribute("backContent_tpl", "insertCastMember.ftl.html");
@@ -232,6 +251,7 @@ public class SeriesManagement extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         CastMember castMember = getDataLayer().createCastMember();
         CastMemberSeries cms = getDataLayer().createCastMemberSeries();
         if (checkCastMemberInputData(request, response)) {
@@ -274,12 +294,129 @@ public class SeriesManagement extends RESTBaseController{
                 }
             }
         }
+       request.setAttribute("backContent_tpl", "insertCastMember.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
         } catch (NumberFormatException ex){
             action_error(request, response, "Field Error");
         }
     }
-    @Override
     
+    private void action_insert_castmemberSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("series", getDataLayer().getSeries());
+        request.setAttribute("castmembers", getDataLayer().getCastMembers());
+        request.setAttribute("backContent_tpl", "insertCastMemberSeries.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
+    }
+    
+    private void action_save_castmemberSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("user", user);
+        if(checkCastMemberSeriesInputData(request, response)){
+        CastMemberSeries cms = getDataLayer().createCastMemberSeries();
+        cms.setCastMember(getDataLayer().getCastMember(SecurityLayer.checkNumeric(request.getParameter("castMember"))));
+        cms.setSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series"))));
+        cms.setRole(request.getParameter("role"));
+        getDataLayer().storeCastMemberSeries(cms);
+        }
+        request.setAttribute("backContent_tpl", "insertCastMemberSeries.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
+        
+    }
+
+    private void action_insert_channelEpisode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("channels", getDataLayer().getChannels());
+        request.setAttribute("episodes", getDataLayer().getEpisodes());
+        request.setAttribute("backContent_tpl", "insertChannelEpisode.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
+    }
+    
+    private void action_save_channelEpisode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+         try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        if(checkChannelEpisodeInputData(request, response)){
+        ChannelEpisode ce = getDataLayer().createChannelEpisode();
+        ce.setChannel(getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel"))));
+        ce.setEpisode(getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode"))));
+        ce.setDate(SecurityLayer.checkDate(request.getParameter("date")).getTime());
+        getDataLayer().storeChannelEpisode(ce);
+        }
+        request.setAttribute("backContent_tpl", "insertChannelEpisode.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
+    }
+    
+    private void action_insert_genreSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("genres", getDataLayer().getGenres());
+        request.setAttribute("series", getDataLayer().getSeries());
+        request.setAttribute("backContent_tpl", "insertGenreSeries.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
+    }
+    
+    private void action_save_genreSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+         try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        if(checkGenreSeriesInputData(request, response)){
+        Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
+        s.addGenre(getDataLayer().getGenre(SecurityLayer.checkNumeric(request.getParameter("genre"))));
+        getDataLayer().storeSeries(s);
+        }
+        request.setAttribute("backContent_tpl", "insertGenreSeries.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
+    }
+    
+    @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try{
         int sezione = SecurityLayer.checkNumeric(request.getParameter("sezione"));
@@ -312,6 +449,24 @@ public class SeriesManagement extends RESTBaseController{
                 action_save_castmember(request, response);
                 } else {
                 action_insert_castmember(request, response);
+                }
+            break;
+            case 6: if((request.getParameter("icms")) != null) { 
+                action_save_castmemberSeries(request, response);
+                } else {
+                action_insert_castmemberSeries(request, response);
+                }
+            break;
+            case 7: if((request.getParameter("ice")) != null) { 
+                action_save_channelEpisode(request, response);
+                } else {
+                action_insert_channelEpisode(request, response);
+                }
+            break;
+             case 8: if((request.getParameter("igs")) != null) { 
+                action_save_genreSeries(request, response);
+                } else {
+                action_insert_genreSeries(request, response);
                 }
             break;
             default: action_error(request, response, "Field Error");
@@ -358,6 +513,23 @@ public class SeriesManagement extends RESTBaseController{
                 && request.getParameterValues("series") != null && request.getParameterValues("series").length > 0
                 && request.getParameterValues("roles") != null && request.getParameterValues("roles").length > 0;
 
+    }
+     
+     private boolean checkCastMemberSeriesInputData(HttpServletRequest request, HttpServletResponse response) {
+        return request.getParameter("castMember") != null && request.getParameter("castMember").length() > 0
+                && request.getParameter("series") != null && request.getParameter("series").length() > 0
+                && request.getParameter("role") != null && request.getParameter("role").length() > 0;
+    }
+     
+     private boolean checkChannelEpisodeInputData(HttpServletRequest request, HttpServletResponse response) {
+        return request.getParameter("channel") != null && request.getParameter("channel").length() > 0
+                && request.getParameter("episode") != null && request.getParameter("episode").length() > 0
+                && request.getParameter("date") != null && request.getParameter("date").length() > 0;
+    }
+     
+     private boolean checkGenreSeriesInputData(HttpServletRequest request, HttpServletResponse response) {
+        return request.getParameter("genre") != null && request.getParameter("genre").length() > 0
+                && request.getParameter("series") != null && request.getParameter("series").length() > 0;
     }
      
     @Override
