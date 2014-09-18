@@ -114,6 +114,7 @@ public class SeriesManagement extends RESTBaseController{
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("user", user);
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         Episode episode = getDataLayer().createEpisode();
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkEpisodeInputData(request, response)) {
@@ -163,6 +164,7 @@ public class SeriesManagement extends RESTBaseController{
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("user", user);
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("backContent_tpl", "insertChannel.ftl.html");
         result.activate("../back/backOutline.ftl.html", request, response);
         } catch (NumberFormatException ex){
@@ -177,6 +179,7 @@ public class SeriesManagement extends RESTBaseController{
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("user", user);
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         Channel channel = getDataLayer().createChannel();
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkChannelInputData(request, response)){
@@ -203,6 +206,7 @@ public class SeriesManagement extends RESTBaseController{
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("user", user);
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("backContent_tpl", "insertGenre.ftl.html");
         result.activate("../back/backOutline.ftl.html", request, response);
         } catch (NumberFormatException ex){
@@ -217,6 +221,7 @@ public class SeriesManagement extends RESTBaseController{
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("user", user);
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         Genre genre = getDataLayer().createGenre();
         if (request.getParameter("name") != null && request.getParameter("name").length() > 0) {
             genre.setName(request.getParameter("name"));
@@ -252,6 +257,7 @@ public class SeriesManagement extends RESTBaseController{
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("user", user);
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         CastMember castMember = getDataLayer().createCastMember();
         CastMemberSeries cms = getDataLayer().createCastMemberSeries();
         if (checkCastMemberInputData(request, response)) {
@@ -347,6 +353,7 @@ public class SeriesManagement extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("channels", getDataLayer().getChannels());
         request.setAttribute("episodes", getDataLayer().getEpisodes());
