@@ -62,10 +62,10 @@ public class SeriesManagement extends RESTBaseController{
         Series series = getDataLayer().createSeries();
         //Controllo che i campi siano validi
         if (checkSeriesInputData(request, response)){
-        series.setName(request.getParameter("SeriesName"));
-        series.setYear(SecurityLayer.checkNumeric(request.getParameter("SeriesYear")));
-        series.setDescription(request.getParameter("SeriesDescription"));
-        series.setImageURL(request.getParameter("SeriesImageURL"));
+        series.setName(request.getParameter("seriesName"));
+        series.setYear(SecurityLayer.checkNumeric(request.getParameter("seriesYear")));
+        series.setDescription(request.getParameter("seriesDescription"));
+        series.setImageURL(request.getParameter("seriesImageURL"));
         series.setState(request.getParameter("state"));
         } else action_error(request, response, "Inserire i campi obbligatori!");
         /*
@@ -120,11 +120,12 @@ public class SeriesManagement extends RESTBaseController{
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkEpisodeInputData(request, response)) {
 
-            episode.setTitle(request.getParameter("title"));
-            episode.setDescription((request.getParameter("description")));
-            episode.setNumber(SecurityLayer.checkNumeric(request.getParameter("number")));
-            episode.setSeason(SecurityLayer.checkNumeric(request.getParameter("season")));
-            episode.setSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("idseries"))));
+            episode.setTitle(request.getParameter("episodeTitle"));
+            episode.setDescription((request.getParameter("episodeDescription")));
+            episode.setNumber(SecurityLayer.checkNumeric(request.getParameter("episodeNumber")));
+            episode.setSeason(SecurityLayer.checkNumeric(request.getParameter("episodeSeason")));
+            episode.setSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series"))));
+            /*
             //Ricavo tutti i canali che l'utente ha scelto per l'episodio, li trasformo in lista e li setto nell'episodio
             String[] channels = request.getParameterValues("channels");
             List<Channel> channelList = new ArrayList();
@@ -132,6 +133,7 @@ public class SeriesManagement extends RESTBaseController{
                     channelList.add(getDataLayer().getChannel(SecurityLayer.checkNumeric(c)));
             }
             episode.setChannels(channelList);
+                    */
         } else {
             action_error(request, response, "Inserire i campi obbligatori");
         }
@@ -487,19 +489,19 @@ public class SeriesManagement extends RESTBaseController{
     }
     
     private boolean checkEpisodeInputData(HttpServletRequest request, HttpServletResponse response) {
-        return (request.getParameter("title") != null && request.getParameter("title").length() > 0
-                && request.getParameter("description") != null && request.getParameter("description").length() > 0
-                && request.getParameter("number") != null && request.getParameter("number").length() > 0
-                && request.getParameter("season") != null && request.getParameter("season").length() > 0
-                && request.getParameter("idseries") != null && request.getParameter("idseries").length() > 0
-                && request.getParameterValues("channels") != null && request.getParameterValues("channels").length > 0);
+        return request.getParameter("episodeTitle") != null && request.getParameter("episodeTitle").length() > 0
+                && request.getParameter("episodeDescription") != null && request.getParameter("episodeDescription").length() > 0
+                && request.getParameter("episodeNumber") != null && request.getParameter("episodeNumber").length() > 0
+                && request.getParameter("episodeSeason") != null && request.getParameter("episodeSeason").length() > 0
+                && request.getParameter("series") != null && request.getParameter("series").length() > 0;
+                //&& request.getParameterValues("channels") != null && request.getParameterValues("channels").length > 0);
     }
     
     private boolean checkSeriesInputData(HttpServletRequest request, HttpServletResponse response){
-        return request.getParameter("SeriesName") != null && request.getParameter("SeriesName").length() > 0
-                && request.getParameter("SeriesYear") != null && request.getParameter("SeriesYear").length() > 0 
-                && request.getParameter("SeriesDescription") != null && request.getParameter("SeriesDescription").length() > 0
-                && request.getParameter("SeriesImageURL") != null && request.getParameter("SeriesImageURL").length() > 0
+        return request.getParameter("seriesName") != null && request.getParameter("seriesName").length() > 0
+                && request.getParameter("seriesYear") != null && request.getParameter("seriesYear").length() > 0 
+                && request.getParameter("seriesDescription") != null && request.getParameter("seriesDescription").length() > 0
+                && request.getParameter("seriesImageURL") != null && request.getParameter("seriesImageURL").length() > 0
                 && request.getParameter("state") != null && request.getParameter("state").length() > 0;
                 //&& request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0;
                  
