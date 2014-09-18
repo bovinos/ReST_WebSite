@@ -7,8 +7,10 @@ import it.mam.REST.data.model.Channel;
 import it.mam.REST.data.model.Comment;
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Genre;
+import it.mam.REST.data.model.Group;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
+import it.mam.REST.data.model.Service;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
 
@@ -71,7 +73,19 @@ public class RESTSecurityLayer {
         cms.setRole(SecurityLayer.stripSlashes(cms.getRole()));
         return cms;
     }
-    
+       public static Group stripSlashes(Group g){
+        g.setName(SecurityLayer.stripSlashes(g.getName()));
+        g.setDescription(SecurityLayer.stripSlashes(g.getDescription()));
+        return g;
+    }
+       
+        public static Service stripSlashes(Service s){
+        s.setName(SecurityLayer.stripSlashes(s.getName()));
+        s.setDescription(SecurityLayer.stripSlashes(s.getDescription()));
+        return s;
+    }
+    /* -----------------ADD SLASHES --------------------------*/
+        
         public static User addSlashes(User user){
         user.setUsername(SecurityLayer.addSlashes(user.getUsername()));
         if(user.getName() != null) {user.setName(SecurityLayer.addSlashes(user.getName()));}
@@ -129,5 +143,17 @@ public class RESTSecurityLayer {
      public static UserSeries addSlashes(UserSeries us){
         us.setRating(SecurityLayer.addSlashes(us.getRating()));
         return us;
+    }
+     
+     public static Group addSlashes(Group g){
+        g.setName(SecurityLayer.addSlashes(g.getName()));
+        g.setDescription(SecurityLayer.addSlashes(g.getDescription()));
+        return g;
+    }
+       
+        public static Service addSlashes(Service s){
+        s.setName(SecurityLayer.addSlashes(s.getName()));
+        s.setDescription(SecurityLayer.addSlashes(s.getDescription()));
+        return s;
     }
 }
