@@ -7,7 +7,9 @@ import it.mam.REST.data.model.Channel;
 import it.mam.REST.data.model.ChannelEpisode;
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Genre;
+import it.mam.REST.data.model.Group;
 import it.mam.REST.data.model.Series;
+import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -35,13 +37,21 @@ public class SeriesManagement extends RESTBaseController{
       // prende tutti i generi e tutti i membri del cast e li passa al template insertSeries.ftl.html
     private void action_insert_series(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("castMembers", getDataLayer().getCastMembers());
-        result.activate("insertSeries.ftl.html", request, response);
+        request.setAttribute("backContent_tpl", "insertSeries.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
     }
     
     private void action_save_series(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         Series series = getDataLayer().createSeries();
         //Controllo che i campi siano validi
         if (checkSeriesInputData(request, response)){
@@ -72,8 +82,10 @@ public class SeriesManagement extends RESTBaseController{
         }
 
     private void action_insert_episode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         //Qui creo la lista delle serie che passo al template, in modo che si possa scegliere (opzionalmente)
         //la serie a cui appartiene l'episodio.
@@ -81,11 +93,15 @@ public class SeriesManagement extends RESTBaseController{
         //Qui creo la lista dei canali che passo al template, in modo che si possa scegliere (opzionalmente)
         //il canale o i canali su cui verrà trasmesso l'episodio.
         request.setAttribute("channels", getDataLayer().getChannels());
-        result.activate("insert_episode.ftl.html", request, response);
+        request.setAttribute("backContent_tpl", "insertEpisode.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
     }
     
     private void action_save_episode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         Episode episode = getDataLayer().createEpisode();
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkEpisodeInputData(request, response)) {
@@ -130,11 +146,18 @@ public class SeriesManagement extends RESTBaseController{
     
     private void action_insert_channel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         TemplateResult result = new TemplateResult(getServletContext());
-        result.activate("insert_channel.ftl.html", request, response);
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("backContent_tpl", "insertChannel.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
     }
 
     private void action_save_channel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         Channel channel = getDataLayer().createChannel();
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkChannelInputData(request, response)){
@@ -155,10 +178,18 @@ public class SeriesManagement extends RESTBaseController{
     
     private void action_insert_genre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         TemplateResult result = new TemplateResult(getServletContext());
-        result.activate("insert_genre.ftl.html", request, response);
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("backContent_tpl", "insertGenre.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
     }
     
     private void action_save_genre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         Genre genre = getDataLayer().createGenre();
         if (request.getParameter("name") != null && request.getParameter("name").length() > 0) {
             genre.setName(request.getParameter("name"));
@@ -168,12 +199,20 @@ public class SeriesManagement extends RESTBaseController{
     
     private void action_insert_castmember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("series", getDataLayer().getSeries());
-        result.activate("insert_castmember.ftl.html", request, response);
+        request.setAttribute("backContent_tpl", "insertCastmember.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
     }
     
     private void action_save_castmember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         CastMember castMember = getDataLayer().createCastMember();
         CastMemberSeries cms = getDataLayer().createCastMemberSeries();
         if (checkCastMemberInputData(request, response)) {
@@ -230,6 +269,7 @@ public class SeriesManagement extends RESTBaseController{
         }
     }
     @Override
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try{
         int sezione = SecurityLayer.checkNumeric(request.getParameter("sezione"));

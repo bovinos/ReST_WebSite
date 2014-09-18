@@ -1,20 +1,20 @@
 package it.mam.REST.controller.back;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.Group;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
+import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -34,18 +34,24 @@ public class NewsManagement extends RESTBaseController {
 
     // passa la lista delle serie al template "insert_news.ftl"
     private void action_insert_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         //Qui creo la lista delle serie che passo al template, in modo che si possa scegliere (opzionalmente)
         //la serie o le serie a cui la news si riferisce. Non passo la lista dei generi perché non ce n'è bisogno lì.
         request.setAttribute("series", getDataLayer().getSeries());
-        result.activate("insert_news.ftl.html", request, response);
+        request.setAttribute("backContent_tpl", "insertNews.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
     }
 
     // controlla l'inserimento corretto di tutti i dati di una news e la salva sul DB
     private void action_save_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         News news = getDataLayer().createNews();
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkNewsInputData(request, response)){
@@ -69,15 +75,7 @@ public class NewsManagement extends RESTBaseController {
             } else {
             action_error(request, response, "Inserire i campi obbligatori");
         }
-            //Mi prendo la sessione dell'utente che ha fatto la richiesta e se esiste, mi prendo l'utente, 
-            //(senza mettere o togliere gli slash perché già ci sono dal DB) altrimenti errore.
-            HttpSession session = SecurityLayer.checkSession(request);
-            if(session != null){
-                news.setUser(getDataLayer().getUser((int)session.getAttribute("userid")));
-            } else {
-                action_error(request, response, "Invalid Session - Please login!");
-                response.sendRedirect("Login");
-            }
+                news.setUser(user);
         //Aggiungo la data corrente
         Calendar c = Calendar.getInstance();
         news.setDate(c.getTime());
