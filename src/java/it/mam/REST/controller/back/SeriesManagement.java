@@ -353,6 +353,7 @@ public class SeriesManagement extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("channels", getDataLayer().getChannels());
         request.setAttribute("episodes", getDataLayer().getEpisodes());
