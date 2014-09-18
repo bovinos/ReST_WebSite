@@ -140,7 +140,7 @@ button {
       padding: 0 5px;
       font-size: 1.4rem;
       color: #999999; }
-  .formContainer form input[type="text"], .formContainer form input[type="url"], .formContainer form input[type="password"], .formContainer form input[type="email"] {
+  .formContainer form input[type="text"], .formContainer form input[type="url"], .formContainer form input[type="password"], .formContainer form input[type="email"], .formContainer form input[type="date"] {
     width: 100%;
     border: 1px solid #1695A3;
     outline: none;
@@ -179,7 +179,8 @@ button {
     .formContainer form input[type="radio"] + label {
       position: relative;
       cursor: pointer;
-      font-size: 1.5rem; }
+      font-size: 1.5rem;
+      margin-right: 5%; }
     .formContainer form input[type="radio"]:checked + label:before {
       font-family: 'ElegantIcons';
       content: '\5c';
@@ -211,7 +212,7 @@ button {
     padding-left: 0;
     position: relative; }
     .formContainer form .selectContainer.singleSelection {
-      width: 80%;
+      width: 100%;
       overflow: hidden; }
       .formContainer form .selectContainer.singleSelection:after {
         position: absolute;
@@ -1358,41 +1359,82 @@ button {
   #backOutline nav li:last-of-type {
     margin-bottom: 40px; }
 
-/* INSERT NEWS
+/* INSERT 
 =============================================================================================== */
-#insertNewsForm {
+#insertNews, #insertSeries, #insertEpisode, #insertChannel, #insertChannel,
+#insertGenre, #insertGenre, #insertCastMember, #insertGroup, #insertService,
+#insertCastMemberSeries, #insertChannelEpisode, #insertGenreSeries,
+#insertServiceGroup {
   width: 70%; }
 
-/* INSERT SERIES
+/* MEDIA QUERY
+===============================================================================================
 =============================================================================================== */
-#insertSeries {
-  width: 70%; }
+@media only screen and (max-width: 767px) {
+  /* SLIDER
+  =============================================================================================== */
+  #slider {
+    display: none; }
 
-/* INSERT EPISODE
-=============================================================================================== */
-/* INSERT CHANNEL
-=============================================================================================== */
-#insertChannel {
-  width: 70%; }
+  /* LEFT COL
+  =============================================================================================== */
+  #leftCol {
+    text-align: center; }
+    #leftCol h1 {
+      display: none; }
+    #leftCol #searchButtonFilter {
+      display: inline;
+      font-size: 1.8rem;
+      color: #1695A3;
+      width: auto;
+      background: none;
+      transition: color 0.3s ease-in-out;
+      -webkit-transition: color 0.3s ease-in-out;
+      -moz-transition: color 0.3s ease-in-out; }
+      #leftCol #searchButtonFilter:hover {
+        color: #EB7F00; }
+    #leftCol #newsFilter div, #leftCol #seriesFilter div {
+      padding: 0; }
+    #leftCol input[type="text"] {
+      display: inline-block;
+      background: transparent;
+      border-bottom: 1px solid #1695A3;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      color: #444444;
+      font-size: 1.5rem;
+      width: 60%;
+      transition: border-bottom-color 0.3s ease-in-out;
+      -webkit-transition: border-bottom-color 0.3s ease-in-out;
+      -moz-transition: border-bottom-color 0.3s ease-in-out; }
+      #leftCol input[type="text"]:focus {
+        border-bottom-color: #EB7F00;
+        transition: border-bottom-color 0.3s ease-in-out;
+        -webkit-transition: border-bottom-color 0.3s ease-in-out;
+        -moz-transition: border-bottom-color 0.3s ease-in-out; }
+    #leftCol .selectContainer, #leftCol input, #leftCol label, #leftCol button {
+      display: none; }
 
-/* INSERT GENRE
-=============================================================================================== */
-#insertGenre {
-  width: 70%; }
+  /* NEWS LIST PAGE
+  =============================================================================================== */
+  #newsList .news {
+    width: 100%; }
 
-/* INSERT CAST MEMBER
-=============================================================================================== */
-#insertCastMember {
-  width: 70%; }
+  /* SERIES LIST PAGE
+  =============================================================================================== */
+  #seriesList .seriesBox:after {
+    content: "";
+    display: block;
+    overflow: hidden;
+    margin-bottom: 20px; }
 
-/* INSERT GROUP
-=============================================================================================== */
-#insertGroup {
-  width: 70%; }
-
-/* INSERT SERVICE
-=============================================================================================== */
-#insertService {
-  width: 70%; }
+  /* PROFILO UTENTE
+  ===============================================================================================
+  =============================================================================================== */
+  /* USER SERIES PAGE
+  =============================================================================================== */
+  #userSeries .series {
+    width: 100%; } }
 
 /*# sourceMappingURL=provando_SASS.css.map */
