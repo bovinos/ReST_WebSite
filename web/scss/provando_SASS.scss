@@ -266,6 +266,7 @@ button{
                 position: relative;
                 cursor: pointer;
                 font-size: 1.5rem;
+                margin-right: 5%;
             }
 
             &:checked + label:before{
@@ -1883,54 +1884,109 @@ button{
 
 }
 
-/* INSERT NEWS
+/* INSERT 
 =============================================================================================== */
-#insertNewsForm{
-    width: 70%;
-}
-
-/* INSERT SERIES
-=============================================================================================== */
-#insertSeries{
-    width: 70%;
-}
-
-/* INSERT EPISODE
-=============================================================================================== */
-
-
-/* INSERT CHANNEL
-=============================================================================================== */
-#insertChannel{
-    width: 70%;
-}
-
-/* INSERT GENRE
-=============================================================================================== */
-#insertGenre{
-    width: 70%;
-}
-
-/* INSERT CAST MEMBER
-=============================================================================================== */
-#insertCastMember{
-    width: 70%;
-}
-
-/* INSERT GROUP
-=============================================================================================== */
-#insertGroup{
-    width: 70%;
-}
-
-/* INSERT SERVICE
-=============================================================================================== */
-#insertService{
+#insertNews, #insertSeries, #insertEpisode, #insertChannel, #insertChannel, 
+#insertGenre, #insertGenre, #insertCastMember, #insertGroup, #insertService,
+#insertCastMemberSeries, #insertChannelEpisode, #insertGenreSeries,
+#insertServiceGroup{
     width: 70%;
 }
 
 
+/* MEDIA QUERY
+===============================================================================================
+=============================================================================================== */
+@media only screen and (max-width: 767px) {
 
+    /* SLIDER
+    =============================================================================================== */
+    #slider{
+        display: none;
+    }
 
+    /* LEFT COL
+    =============================================================================================== */
+    #leftCol{
+        text-align: center;
 
+        h1{
+            display: none;
+        }
 
+        #searchButtonFilter{
+            display: inline;
+            font-size: 1.8rem;
+            color: $turquoise;
+            width: auto;
+            background: none;
+            @include transition(color, 0.3s);
+
+            &:hover{
+                color: $orange;
+            }
+        }
+
+        #newsFilter, #seriesFilter{
+            div{
+                padding: 0;
+            }
+        }
+
+        input[type="text"]{
+            display: inline-block;
+            background: transparent;
+            border-bottom: 1px solid $turquoise;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            color: $primaryTextColor;
+            font-size: 1.5rem;
+            width: 60%;
+            @include transition(border-bottom-color, 0.3s);
+
+            &:focus{
+                border-bottom-color: $orange;
+                @include transition(border-bottom-color, 0.3s);
+            }
+        }
+
+        .selectContainer, input, label, button{
+            display: none;
+        }
+    }
+
+    /* NEWS LIST PAGE
+    =============================================================================================== */
+    #newsList{
+
+        .news{
+            width: 100%;
+        }
+    }
+
+    /* SERIES LIST PAGE
+    =============================================================================================== */
+    #seriesList{
+        .seriesBox:after{
+            content: "";
+            display: block;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+    }
+
+    /* PROFILO UTENTE
+    ===============================================================================================
+    =============================================================================================== */
+
+    /* USER SERIES PAGE
+    =============================================================================================== */
+    #userSeries{
+
+        .series{
+            width: 100%;
+        }
+    }
+
+}
