@@ -1,3 +1,14 @@
 
-<div>insertGroup.ftl.html</div>
+<div id='insertGroup' class='formContainer'>
+    <form action="GestioneUtente" method="POST">
+        <input type="hidden" name="sezione" value="1" />
+        <div class="row">
+            <input name="groupName" type="text" maxlength="60" placeholder="Nome del gruppo" required="required" tabindex="1" />
+        </div>
+        <div class="row">
+            <textarea name="groupDescription" rows="10" placeholder="Inserisci qui la descrizione del gruppo" required="required" tabindex="2" ></textarea>
+        </div>
+        <button type="submit" name="ig" value="1">Aggiungi il gruppo</button>
+    </form>
+</div>
 

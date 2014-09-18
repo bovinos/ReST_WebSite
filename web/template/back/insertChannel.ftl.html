@@ -1,3 +1,20 @@
 
-<div>insertChannel.ftl.html</div>
+<div id='insertChannel' class='formContainer'>
+    <form action="GestioneSerie" method="POST">
+        <input type="hidden" name="sezione" value="3" />
+        <div class="row">
+            <input name="channelName" type="text" maxlength="60" placeholder="Nome canale" required="required" tabindex="1" />
+        </div>
+        <div class="row">
+            <input name="channelNumber" type="text" maxlength="60" placeholder="Numero canale" pattern='[0-9]{1, 4}' title="Deve essere un numero di massimo 4 cifre" required="required" tabindex="2" />
+        </div>
+        <div class="row">
+            <input type="radio" id="free" checked='checked' name="state" value='1' tabindex="3" />
+            <label for="free">Gratuito</label>
+            <input type="radio" id="pay" name="state" value='2' tabindex="4" />
+            <label for="pay">A pagamento</label>
+        </div>
+        <button type="submit" name="ic" value="1">Aggiungi il canale</button>
+    </form>
+</div>
 

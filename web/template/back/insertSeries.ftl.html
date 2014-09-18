@@ -1,3 +1,37 @@
 
-<div>InsertSeries.ftl.html</div>
+<div id="insertSeries" class="formContainer">
+    <form action="GestioneSerie" method="POST">
+        <input type="hidden" name="sezione" value="1" />
+        <div class="row">
+            <input name="seriesName" type="text" id="seriesName" class="seriesNameForm row" maxlength="60" placeholder="Nome serie" required="required" tabindex="1" />
+        </div>
+        <div class="row">
+            <input type="url" id="seriesImageURL" name="seriesImageURL" placeholder="URL immagine" tabindex="2" />
+        </div>
+        <div class="row">
+            <textarea name="seriesDescription" id="seriesDescription" class="descriptionSeriesForm row" rows="10" placeholder="Inserisci qui la trama della serie" required="required" tabindex="3" ></textarea>
+        </div>
+        <div class="row">
+            <input name="seriesYear" type="text" id="seriesYear" class="seriesYearForm row" maxlength="60" placeholder="Anno della serie" pattern="[0-9]{4}" title="Deve essere formato da quattro cifre" required="required" tabindex="4" />
+        </div>
+        <div class="row formInput">
+            <div class="selectContainer multipleSelection">
+                <select name="genres" multiple="multiple" size="7" >
+                    <optgroup label="Inserisci i generi della serie">
+                        <#list genres as g>
+                        <option value="${g.ID}">${strip_slashes(g.name)?html}</option>
+                        </#list>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <input type="radio" id="onGoing" checked='checked' name="state" value='1' tabindex="5" />
+            <label for="onGoing">In corso</label>
+            <input type="radio" id="complete" name="state" value='2' tabindex="6" />
+            <label for="complete">Conclusa</label>
+        </div>
+        <button type="submit" name="is" value="1">Aggiungi la serie</button>
+    </form>
+</div>
 

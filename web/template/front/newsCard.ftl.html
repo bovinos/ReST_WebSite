@@ -60,8 +60,8 @@
                     </div>
                     <div class="right">
                         <p>
-                            <a href='?lc=${c.ID}'><span class="like" data-icon="&#xe0dd;">${strip_slashes(c.likes)?html}</span></a>
-                            <a href='?dc=${c.ID}'><span class="dislike" data-icon="&#xe0f1;">${strip_slashes(c.dislikes)?html}</span></a>
+                            <a href='?lc=${c.ID}&amp;n=${news.ID}'><span class="like" data-icon="&#xe0dd;">${strip_slashes(c.likes)?html}</span></a>
+                            <a href='?dc=${c.ID}&amp;n=${news.ID}'><span class="dislike" data-icon="&#xe0f1;">${strip_slashes(c.dislikes)?html}</span></a>
                         </p>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
 
     <!-- INSERISCI IL TUO COMMENTO
     ============================================================================================== -->
-    <div class="insertAComment">
+    <div class="insertAComment formContainer">
         <form action="SchedaNews" method="POST" id="newsCommentForm" class="commentForm row">
             <input type="hidden" name="nid" value="${news.ID}"/>
             <input name="commentTitle" type="text" id="newsCommentTitle" class="titleCommentForm row" maxlength="60" placeholder="Titolo commento" required="required">

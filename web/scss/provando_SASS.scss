@@ -97,7 +97,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed, 
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video, input{
+time, mark, audio, video, input, textarea{
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -198,35 +198,111 @@ button{
 }
 
 .insertAComment, .insertAMessage{
-    margin: 50px 0;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width: 80%;
+}
 
-    h1{
-        color: $turquoise;
-        font-size: 3rem;
-        text-align: center;
-    }
+/* FORM
+=============================================================================================== */
+.formContainer{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 
-    .commentForm, .messageForm{
-        text-align: center;
-        margin: 50px 0;
+    form{
 
-        .titleCommentForm, .titleMessageForm{
-            display: block;
-            margin: 0 auto 50px auto;
-            width: 80%;
-            border: 1px solid $turquoise;
-            padding: 5px 8px;
-            font-size: 1.6rem;
-            color: $primaryTextColor;
-            @include borderRadius(100px);
+        fieldset{
+            border-top: 1px solid rgba(22, 149, 163, 0.4);
+            padding: 20px 0;
+            margin-bottom: 10px;
+
+            legend{
+                padding: 0 5px;
+                font-size: 1.4rem;
+                color: $secondaryTextColor;
+            }
         }
 
-        .textCommentForm, .textMessageForm{
+        input[type="text"], input[type="url"], input[type="password"], input[type="email"]{
+            width: 100%;
+            border: 1px solid $turquoise;
+            outline: none;
+            font-size: 2rem;
+            color: $turquoise;
+            @include borderRadius(4px);
+            padding: 10px 20px;
+        }
+
+        input[type="checkbox"]{
+            position: absolute;
+            left: -9999px;
+
+            & + label{
+                position: relative;
+                cursor: pointer;
+                font-size: 1.5rem;
+            }
+
+            &:checked + label:before{
+                font-family: 'ElegantIcons';
+                content: '\5a';
+                margin-right: 10px;
+                position: relative;
+                top: 5px;
+                font-size: 2.5rem;
+                color: $turquoise;
+            }
+
+            &:not(:checked) + label:before{
+                font-family: 'ElegantIcons';
+                content: '\56';
+                margin-right: 10px;
+                position: relative;
+                top: 5px;
+                font-size: 2.5rem;
+                color: $turquoise;
+            }
+        }
+
+        input[type="radio"]{
+
+            position: absolute;
+            left: -9999px;
+
+            & + label{
+                position: relative;
+                cursor: pointer;
+                font-size: 1.5rem;
+            }
+
+            &:checked + label:before{
+                font-family: 'ElegantIcons';
+                content: '\5c';
+                margin-right: 10px;
+                position: relative;
+                top: 5px;
+                font-size: 2.5rem;
+                color: $turquoise;
+            }
+
+            &:not(:checked) + label:before{
+                font-family: 'ElegantIcons';
+                content: '\5b';
+                margin-right: 10px;
+                position: relative;
+                top: 5px;
+                font-size: 2.5rem;
+                color: $turquoise;
+            }
+        }
+
+        textarea{
             display: block;
-            margin: 0 auto 50px auto;
-            width: 80%;
-            max-width: 80%;
-            min-width: 80%;
+            margin: 0 auto 25px auto;
+            width: 100%;
+            max-width: 100%;
+            min-width: 100%;
             border: 1px solid $turquoise;
             padding: 10px 15px;
             font-size: 1.6rem;
@@ -234,12 +310,82 @@ button{
             @include borderRadius(10px);
         }
 
+        .selectContainer{
+            padding-left: 0;
+            position: relative;
+
+            &.singleSelection{
+                width: 80%;
+                overflow: hidden;
+
+                &:after{
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    line-height: 2; /* per piazzarla al centro verticalmente */
+                    color: $turquoise;
+                    border-right: 1px solid $turquoise;
+                    font-family: 'ElegantIcons';
+                    font-size: 1.5rem;
+                    content: '\43';
+                    pointer-events: none; /* per far aprire la select anche cliccando sulla freccia */
+                }
+
+                select{
+                    padding: 5px;
+                    @include borderRadius(5px);
+                    border: 1px solid $turquoise;
+                    width: 120%; /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
+                    cursor: pointer;
+                }
+
+                optgroup{
+                    width: 99%;
+                    border-right: 1px solid black;
+                }
+            }
+
+            &.multipleSelection{
+                width: 100%;
+
+                select{
+                    border: 1px solid $turquoise;
+                    width: 100%;
+
+                    optgroup{
+                        color: $turquoise;
+
+                        option{ /* su chrome non funziona */
+                            color: #000000;
+                            padding: 3px 4px; 
+
+                            &:before{
+                                font-family: 'ElegantIcons';
+                                content: "\4e";
+                                color: #FFFFFF;
+                                margin-right: 5px;
+                                opacity: 0;
+                                @include transition(opacity, 0.3s);
+                            }
+
+                            &:checked{
+
+                                &:before{
+                                    opacity: 1;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
         button{
-            display: inline-block;
+            margin-top: 30px;
+            width: 100%;
+            padding: 15px 0;
             font-size: 2rem;
-            width: 80%;
-            height: 50px;
-            line-height: 50px;
         }
     }
 }
@@ -398,7 +544,6 @@ button{
     }
 }
 
-
 /* ACCORDION
 =============================================================================================== */
 .accordion{
@@ -468,12 +613,9 @@ button{
 
 }
 
-
 /* LEFT COL
 =============================================================================================== */
 #leftCol{
-    margin-top: 25px;
-    margin-bottom: 10px;
 
     h1{
         font-family: Laila;
@@ -667,7 +809,6 @@ button{
     }
 }
 
-
 /* TOPBAR
 =============================================================================================== */
 #topBarPlaceholder{
@@ -833,7 +974,6 @@ button{
 
 }
 
-
 /* HEADER
 =============================================================================================== */
 #outlineHeader{
@@ -845,10 +985,11 @@ button{
     }
 }
 
-
 /* BODY
 =============================================================================================== */
-
+#outlineBody{
+    padding: 25px 0;
+}
 
 /* FOOTER
 =============================================================================================== */
@@ -974,7 +1115,6 @@ button{
 }
 
 #newsList{
-    margin-top: 25px;
 
     .news{
         padding: 5px;
@@ -1067,8 +1207,6 @@ button{
 }
 
 #seriesList{
-    margin-top: 25px;
-    margin-bottom: 25px;
 
     .seriesBox{
         margin-bottom: 30px;
@@ -1145,7 +1283,7 @@ button{
 =============================================================================================== */
 #seriesCard{
     position: relative;
-    top: -10px; /* perché vogliamo che non ci sia il margine tra logo e contenuto */
+    top: -35px; /* perché vogliamo che non ci sia il margine tra logo e contenuto */
     margin-bottom: 30px;
 
     h2{
@@ -1357,8 +1495,6 @@ button{
 /* NEWS CARD PAGE
 =============================================================================================== */
 #newsCard{
-    margin-top: 30px;
-    margin-bottom: 30px;
 
     h1.newstitle{
         text-align: center;
@@ -1450,7 +1586,7 @@ button{
 =============================================================================================== */
 #seriesCircle{
     position: relative;
-    top: -10px; /* perché vogliamo che non ci sia il margine tra logo e contenuto */
+    top: -35px; /* perché vogliamo che non ci sia il margine tra logo e contenuto */
 
     .imgSeriesContainer{
         background: transparent url('../img/placeholder.jpg') no-repeat;
@@ -1486,61 +1622,25 @@ button{
 =============================================================================================== */
 #formLogIn{
     height: 100%;
-    text-align: center;
-    margin: 200px auto;
+    margin-top: 200px;
+    margin-bottom: 200px;
+    width: 40%;
 
-    .row{
-        margin-bottom: 15px;
-
-        &:last-of-type{
-            margin-bottom: 10px;
-        }
-    }
-
-    form{
-        display: inline-block;  
-        width: 40%;
-        vertical-align: middle;
-
-        input{
-            width: 100%;
-            border: 1px solid $turquoise;
-            outline: none;
-            font-size: 2rem;
-            color: $turquoise;
-            @include borderRadius(4px);
-            padding: 10px 20px;
-        }
-
-        button{
-            margin-top: 30px;
-            background-color: $turquoise;
-            width: 100%;
-            border: none;
-            padding: 15px 0;
-            color: #FFFFFF;
-            font-size: 2rem;
-            cursor: pointer;
-            @include transition(background-color, 0.3s);
-
-            &:hover{
-                background-color: $orange;
-            }
-        }
-
-        #signUp{
-            text-align: right;
-            color: $primaryTextColor;
-            font-size: 1.3rem;
-            margin-top: 10px;
-        }
+    #signUp{
+        text-align: right;
+        color: $primaryTextColor;
+        font-size: 1.3rem;
+        margin-top: 10px;
     }
 }
 
 /* SIGNUP
 =============================================================================================== */
 #formSignUp{
-    @extend #formLogIn;
+    height: 100%;
+    margin-top: 200px;
+    margin-bottom: 200px;
+    width: 40%;
 }
 
 /* PROFILO UTENTE
@@ -1589,7 +1689,6 @@ button{
 /* USER SERIES PAGE
 =============================================================================================== */
 #userSeries{
-    margin-top: 25px;
     font-size: 1.2rem;
 
     .series{
@@ -1674,7 +1773,6 @@ button{
 /* USER BROADCAST PROGRAMMING PAGE
 =============================================================================================== */
 #userBroadcastProgramming{
-    margin-top: 25px;
 
     .dayEpisode{
         padding: 5px;
@@ -1737,112 +1835,21 @@ button{
 /* USER SING UP DATA PAGE
 =============================================================================================== */
 #modifySignUpData{
-    margin-top: 15%;
-    margin-bottom: 10px;
-    @extend #formLogIn;  
-
-    form{
-        width: 70%;
-
-        fieldset{
-            border-top: 1px solid rgba(22, 149, 163, 0.4);
-            padding: 20px 0;
-            margin-bottom: 10px;
-
-            legend{
-                padding: 0 5px;
-                font-size: 1.4rem;
-                color: $secondaryTextColor;
-            }
-        }
-    }
+    width: 70%;
 }
 
 /* USER OPTIONAL DATA PAGE
 =============================================================================================== */
 #optionalData{
-    @extend #modifySignUpData;
-
-    .selectContainer{
-        padding-left: 0;
-        position: relative;
-
-        &.multipleSelection{
-            width: 100%;
-
-            select{
-                border: 1px solid $turquoise;
-                width: 100%;
-
-                optgroup{
-                    color: $turquoise;
-
-                    option{ /* su chrome non funziona */
-                        color: #000000;
-                        padding: 3px 4px; 
-
-                        &:before{
-                            font-family: 'ElegantIcons';
-                            content: "\4e";
-                            color: #FFFFFF;
-                            margin-right: 5px;
-                            opacity: 0;
-                            @include transition(opacity, 0.3s);
-                        }
-
-                        &:checked{
-
-                            &:before{
-                                opacity: 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-    }
-
-    input[type="radio"]{
-
-        position: absolute;
-        left: -9999px;
-
-        & + label{
-            position: relative;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        &:checked + label:before{
-            font-family: 'ElegantIcons';
-            content: '\5c';
-            margin-right: 10px;
-            position: relative;
-            top: 5px;
-            font-size: 2.5rem;
-            color: $turquoise;
-        }
-
-        &:not(:checked) + label:before{
-            font-family: 'ElegantIcons';
-            content: '\5b';
-            margin-right: 10px;
-            position: relative;
-            top: 5px;
-            font-size: 2.5rem;
-            color: $turquoise;
-        }
-    }
+    width: 70%;
 }
 
 /* USER NOTIFY SETTING PAGE
 =============================================================================================== */
 #notifySettings{
-    @extend #modifySignUpData;
+    width: 70%;
 
     form{
-        text-align: center;
 
         fieldset{
             border: 1px solid rgba(22, 149, 163, 0.4);
@@ -1851,80 +1858,13 @@ button{
             margin-top: 30px;
         }
 
-        .row{
-            margin-bottom: 30px;
-        }
-
         input[type="checkbox"]{
-            position: absolute;
-            left: -9999px;
-
-            & + label{
-                color: $primaryTextColor;
-                position: relative;
-                cursor: pointer;
-                font-size: 1.5rem;
-            }
-
-            &:checked + label:after{
-                font-family: 'ElegantIcons';
-                content: '\5a';
-                margin-left: 10px;
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
-                color: $turquoise;
-            }
-
-            &:not(:checked) + label:after{
-                font-family: 'ElegantIcons';
-                content: '\56';
-                margin-left: 10px;
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
-                color: $turquoise;
-            }
 
             &:not(:checked) ~ fieldset{
                 display: none;
             }
         }
-
-        input[type="radio"]{
-
-            position: absolute;
-            left: -9999px;
-
-            & + label{
-                position: relative;
-                cursor: pointer;
-                font-size: 1.5rem;
-                margin-right: 15px;
-            }
-
-            &:checked + label:before{
-                font-family: 'ElegantIcons';
-                content: '\5c';
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
-                color: $turquoise;
-            }
-
-            &:not(:checked) + label:before{
-                font-family: 'ElegantIcons';
-                content: '\5b';
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
-                color: $turquoise;
-            }
-        }
-
     }
-
-
 }
 
 /* BACK END
@@ -1949,84 +1889,47 @@ button{
 /* INSERT NEWS
 =============================================================================================== */
 #insertNewsForm{
-    text-align: center;
-    margin-top: 25px;
-    margin-bottom: 20px;
+    width: 70%;
+}
 
-    form{
+/* INSERT SERIES
+=============================================================================================== */
+#insertSeries{
+    width: 70%;
+}
 
-        input[type="text"], input[type="url"]{
-            display: block;
-            margin: 0 auto 25px auto;
-            width: 80%;
-            border: 1px solid $turquoise;
-            padding: 5px 8px;
-            font-size: 1.6rem;
-            color: $primaryTextColor;
-            @include borderRadius(4px);
-        }
+/* INSERT EPISODE
+=============================================================================================== */
 
 
-        textarea{
-            display: block;
-            margin: 0 auto 25px auto;
-            width: 80%;
-            max-width: 80%;
-            min-width: 80%;
-            border: 1px solid $turquoise;
-            padding: 10px 15px;
-            font-size: 1.6rem;
-            color: $primaryTextColor;
-            @include borderRadius(10px);
-        }
+/* INSERT CHANNEL
+=============================================================================================== */
+#insertChannel{
+    width: 70%;
+}
 
-        .selectContainer{
-            padding-left: 0;
-            position: relative;
-            margin: auto auto 30px auto;
+/* INSERT GENRE
+=============================================================================================== */
+#insertGenre{
+    width: 70%;
+}
 
-            &.multipleSelection{
-                width: 80%;
+/* INSERT CAST MEMBER
+=============================================================================================== */
+#insertCastMember{
+    width: 70%;
+}
 
-                select{
-                    border: 1px solid $turquoise;
-                    width: 100%;
+/* INSERT GROUP
+=============================================================================================== */
+#insertGroup{
+    width: 70%;
+}
 
-                    optgroup{
-                        color: $turquoise;
-
-                        option{ /* su chrome non funziona */
-                            color: #000000;
-                            padding: 3px 4px; 
-
-                            &:before{
-                                font-family: 'ElegantIcons';
-                                content: "\4e";
-                                color: #FFFFFF;
-                                margin-right: 5px;
-                                opacity: 0;
-                                @include transition(opacity, 0.3s);
-                            }
-
-                            &:checked{
-
-                                &:before{
-                                    opacity: 1;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        button{
-            font-size: 1.5rem;
-            width: 80%;
-            padding: 25px 0;
-        }
-
-    }
+/* INSERT SERVICE
+=============================================================================================== */
+#insertService{
+    width: 70%;
 }
 
 
