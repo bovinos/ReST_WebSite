@@ -470,14 +470,16 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // Store relationship
             List<CastMemberSeries> oldCastMemberSeries = getCastMemberSeries(castMember);
             List<CastMemberSeries> newCastMemberSeries = castMember.getCastMemberSeries();
-            for (CastMemberSeries cms : oldCastMemberSeries) {
-                if (!newCastMemberSeries.contains(cms)) {
-                    removeCastMemberSeries(cms);
+            if (newCastMemberSeries != null && !newCastMemberSeries.isEmpty()) {
+                for (CastMemberSeries cms : oldCastMemberSeries) {
+                    if (!newCastMemberSeries.contains(cms)) {
+                        removeCastMemberSeries(cms);
+                    }
                 }
-            }
-            for (CastMemberSeries cms : newCastMemberSeries) {
-                if (!oldCastMemberSeries.contains(cms)) {
-                    storeCastMemberSeries(cms);
+                for (CastMemberSeries cms : newCastMemberSeries) {
+                    if (!oldCastMemberSeries.contains(cms)) {
+                        storeCastMemberSeries(cms);
+                    }
                 }
             }
             if (ID > 0) { // the object is on DB and have a key
@@ -646,14 +648,16 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<ChannelEpisode> oldChannelEpisode = getChannelEpisode(channel);
             List<ChannelEpisode> newChannelEpisode = channel.getChannelEpisode();
-            for (ChannelEpisode ce : oldChannelEpisode) {
-                if (!newChannelEpisode.contains(ce)) {
-                    removeChannelEpisode(ce);
+            if (newChannelEpisode != null && !newChannelEpisode.isEmpty()) {
+                for (ChannelEpisode ce : oldChannelEpisode) {
+                    if (!newChannelEpisode.contains(ce)) {
+                        removeChannelEpisode(ce);
+                    }
                 }
-            }
-            for (ChannelEpisode ce : newChannelEpisode) {
-                if (!oldChannelEpisode.contains(ce)) {
-                    storeChannelEpisode(ce);
+                for (ChannelEpisode ce : newChannelEpisode) {
+                    if (!oldChannelEpisode.contains(ce)) {
+                        storeChannelEpisode(ce);
+                    }
                 }
             }
             if (ID > 0) {
@@ -1109,14 +1113,16 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<ChannelEpisode> oldChannelEpisode = getChannelEpisode(episode);
             List<ChannelEpisode> newChannelEpisode = episode.getChannelEpisode();
-            for (ChannelEpisode ce : oldChannelEpisode) {
-                if (!newChannelEpisode.contains(ce)) {
-                    removeChannelEpisode(ce);
+            if (newChannelEpisode != null && !newChannelEpisode.isEmpty()) {
+                for (ChannelEpisode ce : oldChannelEpisode) {
+                    if (!newChannelEpisode.contains(ce)) {
+                        removeChannelEpisode(ce);
+                    }
                 }
-            }
-            for (ChannelEpisode ce : newChannelEpisode) {
-                if (!oldChannelEpisode.contains(ce)) {
-                    storeChannelEpisode(ce);
+                for (ChannelEpisode ce : newChannelEpisode) {
+                    if (!oldChannelEpisode.contains(ce)) {
+                        storeChannelEpisode(ce);
+                    }
                 }
             }
             if (ID > 0) {
@@ -1281,26 +1287,30 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<Series> oldSeries = getSeries(genre);
             List<Series> newSeries = genre.getSeries();
-            for (Series s : oldSeries) {
-                if (!newSeries.contains(s)) {
-                    removeGenreSeries(ID, s.getID());
+            if (newSeries != null && !newSeries.isEmpty()) {
+                for (Series s : oldSeries) {
+                    if (!newSeries.contains(s)) {
+                        removeGenreSeries(ID, s.getID());
+                    }
                 }
-            }
-            for (Series s : newSeries) {
-                if (!oldSeries.contains(s)) {
-                    storeGenreSeries(ID, s.getID());
+                for (Series s : newSeries) {
+                    if (!oldSeries.contains(s)) {
+                        storeGenreSeries(ID, s.getID());
+                    }
                 }
             }
             List<User> oldUsers = getUsers(genre);
             List<User> newUsers = genre.getUsers();
-            for (User u : oldUsers) {
-                if (!newUsers.contains(u)) {
-                    removeUserGenre(u.getID(), ID);
+            if (newUsers != null && !newUsers.isEmpty()) {
+                for (User u : oldUsers) {
+                    if (!newUsers.contains(u)) {
+                        removeUserGenre(u.getID(), ID);
+                    }
                 }
-            }
-            for (User u : newUsers) {
-                if (!oldUsers.contains(u)) {
-                    storeUserGenre(u.getID(), ID);
+                for (User u : newUsers) {
+                    if (!oldUsers.contains(u)) {
+                        storeUserGenre(u.getID(), ID);
+                    }
                 }
             }
             if (ID > 0) {
@@ -1466,14 +1476,16 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<Service> oldServices = getServices(group);
             List<Service> newServices = group.getServices();
-            for (Service s : oldServices) {
-                if (!newServices.contains(s)) {
-                    removeServiceGroup(s.getID(), ID);
+            if (newServices != null && !newServices.isEmpty()) {
+                for (Service s : oldServices) {
+                    if (!newServices.contains(s)) {
+                        removeServiceGroup(s.getID(), ID);
+                    }
                 }
-            }
-            for (Service s : newServices) {
-                if (!oldServices.contains(s)) {
-                    storeServiceGroup(s.getID(), ID);
+                for (Service s : newServices) {
+                    if (!oldServices.contains(s)) {
+                        storeServiceGroup(s.getID(), ID);
+                    }
                 }
             }
             if (ID > 0) {
@@ -1882,26 +1894,30 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<Series> oldSeries = getSeries(news);
             List<Series> newSeries = news.getSeries();
-            for (Series s : oldSeries) {
-                if (!newSeries.contains(s)) {
-                    removeNewsSeries(ID, s.getID());
+            if (newSeries != null && !newSeries.isEmpty()) {
+                for (Series s : oldSeries) {
+                    if (!newSeries.contains(s)) {
+                        removeNewsSeries(ID, s.getID());
+                    }
                 }
-            }
-            for (Series s : news.getSeries()) {
-                if (!oldSeries.contains(s)) {
-                    storeNewsSeries(ID, s.getID());
+                for (Series s : news.getSeries()) {
+                    if (!oldSeries.contains(s)) {
+                        storeNewsSeries(ID, s.getID());
+                    }
                 }
             }
             List<Comment> oldComments = getComments(news);
             List<Comment> newComments = news.getComments();
-            for (Comment c : oldComments) {
-                if (!newComments.contains(c)) {
-                    removeNewsComment(ID, c.getID());
+            if (newComments != null && !newComments.isEmpty()) {
+                for (Comment c : oldComments) {
+                    if (!newComments.contains(c)) {
+                        removeNewsComment(ID, c.getID());
+                    }
                 }
-            }
-            for (Comment c : newComments) {
-                if (!oldComments.contains(c)) {
-                    storeNewsComment(ID, c.getID());
+                for (Comment c : newComments) {
+                    if (!oldComments.contains(c)) {
+                        storeNewsComment(ID, c.getID());
+                    }
                 }
             }
             if (ID > 0) {
@@ -2226,62 +2242,72 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<UserSeries> oldUserSeries = getUserSeries(series);
             List<UserSeries> newUserSeries = series.getUserSeries();
-            for (UserSeries us : oldUserSeries) {
-                if (!newUserSeries.contains(us)) {
-                    removeUserSeries(us);
+            if (newUserSeries != null && !newUserSeries.isEmpty()) {
+                for (UserSeries us : oldUserSeries) {
+                    if (!newUserSeries.contains(us)) {
+                        removeUserSeries(us);
+                    }
                 }
-            }
-            for (UserSeries us : newUserSeries) {
-                if (!oldUserSeries.contains(us)) {
-                    storeUserSeries(us);
+                for (UserSeries us : newUserSeries) {
+                    if (!oldUserSeries.contains(us)) {
+                        storeUserSeries(us);
+                    }
                 }
             }
             List<CastMemberSeries> oldCastMemberSeries = getCastMemberSeries(series);
             List<CastMemberSeries> newCastMemberSeries = series.getCastMemberSeries();
-            for (CastMemberSeries cms : oldCastMemberSeries) {
-                if (!newCastMemberSeries.contains(cms)) {
-                    removeCastMemberSeries(cms);
+            if (newCastMemberSeries != null && !newCastMemberSeries.isEmpty()) {
+                for (CastMemberSeries cms : oldCastMemberSeries) {
+                    if (!newCastMemberSeries.contains(cms)) {
+                        removeCastMemberSeries(cms);
+                    }
                 }
-            }
-            for (CastMemberSeries cms : newCastMemberSeries) {
-                if (!oldCastMemberSeries.contains(cms)) {
-                    storeCastMemberSeries(cms);
+                for (CastMemberSeries cms : newCastMemberSeries) {
+                    if (!oldCastMemberSeries.contains(cms)) {
+                        storeCastMemberSeries(cms);
+                    }
                 }
             }
             List<Genre> oldGenres = getGenres(series);
             List<Genre> newGenres = series.getGenres();
-            for (Genre g : oldGenres) {
-                if (!newGenres.contains(g)) {
-                    removeGenreSeries(g.getID(), ID);
+            if (newGenres != null && !newGenres.isEmpty()) {
+                for (Genre g : oldGenres) {
+                    if (!newGenres.contains(g)) {
+                        removeGenreSeries(g.getID(), ID);
+                    }
                 }
-            }
-            for (Genre g : newGenres) {
-                if (!oldGenres.contains(g)) {
-                    storeGenreSeries(g.getID(), ID);
+                for (Genre g : newGenres) {
+                    if (!oldGenres.contains(g)) {
+                        storeGenreSeries(g.getID(), ID);
+                    }
                 }
             }
             List<News> oldNews = getNews(series);
             List<News> newNews = series.getNews();
-            for (News n : oldNews) {
-                if (!newNews.contains(n)) {
-                    removeNewsSeries(n.getID(), ID);
+            if (newNews != null && !newNews.isEmpty()) {
+                for (News n : oldNews) {
+                    if (!newNews.contains(n)) {
+                        removeNewsSeries(n.getID(), ID);
+                    }
                 }
-            }
-            for (News n : newNews) {
-                if (!oldNews.contains(n)) {
-                    storeNewsSeries(n.getID(), ID);
+                for (News n : newNews) {
+                    if (!oldNews.contains(n)) {
+                        storeNewsSeries(n.getID(), ID);
+                    }
                 }
             }
             List<Comment> oldComments = getComments(series);
             List<Comment> newComments = series.getComments();
-            for (Comment c : oldComments) {
-                if (!newComments.contains(c)) {
-                    removeCommentSeries(c.getID(), ID);
+            if (newComments != null && !newComments.isEmpty()) {
+                for (Comment c : oldComments) {
+                    if (!newComments.contains(c)) {
+                        removeCommentSeries(c.getID(), ID);
+                    }
                 }
-            }
-            for (Comment c : newComments) {
-                if (!oldComments.contains(c)) {
-                    storeCommentSeries(c.getID(), ID);
+                for (Comment c : newComments) {
+                    if (!oldComments.contains(c)) {
+                        storeCommentSeries(c.getID(), ID);
+                    }
                 }
             }
             if (ID > 0) {
@@ -2424,14 +2450,16 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<Group> oldGroups = getGroups(service);
             List<Group> newGroups = service.getGroups();
-            for (Group g : oldGroups) {
-                if (!newGroups.contains(g)) {
-                    removeServiceGroup(ID, g.getID());
+            if (newGroups != null && !newGroups.isEmpty()) {
+                for (Group g : oldGroups) {
+                    if (!newGroups.contains(g)) {
+                        removeServiceGroup(ID, g.getID());
+                    }
                 }
-            }
-            for (Group g : newGroups) {
-                if (!oldGroups.contains(g)) {
-                    storeServiceGroup(ID, g.getID());
+                for (Group g : newGroups) {
+                    if (!oldGroups.contains(g)) {
+                        storeServiceGroup(ID, g.getID());
+                    }
                 }
             }
             if (ID > 0) {
@@ -2787,26 +2815,30 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<UserSeries> oldUserSeries = getUserSeries(user);
             List<UserSeries> newUserSeries = user.getUserSeries();
-            for (UserSeries us : oldUserSeries) {
-                if (!newUserSeries.contains(us)) {
-                    removeUserSeries(us);
+            if (newUserSeries != null && !newUserSeries.isEmpty()) {
+                for (UserSeries us : oldUserSeries) {
+                    if (!newUserSeries.contains(us)) {
+                        removeUserSeries(us);
+                    }
                 }
-            }
-            for (UserSeries us : newUserSeries) {
-                if (!oldUserSeries.contains(us)) {
-                    storeUserSeries(us);
+                for (UserSeries us : newUserSeries) {
+                    if (!oldUserSeries.contains(us)) {
+                        storeUserSeries(us);
+                    }
                 }
             }
             List<Genre> oldGenres = getGenres(user);
             List<Genre> newGenres = user.getGenres();
-            for (Genre g : oldGenres) {
-                if (!newGenres.contains(g)) {
-                    removeUserGenre(ID, g.getID());
+            if (newGenres != null && !newGenres.isEmpty()) {
+                for (Genre g : oldGenres) {
+                    if (!newGenres.contains(g)) {
+                        removeUserGenre(ID, g.getID());
+                    }
                 }
-            }
-            for (Genre g : newGenres) {
-                if (!oldGenres.contains(g)) {
-                    storeUserGenre(ID, g.getID());
+                for (Genre g : newGenres) {
+                    if (!oldGenres.contains(g)) {
+                        storeUserGenre(ID, g.getID());
+                    }
                 }
             }
             if (ID > 0) {
