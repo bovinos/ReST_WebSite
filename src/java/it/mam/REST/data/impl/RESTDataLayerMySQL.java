@@ -180,7 +180,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // Group
             sGroupByID = connection.prepareStatement("SELECT * FROM e_group WHERE ID=?");
             sGroupByUser = connection.prepareStatement("SELECT ID_group FROM e_user WHERE ID=?");
-            sGroups = connection.prepareStatement("SELECT ID FROM e_groups");
+            sGroups = connection.prepareStatement("SELECT ID FROM e_group");
             sGroupsByService = connection.prepareStatement("SELECT ID_group FROM r_service_group WHERE ID_service=?");
             iGroup = connection.prepareStatement("INSERT INTO e_group (name, description) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             uGroup = connection.prepareStatement("UPDATE e_group SET name=?, description=? WHERE ID=?");
@@ -431,7 +431,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 // uCastMemberSeries = "UPDATE e_cast_member SET name=?, surname=?, birth_date=?, gender=?, country=?, image_URL=? WHERE ID=?"
                 uCastMember.setString(1, castMember.getName());
                 uCastMember.setString(2, castMember.getSurname());
-                uCastMember.setDate(3, new java.sql.Date(castMember.getBirthDate().getTime()));
+                if (castMember.getBirthDate() != null) {
+                    uCastMember.setDate(3, new java.sql.Date(castMember.getBirthDate().getTime()));
+                } else {
+                    uCastMember.setDate(3, new java.sql.Date(new Date().getTime()));
+                }
                 uCastMember.setString(4, castMember.getGender());
                 uCastMember.setString(5, castMember.getCountry());
                 if (castMember.getImageURL() != null && !castMember.getImageURL().isEmpty()) {
@@ -444,7 +448,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             } else { // Insert
                 iCastMember.setString(1, castMember.getName());
                 iCastMember.setString(2, castMember.getSurname());
-                iCastMember.setDate(3, null);
+                if (castMember.getBirthDate() != null) {
+                    iCastMember.setDate(3, new java.sql.Date(castMember.getBirthDate().getTime()));
+                } else {
+                    iCastMember.setDate(3, new java.sql.Date(new Date().getTime()));
+                }
                 iCastMember.setString(4, castMember.getGender());
                 iCastMember.setString(5, castMember.getCountry());
                 if (castMember.getImageURL() != null && !castMember.getImageURL().isEmpty()) {
@@ -834,7 +842,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             } else { // Insert
                 iComment.setString(1, comment.getTitle());
                 iComment.setString(2, comment.getText());
-                iComment.setTimestamp(3, new java.sql.Timestamp(comment.getDate().getTime()));
+                iComment.setTimestamp(3, new java.sql.Timestamp(new Date().getTime()));
                 iComment.setInt(4, comment.getLikes());
                 iComment.setInt(5, comment.getDislikes());
                 if (comment.getUser() != null) {
@@ -852,15 +860,23 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             News oldNews = getNews(comment);
             News newNews = comment.getNews();
-            if (comment.getNews() != null && !oldNews.equals(newNews)) {
-                removeNewsComment(oldNews.getID(), ID);
-                storeNewsComment(newNews.getID(), ID);
+            if (newNews != null) {
+                if (oldNews == null) {
+                    storeNewsComment(newNews.getID(), ID);
+                } else if (!oldNews.equals(newNews)) {
+                    removeNewsComment(oldNews.getID(), ID);
+                    storeNewsComment(newNews.getID(), ID);
+                }
             }
             Series oldSeries = getSeries(comment);
             Series newSeries = comment.getSeries();
-            if (comment.getSeries() != null && !oldSeries.equals(newSeries)) {
-                removeCommentSeries(ID, oldSeries.getID());
-                storeCommentSeries(ID, newSeries.getID());
+            if (newSeries != null) {
+                if (oldSeries == null) {
+                    storeCommentSeries(ID, newSeries.getID());
+                } else if (!oldSeries.equals(newSeries)) {
+                    removeCommentSeries(ID, oldSeries.getID());
+                    storeCommentSeries(ID, newSeries.getID());
+                }
             }
             if (ID > 0) {
                 comment.copyFrom(getComment(ID));
@@ -1634,7 +1650,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 // uMessage = "UPDATE e_message title=?, text=?, date=?, ID_user=?, ID_series=? WHERE ID=?"
                 uMessage.setString(1, message.getTitle());
                 uMessage.setString(2, message.getText());
-                uMessage.setDate(3, new java.sql.Date(message.getDate().getTime()));
+                uMessage.setTimestamp(3, new java.sql.Timestamp(message.getDate().getTime()));
                 uMessage.setInt(4, message.getUser().getID());
                 uMessage.setInt(5, message.getSeries().getID());
                 uMessage.setInt(6, ID);
@@ -1642,7 +1658,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             } else { // Insert
                 iMessage.setString(1, message.getTitle());
                 iMessage.setString(2, message.getText());
-                iMessage.setDate(3, null);
+                iMessage.setTimestamp(3, new java.sql.Timestamp(new Date().getTime()));
                 if (message.getUser() != null) {
                     iMessage.setInt(4, message.getUser().getID());
                 } else {
@@ -1653,7 +1669,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 } else {
                     iMessage.setInt(5, 0);
                 }
-                iMessage.executeUpdate();
                 if (iMessage.executeUpdate() == 1) {
                     rs = iMessage.getGeneratedKeys();
                     if (rs.next()) {
@@ -1834,7 +1849,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 // uNews = "UPDATE e_news title=?, text=?, date=?, image_URL=?, likes=?, dislikes=?, ID_user=? WHERE ID=?"
                 uNews.setString(1, news.getTitle());
                 uNews.setString(2, news.getText());
-                uNews.setDate(3, new java.sql.Date(news.getDate().getTime()));
+                uNews.setTimestamp(3, new java.sql.Timestamp(news.getDate().getTime()));
                 uNews.setString(4, news.getImageURL());
                 uNews.setInt(5, news.getLikes());
                 uNews.setInt(6, news.getDislikes());
@@ -1848,7 +1863,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             } else { // Insert
                 iNews.setString(1, news.getTitle());
                 iNews.setString(2, news.getText());
-                iNews.setDate(3, null);
+                iNews.setTimestamp(3, new java.sql.Timestamp(new Date().getTime()));
                 iNews.setString(4, news.getImageURL());
                 iNews.setInt(5, news.getLikes());
                 iNews.setInt(6, news.getDislikes());
@@ -3191,6 +3206,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                     uChannelEpisode.setNull(2, java.sql.Types.INTEGER);
                 }
                 uChannelEpisode.setTimestamp(3, new java.sql.Timestamp(channelEpisode.getDate().getTime()));
+                uChannelEpisode.setTimestamp(3, new java.sql.Timestamp(new Date().getTime()));
                 uChannelEpisode.setInt(4, ID);
                 uChannelEpisode.executeUpdate();
             } else { // insert

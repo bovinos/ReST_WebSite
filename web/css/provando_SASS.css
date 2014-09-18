@@ -183,7 +183,6 @@ button {
     .formContainer form input[type="radio"]:checked + label:before {
       font-family: 'ElegantIcons';
       content: '\5c';
-      margin-right: 10px;
       position: relative;
       top: 5px;
       font-size: 2.5rem;
@@ -191,7 +190,6 @@ button {
     .formContainer form input[type="radio"]:not(:checked) + label:before {
       font-family: 'ElegantIcons';
       content: '\5b';
-      margin-right: 10px;
       position: relative;
       top: 5px;
       font-size: 2.5rem;
