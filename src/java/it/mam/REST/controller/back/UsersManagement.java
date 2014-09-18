@@ -29,13 +29,13 @@ public class UsersManagement extends RESTBaseController {
         fail.activate(message, request, response);
     }
 
-    // passa la lista delle serie al template "insert_news.ftl"
     private void action_insert_group(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
         TemplateResult result = new TemplateResult(getServletContext());
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         request.setAttribute("services", getDataLayer().getServices());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
          request.setAttribute("backContent_tpl", "insertGroup.ftl.html");
@@ -45,13 +45,13 @@ public class UsersManagement extends RESTBaseController {
         }
     }
 
-    // controlla l'inserimento corretto di tutti i dati di una news e la salva sul DB
     private void action_save_group(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
         TemplateResult result = new TemplateResult(getServletContext());
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         Group group = getDataLayer().createGroup(); 
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkGroupInputData(request, response)){
@@ -79,6 +79,7 @@ public class UsersManagement extends RESTBaseController {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         request.setAttribute("groups", getDataLayer().getGroups());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
          request.setAttribute("backContent_tpl", "insertService.ftl.html");
@@ -94,6 +95,7 @@ public class UsersManagement extends RESTBaseController {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
         Service service = getDataLayer().createService(); 
         // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
         if (checkServiceInputData(request, response)){
@@ -110,6 +112,43 @@ public class UsersManagement extends RESTBaseController {
             action_error(request, response, "Inserire i campi obbligatori");
         }
         getDataLayer().storeService(RESTSecurityLayer.addSlashes(service));
+        } catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
+    }
+    
+    private void action_insert_serviceGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
+        request.setAttribute("services", getDataLayer().getServices());
+        request.setAttribute("groups", getDataLayer().getGroups());
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("backContent_tpl", "insertServiceGroup.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
+        } catch (NumberFormatException ex){
+            action_error(request, response, "Field Error");
+        }
+    }
+    
+    private void action_save_serviceGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        request.setAttribute("user", user);
+        // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
+        if (checkServiceGroupInputData(request, response)){
+        Service service = getDataLayer().getService(SecurityLayer.checkNumeric(request.getParameter("service")));    
+        service.addGroup(getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group"))));
+        getDataLayer().storeService(RESTSecurityLayer.addSlashes(service));
+        }
+        request.setAttribute("backContent_tpl", "insertServiceGroup.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
         } catch (NumberFormatException ex){
             action_error(request, response, "Field Error");
         }
@@ -132,6 +171,12 @@ public class UsersManagement extends RESTBaseController {
                 action_insert_service(request, response);
                 }
             break;
+            case 3: if((request.getParameter("isg")) != null) { 
+                action_save_serviceGroup(request, response);
+                } else {
+                action_insert_serviceGroup(request, response);
+                }
+            break;
             default: action_error(request, response, "Field Error");
         }
         } catch (NumberFormatException ex ) {
@@ -152,6 +197,11 @@ public class UsersManagement extends RESTBaseController {
         return request.getParameter("name") != null && request.getParameter("name").length() > 0
                 && request.getParameter("description") != null && request.getParameter("description").length() > 0
                 && request.getParameterValues("groups") != null && request.getParameterValues("groups").length > 0;
+    }
+    
+    private boolean checkServiceGroupInputData(HttpServletRequest request, HttpServletResponse response){
+        return request.getParameter("service") != null && request.getParameter("service").length() > 0
+                && request.getParameter("group") != null && request.getParameter("group").length() > 0;
     }
     
     
