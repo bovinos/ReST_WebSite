@@ -8,17 +8,6 @@
         <div class="row">
             <textarea name="groupDescription" rows="10" placeholder="Inserisci qui la descrizione del gruppo" required="required" tabindex="2" ></textarea>
         </div>
-        <div class="row">
-            <div class="selectContainer multipleSelection">
-                <select name="services" multiple="multiple" size="7" >
-                    <optgroup label="Inserisci i servizi del gruppo">
-                        <#list services as s>
-                        <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
-                        </#list>
-                    </optgroup>
-                </select>
-            </div>
-        </div>
         <button type="submit" name="ig" value="1">Aggiungi il gruppo</button>
     </form>
 </div>

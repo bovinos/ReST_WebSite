@@ -1,3 +1,29 @@
 
-<div>insertEpisode.ftl.html</div>
+<div id="insertEpisode" class="formContainer">
+    <form action="GestioneSerie" method="POST">
+        <input type="hidden" name="sezione" value="2" />
+        <div class="row">
+            <input name="episodeSeason" type="text" maxlength="2" placeholder="Numero stagione" pattern="[0-9]{0, 2}" title="deve essere un numero di massimo due cifre" required="required" tabindex="1" />
+        </div>
+        <div class="row">
+            <input name="episodeNumber" type="text" maxlength="2" placeholder="Numero episodio" pattern="[0-9]{0, 2}" title="deve essere un numero di massimo due cifre" required="required" tabindex="2" />
+        </div>
+        <div class="row">
+            <input name="episodeTitle" type="text" maxlength="60" placeholder="Numero episodio" required="required" tabindex="3" />
+        </div>
+        <div class="row">
+            <textarea name="episodeDescription" rows="10" placeholder="Inserisci qui la trama dell'episodio" required="required" tabindex="4" ></textarea>
+        </div>
+        <div class="selectContainer singleSelection">
+            <select name="series">
+                <optgroup label="Scegli la serie a cui appartiene l'episodio"> 
+                    <#list series as s>
+                    <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
+                    </#list>
+                </optgroup>
+            </select>
+        </div>
+        <button type="submit" name="ie" value="1">Aggiungi episodio</button>
+    </form>
+</div>
 
