@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Mirko
  */
-public class SaveCommentSeries extends RESTBaseController {
+public class ZZZ_SaveCommentNews extends RESTBaseController {
 
     // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
@@ -36,15 +36,16 @@ public class SaveCommentSeries extends RESTBaseController {
             comment.setTitle(request.getParameter("title"));
             comment.setText(request.getParameter("text"));
           
-          //setto la serie del commento senza mettere o togliere slash perché già ci sono dal DB (l'id mi arriva con la request)
-        try{
-        comment.setSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series"))));
-        } catch (NumberFormatException e) {
+          //setto la news del commento senza mettere o togliere slash perché già ci sono dal DB (l'id mi arriva con la request)
+            try{
+        comment.setNews(getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("news"))));
+            } catch (NumberFormatException e) {
             action_error(request, response, "Field Error");
-        }
-        } else {
+            }
+            
+            } else {
             action_error(request, response, "Inserire i campi obbligatori");
-        }    
+        }
             
             //Mi prendo la sessione dell'utente che ha fatto la richiesta e se esiste, mi prendo l'utente, 
             //(senza mettere o togliere gli slash perché già ci sono dal DB) altrimenti errore.
@@ -55,8 +56,7 @@ public class SaveCommentSeries extends RESTBaseController {
                 action_error(request, response, "Invalid Session - Please login!");
                 response.sendRedirect("Login");
             }
-        
-        //Aggiungo la data corrente
+         //Aggiungo la data corrente
         Calendar c = Calendar.getInstance();
         comment.setDate(c.getTime());
         //Salvo il commento
@@ -79,6 +79,6 @@ try {
     private boolean checkCommentInputData(HttpServletRequest request, HttpServletResponse response){
         return request.getParameter("title") != null && request.getParameter("title").length() > 0
                 && request.getParameter("text") != null && request.getParameter("text").length() > 0
-                && request.getParameter("series") != null && request.getParameter("series").length() > 0;
+                 && request.getParameter("news") != null && request.getParameter("news").length() > 0;
     }
 }

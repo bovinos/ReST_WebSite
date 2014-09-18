@@ -8,6 +8,7 @@ import it.mam.REST.data.model.User;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
+import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.Calendar;
@@ -63,7 +64,7 @@ public class NewsCard extends RESTBaseController{
         comment.setUser(user);
         comment.setDate(c.getTime());
         comment.setNews(news);
-        getDataLayer().storeComment(comment);
+        getDataLayer().storeComment(RESTSecurityLayer.addSlashes(comment));
         response.sendRedirect("SchedaNews?id=" + news.getID());
         } else action_error(request, response, "Inserisci i campi obbligatori!");
         }catch (NumberFormatException ex){
@@ -71,6 +72,50 @@ public class NewsCard extends RESTBaseController{
         }
     }
     
+     private void action_like_news (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+         TemplateResult result = new TemplateResult(getServletContext());
+         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); } 
+         News news = getDataLayer().getNews(SecurityLayer.checkNumeric((request.getParameter("ln"))));
+         news.setLikes(news.getLikes() + 1);
+         getDataLayer().storeNews(news);
+         response.sendRedirect("SchedaNews?id=" + news.getID());   
+     }
+    
+     private void action_dislike_news (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+         TemplateResult result = new TemplateResult(getServletContext());
+         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
+         News news = getDataLayer().getNews(SecurityLayer.checkNumeric((request.getParameter("dn"))));
+         news.setDislikes(news.getDislikes() + 1);
+         getDataLayer().storeNews(news);
+         response.sendRedirect("SchedaNews?id=" + news.getID());
+     }
+     
+      private void action_like_comment_news (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+          try{
+         TemplateResult result = new TemplateResult(getServletContext());
+         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); } 
+         Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric(request.getParameter("lc")));
+         comment.setLikes(comment.getLikes() + 1);
+         getDataLayer().storeComment(comment);
+         response.sendRedirect("SchedaNews?id=" + SecurityLayer.checkNumeric(request.getParameter("n")));   
+          } catch (NumberFormatException ex) {
+              action_error(request, response, "Field Error");
+          }
+     }
+    
+     private void action_dislike_comment_news (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+         try{
+         TemplateResult result = new TemplateResult(getServletContext());
+         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
+         Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric((request.getParameter("dc"))));
+         comment.setDislikes(comment.getDislikes() + 1);
+         getDataLayer().storeComment(comment);
+         response.sendRedirect("SchedaNews?id=" + SecurityLayer.checkNumeric((request.getParameter("n"))));  
+        } catch (NumberFormatException ex) {
+              action_error(request, response, "Field Error");
+          }
+     }
+     
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         if(request.getParameter("ncs") != null){
@@ -79,7 +124,31 @@ public class NewsCard extends RESTBaseController{
         } catch (IOException ex) {
             action_error(request, response, ex.getMessage());
         }
-        } else {
+        } else if (request.getParameter("ln") != null) {
+        try {
+            action_like_news(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
+        } else if (request.getParameter("dn") != null) {
+        try {
+            action_dislike_news(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
+        } else if (request.getParameter("lc") != null) {
+        try {
+            action_like_comment_news(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
+        } else if (request.getParameter("dc") != null) {
+        try {
+            action_dislike_comment_news(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
+        }else {
             try {
             action_news_info(request, response);
         } catch (IOException | NumberFormatException ex) {
@@ -87,7 +156,8 @@ public class NewsCard extends RESTBaseController{
         }
         }
     }
-private boolean checkNewsCommentInputData(HttpServletRequest request, HttpServletResponse response){
+    
+    private boolean checkNewsCommentInputData(HttpServletRequest request, HttpServletResponse response){
         return request.getParameter("commentTitle") != null && request.getParameter("commentTitle").length() > 0
                 && request.getParameter("commentText") != null && request.getParameter("commentText").length() > 0;
     }

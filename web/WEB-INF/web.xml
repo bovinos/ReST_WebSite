@@ -52,14 +52,6 @@
         <servlet-class>it.mam.REST.controller.front.SeriesCircle</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InsertNews</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.InsertNews</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SaveNews</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.SaveNews</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LogIn</servlet-name>
         <servlet-class>it.mam.REST.controller.front.LogIn</servlet-class>
     </servlet>
@@ -68,44 +60,16 @@
         <servlet-class>it.mam.REST.controller.front.SignUp</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InsertSeries</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.InsertSeries</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SaveSeries</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.SaveSeries</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>NewsCard</servlet-name>
         <servlet-class>it.mam.REST.controller.front.NewsCard</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InsertCastMember</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.InsertCastMember</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SaveCastMember</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.SaveCastMember</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SaveCommentNews</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.SaveCommentNews</servlet-class>
+        <servlet-class>it.mam.REST.controller.back.ZZZ_SaveCommentNews</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SaveCommentSeries</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.SaveCommentSeries</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SaveChannel</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.SaveChannel</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>InsertEpisode</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.InsertEpisode</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SaveEpisode</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.SaveEpisode</servlet-class>
+        <servlet-class>it.mam.REST.controller.back.ZZZ_SaveCommentSeries</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogOut</servlet-name>
@@ -118,6 +82,18 @@
     <servlet>
         <servlet-name>MyProfileEdit</servlet-name>
         <servlet-class>it.mam.REST.controller.front.MyProfileEdit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SeriesManagement</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.SeriesManagement</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewsManagement</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.NewsManagement</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UsersManagement</servlet-name>
+        <servlet-class>it.mam.REST.controller.back.UsersManagement</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>
@@ -136,32 +112,8 @@
         <url-pattern>/CerchiaSerie</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InsertNews</servlet-name>
-        <url-pattern>/InserisciNews</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SaveNews</servlet-name>
-        <url-pattern>/SalvaNews</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InsertSeries</servlet-name>
-        <url-pattern>/InserisciSerie</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>NewsCard</servlet-name>
         <url-pattern>/SchedaNews</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InsertCastMember</servlet-name>
-        <url-pattern>/InserisciMembroCast</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SaveCastMember</servlet-name>
-        <url-pattern>/SalvaMembroCast</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SaveSeries</servlet-name>
-        <url-pattern>/SalvaSerie</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SaveCommentNews</servlet-name>
@@ -170,18 +122,6 @@
     <servlet-mapping>
         <servlet-name>SaveCommentSeries</servlet-name>
         <url-pattern>/SalvaCommentoSerie</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SaveChannel</servlet-name>
-        <url-pattern>/SalvaCanale</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InsertEpisode</servlet-name>
-        <url-pattern>/InserisciEpisodio</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SaveEpisode</servlet-name>
-        <url-pattern>/SalvaEpisodio</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogOut</servlet-name>
@@ -202,6 +142,18 @@
     <servlet-mapping>
         <servlet-name>MyProfileEdit</servlet-name>
         <url-pattern>/ModificaProfiloPersonale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SeriesManagement</servlet-name>
+        <url-pattern>/GestioneSerie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewsManagement</servlet-name>
+        <url-pattern>/GestioneNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UsersManagement</servlet-name>
+        <url-pattern>/GestioneUtenti</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

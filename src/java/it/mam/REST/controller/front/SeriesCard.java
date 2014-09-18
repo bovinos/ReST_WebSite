@@ -148,7 +148,7 @@ public class SeriesCard extends RESTBaseController {
         comment.setUser(user);
         comment.setDate(c.getTime());
         comment.setSeries(series);
-        getDataLayer().storeComment(comment);
+        getDataLayer().storeComment(RESTSecurityLayer.addSlashes(comment));
         response.sendRedirect("SchedaSerie?id=" + series.getID());
         } else {
             action_error(request, response, "Inserisci i campi obbligatori!");
@@ -158,6 +158,32 @@ public class SeriesCard extends RESTBaseController {
         }
     }
 
+    private void action_like_comment_series (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+          try{
+         TemplateResult result = new TemplateResult(getServletContext());
+         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); } 
+         Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric(request.getParameter("lc")));
+         comment.setLikes(comment.getLikes() + 1);
+         getDataLayer().storeComment(comment);
+         response.sendRedirect("SchedaSerie?id=" + SecurityLayer.checkNumeric(request.getParameter("s")));   
+          } catch (NumberFormatException ex) {
+              action_error(request, response, "Field Error");
+          }
+     }
+    
+    private void action_dislike_comment_series (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+         try{
+         TemplateResult result = new TemplateResult(getServletContext());
+         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
+         Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric((request.getParameter("dc"))));
+         comment.setDislikes(comment.getDislikes() + 1);
+         getDataLayer().storeComment(comment);
+         response.sendRedirect("SchedaSerie?id=" + SecurityLayer.checkNumeric((request.getParameter("s"))));  
+        } catch (NumberFormatException ex) {
+              action_error(request, response, "Field Error");
+          }
+     }
+    
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
@@ -191,6 +217,18 @@ public class SeriesCard extends RESTBaseController {
             } catch (IOException ex) {
                 action_error(request, response, ex.getMessage());
             }
+            } else if (request.getParameter("lc") != null) {
+        try {
+            action_like_comment_series(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
+        } else if (request.getParameter("dc") != null) {
+        try {
+            action_dislike_comment_series(request, response);
+        } catch (IOException ex) {
+            action_error(request, response, ex.getMessage());
+        }
         } else {
             try {
                 action_series_info(request, response);

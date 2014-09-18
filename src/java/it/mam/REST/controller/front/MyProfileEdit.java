@@ -195,6 +195,7 @@ public class MyProfileEdit extends RESTBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        try{
         int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
         switch (section) {
             case 1: //Siamo nel ramo "Modifica dati di registrazione"...
@@ -244,6 +245,9 @@ public class MyProfileEdit extends RESTBaseController {
                 break;
             default:
                 action_error(request, response, "The requested resource is not available");
+        }
+        }catch (NumberFormatException ex) {
+            action_error(request, response, "Field Error");
         }
     }
 
