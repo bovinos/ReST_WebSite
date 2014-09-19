@@ -835,154 +835,117 @@ button{
     line-height: $topBarHeight;
     background: #333333;
     color: $skyBlue;
-    padding: 0 1%;
 
-    #adminSettings{
-        float: left;
-        margin-left: -1%;
-        margin-right: 10px;
+    ul{
+        display: inline-block;
+        height: 100%;
+        width: 100%;
 
-
-        a{
-            font-size: 3rem;
+        li{
+            display: inline-block;
             color: #FFFFFF;
-            display: block;
-            padding: 0 10px;
-            cursor: pointer;
-            @include transition(background-color, 0.3s);
+            font-size: 1.6rem;
 
-
-            &:hover{
-                background-color: $orange;
-            }
-        }
-    }
-
-    .imgContainer{
-        width: $topBarHeight;
-        height: $topBarHeight;
-        float: left;
-        margin-right: 10px;
-
-
-        img{
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    #LogIn{
-        float: right;
-        padding: 0 20px 2px 20px; /* 2px bottom per dare l'impressione che il bottone sia agganciato alla topbar */
-        margin: 0;
-        line-height: $topBarHeight;
-        border: none;
-        font-size: 1.5rem;
-        color: white;
-        background: $turquoise;
-        cursor: pointer;
-        @include transition(background, 0.3s);
-
-        &:hover{
-            background: $orange;
-            @include transition(background, 0.3s);
-        }
-
-    }
-
-    #LogOut{
-        @extend #LogIn;
-    }
-
-    #menu{
-
-        ul{
-
-            li{
+            a{
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                padding: 0 5px;
                 color: #FFFFFF;
-                float: left;
-                font-size: 1.6rem;
+                @include transition(color, 0.3s);
 
-                @include transition(background, 0.3s);
+                &:hover{
 
-                a{
-                    display: inline-block;
-                    width: 100%;
-                    height: 100%;
-                    padding: 0 10px;
+                    &:before{
+                        color: $orange;
+                    }
+                }
+
+                &:before{
                     color: #FFFFFF;
-                    @include transition(background, 0.3s);
+                    margin-right: 10px;
+                }
+
+                &.active{
+                    &:before{
+                        color: $orange;
+                    }
+                }
+            }
+
+            &#search{
+                float: right;
+                margin-right: 10px;
+
+                #searchForm{
+                    overflow: hidden;
+
+                    input{
+                        opacity: 0;
+                        background: transparent;
+                        border-bottom: 1px solid $turquoise;
+                        border-top: none;
+                        border-left: none;
+                        border-right: none;
+                        padding-bottom: 3px;
+                        color: $skyBlue;
+                        font-size: 1.5rem;
+                        width: 0;
+                        @include transition(all, 0.5s);
+
+                        &:focus{
+                            opacity: 1;
+                            border-bottom-color: $orange;
+                            width: 200px;
+                        }
+                    }
+
+                    button{
+                        border: none;
+                        background: none;
+                        font-size: 2.7rem;
+                        line-height: $topBarHeight;
+                        color: $turquoise;
+                        @include transition(color, 0.3s);
+
+                        &:hover{
+                            color: $orange;
+                        }
+                    }
 
                     &:hover{
-                        background: $orange;
-                        @include transition(background, 0.3s);
-                    }
-
-                    &.active{
-                        background: $orange;
+                        input{
+                            opacity: 1;
+                            width: 200px;
+                        }
                     }
                 }
-
-
             }
-        }
-    }
 
-    #search{
-        float: right;
-        margin-right: 20px;
-
-        #searchSpan{
-            float: left;
-            margin-right: 10px;
-            font-size: 2.7rem;
-            line-height: $topBarHeight;
-            color: $turquoise;
-            cursor: pointer;
-            @include transition(color, 0.3s);
-
-
-            &:hover{
-                color: $orange;
-                @include transition(color, 0.3s);
-            }
-        }
-
-        #searchForm{
-            overflow: hidden;
-
-
-            input{
-                opacity: 0;
-                background: transparent;
-                border-bottom: 1px solid $turquoise;
-                border-top: none;
-                border-left: none;
-                border-right: none;
-                padding-bottom: 3px;
-                color: $skyBlue;
+            &#LogIn{
+                float: right;
+                padding: 0 10px 2px 10px; /* 2px bottom per dare l'impressione che il bottone sia agganciato alla topbar */
+                margin: 0 10px 0 0;
+                line-height: $topBarHeight;
+                border: none;
                 font-size: 1.5rem;
-                width: 0;
-                @include transition(all, 0.5s);
+                color: white;
+                background: $turquoise;
+                cursor: pointer;
+                @include transition(background, 0.3s);
 
-
-                &:focus{
-                    opacity: 1;
-                    border-bottom-color: $orange;
-                    width: 200px;
+                &:hover{
+                    background: $orange;
+                    @include transition(background, 0.3s);
                 }
+
             }
 
-            &:hover{
-
-                input{
-                    opacity: 1;
-                    width: 200px;
-                }
+            &#LogOut{
+                @extend #LogIn;
             }
         }
     }
-
 }
 
 #littleScreenTopBar{

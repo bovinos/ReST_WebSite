@@ -644,114 +644,87 @@ button {
   height: 50px;
   line-height: 50px;
   background: #333333;
-  color: #ACF0F2;
-  padding: 0 1%; }
-  #topBar #adminSettings {
-    float: left;
-    margin-left: -1%;
-    margin-right: 10px; }
-    #topBar #adminSettings a {
-      font-size: 3rem;
-      color: #FFFFFF;
-      display: block;
-      padding: 0 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
-      -webkit-transition: background-color 0.3s ease-in-out;
-      -moz-transition: background-color 0.3s ease-in-out; }
-      #topBar #adminSettings a:hover {
-        background-color: #EB7F00; }
-  #topBar .imgContainer {
-    width: 50px;
-    height: 50px;
-    float: left;
-    margin-right: 10px; }
-    #topBar .imgContainer img {
-      width: 100%;
-      height: 100%; }
-  #topBar #LogIn, #topBar #LogOut {
-    float: right;
-    padding: 0 20px 2px 20px;
-    /* 2px bottom per dare l'impressione che il bottone sia agganciato alla topbar */
-    margin: 0;
-    line-height: 50px;
-    border: none;
-    font-size: 1.5rem;
-    color: white;
-    background: #1695A3;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-    -webkit-transition: background 0.3s ease-in-out;
-    -moz-transition: background 0.3s ease-in-out; }
-    #topBar #LogIn:hover, #topBar #LogOut:hover {
-      background: #EB7F00;
-      transition: background 0.3s ease-in-out;
-      -webkit-transition: background 0.3s ease-in-out;
-      -moz-transition: background 0.3s ease-in-out; }
-  #topBar #menu ul li {
-    color: #FFFFFF;
-    float: left;
-    font-size: 1.6rem;
-    transition: background 0.3s ease-in-out;
-    -webkit-transition: background 0.3s ease-in-out;
-    -moz-transition: background 0.3s ease-in-out; }
-    #topBar #menu ul li a {
+  color: #ACF0F2; }
+  #topBar ul {
+    display: inline-block;
+    height: 100%;
+    width: 100%; }
+    #topBar ul li {
       display: inline-block;
-      width: 100%;
-      height: 100%;
-      padding: 0 10px;
       color: #FFFFFF;
-      transition: background 0.3s ease-in-out;
-      -webkit-transition: background 0.3s ease-in-out;
-      -moz-transition: background 0.3s ease-in-out; }
-      #topBar #menu ul li a:hover {
-        background: #EB7F00;
-        transition: background 0.3s ease-in-out;
-        -webkit-transition: background 0.3s ease-in-out;
-        -moz-transition: background 0.3s ease-in-out; }
-      #topBar #menu ul li a.active {
-        background: #EB7F00; }
-  #topBar #search {
-    float: right;
-    margin-right: 20px; }
-    #topBar #search #searchSpan {
-      float: left;
-      margin-right: 10px;
-      font-size: 2.7rem;
-      line-height: 50px;
-      color: #1695A3;
-      cursor: pointer;
-      transition: color 0.3s ease-in-out;
-      -webkit-transition: color 0.3s ease-in-out;
-      -moz-transition: color 0.3s ease-in-out; }
-      #topBar #search #searchSpan:hover {
-        color: #EB7F00;
+      font-size: 1.6rem; }
+      #topBar ul li a {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        padding: 0 5px;
+        color: #FFFFFF;
         transition: color 0.3s ease-in-out;
         -webkit-transition: color 0.3s ease-in-out;
         -moz-transition: color 0.3s ease-in-out; }
-    #topBar #search #searchForm {
-      overflow: hidden; }
-      #topBar #search #searchForm input {
-        opacity: 0;
-        background: transparent;
-        border-bottom: 1px solid #1695A3;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        padding-bottom: 3px;
-        color: #ACF0F2;
+        #topBar ul li a:hover:before {
+          color: #EB7F00; }
+        #topBar ul li a:before {
+          color: #FFFFFF;
+          margin-right: 10px; }
+        #topBar ul li a.active:before {
+          color: #EB7F00; }
+      #topBar ul li#search {
+        float: right;
+        margin-right: 10px; }
+        #topBar ul li#search #searchForm {
+          overflow: hidden; }
+          #topBar ul li#search #searchForm input {
+            opacity: 0;
+            background: transparent;
+            border-bottom: 1px solid #1695A3;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            padding-bottom: 3px;
+            color: #ACF0F2;
+            font-size: 1.5rem;
+            width: 0;
+            transition: all 0.5s ease-in-out;
+            -webkit-transition: all 0.5s ease-in-out;
+            -moz-transition: all 0.5s ease-in-out; }
+            #topBar ul li#search #searchForm input:focus {
+              opacity: 1;
+              border-bottom-color: #EB7F00;
+              width: 200px; }
+          #topBar ul li#search #searchForm button {
+            border: none;
+            background: none;
+            font-size: 2.7rem;
+            line-height: 50px;
+            color: #1695A3;
+            transition: color 0.3s ease-in-out;
+            -webkit-transition: color 0.3s ease-in-out;
+            -moz-transition: color 0.3s ease-in-out; }
+            #topBar ul li#search #searchForm button:hover {
+              color: #EB7F00; }
+          #topBar ul li#search #searchForm:hover input {
+            opacity: 1;
+            width: 200px; }
+      #topBar ul li#LogIn, #topBar ul li#LogOut {
+        float: right;
+        padding: 0 10px 2px 10px;
+        /* 2px bottom per dare l'impressione che il bottone sia agganciato alla topbar */
+        margin: 0 10px 0 0;
+        line-height: 50px;
+        border: none;
         font-size: 1.5rem;
-        width: 0;
-        transition: all 0.5s ease-in-out;
-        -webkit-transition: all 0.5s ease-in-out;
-        -moz-transition: all 0.5s ease-in-out; }
-        #topBar #search #searchForm input:focus {
-          opacity: 1;
-          border-bottom-color: #EB7F00;
-          width: 200px; }
-      #topBar #search #searchForm:hover input {
-        opacity: 1;
-        width: 200px; }
+        color: white;
+        background: #1695A3;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+        -webkit-transition: background 0.3s ease-in-out;
+        -moz-transition: background 0.3s ease-in-out; }
+        #topBar ul li#LogIn:hover, #topBar ul li#LogOut:hover {
+          background: #EB7F00;
+          transition: background 0.3s ease-in-out;
+          -webkit-transition: background 0.3s ease-in-out;
+          -moz-transition: background 0.3s ease-in-out; }
 
 #littleScreenTopBar {
   z-index: 9999;
