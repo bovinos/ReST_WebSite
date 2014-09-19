@@ -1780,7 +1780,6 @@ button{
         .imgContainer{
             margin: 0 auto 20px auto;
             width: 150px;
-            height: 150px;
             overflow: hidden;
 
             img{
@@ -1789,11 +1788,19 @@ button{
             }
         }
 
-        #userUsername{
+        p{
             text-align: center;
+            font-family: Laila;
+        }
+
+        #userUsername{
             font-size: 2rem;
             color: $blue;
-            font-family: Laila;
+        }
+
+        #userGroup{
+            font-size: 1.7rem;
+            color: $secondaryTextColor;
         }
     }
 

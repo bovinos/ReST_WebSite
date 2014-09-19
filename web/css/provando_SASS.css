@@ -1296,16 +1296,19 @@ button {
   #userProfile #userImageAndUsername .imgContainer {
     margin: 0 auto 20px auto;
     width: 150px;
-    height: 150px;
     overflow: hidden; }
     #userProfile #userImageAndUsername .imgContainer img {
       max-width: 100%;
       height: auto; }
-  #userProfile #userImageAndUsername #userUsername {
+  #userProfile #userImageAndUsername p {
     text-align: center;
-    font-size: 2rem;
-    color: #225378;
     font-family: Laila; }
+  #userProfile #userImageAndUsername #userUsername {
+    font-size: 2rem;
+    color: #225378; }
+  #userProfile #userImageAndUsername #userGroup {
+    font-size: 1.7rem;
+    color: #999999; }
 #userProfile nav li {
   font-size: 1.5rem;
   margin-bottom: 20px;
