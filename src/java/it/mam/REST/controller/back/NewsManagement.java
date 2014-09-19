@@ -23,19 +23,19 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class NewsManagement extends RESTBaseController {
 
-    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
 
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
 
-    // passa la lista delle serie al template "insert_news.ftl"
+    // Activates the insert news template
     private void action_insert_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
         TemplateResult result = new TemplateResult(getServletContext());
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(SecurityLayer.checkSession(request) != null){ 
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("user", user);
@@ -45,17 +45,24 @@ public class NewsManagement extends RESTBaseController {
         request.setAttribute("where", "back");
         request.setAttribute("backContent_tpl", "insertNews.ftl.html");
         result.activate("../back/backOutline.ftl.html", request, response);
+           } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            response.sendRedirect("LogIn");
+        }
         } catch (NumberFormatException ex){
-            action_error(request, response, "Field Error");
+            SecurityLayer.disposeSession(request);
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            response.sendRedirect("LogIn");
         }
     }
 
-    // controlla l'inserimento corretto di tutti i dati di una news e la salva sul DB
+     // Receives all the necessary data to insert a News and, if everything's ok, saves it in the Database
     private void action_save_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
         TemplateResult result = new TemplateResult(getServletContext());
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response);}
+        if(SecurityLayer.checkSession(request) != null){ 
         if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
         request.setAttribute("user", user);
         News news = getDataLayer().createNews();
@@ -77,14 +84,22 @@ public class NewsManagement extends RESTBaseController {
                 news.setSeries(seriesList);
             }
             } else {
-            action_error(request, response, "Inserire i campi obbligatori");
+            request.setAttribute("error", "Errore: uno dei campi è vuoto!");
+            response.sendRedirect("GestioneNews");
         }
                 news.setUser(user);
         //Salvo il commento
             System.err.println(news);
         getDataLayer().storeNews(RESTSecurityLayer.addSlashes(news));
-      } catch (NumberFormatException ex){
-            action_error(request, response, "Field Error");
+       } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            response.sendRedirect("LogIn");
+        }
+        } catch (NumberFormatException ex){
+            SecurityLayer.disposeSession(request);
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            response.sendRedirect("LogIn");
         }
         response.sendRedirect("GestioneNews");
     }

@@ -23,56 +23,53 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class NewsList extends RESTBaseController {
 
-    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
 
-    // prende tutte le news e le passa al template newsList.ftl.html
+    //Activates the newsList template
     private void action_news_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("where", "news");
         request.setAttribute("news", getDataLayer().getNews());
-        request.setAttribute("series", getDataLayer().getSeries()); // per i filtri
-        //Controllo che la sessione attuale sia ancora valida
+        request.setAttribute("series", getDataLayer().getSeries()); // for filters
+        //User session checking
         if (SecurityLayer.checkSession(request) != null) {
             try {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
             } catch (NumberFormatException ex) {
-                action_error(request, response, "Field Error");
+                //User id is not a number
             }
         }
-
-        //genero e inserisco nella request le 5 serie più trendy
+        //Generates and inserts into request the 5 trendiest series
         request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
-
         result.activate("newsList.ftl.html", request, response);
     }
 
     private void action_FilterAndOrder_newslist(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        request.setAttribute("series", getDataLayer().getSeries()); // per i filtri
+        request.setAttribute("series", getDataLayer().getSeries()); // for filters
 
-        //genero e inserisco nella request le 5 serie più trendy
+        //Generates and inserts into request the 5 trendiest series
         request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
-
-        //Controllo che la sessione attuale sia ancora valida
         User user = null;
+        //User session checking
         if (SecurityLayer.checkSession(request) != null) {
             try {
                 user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
             } catch (NumberFormatException ex) {
-                action_error(request, response, "Field Error");
+                //User id is not a number
             }
         }
 
         List<News> newsList = getDataLayer().getNews();
-        //Filtro News per Nome
+        //Filters News by Name
         if (request.getParameter("fn") != null && !request.getParameter("fn").trim().isEmpty()) {
             List<News> filteredNews = new ArrayList();
             String name = ((request.getParameter("fn")).trim()).toLowerCase();
@@ -84,7 +81,7 @@ public class NewsList extends RESTBaseController {
             newsList = filteredNews;
         }
 
-        //Filtro per serie
+        //Filters News by Series
         if (request.getParameter("fs") != null && SecurityLayer.checkNumeric(request.getParameter("fs")) != 0) {
             List<News> filteredNews = new ArrayList();
             try {
@@ -96,12 +93,12 @@ public class NewsList extends RESTBaseController {
                 }
                 newsList = filteredNews;
             } catch (NumberFormatException ex) {
-                action_error(request, response, "Field Error");
+                action_error(request, response, "Riprova di nuovo!");
+                return;
             }
         }
 
-        //Filtro tra "Le Mie Serie"
-        // se la sessione non è attiva, cioè non c'è un utente loggato, è impossibile filtrare per le serie preferite
+        //Filters News for the ones related only to My Series (if user session is not active/valid it's impossible to apply this filter)
         try {
             if (user != null && request.getParameter("fmys") != null && SecurityLayer.checkNumeric(request.getParameter("fmys")) == 1) {
                 List<News> filteredNews = new ArrayList();
@@ -116,10 +113,11 @@ public class NewsList extends RESTBaseController {
                 newsList = filteredNews;
             }
         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            action_error(request, response, "Riprova di nuovo!");
+            return;
         }
 
-        // Filtro per data
+        // Filters News by Date
         if (request.getParameter("fd") != null && !request.getParameter("fd").trim().isEmpty()) {
             List<News> filteredNews = new ArrayList();
             try {
@@ -171,19 +169,17 @@ public class NewsList extends RESTBaseController {
             System.out.println(s.getID());
             System.out.println("================================================================================");
         }
+     try {
         if (request.getParameter("s") != null) {
-            try {
+
                 action_FilterAndOrder_newslist(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
         } else {
-            try {
+
                 action_news_list(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
         }
+         } catch (IOException ex) {
+                action_error(request, response, "Riprova di nuovo!");
+            }
     }
 
     @Override
