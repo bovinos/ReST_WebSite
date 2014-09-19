@@ -21,43 +21,54 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SeriesCircle extends RESTBaseController {
 
-    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // Creates the default template error and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
 
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
-
-    // prende tutti i messaggi di una determinata serie e li passa al template seriesCircle.ftl
+   
+   // Activates the series circle template
     private void action_activate_circle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("where", "series");
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        request.setAttribute("series", getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id"))));
-        //Controllo che la sessione attuale sia ancora valida
+        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
+        request.setAttribute("series", series);
+        //User session checking
         if (SecurityLayer.checkSession(request) != null) {
-            try {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
-            } catch (NumberFormatException ex) {
-                action_error(request, response, "Field Error");
-            }
+                if(user.getSeries().contains(series)){
+                    result.activate("seriesCircle.ftl.html", request, response);
+                } else{
+                    //This series is not contained in this user's favourites
+                    action_error(request, response, "Per entrare in questa cerchia, aggiungi questa serie alle preferite!");
+                }
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per visualizzare questa pagina!");
+            response.sendRedirect("LogIn");
         }
         result.activate("seriesCircle.ftl.html", request, response);
+        } catch (NumberFormatException ex) {
+                //series id or user id is not a number
+                action_error(request, response, "Riprova di nuovo!");
+            }
     }
 
+   // Receives all the necessary data to send a message in the circle and, if everything's ok, saves it in the Database
     private void action_message_circle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
-            TemplateResult result = new TemplateResult(getServletContext());
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
+            //User session checking
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
             Calendar c = Calendar.getInstance();
+            if(checkMessageInputData(request, response)){
             String title = request.getParameter("messageTitle");
             String text = request.getParameter("messageText");
-            System.err.println("TESTO DALLA REQUEST: " + text);
             Message message = getDataLayer().createMessage();
             message.setTitle(title);
             message.setText(text);
@@ -66,31 +77,46 @@ public class SeriesCircle extends RESTBaseController {
             message.setSeries(series);
             getDataLayer().storeMessage(RESTSecurityLayer.addSlashes(message));
             response.sendRedirect("CerchiaSerie?id=" + series.getID());
+            } else {
+                //Error: field empty
+                request.setAttribute("error", "Errore: uno dei campi è vuoto!");
+                response.sendRedirect("CerchiaSerie");
+            }
+           } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per mandare messaggi in una cerchia!");
+            response.sendRedirect("LogIn");
+        }
         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            //user id or series id is not a number
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
         if (request.getParameter("scms") != null) {
-            try {
+            
                 action_message_circle(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
+            
         } else {
-            try {
                 action_activate_circle(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
         }
+        } catch (IOException ex) {
+                action_error(request, response, "Riprova di nuovo!");
+            }
     }
 
+        // Checks if all the input fields have been filled
+    private boolean checkMessageInputData(HttpServletRequest request, HttpServletResponse response) {
+        return request.getParameter("messageTitle") != null && request.getParameter("messageTitle").length() > 0
+                && request.getParameter("messageText") != null && request.getParameter("messageText").length() > 0;
+    }
+    
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet activates the series circle template to show all the messages sent by users. It also allow a user to send"
+                + "a message in the circle ad saves it in the database";
     }
-
 }

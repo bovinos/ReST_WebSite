@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SignUp extends RESTBaseController {
 
-    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
         request.setAttribute("error", message);
@@ -27,29 +27,32 @@ public class SignUp extends RESTBaseController {
             fail.activate(message, request, response);
         }
     }
-
-    // prende tutti i dati necessari a far registrare un utente e se è tutto corretto, lo salva sul DB
+    
+    // Receives all the necessary data to register a user and, if everything's ok, saves him in the Database
     private void action_user_save(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = getDataLayer().createUser();
         if (checkUserInputData(request, response)) {
-            // controlliamo che le password inserite corrispondano
+            // Check if password and confirmpassword match
             if (!(request.getParameter("password").equals(request.getParameter("confirmPassword")))) {
                 action_error(request, response, "Le due password inserite non corrispondono!");
                 return;
             }
+            // Set all user's fields
             user.setUsername(request.getParameter("username"));
             user.setPassword(Utility.stringToMD5(Utility.stringToMD5(request.getParameter("password"))));
             user.setMail(request.getParameter("email"));
 
             getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
-            // complimenti ti sei loggato
-            response.sendRedirect("LogIn");
+            // Congratulations! You are logged in!
+            request.setAttribute("success", "Congratulazioni! L'iscrizione è avvenuta con successo!");
+            response.sendRedirect("ListaNews");
         } else {
-            // errore uno dei campi è vuoto
+            // Error: field empty
             action_error(request, response, "Errore: uno dei campi è vuoto");
         }
     }
-
+    
+    // Activates the signUp template 
     private void action_activate_signUp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         result.activate("signUp.ftl.html", request, response);
@@ -57,21 +60,17 @@ public class SignUp extends RESTBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+         try {
         if (request.getParameter("signUp") != null) {
-            // l'utente ha cliccato su "invia" nella form della registrazione
-            try {
+            // User send the sign up data
                 action_user_save(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
         } else {
-            // devo ridirigere alla pagina di registrazione
-            try {
+            // Show the sign up template
                 action_activate_signUp(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
         }
+        } catch (IOException ex) {
+                action_error(request, response, "Riprova di nuovo!");
+            }
     }
 
     @Override
@@ -79,6 +78,7 @@ public class SignUp extends RESTBaseController {
         return "This servlet activates the SignUp template, to allow anyone to sign up in this website. It is also used to save the user sign up data.";
     }
 
+    // Checks if all the input fields have been filled
     private boolean checkUserInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("username") != null && request.getParameter("username").length() > 0
                 && request.getParameter("password") != null && request.getParameter("password").length() > 0

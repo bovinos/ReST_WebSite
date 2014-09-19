@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author alex
  */
-public class ManageNews extends RESTBaseController {
+public class ZZZ_ManageNews extends RESTBaseController {
 
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());

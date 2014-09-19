@@ -25,32 +25,28 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SeriesList extends RESTBaseController {
 
-    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
-        request.setAttribute("error", message);
-        try {
-            response.sendRedirect("ListaSerie");
-        } catch (IOException ex) {
             fail.activate(message, request, response);
-        }
     }
 
-    // prende tutte le serie e le passa al template seriesList.ftl.html
+    // Activates the seriesList template
     private void action_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("where", "series");
         request.setAttribute("series", getDataLayer().getSeries());
-        //Controllo la sessione e creo l'utente
+        // User session checking
         try{
         if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
-        } else response.sendRedirect("LogIn");
-         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
         }
+         } catch (NumberFormatException ex) {
+             //User id is not a number
+        }
+        
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
 
@@ -60,12 +56,17 @@ public class SeriesList extends RESTBaseController {
         result.activate("seriesList.ftl.html", request, response);
     }
 
+    //Filters and orders the series list according to user's requests
     private void action_FilterAndOrder_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         List<Series> seriesList = getDataLayer().getSeries();
+        if(SecurityLayer.checkSession(request) != null){
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
+            request.setAttribute("user", user);
+        }
 
-        //Filtro serie per canale, MESSO PER PRIMO perché gli altri usano la lista di serie derivata da lui.
+        //Filters series by Channel. This MUST be the first filter, because the others needs the list returned by this one.
         try {
             if (request.getParameter("fc") != null && SecurityLayer.checkNumeric(request.getParameter("fc")) != 0) {
                 List<Series> filteredSeries = new ArrayList();
@@ -78,11 +79,9 @@ public class SeriesList extends RESTBaseController {
                 }
                 seriesList = filteredSeries;
             }
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
-        }
 
-        //Filtro Serie per Nome
+
+        //Filters series by Name
         if (request.getParameter("fn") != null && request.getParameter("fn").length() > 0) {
             List<Series> filteredSeries = new ArrayList();
             String name = ((request.getParameter("fn")).trim()).toLowerCase();
@@ -93,16 +92,13 @@ public class SeriesList extends RESTBaseController {
             }
             seriesList = filteredSeries;
         }
-        //Filtro Serie per Genere
+        //Filters series by Genre
         if (request.getParameterValues("fg") != null && request.getParameterValues("fg").length > 0) {
             List<Series> filteredSeries = new ArrayList();
             List<Genre> genresList = new ArrayList();
             for (String g : request.getParameterValues("fg")) {
-                try {
+
                     genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(g)));
-                } catch (NumberFormatException ex) {
-                    action_error(request, response, "Field Error");
-                }
             }
             for (Series s : seriesList) {
                 if (s.getGenres().containsAll(genresList)) {
@@ -112,13 +108,10 @@ public class SeriesList extends RESTBaseController {
             seriesList = filteredSeries;
         }
 
-        //Filtro serie per stato
+        //Filters series by status
         if (request.getParameter("fs") != null && request.getParameter("fs").length() > 0) {
             List<Series> filteredSeries = new ArrayList();
-
-            try {
                 int status = SecurityLayer.checkNumeric(request.getParameter("fs"));
-
                 switch (status) {
                     case 1:
                         for (Series s : seriesList) {
@@ -135,20 +128,18 @@ public class SeriesList extends RESTBaseController {
                         }
                         break;
                     default:
-                        action_error(request, response, "Internal Error");
+                        //The status parameter is not 1 (ongoing) nor 2 (complete)
+                        action_error(request, response, "Riprova di nuovo!");
+                        return;
                 }
                 seriesList = filteredSeries;
-            } catch (NumberFormatException ex) {
-                action_error(request, response, "Field Error");
-            }
         }
 
-        //Ordinamento
+        //Sortings
         if (request.getParameter("o") != null && request.getParameter("o").length() > 0) {
-            try {
                 int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
                 switch (ordertype) {
-                    case 1:
+                    case 1: 
                         RESTSortLayer.sortSeriesByPopularity(seriesList);
                         break;
                     case 2:
@@ -161,42 +152,39 @@ public class SeriesList extends RESTBaseController {
                         RESTSortLayer.sortSeriesByName(seriesList);
                         break;
                     default:
-                        action_error(request, response, "Internal Error");
+                        //The sorting-type parameter is not 1,2,3 or 4, so no sorting type has been chosen
+                        action_error(request, response, "Riprova di nuovo!");
                 }
-            } catch (NumberFormatException ex) {
-                action_error(request, response, "Field Error");
-            }
         }
         request.setAttribute("series", seriesList);
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
 
-        //genero e inserisco nella request le 5 serie più trendy
+        //Generates and inserts in the request the 5 trendiest series
         request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
-
         result.activate("seriesList.ftl.html", request, response);
-    }
-
-    @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        if (request.getParameter("s") != null) {
-            try {
-                action_FilterAndOrder_series_list(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
-        } else {
-            try {
-                action_series_list(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
+         } catch (NumberFormatException ex) {
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
     @Override
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
+        if (request.getParameter("s") != null) {
+            action_FilterAndOrder_series_list(request, response);
+        } else {
+            action_series_list(request, response);
+        }
+            } catch (IOException ex) {
+                action_error(request, response, "Riprova di nuovo!");
+            }
+    }
+
+    @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet activates the series list template to show the entire list of series. It also orders the list according the filters and the"
+                + "sorting method the user chose";
     }
 
 }
