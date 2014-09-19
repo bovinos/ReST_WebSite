@@ -61,6 +61,10 @@ public class SeriesList extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         List<Series> seriesList = getDataLayer().getSeries();
+        if(SecurityLayer.checkSession(request) != null){
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
+            request.setAttribute("user", user);
+        }
 
         //Filters series by Channel. This MUST be the first filter, because the others needs the list returned by this one.
         try {
@@ -126,11 +130,12 @@ public class SeriesList extends RESTBaseController {
                     default:
                         //The status parameter is not 1 (ongoing) nor 2 (complete)
                         action_error(request, response, "Riprova di nuovo!");
+                        return;
                 }
                 seriesList = filteredSeries;
         }
 
-        //Sorts series
+        //Sortings
         if (request.getParameter("o") != null && request.getParameter("o").length() > 0) {
                 int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
                 switch (ordertype) {
@@ -178,8 +183,8 @@ public class SeriesList extends RESTBaseController {
 
     @Override
     public String getServletInfo() {
-        return "This servlet activates the series list template to show the entire list of the series. It also orders the list according the filters and the"
-                + "sorting method the user chose;";
+        return "This servlet activates the series list template to show the entire list of series. It also orders the list according the filters and the"
+                + "sorting method the user chose";
     }
 
 }

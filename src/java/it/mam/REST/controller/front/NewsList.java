@@ -137,7 +137,7 @@ public class NewsList extends RESTBaseController {
             newsList = filteredNews;
         }
 
-        //ordinamenti
+        //Sortings
         if (request.getParameter("o") != null) {
             int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
             switch (ordertype) {
@@ -184,7 +184,8 @@ public class NewsList extends RESTBaseController {
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet activates the news list template to show the entire list of news. It also orders the list according the filters and the"
+                + "sorting method the user chose";
     }
 
 }
