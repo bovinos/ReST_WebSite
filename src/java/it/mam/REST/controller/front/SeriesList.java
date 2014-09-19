@@ -28,7 +28,12 @@ public class SeriesList extends RESTBaseController {
     // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
-        fail.activate(message, request, response);
+        request.setAttribute("error", message);
+        try {
+            response.sendRedirect("ListaSerie");
+        } catch (IOException ex) {
+            fail.activate(message, request, response);
+        }
     }
 
     // prende tutte le serie e le passa al template seriesList.ftl.html
@@ -42,7 +47,7 @@ public class SeriesList extends RESTBaseController {
         if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
-        }
+        } else response.sendRedirect("LogIn");
          } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }

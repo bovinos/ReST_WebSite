@@ -35,6 +35,7 @@ public class MyProfile extends RESTBaseController {
     // Attiva il template del palinsesto
     private void action_activate_ProfileUserBroadcastProgramming(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("where", "profile");
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }

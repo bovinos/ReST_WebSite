@@ -34,6 +34,7 @@ public class NewsCard extends RESTBaseController{
     private void action_news_info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("where", "news");
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("news", getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("id"))));
         //Controllo che la sessione attuale sia ancora valida

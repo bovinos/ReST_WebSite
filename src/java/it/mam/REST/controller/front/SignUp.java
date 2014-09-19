@@ -20,7 +20,12 @@ public class SignUp extends RESTBaseController {
     // prende il template di default di errore e e ci stampa il messaggio passato come parametro
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
-        fail.activate(message, request, response);
+        request.setAttribute("error", message);
+        try {
+            response.sendRedirect("Registrazione");
+        } catch (IOException ex) {
+            fail.activate(message, request, response);
+        }
     }
 
     // prende tutti i dati necessari a far registrare un utente e se è tutto corretto, lo salva sul DB
@@ -41,7 +46,7 @@ public class SignUp extends RESTBaseController {
             response.sendRedirect("LogIn");
         } else {
             // errore uno dei campi è vuoto
-            action_error(request, response, "Uno dei campi è vuoto");
+            action_error(request, response, "Errore: uno dei campi è vuoto");
         }
     }
 
@@ -71,7 +76,7 @@ public class SignUp extends RESTBaseController {
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet activates the SignUp template, to allow anyone to sign up in this website. It is also used to save the user sign up data.";
     }
 
     private boolean checkUserInputData(HttpServletRequest request, HttpServletResponse response) {

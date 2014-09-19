@@ -39,6 +39,7 @@ public class SeriesCard extends RESTBaseController {
     private void action_series_info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("where", "series");
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         try {
             Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
