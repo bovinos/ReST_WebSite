@@ -97,7 +97,7 @@ public class RESTSortLayer {
         return listOfList;
     }
 
-    private static int getMediumRating(Series s) {
+    public static int getMediumRating(Series s) {
         List<UserSeries> usList = s.getUserSeries();
         int count = 0;
         int ratingsum = 0;
