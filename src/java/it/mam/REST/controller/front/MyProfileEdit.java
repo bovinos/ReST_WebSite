@@ -134,7 +134,7 @@ public class MyProfileEdit extends RESTBaseController {
                     && !(request.getParameter("imageURL").equals(user.getImageURL()))) {
                 user.setImageURL(request.getParameter("imageURL"));
             }
-           
+
             if (request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0) {
                 String[] genres = request.getParameterValues("genres");
                 List<Genre> genresList = new ArrayList();
@@ -142,18 +142,21 @@ public class MyProfileEdit extends RESTBaseController {
                     //prendo il genere dal DB e NON ci metto gli slash perché nel DB ce li ha già e non serve di toglierli perché non devo usarlo
                     genresList.add(RESTSecurityLayer.addSlashes(getDataLayer().getGenre(SecurityLayer.checkNumeric(s))));
                 }
-                
-                    user.setGenres(genresList);
+
+                user.setGenres(genresList);
             }
-            
+
             if (request.getParameter("gender") != null && request.getParameter("gender").length() > 0
                     && !(request.getParameter("gender").equals(user.getGender()))) {
-                switch(SecurityLayer.checkNumeric(request.getParameter("gender"))) {
-                    case 1: user.setGender(User.MALE);
-                    break;
-                    case 2: user.setGender(User.FEMALE);
-                    break;
-                    default: action_error(request, response, "Field Error");
+                switch (SecurityLayer.checkNumeric(request.getParameter("gender"))) {
+                    case 1:
+                        user.setGender(User.MALE);
+                        break;
+                    case 2:
+                        user.setGender(User.FEMALE);
+                        break;
+                    default:
+                        action_error(request, response, "Field Error");
                 }
             }
             System.err.println(user);
@@ -199,14 +202,13 @@ public class MyProfileEdit extends RESTBaseController {
         if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (request.getParameter("a") != null && request.getParameter("a").length() > 0) {
-                 user.setNotificationStatus(true);
-                 getDataLayer().storeUser(user);
-                 if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
-                 List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
-                 for (UserSeries us : userseriesList) {
-                      us.setAnticipationNotification(new Date((SecurityLayer.checkNumeric(request.getParameter("t")) * RESTSortLayer.HOUR_IN_MILLISECONDS) - RESTSortLayer.HOUR_IN_MILLISECONDS));
-                      getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-                        }
+                user.setNotificationStatus(true);
+                getDataLayer().storeUser(user);
+                if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
+                    List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
+                    for (UserSeries us : userseriesList) {
+                        us.setAnticipationNotification(new Date((SecurityLayer.checkNumeric(request.getParameter("t")) * RESTSortLayer.HOUR_IN_MILLISECONDS) - RESTSortLayer.HOUR_IN_MILLISECONDS));
+                        getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
                     }
                  
             }else {   

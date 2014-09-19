@@ -116,7 +116,7 @@ $topBarHeight: 50px;
     }
 }
 
-#errorMessage{
+#message{
     -moz-animation: fade-in-out 20s 1 linear;
     -webkit-animation: fade-in-out 20s 1 linear;
     max-height: 0; /* animazione */
@@ -124,7 +124,6 @@ $topBarHeight: 50px;
     width: 50%;
     margin: 20px auto 20px auto;
     text-align: center;
-    background-color: rgba(200, 0, 0, 0.7);
     @include borderRadius(20px);
 
     h1, p{
@@ -141,6 +140,14 @@ $topBarHeight: 50px;
     p{
         padding-bottom: 20px;
         font-size: 1.7rem;
+    }
+
+    .error{
+        background-color: rgba(200, 0, 0, 0.7);
+    }
+
+    .success{
+        background-color: rgba(0, 200, 0, 0.7);
     }
 
 }
@@ -305,7 +312,6 @@ button{
         fieldset{
             border-top: 1px solid rgba(22, 149, 163, 0.4);
             padding: 20px 0;
-            margin-bottom: 10px;
 
             legend{
                 padding: 0 5px;
@@ -324,71 +330,59 @@ button{
             padding: 10px 20px;
         }
 
-        input[type="checkbox"]{
-            position: absolute;
-            left: -9999px;
+        input[type="checkbox"], input[type="radio"]{
+            display: none;
 
             & + label{
                 position: relative;
                 cursor: pointer;
                 font-size: 1.5rem;
+                color: $primaryTextColor;
+                margin-right: 5%;
+            }
+
+            & + label:before{
+                font-family: 'ElegantIcons';
+                margin-right: 10px;
+                position: relative;
+                top: 5px;
+                font-size: 2.5rem;
             }
 
             &:checked + label:before{
-                font-family: 'ElegantIcons';
-                content: '\5a';
-                margin-right: 10px;
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
-                color: $turquoise;
+                color: $orange;
             }
 
             &:not(:checked) + label:before{
-                font-family: 'ElegantIcons';
-                content: '\56';
-                margin-right: 10px;
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
                 color: $turquoise;
+            }
+
+        }
+
+        input[type="checkbox"]{
+
+            &:checked + label:before{
+                content: '\5a';
+            }
+
+            &:not(:checked) + label:before{
+                content: '\56';
             }
         }
 
         input[type="radio"]{
 
-            position: absolute;
-            left: -9999px;
-
-            & + label{
-                position: relative;
-                cursor: pointer;
-                font-size: 1.5rem;
-                margin-right: 5%;
-            }
-
             &:checked + label:before{
-                font-family: 'ElegantIcons';
                 content: '\5c';
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
-                color: $turquoise;
             }
 
             &:not(:checked) + label:before{
-                font-family: 'ElegantIcons';
                 content: '\5b';
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
-                color: $turquoise;
             }
         }
 
         textarea{
             display: block;
-            margin: 0 auto 25px auto;
             width: 100%;
             max-width: 100%;
             min-width: 100%;
@@ -398,6 +392,102 @@ button{
             color: $primaryTextColor;
             @include borderRadius(10px);
         }
+
+
+        .mySelectContainer{
+
+            h1{
+                width: 100%;
+                color: $turquoise;
+                border-left: 4px solid $orange;
+                font-size: 1.5rem;
+                margin-bottom: 5px;
+                text-align: left;
+                padding-left: 10px;
+            }
+
+            .mySelect{
+                text-align: left;
+                padding-left: 10px;
+                overflow-y: scroll;
+                border-left: 4px solid $turquoise;
+                width: 100%; 
+                max-height: 200px;
+            }
+
+            .mySingleSelect{
+                border: 1px solid $turquoise;
+                position: relative;
+                min-height: 40px;
+
+                input[type="checkbox"].mySingleSelectArrow{
+                    display: none;
+
+                    & + label{
+                        position: static;
+                        cursor: pointer;
+                        font-size: 1.5rem;
+                        color: $primaryTextColor;
+
+                        &:before{
+                            font-family: 'ElegantIcons';
+                            content: "\33";
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            font-size: 3rem;
+                        }
+                    }
+
+                    &:checked ~ .mySingleSelectOption{
+                        display: block;
+                    }
+
+                    &:not(:checked) ~ .mySingleSelectOption{
+                        input[type="radio"]:checked + label{
+                            display: block;
+                        }
+
+                        input[type="radio"]:not(:checked) + label{
+                            display: none;
+                        }
+                    }
+                }
+
+                .mySingleSelectOption{
+                    text-align: left;
+                    margin-top: 20px;
+                    margin-bottom: 10px;
+                    padding-left: 10px;
+
+
+                    input[type="radio"]{
+
+                        & + label{
+                            display: block;
+                        }
+
+                        &:checked + label{
+                            position: absolute;
+                            cursor: pointer;
+                            font-size: 1.5rem;
+                            color: $primaryTextColor;
+                            top: 0;
+                            left: 10px;
+                        }
+
+                        &:checked + label:before{
+                            content: '\5a';
+                        }
+
+                        &:not(:checked) + label:before{
+                            content: '\56';
+                        }
+                    }
+                }
+            }
+        }
+
 
         .selectContainer{
             padding-left: 0;
@@ -725,195 +815,74 @@ button{
 =============================================================================================== */
 #leftCol{
 
-    h1{
+    .sectionTitle{
         font-family: Laila;
         font-size: 2.5rem;
         text-align: center;
-        margin-bottom: 40px;
         padding: 10px 0;
         background: $blue;
         color: #FFFFFF;
+        margin-bottom: 30px;
     }
 
-    #searchButtonFilter{
-        font-size: 1.8rem;
-        color: $turquoise;
-        width: auto;
-        background: none;
-        @include transition(color, 0.3s);
-
-        &:hover{
-            color: $orange;
-        }
-    }
-
-    input[type="text"]{
-        border: 1px solid $turquoise;
-        outline: none;
-        color: $primaryTextColor;
-        font-size: 1.5rem;
-        @include borderRadius(4px);
-        padding: 5px;
-        width: 80%;
-    }
-
-    input[type="text"].search{
-        display: inline-block;
-        background: transparent;
-        border-bottom: 1px solid $turquoise;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        width: 60%;
-        @include borderRadius(0px);
-        @include transition(border-bottom-color, 0.3s);
-
-        &:focus{
-            border-bottom-color: $orange;
-            @include transition(border-bottom-color, 0.3s);
-        }
-    }
-
-    .selectContainer{
-        padding-left: 0;
-        position: relative;
-
-        &.singleSelection{
+    form{
+        .leftColRealForm{
+            text-align: left;
             width: 80%;
-            overflow: hidden;
+            margin-left: auto;
+            margin-right: auto;
 
-            &:after{
-                position: absolute;
-                right: 0;
-                top: 0;
-                line-height: 2; /* per piazzarla al centro verticalmente */
+            .row{
+                margin-bottom: 25px;
+            }
+
+            .mySelect{
+                .row{
+                    margin-bottom: 5px;
+                }
+            } 
+
+            #searchButtonFilter{
+                margin-top: 0;
+                padding: 0;
+                font-size: 2rem;
                 color: $turquoise;
-                border-right: 1px solid $turquoise;
-                font-family: 'ElegantIcons';
-                font-size: 1.5rem;
-                content: '\43';
-                pointer-events: none; /* per far aprire la select anche cliccando sulla freccia */
-            }
+                width: auto;
+                background: none;
+                @include transition(color, 0.3s);
 
-            select{
-                padding: 5px;
-                @include borderRadius(5px);
-                border: 1px solid $turquoise;
-                width: 120%; /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
-                cursor: pointer;
-            }
-
-            optgroup{
-                width: 99%;
-                border-right: 1px solid black;
-            }
-        }
-
-        &.multipleSelection{
-            width: 80%;
-
-            select{
-                border: 1px solid $turquoise;
-                width: 100%;
-
-                optgroup{
-                    color: $turquoise;
-
-                    option{ /* su chrome non funziona */
-                        color: #000000;
-                        padding: 3px 4px; 
-
-                        &:before{
-                            font-family: 'ElegantIcons';
-                            content: "\4e";
-                            color: #FFFFFF;
-                            margin-right: 5px;
-                            opacity: 0;
-                            @include transition(opacity, 0.3s);
-                        }
-
-                        &:checked{
-
-                            &:before{
-                                opacity: 1;
-                            }
-                        }
-                    }
+                &:hover{
+                    color: $orange;
                 }
             }
 
+            input[type="text"]{
+                color: $primaryTextColor;
+                font-size: 1.5rem;
+                padding: 5px;
+            }
+
+            input[type="text"].search{
+                border-bottom: 1px solid $turquoise;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                width: 80%;
+                @include borderRadius(0px);
+                @include transition(border-bottom-color, 0.3s);
+
+                &:focus{
+                    border-bottom-color: $orange;
+                    @include transition(border-bottom-color, 0.3s);
+                }
+            }
+
+            button{
+                width: 100%;
+                padding: 10px 0;
+                font-size: 1.5rem;
+            }
         }
-    }
-
-    /* nascondiamo la checkbox originale */
-    input[type="checkbox"]{
-        position: absolute;
-        left: -9999px;
-
-        & + label{
-            position: relative;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        &:checked + label:before{
-            font-family: 'ElegantIcons';
-            content: '\5a';
-            margin-right: 10px;
-            position: relative;
-            top: 5px;
-            font-size: 2.5rem;
-            color: $turquoise;
-        }
-
-        &:not(:checked) + label:before{
-            font-family: 'ElegantIcons';
-            content: '\56';
-            margin-right: 10px;
-            position: relative;
-            top: 5px;
-            font-size: 2.5rem;
-            color: $turquoise;
-        }
-    }
-
-    input[type="radio"]{
-
-        position: absolute;
-        left: -9999px;
-
-        & + label{
-            position: relative;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        &:checked + label:before{
-            font-family: 'ElegantIcons';
-            content: '\5c';
-            margin-right: 10px;
-            position: relative;
-            top: 5px;
-            font-size: 2.5rem;
-            color: $turquoise;
-        }
-
-        &:not(:checked) + label:before{
-            font-family: 'ElegantIcons';
-            content: '\5b';
-            margin-right: 10px;
-            position: relative;
-            top: 5px;
-            font-size: 2.5rem;
-            color: $turquoise;
-        }
-    }
-
-    button{
-        width: 80%;
-        height: 30px;
-        line-height: 30px;
-        font-size: 1.5rem;
     }
 }
 
@@ -1250,22 +1219,6 @@ button{
 
 /* NEWS LIST PAGE
 =============================================================================================== */
-#newsFilter{
-
-    div{
-        margin-bottom: 50px;
-        padding-left: 10%;
-    }
-}
-
-#newsSorting{
-
-    div{
-        margin-bottom: 20px;
-        padding-left: 10%;
-    }
-}
-
 #newsList{
 
     .news{
@@ -1341,23 +1294,6 @@ button{
 
 /* SERIES LIST PAGE
 =============================================================================================== */
-
-#seriesFilter{
-
-    div{
-        margin-bottom: 50px;
-        padding-left: 10%;
-    }
-}
-
-#SeriesSorting{
-
-    div{
-        margin-bottom: 20px;
-        padding-left: 10%;
-    }
-}
-
 #seriesList{
 
     .seriesBox{

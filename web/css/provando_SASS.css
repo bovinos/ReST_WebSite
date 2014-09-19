@@ -53,7 +53,7 @@
   100% {
     max-height: 0px;
     opacity: 0; } }
-#errorMessage {
+#message {
   -moz-animation: fade-in-out 20s 1 linear;
   -webkit-animation: fade-in-out 20s 1 linear;
   max-height: 0;
@@ -63,20 +63,23 @@
   width: 50%;
   margin: 20px auto 20px auto;
   text-align: center;
-  background-color: rgba(200, 0, 0, 0.7);
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px; }
-  #errorMessage h1, #errorMessage p {
+  #message h1, #message p {
     font-family: Laila;
     color: #FFFFFF; }
-  #errorMessage h1 {
+  #message h1 {
     padding-top: 20px;
     font-size: 2.5rem;
     margin-bottom: 30px; }
-  #errorMessage p {
+  #message p {
     padding-bottom: 20px;
     font-size: 1.7rem; }
+  #message .error {
+    background-color: rgba(200, 0, 0, 0.7); }
+  #message .success {
+    background-color: rgba(0, 200, 0, 0.7); }
 
 /* FONT
 =============================================================================================== */
@@ -204,8 +207,7 @@ button {
   margin-right: auto; }
   .formContainer form fieldset {
     border-top: 1px solid rgba(22, 149, 163, 0.4);
-    padding: 20px 0;
-    margin-bottom: 10px; }
+    padding: 20px 0; }
     .formContainer form fieldset legend {
       padding: 0 5px;
       font-size: 1.4rem;
@@ -220,54 +222,34 @@ button {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     padding: 10px 20px; }
-  .formContainer form input[type="checkbox"] {
-    position: absolute;
-    left: -9999px; }
-    .formContainer form input[type="checkbox"] + label {
-      position: relative;
-      cursor: pointer;
-      font-size: 1.5rem; }
-    .formContainer form input[type="checkbox"]:checked + label:before {
-      font-family: 'ElegantIcons';
-      content: '\5a';
-      margin-right: 10px;
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
-    .formContainer form input[type="checkbox"]:not(:checked) + label:before {
-      font-family: 'ElegantIcons';
-      content: '\56';
-      margin-right: 10px;
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
-  .formContainer form input[type="radio"] {
-    position: absolute;
-    left: -9999px; }
-    .formContainer form input[type="radio"] + label {
+  .formContainer form input[type="checkbox"], .formContainer form input[type="radio"] {
+    display: none; }
+    .formContainer form input[type="checkbox"] + label, .formContainer form input[type="radio"] + label {
       position: relative;
       cursor: pointer;
       font-size: 1.5rem;
+      color: #444444;
       margin-right: 5%; }
-    .formContainer form input[type="radio"]:checked + label:before {
+    .formContainer form input[type="checkbox"] + label:before, .formContainer form input[type="radio"] + label:before {
       font-family: 'ElegantIcons';
-      content: '\5c';
+      margin-right: 10px;
       position: relative;
       top: 5px;
-      font-size: 2.5rem;
+      font-size: 2.5rem; }
+    .formContainer form input[type="checkbox"]:checked + label:before, .formContainer form input[type="radio"]:checked + label:before {
+      color: #EB7F00; }
+    .formContainer form input[type="checkbox"]:not(:checked) + label:before, .formContainer form input[type="radio"]:not(:checked) + label:before {
       color: #1695A3; }
-    .formContainer form input[type="radio"]:not(:checked) + label:before {
-      font-family: 'ElegantIcons';
-      content: '\5b';
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
+  .formContainer form input[type="checkbox"]:checked + label:before {
+    content: '\5a'; }
+  .formContainer form input[type="checkbox"]:not(:checked) + label:before {
+    content: '\56'; }
+  .formContainer form input[type="radio"]:checked + label:before {
+    content: '\5c'; }
+  .formContainer form input[type="radio"]:not(:checked) + label:before {
+    content: '\5b'; }
   .formContainer form textarea {
     display: block;
-    margin: 0 auto 25px auto;
     width: 100%;
     max-width: 100%;
     min-width: 100%;
@@ -278,6 +260,63 @@ button {
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px; }
+  .formContainer form .mySelectContainer h1 {
+    width: 100%;
+    color: #1695A3;
+    border-left: 4px solid #EB7F00;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    text-align: left;
+    padding-left: 10px; }
+  .formContainer form .mySelectContainer .mySelect {
+    text-align: left;
+    padding-left: 10px;
+    overflow-y: scroll;
+    border-left: 4px solid #1695A3;
+    width: 100%;
+    max-height: 200px; }
+  .formContainer form .mySelectContainer .mySingleSelect {
+    border: 1px solid #1695A3;
+    position: relative;
+    min-height: 40px; }
+    .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow {
+      display: none; }
+      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow + label {
+        position: static;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #444444; }
+        .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow + label:before {
+          font-family: 'ElegantIcons';
+          content: "\33";
+          position: absolute;
+          top: 0;
+          right: 0;
+          font-size: 3rem; }
+      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:checked ~ .mySingleSelectOption {
+        display: block; }
+      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:not(:checked) ~ .mySingleSelectOption input[type="radio"]:checked + label {
+        display: block; }
+      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:not(:checked) ~ .mySingleSelectOption input[type="radio"]:not(:checked) + label {
+        display: none; }
+    .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption {
+      text-align: left;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      padding-left: 10px; }
+      .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption input[type="radio"] + label {
+        display: block; }
+      .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption input[type="radio"]:checked + label {
+        position: absolute;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #444444;
+        top: 0;
+        left: 10px; }
+      .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption input[type="radio"]:checked + label:before {
+        content: '\5a'; }
+      .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption input[type="radio"]:not(:checked) + label:before {
+        content: '\56'; }
   .formContainer form .selectContainer {
     padding-left: 0;
     position: relative; }
@@ -546,158 +585,59 @@ button {
 
 /* LEFT COL
 =============================================================================================== */
-#leftCol {
-  /* nascondiamo la checkbox originale */ }
-  #leftCol h1 {
-    font-family: Laila;
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 40px;
-    padding: 10px 0;
-    background: #225378;
-    color: #FFFFFF; }
-  #leftCol #searchButtonFilter {
-    font-size: 1.8rem;
+#leftCol .sectionTitle {
+  font-family: Laila;
+  font-size: 2.5rem;
+  text-align: center;
+  padding: 10px 0;
+  background: #225378;
+  color: #FFFFFF;
+  margin-bottom: 30px; }
+#leftCol form .leftColRealForm {
+  text-align: left;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto; }
+  #leftCol form .leftColRealForm .row {
+    margin-bottom: 25px; }
+  #leftCol form .leftColRealForm .mySelect .row {
+    margin-bottom: 5px; }
+  #leftCol form .leftColRealForm #searchButtonFilter {
+    margin-top: 0;
+    padding: 0;
+    font-size: 2rem;
     color: #1695A3;
     width: auto;
     background: none;
     transition: color 0.3s ease-in-out;
     -webkit-transition: color 0.3s ease-in-out;
     -moz-transition: color 0.3s ease-in-out; }
-    #leftCol #searchButtonFilter:hover {
+    #leftCol form .leftColRealForm #searchButtonFilter:hover {
       color: #EB7F00; }
-  #leftCol input[type="text"] {
-    border: 1px solid #1695A3;
-    outline: none;
+  #leftCol form .leftColRealForm input[type="text"] {
     color: #444444;
     font-size: 1.5rem;
-    border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    padding: 5px;
-    width: 80%; }
-  #leftCol input[type="text"].search {
-    display: inline-block;
-    background: transparent;
+    padding: 5px; }
+  #leftCol form .leftColRealForm input[type="text"].search {
     border-bottom: 1px solid #1695A3;
     border-top: none;
     border-left: none;
     border-right: none;
-    width: 60%;
+    width: 80%;
     border-radius: 0px;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     transition: border-bottom-color 0.3s ease-in-out;
     -webkit-transition: border-bottom-color 0.3s ease-in-out;
     -moz-transition: border-bottom-color 0.3s ease-in-out; }
-    #leftCol input[type="text"].search:focus {
+    #leftCol form .leftColRealForm input[type="text"].search:focus {
       border-bottom-color: #EB7F00;
       transition: border-bottom-color 0.3s ease-in-out;
       -webkit-transition: border-bottom-color 0.3s ease-in-out;
       -moz-transition: border-bottom-color 0.3s ease-in-out; }
-  #leftCol .selectContainer {
-    padding-left: 0;
-    position: relative; }
-    #leftCol .selectContainer.singleSelection {
-      width: 80%;
-      overflow: hidden; }
-      #leftCol .selectContainer.singleSelection:after {
-        position: absolute;
-        right: 0;
-        top: 0;
-        line-height: 2;
-        /* per piazzarla al centro verticalmente */
-        color: #1695A3;
-        border-right: 1px solid #1695A3;
-        font-family: 'ElegantIcons';
-        font-size: 1.5rem;
-        content: '\43';
-        pointer-events: none;
-        /* per far aprire la select anche cliccando sulla freccia */ }
-      #leftCol .selectContainer.singleSelection select {
-        padding: 5px;
-        border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border: 1px solid #1695A3;
-        width: 120%;
-        /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
-        cursor: pointer; }
-      #leftCol .selectContainer.singleSelection optgroup {
-        width: 99%;
-        border-right: 1px solid black; }
-    #leftCol .selectContainer.multipleSelection {
-      width: 80%; }
-      #leftCol .selectContainer.multipleSelection select {
-        border: 1px solid #1695A3;
-        width: 100%; }
-        #leftCol .selectContainer.multipleSelection select optgroup {
-          color: #1695A3; }
-          #leftCol .selectContainer.multipleSelection select optgroup option {
-            /* su chrome non funziona */
-            color: #000000;
-            padding: 3px 4px; }
-            #leftCol .selectContainer.multipleSelection select optgroup option:before {
-              font-family: 'ElegantIcons';
-              content: "\4e";
-              color: #FFFFFF;
-              margin-right: 5px;
-              opacity: 0;
-              transition: opacity 0.3s ease-in-out;
-              -webkit-transition: opacity 0.3s ease-in-out;
-              -moz-transition: opacity 0.3s ease-in-out; }
-            #leftCol .selectContainer.multipleSelection select optgroup option:checked:before {
-              opacity: 1; }
-  #leftCol input[type="checkbox"] {
-    position: absolute;
-    left: -9999px; }
-    #leftCol input[type="checkbox"] + label {
-      position: relative;
-      cursor: pointer;
-      font-size: 1.5rem; }
-    #leftCol input[type="checkbox"]:checked + label:before {
-      font-family: 'ElegantIcons';
-      content: '\5a';
-      margin-right: 10px;
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
-    #leftCol input[type="checkbox"]:not(:checked) + label:before {
-      font-family: 'ElegantIcons';
-      content: '\56';
-      margin-right: 10px;
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
-  #leftCol input[type="radio"] {
-    position: absolute;
-    left: -9999px; }
-    #leftCol input[type="radio"] + label {
-      position: relative;
-      cursor: pointer;
-      font-size: 1.5rem; }
-    #leftCol input[type="radio"]:checked + label:before {
-      font-family: 'ElegantIcons';
-      content: '\5c';
-      margin-right: 10px;
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
-    #leftCol input[type="radio"]:not(:checked) + label:before {
-      font-family: 'ElegantIcons';
-      content: '\5b';
-      margin-right: 10px;
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
-  #leftCol button {
-    width: 80%;
-    height: 30px;
-    line-height: 30px;
+  #leftCol form .leftColRealForm button {
+    width: 100%;
+    padding: 10px 0;
     font-size: 1.5rem; }
 
 /* TOPBAR
@@ -922,14 +862,6 @@ button {
 
 /* NEWS LIST PAGE
 =============================================================================================== */
-#newsFilter div {
-  margin-bottom: 50px;
-  padding-left: 10%; }
-
-#newsSorting div {
-  margin-bottom: 20px;
-  padding-left: 10%; }
-
 #newsList .news {
   padding: 5px;
   -webkit-box-shadow: 0 0 3px #1695A3;
@@ -975,14 +907,6 @@ button {
 
 /* SERIES LIST PAGE
 =============================================================================================== */
-#seriesFilter div {
-  margin-bottom: 50px;
-  padding-left: 10%; }
-
-#SeriesSorting div {
-  margin-bottom: 20px;
-  padding-left: 10%; }
-
 #seriesList .seriesBox {
   margin-bottom: 30px;
   text-align: center;

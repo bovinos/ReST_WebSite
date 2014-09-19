@@ -34,6 +34,7 @@ public class SeriesCard extends RESTBaseController {
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
+
     //Activates the series card template
     private void action_series_info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
@@ -58,17 +59,17 @@ public class SeriesCard extends RESTBaseController {
 
             // User session checking
             if (SecurityLayer.checkSession(request) != null) {
-                try{
-                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-                request.setAttribute("user", user);
+                try {
+                    User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                    request.setAttribute("user", user);
 
-                //Checking if the series is already in the user's favourites
-                boolean favourite;
-                UserSeries us = getDataLayer().getUserSeries(user, s);
-                favourite = (us != null);
-                request.setAttribute("favourite", favourite);
+                    //Checking if the series is already in the user's favourites
+                    boolean favourite;
+                    UserSeries us = getDataLayer().getUserSeries(user, s);
+                    favourite = (us != null);
+                    request.setAttribute("favourite", favourite);
                 } catch (NumberFormatException ex) {
-                //User id is not a number
+                    //User id is not a number
                 }
             }
         } catch (NumberFormatException ex) {
@@ -76,25 +77,24 @@ public class SeriesCard extends RESTBaseController {
             action_error(request, response, "Riprova di nuovo!");
         }
         result.activate("seriesCard.ftl.html", request, response);
-
     }
 
     //Adds a series in the user's favourites
     private void action_addSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-        TemplateResult result = new TemplateResult(getServletContext());
-        //User session checking
-        if (SecurityLayer.checkSession(request) != null) {
+            TemplateResult result = new TemplateResult(getServletContext());
+            //User session checking
+            if (SecurityLayer.checkSession(request) != null) {
 
-            User user = getDataLayer().getUser((SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString())));
-            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("a")));
-            UserSeries us = getDataLayer().createUserSeries();
-            us.setUser(user);
-            us.setSeries(series);
-            getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-            series.setAddCount((series.getAddCount())+1);
-            getDataLayer().storeSeries(series);
-            response.sendRedirect("SchedaSerie?id=" + series.getID());
+                User user = getDataLayer().getUser((SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString())));
+                Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("a")));
+                UserSeries us = getDataLayer().createUserSeries();
+                us.setUser(user);
+                us.setSeries(series);
+                getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+                series.setAddCount((series.getAddCount()) + 1);
+                getDataLayer().storeSeries(series);
+                response.sendRedirect("SchedaSerie?id=" + series.getID());
             } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -139,7 +139,7 @@ public class SeriesCard extends RESTBaseController {
             action_error(request, response, "Riprova di nuovo!");
         }
     }
-    
+
     //Shows the list of all series that are similar to another one
     private void action_find_similar_series(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
@@ -156,7 +156,7 @@ public class SeriesCard extends RESTBaseController {
             action_error(request, response, "Riprova di nuovo!");
         }
     }
-    
+
     // Receives all the necessary data to comment a series and, if everything's ok, saves it in the Database
     private void action_comment_series (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
@@ -191,7 +191,7 @@ public class SeriesCard extends RESTBaseController {
             action_error(request, response, "Riprova di nuovo!");
         }
     }
-    
+
     // Increases the number of comment's likes
     private void action_like_comment_series (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
          try{
@@ -207,12 +207,8 @@ public class SeriesCard extends RESTBaseController {
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
             result.activate("logIn.ftl.html", request, response);
         }
-          } catch (NumberFormatException ex) {
-              //Comment id or series id is not a number
-              action_error(request, response, "Riprova di nuovo!");
-          }
-     }
-    
+    }
+
     // Increases the number of comment's dislikes
     private void action_dislike_comment_series (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
          try{
@@ -228,57 +224,53 @@ public class SeriesCard extends RESTBaseController {
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
             result.activate("logIn.ftl.html", request, response);
         }
-          } catch (NumberFormatException ex) {
-              //Comment id or series id is not a number
-              action_error(request, response, "Riprova di nuovo!");
-          }
-     }
-    
+    }
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-    try {
-        if (request.getParameter("a") != null) {
-            
+        try {
+            if (request.getParameter("a") != null) {
+
                 action_addSeries(request, response);
 
-        } else if (request.getParameter("d") != null) {
+            } else if (request.getParameter("d") != null) {
 
                 action_removeSeries(request, response);
 
-        } else if (request.getParameter("n") != null) {
+            } else if (request.getParameter("n") != null) {
 
                 action_go_to_series_news(request, response);
 
-        } else if (request.getParameter("g") != null) {
+            } else if (request.getParameter("g") != null) {
 
                 action_find_similar_series(request, response);
 
-        } else if (request.getParameter("scs") != null) {
+            } else if (request.getParameter("scs") != null) {
 
                 action_comment_series(request, response);
 
             } else if (request.getParameter("lc") != null) {
 
-            action_like_comment_series(request, response);
+                action_like_comment_series(request, response);
 
-        } else if (request.getParameter("dc") != null) {
+            } else if (request.getParameter("dc") != null) {
 
-            action_dislike_comment_series(request, response);
-        } else {
+                action_dislike_comment_series(request, response);
+            } else {
 
                 action_series_info(request, response);
-         }
-         } catch (IOException ex) {
-                action_error(request, response, "Riprova di nuovo!");
             }
+        } catch (IOException ex) {
+            action_error(request, response, "Riprova di nuovo!");
+        }
     }
-    
+
     // Checks if all the input fields have been filled
-    private boolean checkSeriesCommentInputData(HttpServletRequest request, HttpServletResponse response){
+    private boolean checkSeriesCommentInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("commentTitle") != null && request.getParameter("commentTitle").length() > 0
                 && request.getParameter("commentText") != null && request.getParameter("commentText").length() > 0;
     }
-    
+
     @Override
     public String getServletInfo() {
         return "This servlet controls most of the actions related to series. It shows the series card, adds or removes it from the user's favourites"
