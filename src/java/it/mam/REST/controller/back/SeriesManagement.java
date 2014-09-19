@@ -16,6 +16,7 @@ import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -444,13 +445,11 @@ public class SeriesManagement extends RESTBaseController {
             }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            request.setAttribute("channels", getDataLayer().getChannels());
-            request.setAttribute("episodes", getDataLayer().getEpisodes());
             if (checkChannelEpisodeInputData(request, response)) {
                 ChannelEpisode ce = getDataLayer().createChannelEpisode();
                 ce.setChannel(getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel"))));
                 ce.setEpisode(getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode"))));
-                ce.setDate(SecurityLayer.checkDate(request.getParameter("date")).getTime());
+                ce.setDate(new Date((SecurityLayer.checkDate(request.getParameter("date"))).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
                 getDataLayer().storeChannelEpisode(ce);
             } else {
                 action_error(request, response, "Inserire tutti i campi obbligatori");
@@ -623,7 +622,8 @@ public class SeriesManagement extends RESTBaseController {
     private boolean checkChannelEpisodeInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("channel") != null && request.getParameter("channel").length() > 0
                 && request.getParameter("episode") != null && request.getParameter("episode").length() > 0
-                && request.getParameter("date") != null && request.getParameter("date").length() > 0;
+                && request.getParameter("date") != null && request.getParameter("date").length() > 0
+                && request.getParameter("time") != null && request.getParameter("time").length() > 0;
     }
 
     private boolean checkGenreSeriesInputData(HttpServletRequest request, HttpServletResponse response) {
