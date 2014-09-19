@@ -12,7 +12,6 @@ import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,14 +22,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class NewsCard extends RESTBaseController{
 
-    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
 
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
     
-    // prende tutte le informazioni su una news e le passa al template newsCard.ftl.html
+    // Activates the News Card template
     private void action_news_info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         TemplateResult result = new TemplateResult(getServletContext());
@@ -43,16 +42,18 @@ public class NewsCard extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
          } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            action_error(request, response, "Riprova di nuovo!");
+            return;
         }
         }
         result.activate("newsCard.ftl.html", request, response);
     }
 
+    // Receives all the necessary data to insert a comment to a news
     private void action_comment_news (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
         TemplateResult result = new TemplateResult(getServletContext());
-        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
+        if(SecurityLayer.checkSession(request) != null){ 
         if(checkNewsCommentInputData(request, response)){
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         News news = getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("nid")));
@@ -67,103 +68,142 @@ public class NewsCard extends RESTBaseController{
         comment.setNews(news);
         getDataLayer().storeComment(RESTSecurityLayer.addSlashes(comment));
         response.sendRedirect("SchedaNews?id=" + news.getID());
-        } else action_error(request, response, "Inserisci i campi obbligatori!");
-        }catch (NumberFormatException ex){
-            action_error(request, response, "Field Error");
+        } else {
+            request.setAttribute("error", "Uno dei campi è vuoto!");
+            action_news_info(request, response);
+        }
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+        } catch (NumberFormatException ex) {
+            //User id or news id is not a number
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
     
+    // Allows a user to like a news
      private void action_like_news (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+         try{
          TemplateResult result = new TemplateResult(getServletContext());
-         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); } 
+         if(SecurityLayer.checkSession(request) != null){ 
          News news = getDataLayer().getNews(SecurityLayer.checkNumeric((request.getParameter("ln"))));
          news.setLikes(news.getLikes() + 1);
          getDataLayer().storeNews(news);
          response.sendRedirect("SchedaNews?id=" + news.getID());   
+          } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+        } catch (NumberFormatException ex) {
+            //News id is not a number
+            action_error(request, response, "Riprova di nuovo!");
+        }
      }
     
+     //Allows a user to dislike a news
      private void action_dislike_news (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+         try{
          TemplateResult result = new TemplateResult(getServletContext());
-         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
+         if(SecurityLayer.checkSession(request) != null){ 
          News news = getDataLayer().getNews(SecurityLayer.checkNumeric((request.getParameter("dn"))));
          news.setDislikes(news.getDislikes() + 1);
          getDataLayer().storeNews(news);
          response.sendRedirect("SchedaNews?id=" + news.getID());
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+        } catch (NumberFormatException ex) {
+            //News id is not a number
+            action_error(request, response, "Riprova di nuovo!");
+        }
      }
      
+     //Allows a user to like a news comment
       private void action_like_comment_news (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
           try{
          TemplateResult result = new TemplateResult(getServletContext());
-         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); } 
+         if(SecurityLayer.checkSession(request) != null){ 
          Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric(request.getParameter("lc")));
          comment.setLikes(comment.getLikes() + 1);
          getDataLayer().storeComment(comment);
          response.sendRedirect("SchedaNews?id=" + SecurityLayer.checkNumeric(request.getParameter("n")));   
-          } catch (NumberFormatException ex) {
-              action_error(request, response, "Field Error");
-          }
+          } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+        } catch (NumberFormatException ex) {
+            //Comment id or news id is not a number
+            action_error(request, response, "Riprova di nuovo!");
+        }
      }
     
+    //Allows a user to dislike a news comment
      private void action_dislike_comment_news (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
          try{
          TemplateResult result = new TemplateResult(getServletContext());
-         if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
+         if(SecurityLayer.checkSession(request) != null){ 
          Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric((request.getParameter("dc"))));
          comment.setDislikes(comment.getDislikes() + 1);
          getDataLayer().storeComment(comment);
          response.sendRedirect("SchedaNews?id=" + SecurityLayer.checkNumeric((request.getParameter("n"))));  
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
         } catch (NumberFormatException ex) {
-              action_error(request, response, "Field Error");
-          }
+            //Comment id or User id is not a number
+            action_error(request, response, "Riprova di nuovo!");
+        }
      }
      
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        if(request.getParameter("ncs") != null){
         try {
+            if(request.getParameter("ncs") != null){
+        
             action_comment_news(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-        }
+
         } else if (request.getParameter("ln") != null) {
-        try {
+            
             action_like_news(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-        }
+
         } else if (request.getParameter("dn") != null) {
-        try {
+
             action_dislike_news(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-        }
+
         } else if (request.getParameter("lc") != null) {
-        try {
+
             action_like_comment_news(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-        }
+
         } else if (request.getParameter("dc") != null) {
-        try {
+
             action_dislike_comment_news(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-        }
+            
         }else {
-            try {
+
             action_news_info(request, response);
-        } catch (IOException | NumberFormatException ex) {
-            action_error(request, response, ex.getMessage());
+
         }
+        } catch (IOException ex) {
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
     
+    // Checks if all the input fields have been filled
     private boolean checkNewsCommentInputData(HttpServletRequest request, HttpServletResponse response){
         return request.getParameter("commentTitle") != null && request.getParameter("commentTitle").length() > 0
                 && request.getParameter("commentText") != null && request.getParameter("commentText").length() > 0;
     }
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet controls most of the actions related to news. It shows the news card, allow to like or dislike the news,"
+                + " to comment or like and dislike a comment";
     }
 }

@@ -98,7 +98,7 @@ public class SeriesCard extends RESTBaseController {
             } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-            response.sendRedirect("LogIn");
+            result.activate("logIn.ftl.html", request, response);
         }
         } catch (NumberFormatException ex) {
             //User id or series id (a) is not a number
@@ -109,6 +109,7 @@ public class SeriesCard extends RESTBaseController {
     //Removes a series from the user's favourites
     private void action_removeSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            TemplateResult result = new TemplateResult(getServletContext());
             //User session checking
              if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
@@ -120,7 +121,7 @@ public class SeriesCard extends RESTBaseController {
              } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-            response.sendRedirect("LogIn");
+            result.activate("logIn.ftl.html", request, response);
         }
         } catch (NumberFormatException ex) {
             //User id or series id (a) is not a number
@@ -178,12 +179,12 @@ public class SeriesCard extends RESTBaseController {
         response.sendRedirect("SchedaSerie?id=" + series.getID());
         } else {
             request.setAttribute("error", "Errore: uno dei campi è vuoto!");
-            response.sendRedirect("SchedaSerie");
+            action_series_info(request, response);
         }
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-            response.sendRedirect("LogIn");
+            result.activate("logIn.ftl.html", request, response);
         }
         }catch (NumberFormatException ex){
             //User id or series id is not a number
@@ -194,6 +195,7 @@ public class SeriesCard extends RESTBaseController {
     // Increases the number of comment's likes
     private void action_like_comment_series (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
          try{
+             TemplateResult result = new TemplateResult((getServletContext()));
          //User session checking
          if(SecurityLayer.checkSession(request) != null){ 
          Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric(request.getParameter("lc")));
@@ -203,7 +205,7 @@ public class SeriesCard extends RESTBaseController {
          } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-            response.sendRedirect("LogIn");
+            result.activate("logIn.ftl.html", request, response);
         }
           } catch (NumberFormatException ex) {
               //Comment id or series id is not a number
@@ -224,7 +226,7 @@ public class SeriesCard extends RESTBaseController {
          } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-            response.sendRedirect("LogIn");
+            result.activate("logIn.ftl.html", request, response);
         }
           } catch (NumberFormatException ex) {
               //Comment id or series id is not a number

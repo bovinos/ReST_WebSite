@@ -42,6 +42,7 @@ public class SeriesCircle extends RESTBaseController {
                 request.setAttribute("user", user);
                 if(user.getSeries().contains(series)){
                     result.activate("seriesCircle.ftl.html", request, response);
+                    return;
                 } else{
                     //This series is not contained in this user's favourites
                     action_error(request, response, "Per entrare in questa cerchia, aggiungi questa serie alle preferite!");
@@ -49,9 +50,8 @@ public class SeriesCircle extends RESTBaseController {
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per visualizzare questa pagina!");
-            response.sendRedirect("LogIn");
+            result.activate("logIn.ftl.html", request, response);
         }
-        result.activate("seriesCircle.ftl.html", request, response);
         } catch (NumberFormatException ex) {
                 //series id or user id is not a number
                 action_error(request, response, "Riprova di nuovo!");
@@ -61,6 +61,7 @@ public class SeriesCircle extends RESTBaseController {
    // Receives all the necessary data to send a message in the circle and, if everything's ok, saves it in the Database
     private void action_message_circle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
+            TemplateResult result = new TemplateResult(getServletContext());
             //User session checking
             if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
@@ -80,12 +81,12 @@ public class SeriesCircle extends RESTBaseController {
             } else {
                 //Error: field empty
                 request.setAttribute("error", "Errore: uno dei campi è vuoto!");
-                response.sendRedirect("CerchiaSerie");
+                action_activate_circle(request, response);
             }
            } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per mandare messaggi in una cerchia!");
-            response.sendRedirect("LogIn");
+            result.activate("logIn.ftl.html", request, response);
         }
         } catch (NumberFormatException ex) {
             //user id or series id is not a number

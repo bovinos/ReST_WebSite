@@ -15,13 +15,13 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LogOut extends RESTBaseController {
 
-    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
 
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
-
+    // Logs a user out
     private void action_logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        SecurityLayer.disposeSession(request);
         // in realtà dovrei ridirigere alla pagina in cui ha fatto il logout
@@ -39,6 +39,6 @@ public class LogOut extends RESTBaseController {
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet logs a user out";
     }
 }

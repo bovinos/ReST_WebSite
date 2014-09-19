@@ -20,21 +20,22 @@ public class SignUp extends RESTBaseController {
     // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
-        request.setAttribute("error", message);
-        try {
-            response.sendRedirect("Registrazione");
-        } catch (IOException ex) {
             fail.activate(message, request, response);
         }
+
+        // Activates the signUp template 
+    private void action_activate_signUp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        result.activate("signUp.ftl.html", request, response);
     }
-    
     // Receives all the necessary data to register a user and, if everything's ok, saves him in the Database
     private void action_user_save(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = getDataLayer().createUser();
         if (checkUserInputData(request, response)) {
             // Check if password and confirmpassword match
             if (!(request.getParameter("password").equals(request.getParameter("confirmPassword")))) {
-                action_error(request, response, "Le due password inserite non corrispondono!");
+            request.setAttribute("error", "Le due password inserite non corrispondono!");
+                action_activate_signUp(request, response);
                 return;
             }
             // Set all user's fields
@@ -45,18 +46,14 @@ public class SignUp extends RESTBaseController {
             getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
             // Congratulations! You are logged in!
             request.setAttribute("success", "Congratulazioni! L'iscrizione è avvenuta con successo!");
-            response.sendRedirect("ListaNews");
+                action_activate_signUp(request, response);
         } else {
             // Error: field empty
-            action_error(request, response, "Errore: uno dei campi è vuoto");
+            request.setAttribute("error", "Uno dei campi è vuoto!");
+            action_activate_signUp(request, response);
         }
     }
-    
-    // Activates the signUp template 
-    private void action_activate_signUp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        TemplateResult result = new TemplateResult(getServletContext());
-        result.activate("signUp.ftl.html", request, response);
-    }
+   
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {

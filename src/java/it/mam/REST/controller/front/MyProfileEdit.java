@@ -25,31 +25,39 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MyProfileEdit extends RESTBaseController {
 
-    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
 
-    // attiva il template dei dati personali dell'utente
+    // Activates the sign up data template
     private void action_activate_ProfileUserSignUpData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("where", "profile");
-        if (SecurityLayer.checkSession(request) == null) {
-            result.activate("logIn.ftl.html", request, response);
-        }
-        try {
+        if (SecurityLayer.checkSession(request) != null) {
+        
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
             request.setAttribute("userProfileContent_tpl", "userSignUpData.ftl.html");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            //User id is not a number
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
+    // Allows to insert/modify user's sign up data
     private void action_submit_ProfileUserSignUpData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
             if ((request.getParameter("username") != null && request.getParameter("username").length() > 0)
                     && !(request.getParameter("username").equals(user.getUsername()))) {
@@ -69,30 +77,45 @@ public class MyProfileEdit extends RESTBaseController {
             }
             getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
             response.sendRedirect("ModificaProfiloPersonale?sezione=1");
-        } catch (NumberFormatException e) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+        } catch (NumberFormatException ex) {
+            //User id or series id (a) is not a number
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
+    // Activates the optional data template
     private void action_activate_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("where", "profile");
-        if (SecurityLayer.checkSession(request) == null) {
-            result.activate("logIn.ftl.html", request, response);
-        }
-        try {
+        if (SecurityLayer.checkSession(request) != null) {
+        
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
             request.setAttribute("genres", getDataLayer().getGenres());
             request.setAttribute("userProfileContent_tpl", "userOptionalData.ftl.html");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            //User id is not a number
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
+    // Allows to insert/modify user's optional data
     private void action_submit_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (request.getParameter("name") != null && request.getParameter("name").length() > 0
                     && !(request.getParameter("name").equals(user.getName()))) {
@@ -104,11 +127,8 @@ public class MyProfileEdit extends RESTBaseController {
             }
             if (request.getParameter("age") != null && request.getParameter("age").length() > 0
                     && !(request.getParameter("age").equals(String.valueOf(user.getAge())))) {
-                try {
+
                     user.setAge(SecurityLayer.checkNumeric(request.getParameter("age")));
-                } catch (NumberFormatException e) {
-                    action_error(request, response, "Field Error");
-                }
             }
             if (request.getParameter("imageURL") != null && request.getParameter("imageURL").length() > 0
                     && !(request.getParameter("imageURL").equals(user.getImageURL()))) {
@@ -139,30 +159,44 @@ public class MyProfileEdit extends RESTBaseController {
             System.err.println(user);
             getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
             response.sendRedirect("ModificaProfiloPersonale?sezione=2");
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
-        }
-    }
-
-    private void action_activate_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("where", "profile");
-        if (SecurityLayer.checkSession(request) == null) {
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
             result.activate("logIn.ftl.html", request, response);
         }
+        } catch (NumberFormatException ex) {
+            //User id or age or genre id or gender is not a number
+            action_error(request, response, "Riprova di nuovo!");
+        }
+    }
+    
+    // Activates the notify settings template
+    private void action_activate_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+        TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("where", "profile");
+        if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
             request.setAttribute("userProfileContent_tpl", "userNotifySettings.ftl.html");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            //User id is not a number
+            action_error(request, response, "Riprova di nuovo!");
         }
 
     }
 
+    // Allows to insert/modify user's notify settings
     private void action_submit_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+        TemplateResult result = new TemplateResult(getServletContext());
+        if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (request.getParameter("a") != null && request.getParameter("a").length() > 0) {
                  user.setNotificationStatus(true);
@@ -179,12 +213,19 @@ public class MyProfileEdit extends RESTBaseController {
                     user.setNotificationStatus(false);
                     getDataLayer().storeUser(user);
                     if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
-                        action_error(request, response, "Field Error");
+                        action_error(request, response, "Riprova di nuovo!");
+                        return;
                     }
             }
             response.sendRedirect("ModificaProfiloPersonale?sezione=3");
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
         } catch (NumberFormatException ex) {
-            action_error(request, response, ex.getMessage());
+            //User id or t is not a number
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
@@ -194,62 +235,39 @@ public class MyProfileEdit extends RESTBaseController {
         try{
         int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
         switch (section) {
-            case 1: //Siamo nel ramo "Modifica dati di registrazione"...
-                if (request.getParameter("modifySignUpData") != null) { //Abbiamo inviato i dati modificati...
-                    try {
+            case 1: //"Modifica dati di registrazione"...
+                if (request.getParameter("modifySignUpData") != null) { //Modified data sent...
                         action_submit_ProfileUserSignUpData(request, response);
-                    } catch (IOException ex) {
-                        action_error(request, response, ex.getMessage());
-                    }
-                } else { //Se siamo qui abbiamo solo richiesto la schermata di modifica, quindi la mostro...
-                    try {
+                } else { //Show modify screen...
                         action_activate_ProfileUserSignUpData(request, response);
-                    } catch (IOException ex) {
-                        action_error(request, response, ex.getMessage());
-                    }
                 }
                 break;
-            case 2: //Siamo nel ramo "Modifica dati opzionali"...
-                if (request.getParameter("modifyOptionalData") != null) { //Abbiamo inviato i dati modificati...
-                    try {
+            case 2: //"Modifica dati opzionali"...
+                if (request.getParameter("modifyOptionalData") != null) { //Modified data sent...
                         action_submit_ProfileUserOptionalData(request, response);
-                    } catch (IOException ex) {
-                        action_error(request, response, ex.getMessage());
-                    }
-                } else { //Se siamo qui abbiamo solo richiesto la schermata di modifica, quindi la mostro...
-                    try {
+                } else { //Show modify screen...
                         action_activate_ProfileUserOptionalData(request, response);
-                    } catch (IOException ex) {
-                        action_error(request, response, ex.getMessage());
-                    }
                 }
                 break;
-            case 3: //Siamo nel ramo "Impostazioni Notifiche"...
-                if (request.getParameter("modifyNotifySettings") != null) { //Abbiamo inviato i dati modificati...
-                    try {
+            case 3: //"Impostazioni Notifiche"...
+                if (request.getParameter("modifyNotifySettings") != null) { //Modified data sent...
                         action_submit_ProfileUserNotifySettings(request, response);
-                    } catch (IOException ex) {
-                        action_error(request, response, ex.getMessage());
-                    }
-                } else { //Se siamo qui abbiamo solo richiesto la schermata di modifica, quindi la mostro...
-                    try {
+                } else { //Show modify screen...
                         action_activate_ProfileUserNotifySettings(request, response);
-                    } catch (IOException ex) {
-                        action_error(request, response, ex.getMessage());
-                    }
                 }
                 break;
             default:
-                action_error(request, response, "The requested resource is not available");
+                action_error(request, response, "Riprova di nuovo!");
         }
-        }catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } catch (IOException ex) {
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet contains some things related to user profile. It shows sign up data template, optional data template"
+                + "and notify settings template and allow to change that data";
     }
 
 }

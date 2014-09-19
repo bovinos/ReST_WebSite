@@ -133,6 +133,7 @@ public class NewsList extends RESTBaseController {
                 }
             } catch (NumberFormatException ex) {
                 action_error(request, response, "Field Error");
+                return;
             }
             newsList = filteredNews;
         }
@@ -151,7 +152,8 @@ public class NewsList extends RESTBaseController {
                     RESTSortLayer.sortNewsByDate(newsList);
                     break;
                 default:
-                    action_error(request, response, "Internal Error");
+                    action_error(request, response, "Riprova di nuovo!");
+                    return;
             }
         }
 
