@@ -80,7 +80,6 @@ public class MyProfile extends RESTBaseController {
         try{
         TemplateResult result = new TemplateResult(getServletContext());
         if (SecurityLayer.checkSession(request) != null) {
-            result.activate("logIn.ftl.html", request, response);
 
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
