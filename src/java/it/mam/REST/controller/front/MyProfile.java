@@ -168,6 +168,9 @@ public class MyProfile extends RESTBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            if (request.getParameter("sezione") == null) {
+                action_error(request, response, "Riprova di nuovo!");
+            }
             int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
             switch (section) {
                 case 1:
@@ -185,7 +188,7 @@ public class MyProfile extends RESTBaseController {
                         action_activate_ProfileUserBroadcastProgramming(request, response);
                     break;
                 default:
-                    action_error(request, response, "The requested resource is not available");
+                    action_error(request, response, "Riprova di nuovo!");
             }
         } catch (IOException ex) {
             action_error(request, response, "Riprova di nuovo!");
