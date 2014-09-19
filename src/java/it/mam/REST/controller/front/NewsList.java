@@ -33,6 +33,7 @@ public class NewsList extends RESTBaseController {
     private void action_news_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("where", "news");
         request.setAttribute("news", getDataLayer().getNews());
         request.setAttribute("series", getDataLayer().getSeries()); // per i filtri
         //Controllo che la sessione attuale sia ancora valida

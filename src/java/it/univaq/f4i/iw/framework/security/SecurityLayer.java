@@ -1,7 +1,9 @@
 package it.univaq.f4i.iw.framework.security;
 
+import it.mam.REST.utility.RESTSortLayer;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.TimeZone;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -139,20 +141,43 @@ public class SecurityLayer {
             throw new NumberFormatException();
         }
         int day = SecurityLayer.checkNumeric(d[0]);
-        int month = SecurityLayer.checkNumeric(d[1]);
+        int month = SecurityLayer.checkNumeric(d[1])- 1;
         int year = SecurityLayer.checkNumeric(d[2]);
 
         //controllo se i valori non sono zero, che i mesi non abbiano più dei loro giorni e controllo correttamente Febbraio
-        if ((month == 2 && (year % 4) != 0 && day > 28) || (month == 2 && (year % 4) == 0 && day > 29)
-                || day == 0 || month == 0 || year == 0 || day > 31 || month > 12 || year > currentYear || year < 1900
-                || ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30)) {
+        if ((month == 1 && (year % 4) != 0 && day > 28) || (month == 1 && (year % 4) == 0 && day > 29)
+                || day == 0 || month < 0 || year == 0 || day > 31 || month > 11 || year > currentYear || year < 1900
+                || ((month == 3 || month == 5 || month == 8 || month == 10) && day > 30)) {
             throw new NumberFormatException();
         }
-
-        c.set(year, month, day);
+        c.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
+        c.set(year, month, day, 0, 0, 0);
         return c;
     }
 
+    public static Long checkTime(String s) throws NumberFormatException {
+        //controllo se la data è nel formato "Numero/Numero/Numero"
+        if (!(s.matches("[0-9]+:[0-9]+"))) {
+            throw new NumberFormatException();
+        }
+        String[] d = s.split(":");
+
+        //controllo se l'ora e i minuti hanno almeno due cifre
+        if (!(d[0].length() > 0 && d[0].length() <= 2 && d[1].length() > 0 && d[1].length() <= 2)) {
+            throw new NumberFormatException();
+        }
+        int hours = SecurityLayer.checkNumeric(d[0]);
+        int minutes = SecurityLayer.checkNumeric(d[1]);
+
+        //controllo se i valori non sono zero, che i mesi non abbiano più dei loro giorni e controllo correttamente Febbraio
+        if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+            throw new NumberFormatException();
+        }
+        System.err.println("hours" + hours * RESTSortLayer.HOUR_IN_MILLISECONDS); 
+        System.err.println("minutes" + minutes * RESTSortLayer.MINUTE_IN_MILLISECONDS);
+        return (hours * RESTSortLayer.HOUR_IN_MILLISECONDS + minutes * RESTSortLayer.MINUTE_IN_MILLISECONDS);
+    }
+    
     //--------- CONNECTION SECURITY ------------
     //questa funzione verifica se il protocollo HTTPS è attivo
     //checks if the HTTPS protocol is in use

@@ -42,6 +42,7 @@ public class NewsManagement extends RESTBaseController {
         //Qui creo la lista delle serie che passo al template, in modo che si possa scegliere (opzionalmente)
         //la serie o le serie a cui la news si riferisce. Non passo la lista dei generi perché non ce n'è bisogno lì.
         request.setAttribute("series", getDataLayer().getSeries());
+        request.setAttribute("where", "back");
         request.setAttribute("backContent_tpl", "insertNews.ftl.html");
         result.activate("../back/backOutline.ftl.html", request, response);
         } catch (NumberFormatException ex){

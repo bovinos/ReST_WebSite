@@ -35,6 +35,7 @@ public class SeriesList extends RESTBaseController {
     private void action_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("where", "series");
         request.setAttribute("series", getDataLayer().getSeries());
         //Controllo la sessione e creo l'utente
         try{

@@ -79,6 +79,7 @@ public class MyProfile extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
             request.setAttribute("userProfileContent_tpl", "userSeries.ftl.html");
+            request.setAttribute("where", "profile");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
