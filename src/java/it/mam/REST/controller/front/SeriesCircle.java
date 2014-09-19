@@ -31,6 +31,7 @@ public class SeriesCircle extends RESTBaseController {
     // prende tutti i messaggi di una determinata serie e li passa al template seriesCircle.ftl
     private void action_activate_circle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("where", "series");
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("series", getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id"))));
         //Controllo che la sessione attuale sia ancora valida

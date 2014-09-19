@@ -36,15 +36,6 @@
         <param-name>view.error_template</param-name>
         <param-value>error.ftl.html</param-value>
     </context-param>
-    <filter>
-        <filter-name>EncodingFilter</filter-name>
-        <filter-class>it.mam.REST.filter.EncodingFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>EncodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
     <listener>
         <listener-class>it.mam.REST.listener.ContextInitializer</listener-class>
     </listener>
@@ -107,10 +98,6 @@
     <servlet>
         <servlet-name>UsersManagement</servlet-name>
         <servlet-class>it.mam.REST.controller.back.UsersManagement</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ManageNews</servlet-name>
-        <servlet-class>it.mam.REST.controller.back.ManageNews</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewsList</servlet-name>

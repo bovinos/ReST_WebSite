@@ -158,19 +158,6 @@ public class SeriesManagement extends RESTBaseController {
             }
 
             getDataLayer().storeEpisode(RESTSecurityLayer.addSlashes(episode));
-
-            //Aggiungo la data alla relazione MA È SBAGLIATO! In questo modo la data è la stessa per tutti i canali! 
-            //Sistemare con i campi ricevuti nella request! E possibilmente spostare il controllo dell'if nel metodo in fondo!
-            ChannelEpisode ce = getDataLayer().createChannelEpisode();
-            if (request.getParameter("date") != null && request.getParameter("date").length() > 0) {
-                ce.setDate((SecurityLayer.checkDate(request.getParameter("date")).getTime()));
-            }
-            ce.setEpisode(episode);
-
-            for (Channel channel : episode.getChannels()) {
-                ce.setChannel(channel);
-                getDataLayer().storeChannelEpisode(ce);
-            }
             response.sendRedirect("GestioneSerie?sezione=2");
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
@@ -188,6 +175,7 @@ public class SeriesManagement extends RESTBaseController {
             if (user.getGroup().getID() != Group.ADMIN) {
                 result.activate("newsList.ftl.html", request, response);
             }
+            request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "insertChannel.ftl.html");
@@ -248,6 +236,7 @@ public class SeriesManagement extends RESTBaseController {
             if (user.getGroup().getID() != Group.ADMIN) {
                 result.activate("newsList.ftl.html", request, response);
             }
+            request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "insertGenre.ftl.html");
@@ -290,6 +279,7 @@ public class SeriesManagement extends RESTBaseController {
             if (user.getGroup().getID() != Group.ADMIN) {
                 result.activate("newsList.ftl.html", request, response);
             }
+            request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("series", getDataLayer().getSeries());
@@ -375,6 +365,7 @@ public class SeriesManagement extends RESTBaseController {
             if (user.getGroup().getID() != Group.ADMIN) {
                 result.activate("newsList.ftl.html", request, response);
             }
+            request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("series", getDataLayer().getSeries());
@@ -422,6 +413,7 @@ public class SeriesManagement extends RESTBaseController {
             if (user.getGroup().getID() != Group.ADMIN) {
                 result.activate("newsList.ftl.html", request, response);
             }
+            request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("channels", getDataLayer().getChannels());
@@ -443,6 +435,7 @@ public class SeriesManagement extends RESTBaseController {
             if (user.getGroup().getID() != Group.ADMIN) {
                 result.activate("newsList.ftl.html", request, response);
             }
+            request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             if (checkChannelEpisodeInputData(request, response)) {
@@ -471,6 +464,7 @@ public class SeriesManagement extends RESTBaseController {
             if (user.getGroup().getID() != Group.ADMIN) {
                 result.activate("newsList.ftl.html", request, response);
             }
+            request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("genres", getDataLayer().getGenres());

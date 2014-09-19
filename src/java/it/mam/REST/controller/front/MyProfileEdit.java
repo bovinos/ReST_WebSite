@@ -34,6 +34,7 @@ public class MyProfileEdit extends RESTBaseController {
     // attiva il template dei dati personali dell'utente
     private void action_activate_ProfileUserSignUpData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("where", "profile");
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
@@ -75,6 +76,7 @@ public class MyProfileEdit extends RESTBaseController {
 
     private void action_activate_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("where", "profile");
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }
@@ -144,6 +146,7 @@ public class MyProfileEdit extends RESTBaseController {
 
     private void action_activate_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("where", "profile");
         if (SecurityLayer.checkSession(request) == null) {
             result.activate("logIn.ftl.html", request, response);
         }

@@ -37,6 +37,7 @@ public class UsersManagement extends RESTBaseController {
             if (user.getGroup().getID() != Group.ADMIN) {
                 result.activate("newsList.ftl.html", request, response);
             }
+            request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("services", getDataLayer().getServices());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -93,6 +94,7 @@ public class UsersManagement extends RESTBaseController {
             if (user.getGroup().getID() != Group.ADMIN) {
                 result.activate("newsList.ftl.html", request, response);
             }
+            request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("groups", getDataLayer().getGroups());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -148,6 +150,7 @@ public class UsersManagement extends RESTBaseController {
             if (user.getGroup().getID() != Group.ADMIN) {
                 result.activate("newsList.ftl.html", request, response);
             }
+            request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("services", getDataLayer().getServices());
             request.setAttribute("groups", getDataLayer().getGroups());
