@@ -13,9 +13,13 @@
         <div class="row selectContainer multipleSelection">
             <select name="series" multiple="multiple" size="7">
                 <optgroup label="Scegli le serie associate alla news">
+                    <#if (series?size > 0)>
                     <#list series as s>
                     <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
                     </#list>
+                    <#else>
+                    <option value="0">Non ci sono serie</option>
+                    </#if>
                 </optgroup>
             </select>
         </div>

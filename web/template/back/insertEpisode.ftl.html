@@ -17,9 +17,13 @@
         <div class="selectContainer singleSelection">
             <select name="series">
                 <optgroup label="Scegli la serie a cui appartiene l'episodio"> 
+                    <#if (series?size > 0)>
                     <#list series as s>
                     <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
                     </#list>
+                    <#else>
+                    <option value="0">Non ci sono serie</option>
+                    </#if>
                 </optgroup>
             </select>
         </div>

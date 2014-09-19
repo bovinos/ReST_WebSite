@@ -237,8 +237,13 @@ button {
         /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
         cursor: pointer; }
       .formContainer form .selectContainer.singleSelection optgroup {
-        width: 99%;
-        border-right: 1px solid black; }
+        color: #1695A3;
+        width: 100%;
+        border-right: 1px solid #999999; }
+        .formContainer form .selectContainer.singleSelection optgroup option {
+          color: #000000; }
+          .formContainer form .selectContainer.singleSelection optgroup option:first-of-type {
+            margin-top: 3px; }
     .formContainer form .selectContainer.multipleSelection {
       width: 100%; }
       .formContainer form .selectContainer.multipleSelection select {
@@ -250,6 +255,8 @@ button {
             /* su chrome non funziona */
             color: #000000;
             padding: 3px 4px; }
+            .formContainer form .selectContainer.multipleSelection select optgroup option:first-of-type {
+              margin-top: 3px; }
             .formContainer form .selectContainer.multipleSelection select optgroup option:before {
               font-family: 'ElegantIcons';
               content: "\4e";
@@ -1306,16 +1313,6 @@ button {
       max-width: 100%;
       height: auto;
       overflow: hidden; }
-    #userBroadcastProgramming .dayEpisode .imgContainer .ratingBox {
-      position: absolute;
-      bottom: 5%;
-      right: 5%;
-      padding: 5px 10px;
-      background-color: rgba(255, 255, 255, 0.8);
-      border-radius: 2px;
-      -webkit-border-radius: 2px;
-      -moz-border-radius: 2px;
-      font-size: 1.5rem; }
   #userBroadcastProgramming .dayEpisode .dayEpisodeInfo {
     font-size: 1.4rem;
     color: #444444; }
@@ -1325,29 +1322,22 @@ button {
   font-size: 1.5rem;
   color: #444444; }
 
-/* USER SING UP DATA PAGE
+/* MODIFY DATA PAGES
 =============================================================================================== */
-#modifySignUpData {
-  width: 70%; }
-
-/* USER OPTIONAL DATA PAGE
-=============================================================================================== */
-#optionalData {
+#modifySignUpData, #optionalData, #notifySettings {
   width: 70%; }
 
 /* USER NOTIFY SETTING PAGE
 =============================================================================================== */
-#notifySettings {
-  width: 70%; }
-  #notifySettings form fieldset {
-    border: 1px solid rgba(22, 149, 163, 0.4);
-    padding: 10px 20px;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    margin-top: 30px; }
-  #notifySettings form input[type="checkbox"]:not(:checked) ~ fieldset {
-    display: none; }
+#notifySettings form fieldset {
+  border: 1px solid rgba(22, 149, 163, 0.4);
+  padding: 10px 20px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  margin-top: 30px; }
+#notifySettings form input[type="checkbox"]:not(:checked) ~ fieldset {
+  display: none; }
 
 /* BACK END
 ===============================================================================================
@@ -1371,6 +1361,30 @@ button {
 ===============================================================================================
 =============================================================================================== */
 @media only screen and (max-width: 767px) {
+    /* FORM
+=============================================================================================== */
+  .formContainer {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto; }
+    .formContainer form input[type="text"], .formContainer form input[type="url"], .formContainer form input[type="password"], .formContainer form input[type="email"], .formContainer form input[type="date"] {
+      font-size: 1.6rem; }
+    .formContainer form button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px 0;
+      font-size: 1.6rem; }
+
+  .insertAComment, .insertAMessage {
+    width: 98%; }
+
+  /* ACCORDION
+  =============================================================================================== */
+  .accordion {
+    padding: 0px; }
+    .accordion .accordionSection:target .accordionContent {
+      margin: 10px 0; }
+
   /* SLIDER
   =============================================================================================== */
   #slider {
@@ -1416,6 +1430,13 @@ button {
     #leftCol .selectContainer, #leftCol input, #leftCol label, #leftCol button {
       display: none; }
 
+  /* LEFT COL
+  =============================================================================================== */
+  #formLogIn, #formSignUp {
+    width: 98%;
+    margin-top: 50px;
+    margin-bottom: 50px; }
+
   /* NEWS LIST PAGE
   =============================================================================================== */
   #newsList .news {
@@ -1429,12 +1450,136 @@ button {
     overflow: hidden;
     margin-bottom: 20px; }
 
+  /* SERIES CARD PAGE
+  =============================================================================================== */
+  #seriesCard h2 {
+    font-size: 2rem; }
+  #seriesCard .imgSeriesContainer {
+    min-height: 100px; }
+    #seriesCard .imgSeriesContainer h1 {
+      height: 30px;
+      line-height: 30px;
+      font-size: 2rem; }
+  #seriesCard #buttons a {
+    margin-bottom: 5px;
+    display: block;
+    width: 100%;
+    height: 40px;
+    line-height: 40px; }
+    #seriesCard #buttons a.fullPage {
+      margin: auto;
+      width: 100%;
+      margin-top: 0; }
+  #seriesCard #seriesDescription {
+    font-size: 1.3rem;
+    line-height: 1.4;
+    width: 100%; }
+  #seriesCard #genreList li {
+    display: inline-block;
+    width: 40%;
+    margin-bottom: 2px;
+    padding: 5px; }
+  #seriesCard .episode p {
+    display: none; }
+
+  #commentsList .comment {
+    margin: 0; }
+  #commentsList .imgContainer {
+    display: none; }
+
+  /* SERIES CIRCLE PAGE
+  =============================================================================================== */
+  #seriesCircle .imgSeriesContainer {
+    min-height: 100px; }
+    #seriesCircle .imgSeriesContainer h1 {
+      height: 30px;
+      line-height: 30px;
+      font-size: 2rem; }
+    #seriesCircle .imgSeriesContainer img {
+      width: 100%;
+      height: auto; }
+
+  /* NEWS CARD PAGE
+  =============================================================================================== */
+  #newsCard h1.newstitle {
+    font-size: 2.5rem; }
+  #newsCard h2 {
+    font-size: 2.5rem; }
+  #newsCard #newsText {
+    margin: 10px 1%;
+    font-size: 1.3rem; }
+
   /* PROFILO UTENTE
   ===============================================================================================
   =============================================================================================== */
+  #userProfile #userImageAndUsername .imgContainer {
+    width: 100px;
+    height: 100px; }
+  #userProfile nav {
+    margin-bottom: 40px;
+    text-align: left; }
+    #userProfile nav li {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      margin-left: 1%; }
+      #userProfile nav li:last-of-type {
+        margin-bottom: 10px; }
+      #userProfile nav li:before {
+        font-family: 'ElegantIcons';
+        content: "\39";
+        color: #EB7F00;
+        margin-right: 5px; }
+
   /* USER SERIES PAGE
   =============================================================================================== */
   #userSeries .series {
-    width: 100%; } }
+    width: 100%; }
+
+  /* USER BROADCAST PROGRAMMING PAGE
+  =============================================================================================== */
+  #userBroadcastProgramming .dayEpisode {
+    display: block;
+    width: 98%;
+    margin: 10px auto;
+    float: none; }
+
+  /* MODIFY DATA PAGES
+  =============================================================================================== */
+  #modifySignUpData, #optionalData, #notifySettings {
+    width: 98%; }
+
+  /* USER NOTIFY SETTING PAGE
+  =============================================================================================== */
+  #notifySettings form input[type="radio"] + label {
+    display: block;
+    text-align: left;
+    margin-left: 10%;
+    margin-bottom: 10px; }
+
+  /* BACK END
+  ===============================================================================================
+  =============================================================================================== */
+  #backOutline nav {
+    margin-bottom: 40px;
+    text-align: left; }
+    #backOutline nav li {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      margin-left: 1%; }
+      #backOutline nav li:last-of-type {
+        margin-bottom: 10px; }
+      #backOutline nav li:before {
+        font-family: 'ElegantIcons';
+        content: "\39";
+        color: #EB7F00;
+        margin-right: 5px; }
+
+  /* INSERT 
+  =============================================================================================== */
+  #insertNews, #insertSeries, #insertEpisode, #insertChannel, #insertChannel,
+  #insertGenre, #insertGenre, #insertCastMember, #insertGroup, #insertService,
+  #insertCastMemberSeries, #insertChannelEpisode, #insertGenreSeries,
+  #insertServiceGroup {
+    width: 98%; } }
 
 /*# sourceMappingURL=provando_SASS.css.map */

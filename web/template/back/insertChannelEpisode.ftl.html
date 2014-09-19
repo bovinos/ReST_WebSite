@@ -10,6 +10,8 @@
                     <#list channels as c>
                     <option value="${c.ID}">${strip_slashes(c.name)?html}</option>
                     </#list>
+                    <#else>
+                    <option value="0">Non ci sono canali</option>
                     </#if>
                 </select>
             </div>
@@ -19,8 +21,10 @@
                 <select name="episode">
                     <#if (episodes?size > 0)>
                     <#list episodes as e>
-                    <option value="${e.ID}">[${strip_slashes(e.series.name)?html}] ${e.season}x${e.number} - ${strip_slashes(e.name)?html} </option>
+                    <option value="${e.ID}">[${strip_slashes(e.series.name)?html}] ${e.season}x${e.number} - ${strip_slashes(e.title)?html} </option>
                     </#list>
+                    <#else>
+                    <option value="0">Non ci sono episodi</option>
                     </#if>
                 </select>
             </div>

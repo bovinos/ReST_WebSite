@@ -22,6 +22,8 @@
                     <#list series as s>
                     <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
                     </#list>
+                    <#else>
+                    <option value="0">Non ci sono serie</option>
                     </#if>
                 </select>
             </div>

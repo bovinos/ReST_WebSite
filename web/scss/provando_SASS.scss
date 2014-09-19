@@ -331,8 +331,17 @@ button{
                 }
 
                 optgroup{
-                    width: 99%;
-                    border-right: 1px solid black;
+                    color: $turquoise;
+                    width: 100%;
+                    border-right: 1px solid $secondaryTextColor;
+
+                    option{ 
+                        color: #000000;
+
+                        &:first-of-type{
+                            margin-top: 3px;
+                        }
+                    }
                 }
             }
 
@@ -349,6 +358,10 @@ button{
                         option{ /* su chrome non funziona */
                             color: #000000;
                             padding: 3px 4px; 
+
+                            &:first-of-type{
+                                margin-top: 3px;
+                            }
 
                             &:before{
                                 font-family: 'ElegantIcons';
@@ -1799,16 +1812,6 @@ button{
                 height: auto;
                 overflow: hidden;
             }
-
-            .ratingBox{
-                position: absolute;
-                bottom: 5%;
-                right: 5%;
-                padding: 5px 10px;
-                background-color: rgba(255, 255, 255, 0.8);
-                @include borderRadius(2px);
-                font-size: 1.5rem;
-            }
         }
 
         .dayEpisodeInfo{
@@ -1830,23 +1833,15 @@ button{
     }
 }
 
-/* USER SING UP DATA PAGE
+/* MODIFY DATA PAGES
 =============================================================================================== */
-#modifySignUpData{
-    width: 70%;
-}
-
-/* USER OPTIONAL DATA PAGE
-=============================================================================================== */
-#optionalData{
+#modifySignUpData, #optionalData, #notifySettings{
     width: 70%;
 }
 
 /* USER NOTIFY SETTING PAGE
 =============================================================================================== */
 #notifySettings{
-    width: 70%;
-
     form{
 
         fieldset{
@@ -1898,6 +1893,44 @@ button{
 ===============================================================================================
 =============================================================================================== */
 @media only screen and (max-width: 767px) {
+
+    /* FORM
+=============================================================================================== */
+    .formContainer{
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+
+        form{
+
+            input[type="text"], input[type="url"], input[type="password"], input[type="email"], input[type="date"]{
+                font-size: 1.6rem;
+            }
+
+            button{
+                margin-top: 20px;
+                width: 100%;
+                padding: 10px 0;
+                font-size: 1.6rem;
+            }
+        }
+    }
+
+    .insertAComment, .insertAMessage{
+        width: 98%;
+    }
+
+    /* ACCORDION
+    =============================================================================================== */
+    .accordion{
+        padding: 0px;
+
+        .accordionSection:target{
+            .accordionContent{
+                margin: 10px 0;
+            }
+        }
+    }
 
     /* SLIDER
     =============================================================================================== */
@@ -1956,6 +1989,14 @@ button{
         }
     }
 
+    /* LEFT COL
+    =============================================================================================== */
+    #formLogIn, #formSignUp{
+        width: 98%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
     /* NEWS LIST PAGE
     =============================================================================================== */
     #newsList{
@@ -1976,9 +2017,146 @@ button{
         }
     }
 
+    /* SERIES CARD PAGE
+    =============================================================================================== */
+    #seriesCard{
+
+        h2{
+            font-size: 2rem;
+        }
+
+        .imgSeriesContainer{
+            min-height: 100px;
+
+            h1{
+                height: 30px;
+                line-height: 30px;
+                font-size: 2rem;
+            }
+        }
+
+        #buttons{
+
+            a{
+                margin-bottom: 5px;
+                display: block;
+                width: 100%;
+                height: 40px;
+                line-height: 40px;
+
+                &.fullPage{
+                    margin: auto;
+                    width: 100%;
+                    margin-top: 0;
+                }
+            }
+        }
+
+        #seriesDescription{
+            font-size: 1.3rem;
+            line-height: 1.4;
+            width: 100%;
+        }
+
+        #genreList{
+            li{
+                display: inline-block;
+                width: 40%;
+                margin-bottom: 2px;
+                padding: 5px;
+            }
+        }
+
+        .episode{
+            p{
+                display: none;
+            }
+        }
+    }
+
+    #commentsList{
+
+        .comment{
+            margin: 0;
+        }
+
+        .imgContainer{
+            display: none;
+        }
+    }
+
+    /* SERIES CIRCLE PAGE
+    =============================================================================================== */
+    #seriesCircle{
+
+        .imgSeriesContainer{
+            min-height: 100px;
+
+            h1{
+                height: 30px;
+                line-height: 30px;
+                font-size: 2rem;
+            }
+
+            img{
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+
+    /* NEWS CARD PAGE
+    =============================================================================================== */
+    #newsCard{
+
+        h1.newstitle{
+            font-size: 2.5rem;
+        }
+
+        h2{
+            font-size: 2.5rem;
+        }
+
+        #newsText{
+            margin: 10px 1%;
+            font-size: 1.3rem;
+        }
+    }
+
     /* PROFILO UTENTE
     ===============================================================================================
     =============================================================================================== */
+    #userProfile{
+
+        #userImageAndUsername{
+            .imgContainer{
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        nav{
+            margin-bottom: 40px;
+            text-align: left;
+
+            li{
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+                margin-left: 1%;
+
+                &:last-of-type{
+                    margin-bottom: 10px;
+                }
+
+                &:before{
+                    font-family: 'ElegantIcons';
+                    content: "\39";
+                    color: $orange;
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
 
     /* USER SERIES PAGE
     =============================================================================================== */
@@ -1987,6 +2165,73 @@ button{
         .series{
             width: 100%;
         }
+    }
+
+    /* USER BROADCAST PROGRAMMING PAGE
+    =============================================================================================== */
+    #userBroadcastProgramming{
+
+        .dayEpisode{
+            display: block;
+            width: 98%;
+            margin: 10px auto;
+            float: none;
+        }
+    }
+
+    /* MODIFY DATA PAGES
+    =============================================================================================== */
+    #modifySignUpData, #optionalData, #notifySettings{
+        width: 98%;
+    }
+
+    /* USER NOTIFY SETTING PAGE
+    =============================================================================================== */
+    #notifySettings{
+        form{
+            input[type="radio"] + label{
+                display: block;
+                text-align: left;
+                margin-left: 10%;
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    /* BACK END
+    ===============================================================================================
+    =============================================================================================== */
+    #backOutline{
+        nav{
+            margin-bottom: 40px;
+            text-align: left;
+
+            li{
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+                margin-left: 1%;
+
+                &:last-of-type{
+                    margin-bottom: 10px;
+                }
+
+                &:before{
+                    font-family: 'ElegantIcons';
+                    content: "\39";
+                    color: $orange;
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+
+    /* INSERT 
+    =============================================================================================== */
+    #insertNews, #insertSeries, #insertEpisode, #insertChannel, #insertChannel, 
+    #insertGenre, #insertGenre, #insertCastMember, #insertGroup, #insertService,
+    #insertCastMemberSeries, #insertChannelEpisode, #insertGenreSeries,
+    #insertServiceGroup{
+        width: 98%;
     }
 
 }
