@@ -1037,16 +1037,29 @@ button {
     #seriesCard .imgSeriesContainer img {
       width: 100%;
       height: auto; }
+    #seriesCard .imgSeriesContainer #seriesState {
+      font-family: Laila;
+      position: absolute;
+      bottom: 5%;
+      left: 5%;
+      padding: 5px 10px;
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #1695A3;
+      border-radius: 2px;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      font-size: 4rem; }
     #seriesCard .imgSeriesContainer .ratingBox {
       position: absolute;
       bottom: 5%;
       right: 5%;
       padding: 5px 10px;
       background-color: rgba(255, 255, 255, 0.8);
+      color: #1695A3;
       border-radius: 2px;
       -webkit-border-radius: 2px;
       -moz-border-radius: 2px;
-      font-size: 1.5rem; }
+      font-size: 4rem; }
       #seriesCard .imgSeriesContainer .ratingBox ul li {
         display: inline-block; }
   #seriesCard #buttons {
@@ -1540,6 +1553,8 @@ button {
     #seriesCard .imgSeriesContainer h1 {
       height: 30px;
       line-height: 30px;
+      font-size: 2rem; }
+    #seriesCard .imgSeriesContainer .ratingBox, #seriesCard .imgSeriesContainer #seriesState {
       font-size: 2rem; }
   #seriesCard #buttons a {
     margin-bottom: 5px;

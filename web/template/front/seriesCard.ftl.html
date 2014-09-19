@@ -7,6 +7,16 @@
     <div class="imgSeriesContainer">
         <h1>${series.name}</h1>
         <img src="${strip_slashes(series.imageURL)}" alt="Immagine ${strip_slashes(series.name)?html}"/>
+        <#if series.state??>
+        <div id="seriesState">
+            <#if (series.state == "ONGOING")>
+            <p>In corso</p>
+            </#if>
+            <#if (series.state == "COMPLETE")>
+            <p>Conclusa</p>
+            </#if>
+        </div>
+        </#if>
         <div id="seriesRate">
             <div class="ratingBox">
                 <ul>
