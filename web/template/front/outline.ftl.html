@@ -52,6 +52,29 @@
                 </div>
             </div><!-- FINE TOP BAR -->
 
+            <div id="littleScreenTopBar">
+                <ul>
+                    <li id="littleScreenSearch">
+                        <form>
+                            <button type="submit"><span id="littleScreenSearchSpan" data-icon="&#x55;"></span> </button>
+                            <input type="search">
+                        </form>
+                    </li>
+                    <!-- controllo sulla sessione dell'utente -->
+                    <#if (user?? && user.group?? && (user.group.ID == 1))><!-- da rimpiazzare con isAdmin che mi passerà la logica -->
+                    <li id="littleScreenAdminSettings"><a href="GestioneNews"><span class="icon_menu"></span></a></li>
+                    </#if>
+                    <li><a href="ListaNews"><span class="icon_documents_alt"></span></a></li>
+                    <li><a href="ListaSerie"><span class="icon_film"></span></a></li>
+                    <#if user?? >
+                    <li><a href="LogOut" id="littleScreenLogOut" ><span class="icon_profile"></span></span></a></li>
+                    <#else>
+                    <li><a href="LogIn" id="littleScreenLogIn" ><span class="icon_profile"></span></a></li>
+                    </#if>
+                    <li><a href="#littleScreenSearch" id="goToSearch"><span data-icon="&#x55;"></span></a></li>
+                </ul>
+            </div><!-- FINE LITTLE SCREEN TOP BAR -->
+
             <div id="outlineHeader" class="row">
                 <!-- sarà sempre lo stesso -->
                 <div id="logo">LOGO REST</div>
