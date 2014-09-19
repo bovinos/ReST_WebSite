@@ -16,40 +16,46 @@
             <div id="topBarPlaceholder">&nbsp;</div>
 
             <div id="topBar">
-                <!-- controllo sulla sessione dell'utente -->
-                <#if user??>
-                <#if (user.group?? && (user.group.ID == 1))> <!-- da rimpiazzare con isAdmin che mi passerà la logica -->
-                <div id="adminSettings">
-                    <a href="GestioneNews"><span class="icon_menu"></span></a>
-                </div>
-                </#if>
-                <div class="imgContainer" >
-                    <a href="ProfiloPersonale?sezione=1">
-                        <#if user.imageURL??>
-                        <img src="${strip_slashes(user.imageURL)}" alt="Avatar di ${strip_slashes(user.username)?html}" />
-                        <#else>
-                        <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User avatar placeholder"/>
-                        </#if>
-                    </a>
-                </div>
-                <a href="LogOut" id="LogOut" >Log Out</a>
-                <#else>
-                <a href="LogIn" id="LogIn" >Log In</a>
-                </#if>
-
-                <nav id="menu">
-                    <ul>
-                        <li><a href="ListaNews">News</a></li>
-                        <li><a href="ListaSerie">Serie TV</a></li>
-                    </ul>
-                </nav>
-
-                <div id="search">
-                    <form id="searchForm">
-                        <span id="searchSpan" data-icon="&#x55;"></span> 
-                        <input type="search">
-                    </form>
-                </div>
+                <ul>
+                    <!-- controllo sulla sessione dell'utente -->
+                    <#if user??>
+                    <#if (user.group?? && (user.group.ID == 1))> <!-- da rimpiazzare con isAdmin che mi passerà la logica -->
+                    <#if (where?? && (where == "back"))>
+                    <li><a href="GestioneNews" class="active" data-icon="&#xe035;">Gestione</a></li>
+                    <#else>
+                    <li><a href="GestioneNews" data-icon="&#xe035;">Gestione</a></li>
+                    </#if>
+                    </#if>
+                    <#if (where?? && (where == "profile"))>
+                    <li><a href="ProfiloPersonale?sezione=1" class="active" data-icon="&#xe08a;">Profilo</a></li>
+                    <#else>
+                    <li><a href="ProfiloPersonale?sezione=1" data-icon="&#xe08a;">Profilo</a></li>
+                    </#if>
+                    </#if>
+                    <#if (where?? && (where == "news"))>
+                    <li><a href="ListaNews" class="active" data-icon="&#x69;">News</a></li>
+                    <#else>
+                    <li><a href="ListaNews" data-icon="&#x69;">News</a></li>
+                    </#if>
+                    <#if (where?? && (where == "series"))>
+                    <li><a href="ListaSerie" class="active" data-icon="&#xe024;">Serie TV</a></li>
+                    <#else>
+                    <li><a href="ListaSerie" data-icon="&#xe024;">Serie TV</a></li>
+                    </#if>
+                    <#if user??>
+                    <li id="LogOut"><a href="LogOut">Log Out</a></li>
+                    <#else>
+                    <li id="LogIn"><a href="LogIn">Log In</a></li>
+                    </#if>
+                    <li id="search">
+                        <div>
+                            <form id="searchForm">
+                                <button type="submit" data-icon="&#x55;"></button>
+                                <input type="search">
+                            </form>
+                        </div>
+                    </li>
+                </ul>
             </div><!-- FINE TOP BAR -->
 
             <div id="littleScreenTopBar">
@@ -61,31 +67,57 @@
                         </form>
                     </li>
                     <!-- controllo sulla sessione dell'utente -->
-                    <#if (user?? && user.group?? && (user.group.ID == 1))><!-- da rimpiazzare con isAdmin che mi passerà la logica -->
-                    <li id="littleScreenAdminSettings"><a href="GestioneNews"><span class="icon_menu"></span></a></li>
-                    </#if>
-                    <li><a href="ListaNews"><span class="icon_documents_alt"></span></a></li>
-                    <li><a href="ListaSerie"><span class="icon_film"></span></a></li>
-                    <#if user?? >
-                    <li><a href="LogOut" id="littleScreenLogOut" ><span class="icon_profile"></span></span></a></li>
+                    <#if user??>
+                    <#if (user.group?? && (user.group.ID == 1))><!-- da rimpiazzare con isAdmin che mi passerà la logica -->
+                    <#if (where?? && (where == "back"))>
+                    <li id="littleScreenAdminSettings"><a href="GestioneNews" class="active"><span class="icon_tools"></span></a></li>
                     <#else>
-                    <li><a href="LogIn" id="littleScreenLogIn" ><span class="icon_profile"></span></a></li>
+                    <li id="littleScreenAdminSettings"><a href="GestioneNews"><span class="icon_tools"></span></a></li>
+                    </#if>
+                    </#if>
+                    <#if (where?? && (where == "profile"))>
+                    <li><a href="ProfiloPersonale?sezione=1" class="active"><span class="icon_profile"></span></a></li>
+                    <#else>
+                    <li><a href="ProfiloPersonale?sezione=1"><span class="icon_profile"></span></a></li>
+                    </#if>
+                    </#if>
+                    <#if (where?? && (where == "news"))>
+                    <li><a href="ListaNews" class="active"><span class="icon_documents_alt"></span></a></li>
+                    <#else>
+                    <li><a href="ListaNews"><span class="icon_documents_alt"></span></a></li>
+                    </#if>
+                    <#if (where?? && (where == "series"))>
+                    <li><a href="ListaSerie" class="active"><span class="icon_film"></span></a></li>
+                    <#else>
+                    <li><a href="ListaSerie"><span class="icon_film"></span></a></li>
+                    </#if>
+                    <#if user?? >
+                    <li><a href="LogOut" id="littleScreenLogOut"><span class="icon_lock_alt"></span></a></li>
+                    <#else>
+                    <li><a href="LogIn" id="littleScreenLogIn"><span class="icon_lock-open_alt"></span></a></li>
                     </#if>
                     <li><a href="#littleScreenSearch" id="goToSearch"><span data-icon="&#x55;"></span></a></li>
                 </ul>
             </div><!-- FINE LITTLE SCREEN TOP BAR -->
+
 
             <div id="outlineHeader" class="row">
                 <!-- sarà sempre lo stesso -->
                 <div id="logo">LOGO REST</div>
             </div><!-- FINE header -->
 
+
+            <#if error?has_content>
+            <div id="errorMessage">
+                <h1>Oops.. si è verificato il seguente errore:</h1>
+                <p>${error?html}</p>                
+            </div>
+            </#if>
+
+
             <div id="outlineBody" class="row ">
-
-
                 <!-- Sarà diverso a seconda della pagina in cui siamo -->
                 <#include content_tpl>
-
             </div><!-- FINE body -->
 
 

@@ -45,7 +45,105 @@ $topBarHeight: 50px;
 
 /* ANIMAZIONI
 =============================================================================================== */
+@keyframes fade-in-out{
+    0%{
+        max-height: 0px;
+        opacity: 0;
+    }
+    10%{
+        opacity: 1;
+    }
+    15%{
+        max-height: 300px;
+    }
+    75%{
+        max-height: 300px;
+    }
+    90%{
+        opacity: 1;
+    }
+    100%{
+        max-height: 0px;
+        opacity: 0;
+    }
+}
 
+@-moz-keyframes fade-in-out{
+    0%{
+        max-height: 0px;
+        opacity: 0;
+    }
+    10%{
+        opacity: 1;
+    }
+    15%{
+        max-height: 300px;
+    }
+    75%{
+        max-height: 300px;
+
+    }
+    90%{
+        opacity: 1;
+    }
+    100%{
+        max-height: 0px;
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes fade-in-out{
+    0%{
+        max-height: 0px;
+        opacity: 0;
+    }
+    10%{
+        opacity: 1;
+    }
+    15%{
+        max-height: 300px;
+    }
+    75%{
+        max-height: 300px;
+
+    }
+    90%{
+        opacity: 1;
+    }
+    100%{
+        max-height: 0px;
+        opacity: 0;
+    }
+}
+
+#errorMessage{
+    -moz-animation: fade-in-out 20s 1 linear;
+    -webkit-animation: fade-in-out 20s 1 linear;
+    max-height: 0; /* animazione */
+    opacity: 0; /* animazione */
+    width: 50%;
+    margin: 20px auto 20px auto;
+    text-align: center;
+    background-color: rgba(200, 0, 0, 0.7);
+    @include borderRadius(20px);
+
+    h1, p{
+        font-family: Laila;
+        color: #FFFFFF;
+    }
+
+    h1{
+        padding-top: 20px;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+    }
+
+    p{
+        padding-bottom: 20px;
+        font-size: 1.7rem;
+    }
+
+}
 
 
 /* FONT
@@ -835,154 +933,112 @@ button{
     line-height: $topBarHeight;
     background: #333333;
     color: $skyBlue;
-    padding: 0 1%;
 
-    #adminSettings{
-        float: left;
-        margin-left: -1%;
-        margin-right: 10px;
+    ul{
+        display: inline-block;
+        height: 100%;
+        width: 100%;
 
-
-        a{
-            font-size: 3rem;
+        li{
+            display: inline-block;
             color: #FFFFFF;
-            display: block;
-            padding: 0 10px;
-            cursor: pointer;
-            @include transition(background-color, 0.3s);
+            font-size: 1.6rem;
 
-
-            &:hover{
-                background-color: $orange;
-            }
-        }
-    }
-
-    .imgContainer{
-        width: $topBarHeight;
-        height: $topBarHeight;
-        float: left;
-        margin-right: 10px;
-
-
-        img{
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    #LogIn{
-        float: right;
-        padding: 0 20px 2px 20px; /* 2px bottom per dare l'impressione che il bottone sia agganciato alla topbar */
-        margin: 0;
-        line-height: $topBarHeight;
-        border: none;
-        font-size: 1.5rem;
-        color: white;
-        background: $turquoise;
-        cursor: pointer;
-        @include transition(background, 0.3s);
-
-        &:hover{
-            background: $orange;
-            @include transition(background, 0.3s);
-        }
-
-    }
-
-    #LogOut{
-        @extend #LogIn;
-    }
-
-    #menu{
-
-        ul{
-
-            li{
+            a{
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                padding: 0 5px;
                 color: #FFFFFF;
-                float: left;
-                font-size: 1.6rem;
+                @include transition(color, 0.3s);
 
-                @include transition(background, 0.3s);
+                &:hover{
 
-                a{
-                    display: inline-block;
-                    width: 100%;
-                    height: 100%;
-                    padding: 0 10px;
+                    &:before{
+                        color: $orange;
+                    }
+                }
+
+                &:before{
                     color: #FFFFFF;
-                    @include transition(background, 0.3s);
+                    margin-right: 5px;
+                }
+
+                &.active{
+                    &:before{
+                        color: $orange;
+                    }
+                }
+            }
+
+            &#search{
+                float: right;
+                margin-right: 10px;
+
+                #searchForm{
+                    overflow: hidden;
+
+                    input{
+                        opacity: 0;
+                        background: transparent;
+                        border-bottom: 1px solid $turquoise;
+                        border-top: none;
+                        border-left: none;
+                        border-right: none;
+                        padding-bottom: 3px;
+                        color: $skyBlue;
+                        font-size: 1.5rem;
+                        width: 0;
+                        @include transition(all, 0.5s);
+
+                        &:focus{
+                            opacity: 1;
+                            border-bottom-color: $orange;
+                            width: 200px;
+                        }
+                    }
+
+                    button{
+                        border: none;
+                        background: none;
+                        font-size: 2.7rem;
+                        line-height: $topBarHeight;
+                        color: $turquoise;
+                        @include transition(color, 0.3s);
+
+                        &:hover{
+                            color: $orange;
+                        }
+                    }
 
                     &:hover{
-                        background: $orange;
-                        @include transition(background, 0.3s);
-                    }
-
-                    &.active{
-                        background: $orange;
+                        input{
+                            opacity: 1;
+                            width: 200px;
+                        }
                     }
                 }
-
-
             }
-        }
-    }
 
-    #search{
-        float: right;
-        margin-right: 20px;
-
-        #searchSpan{
-            float: left;
-            margin-right: 10px;
-            font-size: 2.7rem;
-            line-height: $topBarHeight;
-            color: $turquoise;
-            cursor: pointer;
-            @include transition(color, 0.3s);
-
-
-            &:hover{
-                color: $orange;
-                @include transition(color, 0.3s);
-            }
-        }
-
-        #searchForm{
-            overflow: hidden;
-
-
-            input{
-                opacity: 0;
-                background: transparent;
-                border-bottom: 1px solid $turquoise;
-                border-top: none;
-                border-left: none;
-                border-right: none;
-                padding-bottom: 3px;
-                color: $skyBlue;
+            &#LogIn, &#LogOut{
+                float: right;
+                padding: 0 10px 2px 10px; /* 2px bottom per dare l'impressione che il bottone sia agganciato alla topbar */
+                margin: 0 10px 0 0;
+                line-height: $topBarHeight;
+                border: none;
                 font-size: 1.5rem;
-                width: 0;
-                @include transition(all, 0.5s);
+                color: white;
+                background: $turquoise;
+                cursor: pointer;
+                @include transition(background, 0.3s);
 
-
-                &:focus{
-                    opacity: 1;
-                    border-bottom-color: $orange;
-                    width: 200px;
-                }
-            }
-
-            &:hover{
-
-                input{
-                    opacity: 1;
-                    width: 200px;
+                &:hover{
+                    background: $orange;
+                    @include transition(background, 0.3s);
                 }
             }
         }
     }
-
 }
 
 #littleScreenTopBar{
@@ -999,27 +1055,27 @@ button{
 
     ul{
         display: block;
+        text-align: center;
 
         li{
-            text-align: center;
             display: inline-block;
-            width: 19%;
+            width: 15%;
             font-size: 2rem;
 
             a{
                 color: #FFFFFF;
                 @include transition(color, 0.3s);
 
-                &:hover{
+                &:hover, &.active{
                     color: $orange;
                 }
 
                 &#littleScreenLogIn{
-                    color: #cc0000;
+
                 }
 
                 &#littleScreenLogOut{
-                    color: #33cc00;
+
                 }
             }
 
@@ -1032,6 +1088,7 @@ button{
                     padding-left: 0 2%;
 
                     input{
+                        color: $skyBlue;
                         width: 80%;
                         background: none;
                         outline: none;
@@ -1044,6 +1101,7 @@ button{
                     button{
                         background: none;
                         border: none;
+                        color: $turquoise;
                         font-size: 2rem;
                         @include transition(color, 0.3s);
 
@@ -2015,6 +2073,21 @@ button{
 =============================================================================================== */
 @media only screen and (max-width: 767px) {
 
+    /* ERROR MESSAGE
+    =============================================================================================== */
+    #errorMessage{
+        width: 100%;
+
+        h1{
+            font-size: 1.7rem;
+        }
+
+        p{
+            font-size: 1.4rem;
+        }
+
+    }
+
     /* TOPBAR
     =============================================================================================== */
     #topBar{
@@ -2097,7 +2170,7 @@ button{
             }
         }
 
-        input[type="text"]{
+        input[type="text"].search{
             display: inline-block;
             background: transparent;
             border-bottom: 1px solid $turquoise;
@@ -2115,7 +2188,7 @@ button{
             }
         }
 
-        .selectContainer, input, label, button{
+        .selectContainer, input, label, button, input[type="text"]{
             display: none;
         }
     }
