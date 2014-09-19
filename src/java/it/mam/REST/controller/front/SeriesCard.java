@@ -207,6 +207,10 @@ public class SeriesCard extends RESTBaseController {
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
             result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //Comment id or series id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
     // Increases the number of comment's dislikes
@@ -224,7 +228,11 @@ public class SeriesCard extends RESTBaseController {
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
             result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //Comment id or series id is not a number
+              action_error(request, response, "Riprova di nuovo!");
     }
+     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {

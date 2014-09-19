@@ -210,7 +210,7 @@ public class MyProfileEdit extends RESTBaseController {
                         us.setAnticipationNotification(new Date((SecurityLayer.checkNumeric(request.getParameter("t")) * RESTSortLayer.HOUR_IN_MILLISECONDS) - RESTSortLayer.HOUR_IN_MILLISECONDS));
                         getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
                     }
-                 
+                }   
             }else {   
                     user.setNotificationStatus(false);
                     getDataLayer().storeUser(user);
