@@ -114,6 +114,13 @@
             </div>
             </#if>
 
+            <#if success?has_content>
+            <div id="errorMessage">
+                <h1>Complimenti!</h1>
+                <p>${succes?html}</p>                
+            </div>
+            </#if>
+
 
             <div id="outlineBody" class="row ">
                 <!-- Sarà diverso a seconda della pagina in cui siamo -->

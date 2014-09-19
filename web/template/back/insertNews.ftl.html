@@ -10,18 +10,20 @@
         <div class="row">
             <input type="url" name="newsImageURL" placeholder="URL immagine" tabindex="3" />
         </div>
-        <div class="row selectContainer multipleSelection">
-            <select name="series" multiple="multiple" size="7">
-                <optgroup label="Scegli le serie associate alla news">
-                    <#if (series?size > 0)>
-                    <#list series as s>
-                    <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
-                    </#list>
-                    <#else>
-                    <option value="0">Non ci sono serie</option>
-                    </#if>
-                </optgroup>
-            </select>
+        <div class="row mySelect">
+            <#if (series?size > 0)>
+            <#list series as s>
+            <div class="row">
+                <input type="checkbox" name="series" value="${s.ID}" id="series_${s_index}" />
+                <label for="series_${s_index}">${strip_slashes(s.name)?html}</label>
+            </div>
+            </#list>
+            <#else>
+            <div class="row">
+                <input type="checkbox" checked="checked" name="series" value="0" id="noOption" />
+                <label for="noOption">Non ci sono serie</label>
+            </div>
+            </#if>
         </div>
         <button type="submit" name="in" value="1">Aggiungi la news</button>
     </form>
