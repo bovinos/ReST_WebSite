@@ -13,6 +13,9 @@
                     <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User avatar placeholder"/>
                     </#if>
                 </div>
+                <#if user.group??>
+                <p id="userGroup" class="row">${strip_slashes(user.group.name)?html}</p>
+                </#if>
             </div>
             <nav>
                 <h1>Nome Categoria</h1>

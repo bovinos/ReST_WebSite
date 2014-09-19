@@ -49,7 +49,7 @@ public class MessageMySQL implements Message {
         ID = rs.getInt("ID");
         title = rs.getString("title");
         text = rs.getString("text");
-        date = rs.getDate("date"); // on DB the type of attribute date is TIMESTAMP
+        date = new Date(rs.getTimestamp("date").getTime()); // on DB the type of attribute date is TIMESTAMP
 
         userID = rs.getInt("ID_user");
         seriesID = rs.getInt("ID_series");

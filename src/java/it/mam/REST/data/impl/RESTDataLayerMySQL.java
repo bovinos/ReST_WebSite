@@ -1669,6 +1669,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 uMessage.executeUpdate();
             } else { // Insert
                 iMessage.setString(1, message.getTitle());
+                System.err.println("TESTO DEL MESSAGGIO: " + message.getText());
                 iMessage.setString(2, message.getText());
                 iMessage.setTimestamp(3, new java.sql.Timestamp(new Date().getTime()));
                 if (message.getUser() != null) {
@@ -1861,7 +1862,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 // uNews = "UPDATE e_news title=?, text=?, date=?, image_URL=?, likes=?, dislikes=?, ID_user=? WHERE ID=?"
                 uNews.setString(1, news.getTitle());
                 uNews.setString(2, news.getText());
-                uNews.setTimestamp(3, new java.sql.Timestamp(news.getDate().getTime()));
+                uNews.setDate(3, new java.sql.Date(news.getDate().getTime()));
                 uNews.setString(4, news.getImageURL());
                 uNews.setInt(5, news.getLikes());
                 uNews.setInt(6, news.getDislikes());
@@ -1875,7 +1876,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             } else { // Insert
                 iNews.setString(1, news.getTitle());
                 iNews.setString(2, news.getText());
-                iNews.setTimestamp(3, new java.sql.Timestamp(new Date().getTime()));
+                iNews.setDate(3, new java.sql.Date(new Date().getTime()));
                 iNews.setString(4, news.getImageURL());
                 iNews.setInt(5, news.getLikes());
                 iNews.setInt(6, news.getDislikes());

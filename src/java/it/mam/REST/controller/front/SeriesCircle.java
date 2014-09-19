@@ -34,53 +34,56 @@ public class SeriesCircle extends RESTBaseController {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("series", getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id"))));
         //Controllo che la sessione attuale sia ancora valida
-        if (SecurityLayer.checkSession(request) != null){
-        try {
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        request.setAttribute("user", user);
-        }   catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
-        }
+        if (SecurityLayer.checkSession(request) != null) {
+            try {
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                request.setAttribute("user", user);
+            } catch (NumberFormatException ex) {
+                action_error(request, response, "Field Error");
+            }
         }
         result.activate("seriesCircle.ftl.html", request, response);
     }
 
-    private void action_message_circle (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        try{
-        TemplateResult result = new TemplateResult(getServletContext());
-        if(SecurityLayer.checkSession(request) == null){ result.activate("logIn.ftl.html", request, response); }
-        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
-        Calendar c = Calendar.getInstance();
-        String title = request.getParameter("messageTitle");
-        String text = request.getParameter("messageText");
-        Message message = getDataLayer().createMessage();
-        message.setTitle(title);
-        message.setText(text);
-        message.setUser(user);
-        message.setDate(c.getTime());
-        message.setSeries(series);
-        getDataLayer().storeMessage(RESTSecurityLayer.addSlashes(message));
-        response.sendRedirect("CerchiaSerie?id=" + series.getID());
-        }catch (NumberFormatException ex){
+    private void action_message_circle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try {
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) == null) {
+                result.activate("logIn.ftl.html", request, response);
+            }
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
+            Calendar c = Calendar.getInstance();
+            String title = request.getParameter("messageTitle");
+            String text = request.getParameter("messageText");
+            System.err.println("TESTO DALLA REQUEST: " + text);
+            Message message = getDataLayer().createMessage();
+            message.setTitle(title);
+            message.setText(text);
+            message.setUser(user);
+            message.setDate(c.getTime());
+            message.setSeries(series);
+            getDataLayer().storeMessage(RESTSecurityLayer.addSlashes(message));
+            response.sendRedirect("CerchiaSerie?id=" + series.getID());
+        } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
     }
-    
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        if(request.getParameter("scms") != null){
-       try {
-            action_message_circle(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-    }  
+        if (request.getParameter("scms") != null) {
+            try {
+                action_message_circle(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
         } else {
-        try {
-            action_activate_circle(request, response);
-        } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
-    }
+            try {
+                action_activate_circle(request, response);
+            } catch (IOException ex) {
+                action_error(request, response, ex.getMessage());
+            }
         }
     }
 

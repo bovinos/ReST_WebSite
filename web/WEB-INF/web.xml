@@ -36,6 +36,15 @@
         <param-name>view.error_template</param-name>
         <param-value>error.ftl.html</param-value>
     </context-param>
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>it.mam.REST.filter.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
     <listener>
         <listener-class>it.mam.REST.listener.ContextInitializer</listener-class>
     </listener>
