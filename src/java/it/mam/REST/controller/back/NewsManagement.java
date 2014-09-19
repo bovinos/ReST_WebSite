@@ -62,7 +62,9 @@ public class NewsManagement extends RESTBaseController {
         if (checkNewsInputData(request, response)){
             news.setTitle(request.getParameter("newsTitle"));
             news.setText(request.getParameter("newsText"));
-          
+            if(request.getParameter("newsImageURL") != null && request.getParameter("newsImageURL").length() > 0){
+                news.setImageURL(request.getParameter("newsImageURL"));
+            }
             //Ricavo tutte le serie che l'utente ha scelto per la sua News, le trasformo in lista e le setto nella news
             String[] series = request.getParameterValues("series");
             List<Series> seriesList = new ArrayList();

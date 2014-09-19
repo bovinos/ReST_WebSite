@@ -89,8 +89,7 @@ public class SeriesManagement extends RESTBaseController {
              */
             System.err.println(series);
             getDataLayer().storeSeries(RESTSecurityLayer.addSlashes(series));
-            request.setAttribute("backContent_tpl", "insertSeries.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+            response.sendRedirect("GestioneSerie?sezione=1");
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
@@ -171,8 +170,7 @@ public class SeriesManagement extends RESTBaseController {
                 ce.setChannel(channel);
                 getDataLayer().storeChannelEpisode(ce);
             }
-            request.setAttribute("backContent_tpl", "insertEpisode.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+            response.sendRedirect("GestioneSerie?sezione=2");
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
@@ -233,8 +231,7 @@ public class SeriesManagement extends RESTBaseController {
             }
 
             getDataLayer().storeChannel(RESTSecurityLayer.addSlashes(channel));
-            request.setAttribute("backContent_tpl", "insertChannel.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+            response.sendRedirect("GestioneSerie?sezione=3");
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
@@ -276,8 +273,7 @@ public class SeriesManagement extends RESTBaseController {
                 genre.setName(request.getParameter("genreName"));
             }
             getDataLayer().storeGenre(RESTSecurityLayer.addSlashes(genre));
-            request.setAttribute("backContent_tpl", "insertGenre.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+            response.sendRedirect("GestioneSerie?sezione=4");
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
@@ -318,6 +314,7 @@ public class SeriesManagement extends RESTBaseController {
             CastMember castMember = getDataLayer().createCastMember();
             CastMemberSeries cms = getDataLayer().createCastMemberSeries();
             if (checkCastMemberInputData(request, response)) {
+                System.err.println(request.getParameter("castMemberBirthDate"));
                 castMember.setName(request.getParameter("castMemberName"));
                 castMember.setSurname(request.getParameter("castMemberSurname"));
                 castMember.setCountry(request.getParameter("castMemberCountry"));
@@ -361,8 +358,7 @@ public class SeriesManagement extends RESTBaseController {
                 action_error(request, response, "Inserire i campi obbligatori");
                 return;
             }
-            request.setAttribute("backContent_tpl", "insertCastMember.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+            response.sendRedirect("GestioneSerie?sezione=5");
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
@@ -408,8 +404,7 @@ public class SeriesManagement extends RESTBaseController {
                 cms.setRole(request.getParameter("role"));
                 getDataLayer().storeCastMemberSeries(cms);
             }
-            request.setAttribute("backContent_tpl", "insertCastMemberSeries.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+            response.sendRedirect("GestioneSerie?sezione=6");
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
@@ -461,8 +456,7 @@ public class SeriesManagement extends RESTBaseController {
                 action_error(request, response, "Inserire tutti i campi obbligatori");
                 return;
             }
-            request.setAttribute("backContent_tpl", "insertChannelEpisode.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+            response.sendRedirect("GestioneSerie?sezione=7");
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
@@ -506,8 +500,7 @@ public class SeriesManagement extends RESTBaseController {
                 s.addGenre(getDataLayer().getGenre(SecurityLayer.checkNumeric(request.getParameter("genre"))));
                 getDataLayer().storeSeries(s);
             }
-            request.setAttribute("backContent_tpl", "insertGenreSeries.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+            response.sendRedirect("GestioneSerie?sezione=8");
         } catch (NumberFormatException ex) {
             action_error(request, response, "Field Error");
         }
@@ -610,12 +603,12 @@ public class SeriesManagement extends RESTBaseController {
     }
 
     private boolean checkCastMemberInputData(HttpServletRequest request, HttpServletResponse response) {
-        return request.getParameter("castMembername") != null && request.getParameter("castMembername").length() > 0
-                && request.getParameter("castMembersurname") != null && request.getParameter("castMembersurname").length() > 0
-                && request.getParameter("castMemberbirthDate") != null && request.getParameter("castMemberbirthDate").length() > 0
+        return request.getParameter("castMemberName") != null && request.getParameter("castMemberName").length() > 0
+                && request.getParameter("castMemberSurname") != null && request.getParameter("castMemberSurname").length() > 0
+                && request.getParameter("castMemberBirthDate") != null && request.getParameter("castMemberBirthDate").length() > 0
                 && request.getParameter("gender") != null && request.getParameter("gender").length() > 0
-                && request.getParameter("castMembercountry") != null && request.getParameter("castMembercountry").length() > 0
-                && request.getParameter("castMemberimageURL") != null && request.getParameter("castMemberimageURL").length() > 0;
+                && request.getParameter("castMemberCountry") != null && request.getParameter("castMemberCountry").length() > 0
+                && request.getParameter("castMemberImageURL") != null && request.getParameter("castMemberImageURL").length() > 0;
         // && request.getParameterValues("series") != null && request.getParameterValues("series").length > 0
         // && request.getParameterValues("roles") != null && request.getParameterValues("roles").length > 0;
 

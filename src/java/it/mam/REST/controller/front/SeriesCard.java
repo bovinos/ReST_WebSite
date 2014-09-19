@@ -8,6 +8,7 @@ import it.mam.REST.data.model.Season;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
+import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -42,7 +43,7 @@ public class SeriesCard extends RESTBaseController {
         try {
             Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
             request.setAttribute("series", s);
-
+            request.setAttribute("seriesRating", RESTSortLayer.getMediumRating(s));
             List<Season> seasonList = new ArrayList();
             List<Episode> episodeList = s.getEpisodes();
             Season sn = null;
