@@ -11,9 +11,15 @@
     <p id="newsText">${strip_slashes(news.text)?html}</p>
 
     <div class="footer">
+        <#if (news.series?size > 0)>
         <div class="tag left">
-            <!-- QUI?? -->
+            <p>
+                <#list news.series as s>
+                <a href="SchedaSerie?id=${s.ID}">${strip_slashes(s.name)?html}</a>
+                </#list>
+            </p>
         </div>
+        </#if>
         <div class="right">
             <div class="authorAndDate">
                 <p>${strip_slashes(news.user.username)?html}</p>

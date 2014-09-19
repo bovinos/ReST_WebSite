@@ -650,15 +650,24 @@ button{
     }
 
     input[type="text"]{
+        border: 1px solid $turquoise;
+        outline: none;
+        color: $primaryTextColor;
+        font-size: 1.5rem;
+        @include borderRadius(4px);
+        padding: 5px;
+        width: 80%;
+    }
+
+    input[type="text"].search{
         display: inline-block;
         background: transparent;
         border-bottom: 1px solid $turquoise;
         border-top: none;
         border-left: none;
         border-right: none;
-        color: $primaryTextColor;
-        font-size: 1.5rem;
         width: 60%;
+        @include borderRadius(0px);
         @include transition(border-bottom-color, 0.3s);
 
         &:focus{
@@ -768,15 +777,6 @@ button{
             font-size: 2.5rem;
             color: $turquoise;
         }
-    }
-
-    input[type="date"]{
-        padding: 5px;
-        width: 75%;
-        @include borderRadius(5px);
-        border: 1px solid $turquoise;
-        /* DA FARE!!! */
-        /* è impossibile fare il date picker senza JS xD */
     }
 
     input[type="radio"]{
@@ -981,6 +981,89 @@ button{
                 }
             }
         }
+    }
+
+}
+
+#littleScreenTopBar{
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    width: 300px;
+    margin: auto;
+    height: $topBarHeight;
+    line-height: $topBarHeight;
+    background: #333333;
+    color: $skyBlue;
+    display: none;
+
+    ul{
+        display: block;
+
+        li{
+            text-align: center;
+            display: inline-block;
+            width: 19%;
+            font-size: 2rem;
+
+            a{
+                color: #FFFFFF;
+                @include transition(color, 0.3s);
+
+                &:hover{
+                    color: $orange;
+                }
+
+                &#littleScreenLogIn{
+                    color: #cc0000;
+                }
+
+                &#littleScreenLogOut{
+                    color: #33cc00;
+                }
+            }
+
+            &#littleScreenSearch{
+                display: none;
+                width: 100%;
+
+                form{
+                    text-align: left;
+                    padding-left: 0 2%;
+
+                    input{
+                        width: 80%;
+                        background: none;
+                        outline: none;
+                        border-top: none;
+                        border-left: none;
+                        border-right: none;
+                        border-bottom: 1px solid $turquoise;
+                    }
+
+                    button{
+                        background: none;
+                        border: none;
+                        font-size: 2rem;
+                        @include transition(color, 0.3s);
+
+                        &:hover{
+                            color: $orange;
+                        }
+                    }
+                }
+
+                &:target{
+                    display: inline-block;
+
+                    & ~ li{
+                        display: none;
+                    }
+                }
+            }            
+        }
+
+
     }
 
 }
@@ -1331,6 +1414,22 @@ button{
             width: 100%;
             height: auto;
         }
+
+        .ratingBox{
+            position: absolute;
+            bottom: 5%;
+            right: 5%;
+            padding: 5px 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            @include borderRadius(2px);
+            font-size: 1.5rem;
+
+            ul{
+                li{
+                    display: inline-block;
+                }
+            }
+        }
     }
 
     #buttons{
@@ -1552,10 +1651,12 @@ button{
 
         .left{
             float: left;
+            margin-left: 5%;
         }
 
         .right{
             float: right;
+            margin-right: 5%;
 
             a{
                 color: $secondaryTextColor;
@@ -1894,8 +1995,18 @@ button{
 =============================================================================================== */
 @media only screen and (max-width: 767px) {
 
+    /* TOPBAR
+    =============================================================================================== */
+    #topBar{
+        display: none;
+    }
+
+    #littleScreenTopBar{
+        display: block;
+    }
+
     /* FORM
-=============================================================================================== */
+    =============================================================================================== */
     .formContainer{
         text-align: center;
         margin-left: auto;

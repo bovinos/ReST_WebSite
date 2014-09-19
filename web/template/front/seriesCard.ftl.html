@@ -8,7 +8,53 @@
         <h1>${series.name}</h1>
         <img src="${strip_slashes(series.imageURL)}" alt="Immagine ${strip_slashes(series.name)?html}"/>
         <div id="seriesRate">
-            <!-- QUI È UNA COSA CONDIZIONALE -.-" -->
+            <div class="ratingBox">
+                <ul>
+                    <#switch seriesRating!"0">
+                    <#case "1">
+                    <li class="icon_star rating star firstStar"></li>
+                    <li class="icon_star_alt rating star secondStar"></li>
+                    <li class="icon_star_alt rating star thirdStar"></li>
+                    <li class="icon_star_alt rating star fourthStar"></li>
+                    <li class="icon_star_alt rating star fifthStar"></li>
+                    <#break>
+                    <#case "2">
+                    <li class="icon_star rating star firstStar"></li>
+                    <li class="icon_star rating star secondStar"></li>
+                    <li class="icon_star_alt rating star thirdStar"></li>
+                    <li class="icon_star_alt rating star fourthStar"></li>
+                    <li class="icon_star_alt rating star fifthStar"></li>
+                    <#break>
+                    <#case "3">
+                    <li class="icon_star rating star firstStar"></li>
+                    <li class="icon_star rating star secondStar"></li>
+                    <li class="icon_star rating star thirdStar"></li>
+                    <li class="icon_star_alt rating star fourthStar"></li>
+                    <li class="icon_star_alt rating star fifthStar"></li>
+                    <#break>
+                    <#case "4">
+                    <li class="icon_star rating star firstStar"></li>
+                    <li class="icon_star rating star secondStar"></li>
+                    <li class="icon_star rating star thirdStar"></li>
+                    <li class="icon_star rating star fourthStar"></li>
+                    <li class="icon_star_alt rating star fifthStar"></li>
+                    <#break>
+                    <#case "5">
+                    <li class="icon_star rating star firstStar"></li>
+                    <li class="icon_star rating star secondStar"></li>
+                    <li class="icon_star rating star thirdStar"></li>
+                    <li class="icon_star rating star fourthStar"></li>
+                    <li class="icon_star rating star fifthStar"></li>
+                    <#break>
+                    <#default>
+                    <li class="icon_star_alt rating star firstStar"></li>
+                    <li class="icon_star_alt rating star secondStar"></li>
+                    <li class="icon_star_alt rating star thirdStar"></li>
+                    <li class="icon_star_alt rating star fourthStar"></li>
+                    <li class="icon_star_alt rating star fifthStar"></li>
+                    </#switch>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -144,7 +190,6 @@
         <div class='row'>
             <textarea name="commentText" rows="10" placeholder="Inserisci qui il tuo commento..." required="required" ></textarea>
         </div>
-        <div class='row'>
-            <button type="submit" name="scs" value="1">Commenta</button>
+        <button type="submit" name="scs" value="1">Commenta</button>
     </form>
 </div>

@@ -497,19 +497,30 @@ button {
     #leftCol #searchButtonFilter:hover {
       color: #EB7F00; }
   #leftCol input[type="text"] {
+    border: 1px solid #1695A3;
+    outline: none;
+    color: #444444;
+    font-size: 1.5rem;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    padding: 5px;
+    width: 80%; }
+  #leftCol input[type="text"].search {
     display: inline-block;
     background: transparent;
     border-bottom: 1px solid #1695A3;
     border-top: none;
     border-left: none;
     border-right: none;
-    color: #444444;
-    font-size: 1.5rem;
     width: 60%;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
     transition: border-bottom-color 0.3s ease-in-out;
     -webkit-transition: border-bottom-color 0.3s ease-in-out;
     -moz-transition: border-bottom-color 0.3s ease-in-out; }
-    #leftCol input[type="text"]:focus {
+    #leftCol input[type="text"].search:focus {
       border-bottom-color: #EB7F00;
       transition: border-bottom-color 0.3s ease-in-out;
       -webkit-transition: border-bottom-color 0.3s ease-in-out;
@@ -590,15 +601,6 @@ button {
       top: 5px;
       font-size: 2.5rem;
       color: #1695A3; }
-  #leftCol input[type="date"] {
-    padding: 5px;
-    width: 75%;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border: 1px solid #1695A3;
-    /* DA FARE!!! */
-    /* ├¿ impossibile fare il date picker senza JS xD */ }
   #leftCol input[type="radio"] {
     position: absolute;
     left: -9999px; }
@@ -750,6 +752,63 @@ button {
       #topBar #search #searchForm:hover input {
         opacity: 1;
         width: 200px; }
+
+#littleScreenTopBar {
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  width: 300px;
+  margin: auto;
+  height: 50px;
+  line-height: 50px;
+  background: #333333;
+  color: #ACF0F2;
+  display: none; }
+  #littleScreenTopBar ul {
+    display: block; }
+    #littleScreenTopBar ul li {
+      text-align: center;
+      display: inline-block;
+      width: 19%;
+      font-size: 2rem; }
+      #littleScreenTopBar ul li a {
+        color: #FFFFFF;
+        transition: color 0.3s ease-in-out;
+        -webkit-transition: color 0.3s ease-in-out;
+        -moz-transition: color 0.3s ease-in-out; }
+        #littleScreenTopBar ul li a:hover {
+          color: #EB7F00; }
+        #littleScreenTopBar ul li a#littleScreenLogIn {
+          color: #cc0000; }
+        #littleScreenTopBar ul li a#littleScreenLogOut {
+          color: #33cc00; }
+      #littleScreenTopBar ul li#littleScreenSearch {
+        display: none;
+        width: 100%; }
+        #littleScreenTopBar ul li#littleScreenSearch form {
+          text-align: left;
+          padding-left: 0 2%; }
+          #littleScreenTopBar ul li#littleScreenSearch form input {
+            width: 80%;
+            background: none;
+            outline: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 1px solid #1695A3; }
+          #littleScreenTopBar ul li#littleScreenSearch form button {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            transition: color 0.3s ease-in-out;
+            -webkit-transition: color 0.3s ease-in-out;
+            -moz-transition: color 0.3s ease-in-out; }
+            #littleScreenTopBar ul li#littleScreenSearch form button:hover {
+              color: #EB7F00; }
+        #littleScreenTopBar ul li#littleScreenSearch:target {
+          display: inline-block; }
+          #littleScreenTopBar ul li#littleScreenSearch:target ~ li {
+            display: none; }
 
 /* HEADER
 =============================================================================================== */
@@ -978,6 +1037,18 @@ button {
     #seriesCard .imgSeriesContainer img {
       width: 100%;
       height: auto; }
+    #seriesCard .imgSeriesContainer .ratingBox {
+      position: absolute;
+      bottom: 5%;
+      right: 5%;
+      padding: 5px 10px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 2px;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      font-size: 1.5rem; }
+      #seriesCard .imgSeriesContainer .ratingBox ul li {
+        display: inline-block; }
   #seriesCard #buttons {
     margin-bottom: 60px;
     text-align: center; }
@@ -1126,9 +1197,11 @@ button {
   overflow: hidden;
   color: #999999; }
   #newsCard .footer .left {
-    float: left; }
+    float: left;
+    margin-left: 5%; }
   #newsCard .footer .right {
-    float: right; }
+    float: right;
+    margin-right: 5%; }
     #newsCard .footer .right a {
       color: #999999; }
     #newsCard .footer .right .authorAndDate {
@@ -1361,8 +1434,16 @@ button {
 ===============================================================================================
 =============================================================================================== */
 @media only screen and (max-width: 767px) {
-    /* FORM
-=============================================================================================== */
+  /* TOPBAR
+  =============================================================================================== */
+  #topBar {
+    display: none; }
+
+  #littleScreenTopBar {
+    display: block; }
+
+  /* FORM
+  =============================================================================================== */
   .formContainer {
     text-align: center;
     margin-left: auto;
