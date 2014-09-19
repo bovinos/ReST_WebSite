@@ -8,6 +8,76 @@
 =============================================================================================== */
 /* ANIMAZIONI
 =============================================================================================== */
+@keyframes fade-in-out {
+  0% {
+    max-height: 0px;
+    opacity: 0; }
+  10% {
+    opacity: 1; }
+  15% {
+    max-height: 300px; }
+  75% {
+    max-height: 300px; }
+  90% {
+    opacity: 1; }
+  100% {
+    max-height: 0px;
+    opacity: 0; } }
+@-moz-keyframes fade-in-out {
+  0% {
+    max-height: 0px;
+    opacity: 0; }
+  10% {
+    opacity: 1; }
+  15% {
+    max-height: 300px; }
+  75% {
+    max-height: 300px; }
+  90% {
+    opacity: 1; }
+  100% {
+    max-height: 0px;
+    opacity: 0; } }
+@-webkit-keyframes fade-in-out {
+  0% {
+    max-height: 0px;
+    opacity: 0; }
+  10% {
+    opacity: 1; }
+  15% {
+    max-height: 300px; }
+  75% {
+    max-height: 300px; }
+  90% {
+    opacity: 1; }
+  100% {
+    max-height: 0px;
+    opacity: 0; } }
+#errorMessage {
+  -moz-animation: fade-in-out 20s 1 linear;
+  -webkit-animation: fade-in-out 20s 1 linear;
+  max-height: 0;
+  /* animazione */
+  opacity: 0;
+  /* animazione */
+  width: 50%;
+  margin: 20px auto 20px auto;
+  text-align: center;
+  background-color: rgba(200, 0, 0, 0.7);
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px; }
+  #errorMessage h1, #errorMessage p {
+    font-family: Laila;
+    color: #FFFFFF; }
+  #errorMessage h1 {
+    padding-top: 20px;
+    font-size: 2.5rem;
+    margin-bottom: 30px; }
+  #errorMessage p {
+    padding-bottom: 20px;
+    font-size: 1.7rem; }
+
 /* FONT
 =============================================================================================== */
 @font-face {
@@ -666,7 +736,7 @@ button {
           color: #EB7F00; }
         #topBar ul li a:before {
           color: #FFFFFF;
-          margin-right: 10px; }
+          margin-right: 5px; }
         #topBar ul li a.active:before {
           color: #EB7F00; }
       #topBar ul li#search {
@@ -738,23 +808,19 @@ button {
   color: #ACF0F2;
   display: none; }
   #littleScreenTopBar ul {
-    display: block; }
+    display: block;
+    text-align: center; }
     #littleScreenTopBar ul li {
-      text-align: center;
       display: inline-block;
-      width: 19%;
+      width: 15%;
       font-size: 2rem; }
       #littleScreenTopBar ul li a {
         color: #FFFFFF;
         transition: color 0.3s ease-in-out;
         -webkit-transition: color 0.3s ease-in-out;
         -moz-transition: color 0.3s ease-in-out; }
-        #littleScreenTopBar ul li a:hover {
+        #littleScreenTopBar ul li a:hover, #littleScreenTopBar ul li a.active {
           color: #EB7F00; }
-        #littleScreenTopBar ul li a#littleScreenLogIn {
-          color: #cc0000; }
-        #littleScreenTopBar ul li a#littleScreenLogOut {
-          color: #33cc00; }
       #littleScreenTopBar ul li#littleScreenSearch {
         display: none;
         width: 100%; }
@@ -762,6 +828,7 @@ button {
           text-align: left;
           padding-left: 0 2%; }
           #littleScreenTopBar ul li#littleScreenSearch form input {
+            color: #ACF0F2;
             width: 80%;
             background: none;
             outline: none;
@@ -772,6 +839,7 @@ button {
           #littleScreenTopBar ul li#littleScreenSearch form button {
             background: none;
             border: none;
+            color: #1695A3;
             font-size: 2rem;
             transition: color 0.3s ease-in-out;
             -webkit-transition: color 0.3s ease-in-out;
@@ -1423,6 +1491,15 @@ button {
 ===============================================================================================
 =============================================================================================== */
 @media only screen and (max-width: 767px) {
+  /* ERROR MESSAGE
+  =============================================================================================== */
+  #errorMessage {
+    width: 100%; }
+    #errorMessage h1 {
+      font-size: 1.7rem; }
+    #errorMessage p {
+      font-size: 1.4rem; }
+
   /* TOPBAR
   =============================================================================================== */
   #topBar {
@@ -1479,7 +1556,7 @@ button {
         color: #EB7F00; }
     #leftCol #newsFilter div, #leftCol #seriesFilter div {
       padding: 0; }
-    #leftCol input[type="text"] {
+    #leftCol input[type="text"].search {
       display: inline-block;
       background: transparent;
       border-bottom: 1px solid #1695A3;
@@ -1492,12 +1569,12 @@ button {
       transition: border-bottom-color 0.3s ease-in-out;
       -webkit-transition: border-bottom-color 0.3s ease-in-out;
       -moz-transition: border-bottom-color 0.3s ease-in-out; }
-      #leftCol input[type="text"]:focus {
+      #leftCol input[type="text"].search:focus {
         border-bottom-color: #EB7F00;
         transition: border-bottom-color 0.3s ease-in-out;
         -webkit-transition: border-bottom-color 0.3s ease-in-out;
         -moz-transition: border-bottom-color 0.3s ease-in-out; }
-    #leftCol .selectContainer, #leftCol input, #leftCol label, #leftCol button {
+    #leftCol .selectContainer, #leftCol input, #leftCol label, #leftCol button, #leftCol input[type="text"] {
       display: none; }
 
   /* LEFT COL
