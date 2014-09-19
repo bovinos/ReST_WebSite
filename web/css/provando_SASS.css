@@ -207,8 +207,7 @@ button {
   margin-right: auto; }
   .formContainer form fieldset {
     border-top: 1px solid rgba(22, 149, 163, 0.4);
-    padding: 20px 0;
-    margin-bottom: 10px; }
+    padding: 20px 0; }
     .formContainer form fieldset legend {
       padding: 0 5px;
       font-size: 1.4rem;
@@ -223,53 +222,34 @@ button {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     padding: 10px 20px; }
-  .formContainer form input[type="checkbox"] {
+  .formContainer form input[type="checkbox"], .formContainer form input[type="radio"] {
     display: none; }
-    .formContainer form input[type="checkbox"] + label {
+    .formContainer form input[type="checkbox"] + label, .formContainer form input[type="radio"] + label {
       position: relative;
       cursor: pointer;
       font-size: 1.5rem;
-      color: #444444; }
-    .formContainer form input[type="checkbox"]:checked + label:before {
-      font-family: 'ElegantIcons';
-      content: '\5a';
-      margin-right: 10px;
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #EB7F00; }
-    .formContainer form input[type="checkbox"]:not(:checked) + label:before {
-      font-family: 'ElegantIcons';
-      content: '\56';
-      margin-right: 10px;
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
-      color: #1695A3; }
-  .formContainer form input[type="radio"] {
-    display: none; }
-    .formContainer form input[type="radio"] + label {
-      position: relative;
-      cursor: pointer;
-      font-size: 1.5rem;
+      color: #444444;
       margin-right: 5%; }
-    .formContainer form input[type="radio"]:checked + label:before {
+    .formContainer form input[type="checkbox"] + label:before, .formContainer form input[type="radio"] + label:before {
       font-family: 'ElegantIcons';
-      content: '\5c';
+      margin-right: 10px;
       position: relative;
       top: 5px;
-      font-size: 2.5rem;
+      font-size: 2.5rem; }
+    .formContainer form input[type="checkbox"]:checked + label:before, .formContainer form input[type="radio"]:checked + label:before {
       color: #EB7F00; }
-    .formContainer form input[type="radio"]:not(:checked) + label:before {
-      font-family: 'ElegantIcons';
-      content: '\5b';
-      position: relative;
-      top: 5px;
-      font-size: 2.5rem;
+    .formContainer form input[type="checkbox"]:not(:checked) + label:before, .formContainer form input[type="radio"]:not(:checked) + label:before {
       color: #1695A3; }
+  .formContainer form input[type="checkbox"]:checked + label:before {
+    content: '\5a'; }
+  .formContainer form input[type="checkbox"]:not(:checked) + label:before {
+    content: '\56'; }
+  .formContainer form input[type="radio"]:checked + label:before {
+    content: '\5c'; }
+  .formContainer form input[type="radio"]:not(:checked) + label:before {
+    content: '\5b'; }
   .formContainer form textarea {
     display: block;
-    margin: 0 auto 25px auto;
     width: 100%;
     max-width: 100%;
     min-width: 100%;
@@ -280,13 +260,63 @@ button {
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px; }
-  .formContainer form .mySelect {
+  .formContainer form .mySelectContainer h1 {
+    width: 100%;
+    color: #1695A3;
+    border-left: 4px solid #EB7F00;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    text-align: left;
+    padding-left: 10px; }
+  .formContainer form .mySelectContainer .mySelect {
     text-align: left;
     padding-left: 10px;
     overflow-y: scroll;
     border-left: 4px solid #1695A3;
     width: 100%;
     max-height: 200px; }
+  .formContainer form .mySelectContainer .mySingleSelect {
+    border: 1px solid #1695A3;
+    position: relative;
+    min-height: 40px; }
+    .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow {
+      display: none; }
+      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow + label {
+        position: static;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #444444; }
+        .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow + label:before {
+          font-family: 'ElegantIcons';
+          content: "\33";
+          position: absolute;
+          top: 0;
+          right: 0;
+          font-size: 3rem; }
+      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:checked ~ .mySingleSelectOption {
+        display: block; }
+      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:not(:checked) ~ .mySingleSelectOption input[type="radio"]:checked + label {
+        display: block; }
+      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:not(:checked) ~ .mySingleSelectOption input[type="radio"]:not(:checked) + label {
+        display: none; }
+    .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption {
+      text-align: left;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      padding-left: 10px; }
+      .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption input[type="radio"] + label {
+        display: block; }
+      .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption input[type="radio"]:checked + label {
+        position: absolute;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #444444;
+        top: 0;
+        left: 10px; }
+      .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption input[type="radio"]:checked + label:before {
+        content: '\5a'; }
+      .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption input[type="radio"]:not(:checked) + label:before {
+        content: '\56'; }
   .formContainer form .selectContainer {
     padding-left: 0;
     position: relative; }
@@ -555,7 +585,7 @@ button {
 
 /* LEFT COL
 =============================================================================================== */
-#leftCol form h1 {
+#leftCol .sectionTitle {
   font-family: Laila;
   font-size: 2.5rem;
   text-align: center;

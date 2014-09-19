@@ -107,15 +107,15 @@
             </div><!-- FINE header -->
 
 
-            <#if error?has_content>
-            <div id="errorMessage">
+            <#if error??>
+            <div >
                 <h1>Oops.. si è verificato il seguente errore:</h1>
                 <p>${error?html}</p>                
             </div>
             </#if>
 
-            <#if success?has_content>
-            <div id="errorMessage">
+            <#if success??>
+            <div id="message" class="success">
                 <h1>Complimenti!</h1>
                 <p>${succes?html}</p>                
             </div>

@@ -34,16 +34,16 @@
 
         <form id="newsFilterForm">
             <!-- Filtri -->
-            <h1>Filtra per</h1>
+            <h1 class="sectionTitle">Filtra per</h1>
             <div id="newsFilter" class="leftColRealForm">
                 <div class="row">
                     <button type="submit" name="s" value="1" id="searchButtonFilter" data-icon="&#x55;"></button> 
-                    <input type="text" name="fn" class="search" placeholder="Filtra le news per nome" maxlength="60" pattern="[a-zA-Z0-9\s]*" title="puoi inserire solo caratteri alfanumerici e spazi"/>
+                    <input type="text" name="fn" class="search" placeholder="Nome" maxlength="60" pattern="[a-zA-Z0-9\s]*" title="puoi inserire solo caratteri alfanumerici e spazi"/>
                 </div>
                 <div class="row">
                     <div class="selectContainer singleSelection">
                         <select name="fs">
-                            <optgroup label="Filtra per serie"> 
+                            <optgroup label="Serie"> 
                                 <option value="0">Nessuna Serie</option>
                                 <#list series as s>
                                 <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
@@ -56,19 +56,19 @@
                 <div class="row">
                     <span id="mySeriesFilter">
                         <input type="checkbox" name="fmys" id="mySeriesFilterCheckbox" value="1" />
-                        <label for="mySeriesFilterCheckbox">Solo news relative alle mie serie</label>
+                        <label for="mySeriesFilterCheckbox">Mie serie</label>
                     </span>
                 </div>
                 </#if>
                 <div class="row">
-                    <input name="fd" type="text" placeholder="Data news (gg/mm/aaaa)" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" />
+                    <input name="fd" type="text" placeholder="Data (gg/mm/aaaa)" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" />
                 </div>
                 <div class="row">
                     <button type="submit" name="s" value="1">Filtra</button>
                 </div>
             </div><!-- FINE filtri -->
             <!-- Ordinamenti -->
-            <h1>Ordina per</h1>
+            <h1 class="sectionTitle">Ordina per</h1>
             <div id="newsSorting" class="leftColRealForm">
                 <div class="row">
                     <input type="radio" name="o" value="1" id="sortForCommentsRadio">

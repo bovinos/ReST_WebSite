@@ -34,24 +34,27 @@
     <div id="leftCol" class="four columns alpha formContainer">
         <!-- Filtri -->
         <form action="ListaSerie" method="GET" id="seriesFilterForm">
-            <h1>Filtra per</h1>
+            <h1 class="sectionTitle">Filtra per</h1>
             <div id="seriesFilter" class="leftColRealForm">
                 <div class="row">
                     <button type="submit" name="s" value="1" id="searchButtonFilter" data-icon="&#x55;"></button> 
-                    <input type="text" name="fn" class="search" placeholder="Filtra la serie per nome" maxlength="60" pattern="[a-zA-Z0-9\s]*" title="puoi inserire solo caratteri alfanumerici e spazi"/>
+                    <input type="text" name="fn" class="search" placeholder="Nome" maxlength="60" pattern="[a-zA-Z0-9\s]*" title="puoi inserire solo caratteri alfanumerici e spazi"/>
                 </div>
-                <div class="row mySelect">
-                    <#list genres as g>
-                    <div class="row">
-                        <input type="checkbox" id="genres_${g_index}" name="fg" value="${g.ID}" />
-                        <label for="genres_${g_index}">${strip_slashes(g.name)?html}</label>
+                <div class="row mySelectContainer">
+                    <h1>Genere</h1>
+                    <div class="mySelect">
+                        <#list genres as g>
+                        <div class="row">
+                            <input type="checkbox" id="genres_${g_index}" name="fg" value="${g.ID}" />
+                            <label for="genres_${g_index}">${strip_slashes(g.name)?html}</label>
+                        </div>
+                        </#list>
                     </div>
-                    </#list>
                 </div>
                 <div class="row">
                     <div class="selectContainer singleSelection">
                         <select name="fc">
-                            <optgroup label="Filtra per canali"> 
+                            <optgroup label="Canali"> 
                                 <option value="0">Nessun canale</option>
                                 <#list channels as c>
                                 <option value="${c.ID}">${strip_slashes(c.name)?html}</option>
@@ -73,7 +76,7 @@
                 </div>
             </div><!-- FINE filtri -->
             <!-- Ordinamenti -->
-            <h1>Ordina per</h1>
+            <h1 class="sectionTitle">Ordina per</h1>
             <div id="SeriesSorting" class="leftColRealForm">
                 <div class="row">
                     <input type="radio" name="o" value="1" id="sortForPopularityRadio">

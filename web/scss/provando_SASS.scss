@@ -312,7 +312,6 @@ button{
         fieldset{
             border-top: 1px solid rgba(22, 149, 163, 0.4);
             padding: 20px 0;
-            margin-bottom: 10px;
 
             legend{
                 padding: 0 5px;
@@ -331,7 +330,7 @@ button{
             padding: 10px 20px;
         }
 
-        input[type="checkbox"]{
+        input[type="checkbox"], input[type="radio"]{
             display: none;
 
             & + label{
@@ -339,61 +338,51 @@ button{
                 cursor: pointer;
                 font-size: 1.5rem;
                 color: $primaryTextColor;
+                margin-right: 5%;
             }
 
-            &:checked + label:before{
+            & + label:before{
                 font-family: 'ElegantIcons';
-                content: '\5a';
                 margin-right: 10px;
                 position: relative;
                 top: 5px;
                 font-size: 2.5rem;
+            }
+
+            &:checked + label:before{
                 color: $orange;
             }
 
             &:not(:checked) + label:before{
-                font-family: 'ElegantIcons';
-                content: '\56';
-                margin-right: 10px;
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
                 color: $turquoise;
+            }
+
+        }
+
+        input[type="checkbox"]{
+
+            &:checked + label:before{
+                content: '\5a';
+            }
+
+            &:not(:checked) + label:before{
+                content: '\56';
             }
         }
 
         input[type="radio"]{
-            display: none;
-
-            & + label{
-                position: relative;
-                cursor: pointer;
-                font-size: 1.5rem;
-                margin-right: 5%;
-            }
 
             &:checked + label:before{
-                font-family: 'ElegantIcons';
                 content: '\5c';
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
-                color: $orange;
             }
 
             &:not(:checked) + label:before{
-                font-family: 'ElegantIcons';
                 content: '\5b';
-                position: relative;
-                top: 5px;
-                font-size: 2.5rem;
-                color: $turquoise;
             }
         }
 
         textarea{
             display: block;
-            margin: 0 auto 25px auto;
             width: 100%;
             max-width: 100%;
             min-width: 100%;
@@ -404,14 +393,101 @@ button{
             @include borderRadius(10px);
         }
 
-        .mySelect{
-            text-align: left;
-            padding-left: 10px;
-            overflow-y: scroll;
-            border-left: 4px solid $turquoise;
-            width: 100%; 
-            max-height: 200px;
+
+        .mySelectContainer{
+
+            h1{
+                width: 100%;
+                color: $turquoise;
+                border-left: 4px solid $orange;
+                font-size: 1.5rem;
+                margin-bottom: 5px;
+                text-align: left;
+                padding-left: 10px;
+            }
+
+            .mySelect{
+                text-align: left;
+                padding-left: 10px;
+                overflow-y: scroll;
+                border-left: 4px solid $turquoise;
+                width: 100%; 
+                max-height: 200px;
+            }
+
+            .mySingleSelect{
+                border: 1px solid $turquoise;
+                position: relative;
+                min-height: 40px;
+
+                input[type="checkbox"].mySingleSelectArrow{
+                    display: none;
+
+                    & + label{
+                        position: static;
+                        cursor: pointer;
+                        font-size: 1.5rem;
+                        color: $primaryTextColor;
+
+                        &:before{
+                            font-family: 'ElegantIcons';
+                            content: "\33";
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            font-size: 3rem;
+                        }
+                    }
+
+                    &:checked ~ .mySingleSelectOption{
+                        display: block;
+                    }
+
+                    &:not(:checked) ~ .mySingleSelectOption{
+                        input[type="radio"]:checked + label{
+                            display: block;
+                        }
+
+                        input[type="radio"]:not(:checked) + label{
+                            display: none;
+                        }
+                    }
+                }
+
+                .mySingleSelectOption{
+                    text-align: left;
+                    margin-top: 20px;
+                    margin-bottom: 10px;
+                    padding-left: 10px;
+
+
+                    input[type="radio"]{
+
+                        & + label{
+                            display: block;
+                        }
+
+                        &:checked + label{
+                            position: absolute;
+                            cursor: pointer;
+                            font-size: 1.5rem;
+                            color: $primaryTextColor;
+                            top: 0;
+                            left: 10px;
+                        }
+
+                        &:checked + label:before{
+                            content: '\5a';
+                        }
+
+                        &:not(:checked) + label:before{
+                            content: '\56';
+                        }
+                    }
+                }
+            }
         }
+
 
         .selectContainer{
             padding-left: 0;
@@ -739,18 +815,17 @@ button{
 =============================================================================================== */
 #leftCol{
 
+    .sectionTitle{
+        font-family: Laila;
+        font-size: 2.5rem;
+        text-align: center;
+        padding: 10px 0;
+        background: $blue;
+        color: #FFFFFF;
+        margin-bottom: 30px;
+    }
+
     form{
-
-        h1{
-            font-family: Laila;
-            font-size: 2.5rem;
-            text-align: center;
-            padding: 10px 0;
-            background: $blue;
-            color: #FFFFFF;
-            margin-bottom: 30px;
-        }
-
         .leftColRealForm{
             text-align: left;
             width: 80%;

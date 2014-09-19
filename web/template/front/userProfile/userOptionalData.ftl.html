@@ -30,35 +30,38 @@
             <input type="url" name="imageURL" placeholder="URL immagine" tabindex="4" />
             </#if>
         </div>
-        <div class="row mySelect">
-            <#if (user.genres?size > 0)>
-            <#list genres as g> 
-            <#list user.genres as ug> <!-- per ogni genere ciclo sulla lista di generi dell'utente per vedere se c'è -->
-            <#if (ug.ID == g.ID)> <!-- se l'ho trovato lo stampo selezionato ed esco dal ciclo -->
-            <div class="row">
-                <input type="checkbox" id="genres_${g_index}" name="genres" value="${g.ID}" checked="checked" />
-                <label for="genres_${g_index}">${strip_slashes(g.name)?html}</label>
+        <div class="row mySelectContainer">
+            <h1>Seleziona i tuoi generi preferiti</h1>
+            <div class="mySelect">
+                <#if (user.genres?size > 0)>
+                <#list genres as g> 
+                <#list user.genres as ug> <!-- per ogni genere ciclo sulla lista di generi dell'utente per vedere se c'è -->
+                <#if (ug.ID == g.ID)> <!-- se l'ho trovato lo stampo selezionato ed esco dal ciclo -->
+                <div class="row">
+                    <input type="checkbox" id="genres_${g_index}" name="genres" value="${g.ID}" checked="checked" />
+                    <label for="genres_${g_index}">${strip_slashes(g.name)?html}</label>
+                </div>
+                <#break> <!-- esco dal ciclo -->
+                </#if>
+                <!-- Se arrivo a questo punto con l'ultimo elemento vuol dire che il genere non è tra quelli -->
+                <!-- quelli dell'utente quindi lo stampo deselezionato -->
+                <#if (ug_index == (user.genres?size - 1)) > 
+                <div class="row">
+                    <input type="checkbox" id="genres_${g_index}" name="genres" value="${g.ID}" />
+                    <label for="genres_${g_index}">${strip_slashes(g.name)?html}</label>
+                </div>
+                </#if>
+                </#list>
+                </#list>
+                <#else> <!-- altrimenti stampali semplicemente tutti -->
+                <#list genres as g>
+                <div class="row">
+                    <input type="checkbox" id="genres_${g_index}" name="genres" value="${g.ID}" />
+                    <label for="genres_${g_index}">${strip_slashes(g.name)?html}</label>
+                </div>
+                </#list>
+                </#if>
             </div>
-            <#break> <!-- esco dal ciclo -->
-            </#if>
-            <!-- Se arrivo a questo punto con l'ultimo elemento vuol dire che il genere non è tra quelli -->
-            <!-- quelli dell'utente quindi lo stampo deselezionato -->
-            <#if (ug_index == (user.genres?size - 1)) > 
-            <div class="row">
-                <input type="checkbox" id="genres_${g_index}" name="genres" value="${g.ID}" />
-                <label for="genres_${g_index}">${strip_slashes(g.name)?html}</label>
-            </div>
-            </#if>
-            </#list>
-            </#list>
-            <#else> <!-- altrimenti stampali semplicemente tutti -->
-            <#list genres as g>
-            <div class="row">
-                <input type="checkbox" id="genres_${g_index}" name="genres" value="${g.ID}" />
-                <label for="genres_${g_index}">${strip_slashes(g.name)?html}</label>
-            </div>
-            </#list>
-            </#if>
         </div>
         <div class="row">
             <#if user.gender?has_content >

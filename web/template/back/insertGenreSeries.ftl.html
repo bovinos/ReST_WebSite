@@ -2,6 +2,22 @@
 <div id='insertGenreSeries' class='formContainer'>
     <form action="GestioneSerie" method="POST">
         <input type="hidden" name="sezione" value="8" />
+        <div class="row mySelectContainer">
+            <div class="mySingleSelect">
+                <input type="checkbox" id="prova" class="mySingleSelectArrow" />
+                <label for="prova"></label>
+                <div class="mySingleSelectOption">
+                    <input type="radio" name="option" id="option_1"/>
+                    <label for="option_1">Opzione 1</label>
+                    <input type="radio" name="option" id="option_2"/>
+                    <label for="option_2">Opzione 2</label>
+                    <input type="radio" name="option" id="option_3"/>
+                    <label for="option_3">Opzione 3</label>
+                    <input type="radio" name="option" id="option_4"/>
+                    <label for="option_4">Opzione 4</label>
+                </div>
+            </div>
+        </div>
         <div class='row'>
             <div class="selectContainer singleSelection">
                 <select name="genre">
