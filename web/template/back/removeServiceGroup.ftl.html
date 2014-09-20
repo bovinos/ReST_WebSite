@@ -8,7 +8,7 @@
                 <label for="serviceSelect"></label>
                 <#if (services?size > 0)>
                 <div class="mySingleSelectOption">
-                    <input type="radio" name="service" id="noService" value="0" />
+                    <input type="radio" name="service" id="noService" checked="checked" value="0" />
                     <label for="noService">Nessun servizio</label>
                     <#list services as s>
                     <input type="radio" name="service" id="service_${s_index}" value="${s.ID}" />
@@ -25,7 +25,7 @@
                 <#if (groups?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="group" id="noGroup" checked="checked" value="0" />
-                    <label for="noGroup">Nessuna serie</label>
+                    <label for="noGroup">Nessun gruppo</label>
                     <#list groups as g>
                     <input type="radio" name="group" id="group_${g_index}" value="${g.ID}" />
                     <label for="group_${g_index}">[${strip_slashes(g.name)?html}</label>

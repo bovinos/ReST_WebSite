@@ -965,7 +965,7 @@ public class SeriesManagement extends RESTBaseController {
              }
            CastMember cm = getDataLayer().getCastMember(SecurityLayer.checkNumeric(request.getParameter("castMember")));
            Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
-           CastMemberSeries cms = getDataLayer().getCastMembeSeries(cm, s, request.getParameter("role"));
+           CastMemberSeries cms = getDataLayer().getCastMemberSeries(cm, s, request.getParameter("role"));
            if (cms == null){
                request.setAttribute("error", "Questo membro del cast e questa serie non sono associati!");
                 action_remove_castmemberSeries(request, response);

@@ -470,7 +470,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 }
             }
             // Store relationship
-            List<CastMemberSeries> oldCastMemberSeries = getCastMemberSeries(castMember);
+            List<CastMemberSeries> oldCastMemberSeries = RESTDataLayerMySQL.this.getCastMemberSeries(castMember);
             List<CastMemberSeries> newCastMemberSeries = castMember.getCastMemberSeries();
             if (newCastMemberSeries != null && !newCastMemberSeries.isEmpty()) {
                 for (CastMemberSeries cms : oldCastMemberSeries) {
@@ -2257,7 +2257,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                     }
                 }
             }
-            List<CastMemberSeries> oldCastMemberSeries = getCastMemberSeries(series);
+            List<CastMemberSeries> oldCastMemberSeries = RESTDataLayerMySQL.this.getCastMemberSeries(series);
             List<CastMemberSeries> newCastMemberSeries = series.getCastMemberSeries();
             if (newCastMemberSeries != null && !newCastMemberSeries.isEmpty()) {
                 for (CastMemberSeries cms : oldCastMemberSeries) {
@@ -2907,7 +2907,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
     @Override
     // sCastMemberSeriesByCastMemberAndSeriesAndRole = "SELECT ID FROM r_cast_member_series WHERE ID_cast_member=?, ID_series=?, role=?"
-    public CastMemberSeries getCastMembeSeries(CastMember castMember, Series series, String role) {
+    public CastMemberSeries getCastMemberSeries(CastMember castMember, Series series, String role) {
         CastMemberSeries result = null;
         ResultSet rs = null;
         try {
@@ -2916,7 +2916,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sCastMemberSeriesByCastMemberAndSeriesAndRole.setString(3, role);
             rs = sCastMemberSeriesByCastMemberAndSeriesAndRole.executeQuery();
             if (rs.next()) {
-                result = getCastMemberSeries(rs.getInt("ID"));
+                result = RESTDataLayerMySQL.this.getCastMemberSeries(rs.getInt("ID"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2940,7 +2940,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         try {
             rs = sCastMemberSeries.executeQuery();
             while (rs.next()) {
-                result.add(getCastMemberSeries(rs.getInt("ID")));
+                result.add(RESTDataLayerMySQL.this.getCastMemberSeries(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2965,7 +2965,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sCastMemberSeriesByCastMember.setInt(1, castMember.getID());
             rs = sCastMemberSeriesByCastMember.executeQuery();
             while (rs.next()) {
-                result.add(getCastMemberSeries(rs.getInt("ID")));
+                result.add(RESTDataLayerMySQL.this.getCastMemberSeries(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -2990,7 +2990,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sCastMemberSeriesBySeries.setInt(1, series.getID());
             rs = sCastMemberSeriesBySeries.executeQuery();
             while (rs.next()) {
-                result.add(getCastMemberSeries(rs.getInt("ID")));
+                result.add(RESTDataLayerMySQL.this.getCastMemberSeries(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -3016,7 +3016,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sCastMemberSeriesByCastMemberAndSeries.setInt(2, series.getID());
             rs = sCastMemberSeriesByCastMemberAndSeries.executeQuery();
             while (rs.next()) {
-                result.add(getCastMemberSeries(rs.getInt("ID")));
+                result.add(RESTDataLayerMySQL.this.getCastMemberSeries(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -3076,7 +3076,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 }
             }
             if (ID > 0) {
-                castMemberSeries.copyFrom(getCastMemberSeries(ID));
+                castMemberSeries.copyFrom(RESTDataLayerMySQL.this.getCastMemberSeries(ID));
             }
             castMemberSeries.setDirty(false);
         } catch (SQLException ex) {
@@ -3147,15 +3147,15 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // sCastMemberSeriesByCastMemberAndSeriesAndRole = "SELECT ID FROM r_channel_episode WHERE ID_channel=? AND ID_episode=? AND date=?"
+    // sChannelEpisodeByChannelAndEpisodeAndDate = "SELECT ID FROM r_channel_episode WHERE ID_channel=? AND ID_episode=? AND date=?"
     public ChannelEpisode getChannelEpisode(Channel channel, Episode episode, Date date) {
         ChannelEpisode result = null;
         ResultSet rs = null;
         try {
-            sCastMemberSeriesByCastMemberAndSeriesAndRole.setInt(1, channel.getID());
-            sCastMemberSeriesByCastMemberAndSeriesAndRole.setInt(2, episode.getID());
-            sCastMemberSeriesByCastMemberAndSeriesAndRole.setTimestamp(3, new java.sql.Timestamp(date.getTime()));
-            rs = sCastMemberSeriesByCastMemberAndSeriesAndRole.executeQuery();
+            sChannelEpisodeByChannelAndEpisodeAndDate.setInt(1, channel.getID());
+            sChannelEpisodeByChannelAndEpisodeAndDate.setInt(2, episode.getID());
+            sChannelEpisodeByChannelAndEpisodeAndDate.setTimestamp(3, new java.sql.Timestamp(date.getTime()));
+            rs = sChannelEpisodeByChannelAndEpisodeAndDate.executeQuery();
             if (rs.next()) {
                 result = getChannelEpisode(rs.getInt("ID"));
             }

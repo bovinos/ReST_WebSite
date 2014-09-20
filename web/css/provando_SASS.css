@@ -199,6 +199,35 @@ button {
   button:hover {
     background-color: #EB7F00; }
 
+.pageList {
+  text-align: center; }
+  .pageList ul .currentPage {
+    background-color: #EB7F00; }
+  .pageList ul li {
+    font-size: 1.7rem;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #1695A3;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    transition: background-color 0.3s ease-in-out;
+    -webkit-transition: background-color 0.3s ease-in-out;
+    -moz-transition: background-color 0.3s ease-in-out;
+    color: #FFFFFF; }
+    .pageList ul li:hover {
+      background-color: #EB7F00; }
+    .pageList ul li a {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      color: #FFFFFF; }
+
+.currentSection {
+  color: orange; }
+
 /* FORM
 =============================================================================================== */
 .formContainer {
@@ -1239,7 +1268,7 @@ button {
     color: #999999; }
 #userProfile nav li {
   font-size: 1.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-left: 10%; }
   #userProfile nav li:last-of-type {
     margin-bottom: 40px; }
@@ -1439,17 +1468,24 @@ button {
 =============================================================================================== */
 #backOutline nav li {
   font-size: 1.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-left: 10%; }
   #backOutline nav li:last-of-type {
     margin-bottom: 40px; }
+  #backOutline nav li:before {
+    margin-right: 5px;
+    color: #999999;
+    font-size: 1.6rem; }
 
 /* INSERT 
 =============================================================================================== */
 #insertNews, #insertSeries, #insertEpisode, #insertChannel, #insertChannel,
 #insertGenre, #insertGenre, #insertCastMember, #insertGroup, #insertService,
 #insertCastMemberSeries, #insertChannelEpisode, #insertGenreSeries,
-#insertServiceGroup {
+#insertServiceGroup, #removeCastMember, #removeChannel, #removeEpisode,
+#removeGenre, #removeGroup, #removeNews, #removeSeries, #removeService,
+#removeCastMemberSeries, #removeChannelEpisode, #removeGenreSeries,
+#removeServiceGroup {
   width: 70%; }
 
 /* MEDIA QUERY
@@ -1686,7 +1722,10 @@ button {
   #insertNews, #insertSeries, #insertEpisode, #insertChannel, #insertChannel,
   #insertGenre, #insertGenre, #insertCastMember, #insertGroup, #insertService,
   #insertCastMemberSeries, #insertChannelEpisode, #insertGenreSeries,
-  #insertServiceGroup {
+  #insertServiceGroup, #removeCastMember, #removeChannel, #removeEpisode,
+  #removeGenre, #removeGroup, #removeNews, #removeSeries, #removeService,
+  #removeCastMemberSeries, #removeChannelEpisode, #removeGenreSeries,
+  #removeServiceGroup {
     width: 98%; } }
 /* PROVE JS
 ===============================================================================================
@@ -1718,5 +1757,8 @@ button {
   #timePicker #hoursValue, #timePicker #minutesValue {
     margin: 10px;
     font-size: 3rem; }
+
+#datePicker {
+  display: none; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

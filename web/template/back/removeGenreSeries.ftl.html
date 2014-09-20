@@ -8,7 +8,7 @@
                 <label for="genreSelect"></label>
                 <#if (genres?size > 0)>
                 <div class="mySingleSelectOption">
-                    <input type="radio" name="genre" id="noGenre" value="0" />
+                    <input type="radio" name="genre" id="noGenre" checked="checked" value="0" />
                     <label for="noGenre">Nessun Genere</label>
                     <#list genres as g>
                     <input type="radio" name="genre" id="genre_${g_index}" value="${g.ID}" />
@@ -20,8 +20,8 @@
         </div>
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
-                <input type="checkbox" id="prova" class="mySingleSelectArrow" />
-                <label for="prova"></label>
+                <input type="checkbox" id="seriesSelect" class="mySingleSelectArrow" />
+                <label for="seriesSelect"></label>
                 <#if (series?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="series" id="noSeries" checked="checked" value="0" />

@@ -300,6 +300,43 @@ button{
     }
 }
 
+.pageList{
+    text-align: center;
+
+    ul{
+        .currentPage{
+            background-color: $orange;
+        }
+
+        li{
+            font-size: 1.7rem;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            background-color: $turquoise;
+            @include borderRadius(50%);
+            @include transition(background-color, 0.3s);
+            color: #FFFFFF;
+
+            &:hover{
+                background-color: $orange;
+            }
+
+            a{
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                color: #FFFFFF;
+            }
+        }
+    }
+}
+
+.currentSection{
+    color: orange;
+}
+
 /* FORM
 =============================================================================================== */
 .formContainer{
@@ -1737,7 +1774,7 @@ button{
 
         li{
             font-size: 1.5rem;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             margin-left: 10%;
 
             &:last-of-type{
@@ -2013,15 +2050,20 @@ button{
 
         li{
             font-size: 1.5rem;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             margin-left: 10%;
 
             &:last-of-type{
                 margin-bottom: 40px;
             }
+
+            &:before{
+                margin-right: 5px;
+                color: $secondaryTextColor;
+                font-size: 1.6rem;
+            }
         }
     }
-
 }
 
 /* INSERT 
@@ -2029,7 +2071,10 @@ button{
 #insertNews, #insertSeries, #insertEpisode, #insertChannel, #insertChannel, 
 #insertGenre, #insertGenre, #insertCastMember, #insertGroup, #insertService,
 #insertCastMemberSeries, #insertChannelEpisode, #insertGenreSeries,
-#insertServiceGroup{
+#insertServiceGroup, #removeCastMember, #removeChannel, #removeEpisode,
+#removeGenre, #removeGroup, #removeNews, #removeSeries, #removeService,
+#removeCastMemberSeries, #removeChannelEpisode, #removeGenreSeries,
+#removeServiceGroup{
     width: 70%;
 }
 
@@ -2421,7 +2466,10 @@ button{
     #insertNews, #insertSeries, #insertEpisode, #insertChannel, #insertChannel, 
     #insertGenre, #insertGenre, #insertCastMember, #insertGroup, #insertService,
     #insertCastMemberSeries, #insertChannelEpisode, #insertGenreSeries,
-    #insertServiceGroup{
+    #insertServiceGroup, #removeCastMember, #removeChannel, #removeEpisode,
+    #removeGenre, #removeGroup, #removeNews, #removeSeries, #removeService,
+    #removeCastMemberSeries, #removeChannelEpisode, #removeGenreSeries,
+    #removeServiceGroup{
         width: 98%;
     }
 
@@ -2462,6 +2510,10 @@ button{
         font-size: 3rem;
     }
 
+}
+
+#datePicker{
+    display: none;
 }
 
 
