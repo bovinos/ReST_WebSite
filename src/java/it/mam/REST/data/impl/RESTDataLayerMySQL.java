@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -3155,23 +3156,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sChannelEpisodeByChannelAndEpisodeAndDate.setInt(1, channel.getID());
             sChannelEpisodeByChannelAndEpisodeAndDate.setInt(2, episode.getID());
             sChannelEpisodeByChannelAndEpisodeAndDate.setTimestamp(3, new java.sql.Timestamp(date.getTime()));
-
-            System.err.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            System.err.println("Mi arriva: " + new java.sql.Timestamp(date.getTime()));
-            System.err.println("millisecondi timestamp: " + new java.sql.Timestamp(date.getTime()).getTime());
-            System.err.println("versione Date: " + date);
-            System.err.println("millisecondi date: " + date.getTime());
-            PreparedStatement x = connection.prepareStatement("SELECT date FROM r_channel_episode WHERE ID=78");
-            ResultSet xD = x.executeQuery();
-            if (xD.next()) {
-                System.err.println("Nel DB: " + xD.getTimestamp("date"));
-                System.err.println("millisecondi timestamp: " + xD.getTimestamp("date").getTime());
-                System.err.println("versione Date: " + new Date(xD.getTimestamp("date").getTime()));
-                System.err.println("millisecondi date: " + new Date(xD.getTimestamp("date").getTime()).getTime());
-            }
-            System.err.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
-            rs = sChannelEpisodeByChannelAndEpisodeAndDate.executeQuery();
+            rs = sChannelEpisodeByChannelAndEpisodeAndDate.executeQuery();   
             if (rs.next()) {
                 result = getChannelEpisode(rs.getInt("ID"));
             }
