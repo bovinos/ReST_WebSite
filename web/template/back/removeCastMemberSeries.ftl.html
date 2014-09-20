@@ -8,7 +8,7 @@
                 <label for="castMemberSelect"></label>
                 <#if (castMembers?size > 0)>
                 <div class="mySingleSelectOption">
-                    <input type="radio" name="castMember" id="noCastMember" value="0" />
+                    <input type="radio" name="castMember" id="noCastMember" checked="checked" value="0" />
                     <label for="noCastMember">Nessun membro del cast</label>
                     <#list castMembers as cm>
                     <input type="radio" name="castMember" id="castMember_${cm_index}" value="${cm.ID}" />

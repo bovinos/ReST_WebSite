@@ -1700,12 +1700,21 @@ button {
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  text-align: center; }
+  text-align: center;
+  display: none; }
+  #timePicker.show {
+    display: block; }
   #timePicker #hours, #timePicker #minutes {
     display: inline-block; }
   #timePicker #hoursUp, #timePicker #hoursDown, #timePicker #minutesUp, #timePicker #minutesDown {
     color: #1695A3;
-    font-size: 5rem; }
+    font-size: 5rem;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+    -webkit-transition: color 0.3s ease-in-out;
+    -moz-transition: color 0.3s ease-in-out; }
+    #timePicker #hoursUp:hover, #timePicker #hoursDown:hover, #timePicker #minutesUp:hover, #timePicker #minutesDown:hover {
+      color: #EB7F00; }
   #timePicker #hoursValue, #timePicker #minutesValue {
     margin: 10px;
     font-size: 3rem; }

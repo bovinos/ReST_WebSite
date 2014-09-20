@@ -1,7 +1,7 @@
 
 Element.prototype.addClass = function(c) {
     if (this.hasAttribute("class")) {
-        this.setAttribute("class", this.getAttribute("class") + c + " ");
+        this.setAttribute("class", this.getAttribute("class") + " " + c + " ");
     } else {
         this.setAttribute("class", c + " ");
     }
@@ -38,13 +38,55 @@ window.onload = function() {
         }; // mozilla & chrome
     }
 
+    var timePickerInput = document.querySelector("#timePickerInput");
     var timePicker = document.querySelector("#timePicker");
     var hoursUp = document.querySelector("#hoursUp");
     var hoursValue = document.querySelector("#hoursValue");
+    hoursValue.val = 0;
     var hoursDown = document.querySelector("#hoursDown");
     var minutesUp = document.querySelector("#minutesUp");
     var minutesValue = document.querySelector("#minutesValue");
+    minutesValue.val = 0;
     var minutesDown = document.querySelector("#minutesDown");
 
+    document.addEventListener("click", function(e) {
+        if (e.target !== timePicker && timePicker.getAttribute("class").indexOf("show") !== -1) {
+            timePicker.removeClass("show");
+        }
+    });
+
+    timePickerInput.addEventListener("click", function(e) {
+        timePickerInput.value = "00:00";
+        timePicker.toggleClass("show");
+        e.stopPropagation();
+    });
+
+    hoursUp.addEventListener("click", function(e) {
+        hoursValue.val >= 23 ? hoursValue.val = 0 : hoursValue.val++;
+        hoursValue.val <= 9 ? hoursValue.innerHTML = "0" + hoursValue.val : hoursValue.innerHTML = hoursValue.val;
+        timePickerInput.value = hoursValue.innerHTML + ":" + minutesValue.innerHTML;
+        e.stopPropagation();
+    });
+
+    hoursDown.addEventListener("click", function(e) {
+        hoursValue.val <= 0 ? hoursValue.val = 23 : hoursValue.val--;
+        hoursValue.val <= 9 ? hoursValue.innerHTML = "0" + hoursValue.val : hoursValue.innerHTML = hoursValue.val;
+        timePickerInput.value = hoursValue.innerHTML + ":" + minutesValue.innerHTML;
+        e.stopPropagation();
+    });
+
+    minutesUp.addEventListener("click", function(e) {
+        minutesValue.val >= 59 ? minutesValue.val = 0 : minutesValue.val++;
+        minutesValue.val <= 9 ? minutesValue.innerHTML = "0" + minutesValue.val : minutesValue.innerHTML = minutesValue.val;
+        timePickerInput.value = hoursValue.innerHTML + ":" + minutesValue.innerHTML;
+        e.stopPropagation();
+    });
+
+    minutesDown.addEventListener("click", function(e) {
+        minutesValue.val <= 0 ? minutesValue.val = 59 : minutesValue.val++;
+        minutesValue.val <= 9 ? minutesValue.innerHTML = "0" + minutesValue.val : minutesValue.innerHTML = minutesValue.val;
+        timePickerInput.value = hoursValue.innerHTML + ":" + minutesValue.innerHTML;
+        e.stopPropagation();
+    });
 
 };
