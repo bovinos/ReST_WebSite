@@ -36,20 +36,57 @@ public class SeriesList extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("where", "series");
-        request.setAttribute("series", getDataLayer().getSeries());
+        List<Series> seriesList =getDataLayer().getSeries();
+        int page;
+        if(request.getParameter("page") != null) {
+        page = SecurityLayer.checkNumeric(request.getParameter("page"));
+        } else {
+            page = 1;
+        }
+        int seriesPerPage = 10;
+        int numberOfPages = Math.round(seriesList.size()/seriesPerPage) + 1;
+        request.setAttribute("totalPages", numberOfPages);
+        if(page == numberOfPages) {
+            request.setAttribute("series", seriesList.subList((page*seriesPerPage)-seriesPerPage, seriesList.size()-1));
+        } else if (page > numberOfPages || page < 1) {
+            action_error(request, response, "Riprova di nuovo!");
+        } else {
+            request.setAttribute("series", seriesList.subList((page *seriesPerPage)-seriesPerPage, (page *seriesPerPage)));
+        }
         // User session checking
         try{
         if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+            
         }
          } catch (NumberFormatException ex) {
              //User id is not a number
         }
-        
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
-
+        //genero e inserisco nella request le 5 serie più trendy
+        request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
+        result.activate("seriesList.ftl.html", request, response);
+    }
+    
+    // Activates the seriesList template with the recommended series
+    private void action_hint_series(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("where", "series");
+        // User session checking
+        try{
+        if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            request.setAttribute("user", user);
+            request.setAttribute("series", getDataLayer().getHintSeries(user));
+        } //else nothing, this list can be seen without beeing logged in
+         } catch (NumberFormatException ex) {
+             //User id is not a number
+        }
+        request.setAttribute("genres", getDataLayer().getGenres());
+        request.setAttribute("channels", getDataLayer().getChannels());
         //genero e inserisco nella request le 5 serie più trendy
         request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
         result.activate("seriesList.ftl.html", request, response);
@@ -173,7 +210,12 @@ public class SeriesList extends RESTBaseController {
         if (request.getParameter("s") != null) {
             action_FilterAndOrder_series_list(request, response);
         } else {
-            action_series_list(request, response);
+            if(request.getParameter("sh") != null){
+            action_hint_series(request, response);
+            } else{
+             action_series_list(request, response);
+            }
+
         }
             } catch (IOException ex) {
                 action_error(request, response, "Riprova di nuovo!");

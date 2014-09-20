@@ -1039,7 +1039,7 @@ public class SeriesManagement extends RESTBaseController {
                request.setAttribute("error", "Questo canale e questo episodio non sono associati!");
                 action_remove_channelEpisode(request, response);
                 return;
-           }
+                }
                 getDataLayer().removeChannelEpisode(ce);
             
                 request.setAttribute("success", "Canale ed episodio separati correttamente!");
