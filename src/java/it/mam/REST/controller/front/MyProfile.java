@@ -38,7 +38,6 @@ public class MyProfile extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("where", "profile");
         if (SecurityLayer.checkSession(request) != null) {
-            result.activate("logIn.ftl.html", request, response);
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
             request.setAttribute("userProfileContent_tpl", "userBroadcastProgramming.ftl.html");
@@ -83,6 +82,7 @@ public class MyProfile extends RESTBaseController {
 
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+            request.setAttribute("seriesHint", getDataLayer().getHintSeries(user));
             request.setAttribute("userProfileContent_tpl", "userSeries.ftl.html");
             request.setAttribute("where", "profile");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);

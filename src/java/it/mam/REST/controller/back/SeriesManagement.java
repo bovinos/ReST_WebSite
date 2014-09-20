@@ -183,36 +183,41 @@ public class SeriesManagement extends RESTBaseController {
 
     }
 
-    // Activates the insert channel template (RIPRENDERE DA QUESTO XD)
+    // Activates the insert channel template
     private void action_insert_channel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+       try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "insertChannel.ftl.html");
             result.activate("../back/backOutline.ftl.html", request, response);
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+          } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //Comment id or series id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
+    // Receives all the necessary data to insert a channel
     private void action_save_channel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+          try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -234,46 +239,59 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 channel.setNumber(SecurityLayer.checkNumeric(request.getParameter("channelNumber")));
             } else {
-                action_error(request, response, "Inserire i campi obbligatori");
+                request.setAttribute("error", "Uno dei campi è vuoto!");
+                action_insert_channel(request, response);
                 return;
             }
 
             getDataLayer().storeChannel(RESTSecurityLayer.addSlashes(channel));
             response.sendRedirect("GestioneSerie?sezione=3");
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+                } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
+    //Activates the insert genre template
     private void action_insert_genre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "insertGenre.ftl.html");
             result.activate("../back/backOutline.ftl.html", request, response);
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
+    // Receives all the necessary data to insert a genre
     private void action_save_genre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -283,20 +301,27 @@ public class SeriesManagement extends RESTBaseController {
             }
             getDataLayer().storeGenre(RESTSecurityLayer.addSlashes(genre));
             response.sendRedirect("GestioneSerie?sezione=4");
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
+    
+    //Activates the insert castmember template
     private void action_insert_castmember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
@@ -304,27 +329,32 @@ public class SeriesManagement extends RESTBaseController {
             request.setAttribute("series", getDataLayer().getSeries());
             request.setAttribute("backContent_tpl", "insertCastMember.ftl.html");
             result.activate("../back/backOutline.ftl.html", request, response);
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
+    // Receives all the necessary data to insert a castmember
     private void action_save_castmember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             CastMember castMember = getDataLayer().createCastMember();
-            CastMemberSeries cms = getDataLayer().createCastMemberSeries();
+            //CastMemberSeries cms = getDataLayer().createCastMemberSeries();
             if (checkCastMemberInputData(request, response)) {
-                System.err.println(request.getParameter("castMemberBirthDate"));
                 castMember.setName(request.getParameter("castMemberName"));
                 castMember.setSurname(request.getParameter("castMemberSurname"));
                 castMember.setCountry(request.getParameter("castMemberCountry"));
@@ -340,7 +370,7 @@ public class SeriesManagement extends RESTBaseController {
                         castMember.setGender(CastMember.FEMALE);
                         break;
                     default:
-                        action_error(request, response, "Invalid gender");
+                        action_error(request, response, "Riprova di nuovo!");
                         return;
                 }
 
@@ -365,24 +395,31 @@ public class SeriesManagement extends RESTBaseController {
 //                    }
 //                }
             } else {
-                action_error(request, response, "Inserire i campi obbligatori");
+                request.setAttribute("error", "Uno dei campi è vuoto!");
+                action_insert_castmember(request, response);
                 return;
             }
             response.sendRedirect("GestioneSerie?sezione=5");
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id or gender is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
+    // Activates the insert castmember-series template
     private void action_insert_castmemberSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
@@ -391,11 +428,18 @@ public class SeriesManagement extends RESTBaseController {
             request.setAttribute("castmembers", getDataLayer().getCastMembers());
             request.setAttribute("backContent_tpl", "insertCastMemberSeries.ftl.html");
             result.activate("../back/backOutline.ftl.html", request, response);
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
+    // Receives all the necessary data to link a castmember to a series
     private void action_save_castmemberSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
