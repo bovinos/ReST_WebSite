@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -3155,7 +3156,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sChannelEpisodeByChannelAndEpisodeAndDate.setInt(1, channel.getID());
             sChannelEpisodeByChannelAndEpisodeAndDate.setInt(2, episode.getID());
             sChannelEpisodeByChannelAndEpisodeAndDate.setTimestamp(3, new java.sql.Timestamp(date.getTime()));
-            rs = sChannelEpisodeByChannelAndEpisodeAndDate.executeQuery();
+            rs = sChannelEpisodeByChannelAndEpisodeAndDate.executeQuery();   
             if (rs.next()) {
                 result = getChannelEpisode(rs.getInt("ID"));
             }

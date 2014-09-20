@@ -150,13 +150,14 @@ public class SecurityLayer {
                 || ((month == 3 || month == 5 || month == 8 || month == 10) && day > 30)) {
             throw new NumberFormatException();
         }
+        c.clear();
         c.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
         c.set(year, month, day, 0, 0, 0);
         return c;
     }
 
     public static Long checkTime(String s) throws NumberFormatException {
-        //controllo se la data è nel formato "Numero/Numero/Numero"
+        //controllo se l'orario è nel formato hh:mm
         if (!(s.matches("[0-9]+:[0-9]+"))) {
             throw new NumberFormatException();
         }
@@ -169,7 +170,6 @@ public class SecurityLayer {
         int hours = SecurityLayer.checkNumeric(d[0]);
         int minutes = SecurityLayer.checkNumeric(d[1]);
 
-        //controllo se i valori non sono zero, che i mesi non abbiano più dei loro giorni e controllo correttamente Febbraio
         if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
             throw new NumberFormatException();
         }

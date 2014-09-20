@@ -16,6 +16,7 @@ import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -528,7 +529,11 @@ public class SeriesManagement extends RESTBaseController {
                 ChannelEpisode ce = getDataLayer().createChannelEpisode();
                 ce.setChannel(getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel"))));
                 ce.setEpisode(getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode"))));
-                ce.setDate(new Date((SecurityLayer.checkDate(request.getParameter("date"))).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
+                Calendar c = Calendar.getInstance();
+                c.clear();
+                c.set(0, 0, 0, 0, 0, 0);
+                c.setTimeInMillis((SecurityLayer.checkDate(request.getParameter("date")).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
+                ce.setDate(c.getTime());
                 getDataLayer().storeChannelEpisode(ce);
             } else {
                 request.setAttribute("error", "Uno dei campi è vuoto!");
@@ -1034,7 +1039,11 @@ public class SeriesManagement extends RESTBaseController {
             }
                 Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel")));
                 Episode e = getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode")));
-                ChannelEpisode ce = getDataLayer().getChannelEpisode(c, e, new Date((SecurityLayer.checkDate(request.getParameter("date"))).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
+                Calendar cl = Calendar.getInstance();
+                cl.clear();
+                cl.set(0, 0, 0, 0, 0, 0);
+                cl.setTimeInMillis((SecurityLayer.checkDate(request.getParameter("date")).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
+                ChannelEpisode ce = getDataLayer().getChannelEpisode(c, e, cl.getTime());
                 if (ce == null){
                request.setAttribute("error", "Questo canale e questo episodio non sono associati!");
                 action_remove_channelEpisode(request, response);
