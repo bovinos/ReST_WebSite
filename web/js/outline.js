@@ -24,11 +24,17 @@ Element.prototype.toggleClass = function(c) {
     }
 };
 
-var searchSpan = document.querySelector("#searchSpan");
-var searchForm = document.querySelector("#searchForm");
-searchForm.addClass("hide");
-searchSpan.addEventListener("click", function(e) {
-    searchForm.toggleClass("hide");
-    searchForm.toggleClass("show");
+window.onload = function() {
 
-});
+    // tolgiamo la possibilità di poter selezionare il testo delle label
+    // in modo da far funzionare al meglio le checkbox
+    var elements = document.getElementsByTagName("label");
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].onselectstart = function() {
+            return false;
+        }; // explorer
+        elements[i].onmousedown = function() {
+            return false;
+        }; // mozilla & chrome
+    }
+};

@@ -347,6 +347,7 @@ button{
                 position: relative;
                 top: 5px;
                 font-size: 2.5rem;
+                @include transition(color, 0.3s);
             }
 
             &:checked + label:before{
@@ -432,10 +433,16 @@ button{
                             font-family: 'ElegantIcons';
                             content: "\33";
                             position: absolute;
-                            top: 0;
+                            top: 2px;
                             right: 0;
                             font-size: 3rem;
+                            @include transition(all, 0.5s);
                         }
+                    }
+
+                    &:checked + label:before{
+                        @include transform(rotate(180deg));
+                        top: 7px;
                     }
 
                     &:checked ~ .mySingleSelectOption{
@@ -1256,8 +1263,6 @@ button{
                 }
             }
 
-
-
             .imgContainer{
                 display: inline-block;
                 width: 100%;
@@ -1749,22 +1754,32 @@ button{
 
     #seriesHint{
         width: 100%;
-        background-color: rgba(22, 149, 163, 0.9) ;
+        border-bottom: 1px solid rgba(22, 149, 163, 0.6) ;
         padding: 20px;
         margin: 25px 0;
-        @include borderRadius(20px);
+        position: relative;
 
         h1{
             font-family: Laila;
             font-size: 3rem;
-            color: #FFFFFF;
+            color: $turquoise;
             margin-bottom: 20px;
             text-align: center;
         }
 
-        a{
+        #viewAllHint{
             position: absolute;
+            bottom: 5%;
+            right: 5%;
+            font-size: 1.4rem;
+            background-color: $turquoise;
+            color: #FFFFFF;
+            padding: 10px;
+            @include transition(background-color, 0.3s);
 
+            &:hover{
+                background-color: $orange;
+            }
         }
 
         .seriesBox{
@@ -2333,6 +2348,10 @@ button{
     /* USER SERIES PAGE
     =============================================================================================== */
     #userSeries{
+
+        #seriesHint{
+            display: none;
+        }
 
         .series{
             width: 100%;
