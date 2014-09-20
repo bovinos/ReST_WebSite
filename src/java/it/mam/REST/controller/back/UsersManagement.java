@@ -266,7 +266,7 @@ public class UsersManagement extends RESTBaseController {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
             return;
             }
-            getDataLayer().removeGroup(getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group"))));
+            getDataLayer().removeGroup(getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("groups"))));
                 request.setAttribute("success", "Rimozione gruppi completata!");
                 action_remove_group(request, response);
         } else {
@@ -381,6 +381,7 @@ public class UsersManagement extends RESTBaseController {
                 return;
             }
                 g.removeService(s);
+                System.err.println(g.getServices().isEmpty());
                 getDataLayer().storeGroup(g);
                 request.setAttribute("success", "Servizio e gruppo separati correttamente!");
                 action_remove_serviceGroup(request, response);
