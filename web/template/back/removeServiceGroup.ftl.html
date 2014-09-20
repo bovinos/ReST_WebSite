@@ -28,7 +28,7 @@
                     <label for="noGroup">Nessun gruppo</label>
                     <#list groups as g>
                     <input type="radio" name="group" id="group_${g_index}" value="${g.ID}" />
-                    <label for="group_${g_index}">[${strip_slashes(g.name)?html}</label>
+                    <label for="group_${g_index}">${strip_slashes(g.name)?html}</label>
                     </#list>
                 </div>
                 </#if>

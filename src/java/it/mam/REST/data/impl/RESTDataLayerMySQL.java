@@ -472,7 +472,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // Store relationship
             List<CastMemberSeries> oldCastMemberSeries = RESTDataLayerMySQL.this.getCastMemberSeries(castMember);
             List<CastMemberSeries> newCastMemberSeries = castMember.getCastMemberSeries();
-            if (newCastMemberSeries != null && !newCastMemberSeries.isEmpty()) {
+            if (newCastMemberSeries != null) {
                 for (CastMemberSeries cms : oldCastMemberSeries) {
                     if (!newCastMemberSeries.contains(cms)) {
                         removeCastMemberSeries(cms);
@@ -650,7 +650,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<ChannelEpisode> oldChannelEpisode = getChannelEpisode(channel);
             List<ChannelEpisode> newChannelEpisode = channel.getChannelEpisode();
-            if (newChannelEpisode != null && !newChannelEpisode.isEmpty()) {
+            if (newChannelEpisode != null) {
                 for (ChannelEpisode ce : oldChannelEpisode) {
                     if (!newChannelEpisode.contains(ce)) {
                         removeChannelEpisode(ce);
@@ -1115,7 +1115,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<ChannelEpisode> oldChannelEpisode = getChannelEpisode(episode);
             List<ChannelEpisode> newChannelEpisode = episode.getChannelEpisode();
-            if (newChannelEpisode != null && !newChannelEpisode.isEmpty()) {
+            if (newChannelEpisode != null) {
                 for (ChannelEpisode ce : oldChannelEpisode) {
                     if (!newChannelEpisode.contains(ce)) {
                         removeChannelEpisode(ce);
@@ -1289,7 +1289,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<Series> oldSeries = getSeries(genre);
             List<Series> newSeries = genre.getSeries();
-            if (newSeries != null && !newSeries.isEmpty()) {
+            if (newSeries != null) {
                 for (Series s : oldSeries) {
                     if (!newSeries.contains(s)) {
                         removeGenreSeries(ID, s.getID());
@@ -1303,7 +1303,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             }
             List<User> oldUsers = getUsers(genre);
             List<User> newUsers = genre.getUsers();
-            if (newUsers != null && !newUsers.isEmpty()) {
+            if (newUsers != null) {
                 for (User u : oldUsers) {
                     if (!newUsers.contains(u)) {
                         removeUserGenre(u.getID(), ID);
@@ -1478,7 +1478,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<Service> oldServices = getServices(group);
             List<Service> newServices = group.getServices();
-            if (newServices != null && !newServices.isEmpty()) {
+            if (newServices != null) {
                 for (Service s : oldServices) {
                     if (!newServices.contains(s)) {
                         removeServiceGroup(s.getID(), ID);
@@ -1897,7 +1897,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<Series> oldSeries = getSeries(news);
             List<Series> newSeries = news.getSeries();
-            if (newSeries != null && !newSeries.isEmpty()) {
+            if (newSeries != null) {
                 for (Series s : oldSeries) {
                     if (!newSeries.contains(s)) {
                         removeNewsSeries(ID, s.getID());
@@ -1911,7 +1911,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             }
             List<Comment> oldComments = getComments(news);
             List<Comment> newComments = news.getComments();
-            if (newComments != null && !newComments.isEmpty()) {
+            if (newComments != null) {
                 for (Comment c : oldComments) {
                     if (!newComments.contains(c)) {
                         removeNewsComment(ID, c.getID());
@@ -2245,7 +2245,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<UserSeries> oldUserSeries = getUserSeries(series);
             List<UserSeries> newUserSeries = series.getUserSeries();
-            if (newUserSeries != null && !newUserSeries.isEmpty()) {
+            if (newUserSeries != null) {
                 for (UserSeries us : oldUserSeries) {
                     if (!newUserSeries.contains(us)) {
                         removeUserSeries(us);
@@ -2257,9 +2257,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                     }
                 }
             }
-            List<CastMemberSeries> oldCastMemberSeries = RESTDataLayerMySQL.this.getCastMemberSeries(series);
+            List<CastMemberSeries> oldCastMemberSeries = getCastMemberSeries(series);
             List<CastMemberSeries> newCastMemberSeries = series.getCastMemberSeries();
-            if (newCastMemberSeries != null && !newCastMemberSeries.isEmpty()) {
+            if (newCastMemberSeries != null) {
                 for (CastMemberSeries cms : oldCastMemberSeries) {
                     if (!newCastMemberSeries.contains(cms)) {
                         removeCastMemberSeries(cms);
@@ -2273,7 +2273,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             }
             List<Genre> oldGenres = getGenres(series);
             List<Genre> newGenres = series.getGenres();
-            if (newGenres != null && !newGenres.isEmpty()) {
+            if (newGenres != null) {
                 for (Genre g : oldGenres) {
                     if (!newGenres.contains(g)) {
                         removeGenreSeries(g.getID(), ID);
@@ -2287,7 +2287,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             }
             List<News> oldNews = getNews(series);
             List<News> newNews = series.getNews();
-            if (newNews != null && !newNews.isEmpty()) {
+            if (newNews != null) {
                 for (News n : oldNews) {
                     if (!newNews.contains(n)) {
                         removeNewsSeries(n.getID(), ID);
@@ -2301,7 +2301,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             }
             List<Comment> oldComments = getComments(series);
             List<Comment> newComments = series.getComments();
-            if (newComments != null && !newComments.isEmpty()) {
+            if (newComments != null) {
                 for (Comment c : oldComments) {
                     if (!newComments.contains(c)) {
                         removeCommentSeries(c.getID(), ID);
@@ -2453,7 +2453,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<Group> oldGroups = getGroups(service);
             List<Group> newGroups = service.getGroups();
-            if (newGroups != null && !newGroups.isEmpty()) {
+            if (newGroups != null) {
                 for (Group g : oldGroups) {
                     if (!newGroups.contains(g)) {
                         removeServiceGroup(ID, g.getID());
@@ -2463,10 +2463,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                     if (!oldGroups.contains(g)) {
                         storeServiceGroup(ID, g.getID());
                     }
-                }
-            } else {
-                for (Group g : oldGroups) {
-                    removeServiceGroup(ID, g.getID());
                 }
             }
             if (ID > 0) {
@@ -2822,7 +2818,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // store relationship
             List<UserSeries> oldUserSeries = getUserSeries(user);
             List<UserSeries> newUserSeries = user.getUserSeries();
-            if (newUserSeries != null && !newUserSeries.isEmpty()) {
+            if (newUserSeries != null) {
                 for (UserSeries us : oldUserSeries) {
                     if (!newUserSeries.contains(us)) {
                         removeUserSeries(us);
@@ -2836,7 +2832,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             }
             List<Genre> oldGenres = getGenres(user);
             List<Genre> newGenres = user.getGenres();
-            if (newGenres != null && !newGenres.isEmpty()) {
+            if (newGenres != null) {
                 for (Genre g : oldGenres) {
                     if (!newGenres.contains(g)) {
                         removeUserGenre(ID, g.getID());
@@ -3854,6 +3850,9 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         try {
             dServiceGroup.setInt(1, serviceID);
             dServiceGroup.setInt(2, groupID);
+            System.err.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
+            System.err.println(dServiceGroup);
+            System.err.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
             dServiceGroup.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
