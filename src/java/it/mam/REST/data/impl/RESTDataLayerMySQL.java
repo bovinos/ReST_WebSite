@@ -219,7 +219,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             sSeriesByUser = connection.prepareStatement("SELECT ID_series FROM r_user_series WHERE ID_user=?");
             iSeries = connection.prepareStatement("INSERT INTO e_series (name, year, description, image_URL, state, add_count) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uSeries = connection.prepareStatement("UPDATE e_Series SET name=?, year=?, description=?, image_URL=?, state=?, add_count=? WHERE ID=?");
-            dSeries = connection.prepareStatement("DELETE FROM e_series WHRE ID=?");
+            dSeries = connection.prepareStatement("DELETE FROM e_series WHERE ID=?");
 
             // Service
             sServiceByID = connection.prepareStatement("SELECT * FROM e_service WHERE ID=?");
@@ -2329,7 +2329,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
-    // dSeries = "DELETE FROM e_series WHRE ID=?"
+    // dSeries = "DELETE FROM e_series WHERE ID=?"
     public void removeSeries(Series series) {
         try {
             dSeries.setInt(1, series.getID());
