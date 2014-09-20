@@ -27,6 +27,8 @@ public class UsersManagement extends RESTBaseController {
         fail.activate(message, request, response);
     }
 
+    /* ======================================== INSERT - SAVE =================================================*/
+    
     // Activates the insert group template
     private void action_insert_group(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -83,8 +85,8 @@ public class UsersManagement extends RESTBaseController {
                 return;
             }
             getDataLayer().storeGroup(RESTSecurityLayer.addSlashes(group));
-            request.setAttribute("backContent_tpl", "insertGroup.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+                request.setAttribute("success", "Gruppo inserito correttamente!");
+                action_insert_group(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -152,8 +154,8 @@ public class UsersManagement extends RESTBaseController {
                 return;
             }
             getDataLayer().storeService(RESTSecurityLayer.addSlashes(service));
-            request.setAttribute("backContent_tpl", "insertService.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+            request.setAttribute("success", "Servizio inserito correttamente!");
+            action_insert_service(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -207,14 +209,13 @@ public class UsersManagement extends RESTBaseController {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("services", getDataLayer().getServices());
             request.setAttribute("groups", getDataLayer().getGroups());
-            // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
             if (checkServiceGroupInputData(request, response)) {
                 Service service = getDataLayer().getService(SecurityLayer.checkNumeric(request.getParameter("service")));
                 service.addGroup(getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group"))));
                 getDataLayer().storeService(RESTSecurityLayer.addSlashes(service));
             }
-            request.setAttribute("backContent_tpl", "insertServiceGroup.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+                request.setAttribute("success", "Servizio e gruppo associati correttamente!");
+                action_insert_serviceGroup(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -226,6 +227,178 @@ public class UsersManagement extends RESTBaseController {
     }
     }
 
+    /*============================================= REMOVE - DELETE ==================================================*/
+    
+    // Activates the remove group template
+    private void action_remove_group(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            if (user.getGroup().getID() != Group.ADMIN) {
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+            }
+            request.setAttribute("where", "back");
+            request.setAttribute("user", user);
+            request.setAttribute("groups", getDataLayer().getGroups());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("backContent_tpl", "removeGroup.ftl.html");
+            result.activate("../back/backOutline.ftl.html", request, response);
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
+    }
+
+    // Receives all the necessary data to delete a group
+    private void action_delete_group(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+         try {
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            if (user.getGroup().getID() != Group.ADMIN) {
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+            }
+            getDataLayer().removeGroup(getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group"))));
+                request.setAttribute("success", "Rimozione gruppi completata!");
+                action_remove_group(request, response);
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
+    }
+
+    // Activates the remove service template
+    private void action_remove_service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            if (user.getGroup().getID() != Group.ADMIN) {
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+            }
+            request.setAttribute("where", "back");
+            request.setAttribute("user", user);
+            request.setAttribute("services", getDataLayer().getServices());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("backContent_tpl", "removeService.ftl.html");
+            result.activate("../back/backOutline.ftl.html", request, response);
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
+    }
+
+    // Receives all the necessary data to delete a service
+    private void action_delete_service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+         try {
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            if (user.getGroup().getID() != Group.ADMIN) {
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+            }
+            request.setAttribute("user", user);
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            getDataLayer().removeService(getDataLayer().getService(SecurityLayer.checkNumeric(request.getParameter("services"))));
+            request.setAttribute("success", "Servizio inserito correttamente!");
+            action_remove_service(request, response);
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
+    }
+
+    // Activates the remove service-group template
+    private void action_remove_serviceGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       try {
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            if (user.getGroup().getID() != Group.ADMIN) {
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+            }
+            request.setAttribute("where", "back");
+            request.setAttribute("user", user);
+            request.setAttribute("services", getDataLayer().getServices());
+            request.setAttribute("groups", getDataLayer().getGroups());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("backContent_tpl", "removeServiceGroup.ftl.html");
+            result.activate("../back/backOutline.ftl.html", request, response);
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
+    }
+
+    // Receives all the necessary data to destroy link between service and group
+    private void action_delete_serviceGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            if (user.getGroup().getID() != Group.ADMIN) {
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+            }
+            request.setAttribute("user", user);
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            Group g = getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group")));
+            Service s = getDataLayer().getService(SecurityLayer.checkNumeric(request.getParameter("service")));
+            g.setServices(g.getServices());
+            s.setGroups(s.getGroups());
+                System.err.println(g);
+                System.err.println(s);
+            if(!(g.getServices().contains(s))) {
+                request.setAttribute("error", "Questo gruppo e questo servizio non sono associati!");
+                action_remove_serviceGroup(request, response);
+                return;
+            }
+                g.removeService(s);
+                getDataLayer().storeGroup(g);
+                request.setAttribute("success", "Servizio e gruppo separati correttamente!");
+                action_remove_serviceGroup(request, response);
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+          } catch (NumberFormatException ex) {
+              //User id or service id or group id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
+    }
+    
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
@@ -252,6 +425,27 @@ public class UsersManagement extends RESTBaseController {
                         action_insert_serviceGroup(request, response);
                     }
                     break;
+                 case 4:
+                    if ((request.getParameter("rg")) != null) {
+                        action_delete_group(request, response);
+                    } else {
+                        action_remove_group(request, response);
+                    }
+                    break;
+                case 5:
+                    if ((request.getParameter("rs")) != null) {
+                        action_delete_service(request, response);
+                    } else {
+                        action_remove_service(request, response);
+                    }
+                    break;
+                case 6:
+                    if ((request.getParameter("rsg")) != null) {
+                        action_delete_serviceGroup(request, response);
+                    } else {
+                        action_remove_serviceGroup(request, response);
+                    }
+                    break;
                 default:
                     action_error(request, response, "Field Error");
             }
@@ -260,6 +454,7 @@ public class UsersManagement extends RESTBaseController {
         }
 
     }
+    
     // Checks if all the input fields have been filled
     private boolean checkGroupInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("groupName") != null && request.getParameter("groupName").length() > 0

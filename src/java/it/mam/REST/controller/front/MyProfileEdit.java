@@ -76,7 +76,8 @@ public class MyProfileEdit extends RESTBaseController {
                 user.setPassword(Utility.stringToMD5(Utility.stringToMD5(request.getParameter("newpassword"))));
             }
             getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
-            response.sendRedirect("ModificaProfiloPersonale?sezione=1");
+            request.setAttribute("success", "Dati di registrazione modificati correttamente!");
+            action_activate_ProfileUserSignUpData(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -161,7 +162,8 @@ public class MyProfileEdit extends RESTBaseController {
             }
             System.err.println(user);
             getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
-            response.sendRedirect("ModificaProfiloPersonale?sezione=2");
+               request.setAttribute("success", "Dati opzionali modificati correttamente!");
+                action_activate_ProfileUserOptionalData(request, response);
          } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -219,7 +221,8 @@ public class MyProfileEdit extends RESTBaseController {
                         return;
                     }
             }
-            response.sendRedirect("ModificaProfiloPersonale?sezione=3");
+            request.setAttribute("success", "Impostazioni notifiche modificate correttamente!");
+            action_activate_ProfileUserNotifySettings(request, response);
          } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
