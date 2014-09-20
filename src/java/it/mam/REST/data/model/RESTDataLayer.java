@@ -1,6 +1,7 @@
 package it.mam.REST.data.model;
 
 import it.univaq.f4i.iw.framework.data.DataLayer;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -233,6 +234,8 @@ public interface RESTDataLayer extends DataLayer {
 
     CastMemberSeries getCastMemberSeries(int castMemberSeriesID);
 
+    CastMemberSeries getCastMembeSeries(CastMember castMember, Series series, String role);
+
     List<CastMemberSeries> getCastMemberSeries();
 
     List<CastMemberSeries> getCastMemberSeries(CastMember castMember);
@@ -251,6 +254,8 @@ public interface RESTDataLayer extends DataLayer {
     ChannelEpisode createChannelEpisode();
 
     ChannelEpisode getChannelEpisode(int channelEpisodeID);
+
+    ChannelEpisode getChannelEpisode(Channel channel, Episode episode, Date date);
 
     List<ChannelEpisode> getChannelEpisode();
 
