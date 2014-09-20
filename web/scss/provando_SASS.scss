@@ -2436,6 +2436,11 @@ button{
     @include boxShadow(0, 0, 5px, $turquoise);
     @include borderRadius(4px);
     text-align: center;
+    display: none;
+
+    &.show{
+        display: block;
+    }
 
     #hours, #minutes{
         display: inline-block;
@@ -2444,6 +2449,12 @@ button{
     #hoursUp, #hoursDown, #minutesUp, #minutesDown{
         color: $turquoise;
         font-size: 5rem;
+        cursor: pointer;
+        @include transition(color, 0.3s);
+
+        &:hover{
+            color: $orange;
+        }
     }
 
     #hoursValue, #minutesValue{
