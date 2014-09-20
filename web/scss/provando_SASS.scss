@@ -300,8 +300,41 @@ button{
     }
 }
 
-.currentPage, .currentSection{
-    color: $orange;
+.pageList{
+    text-align: center;
+
+    ul{
+        .currentPage{
+            background-color: $orange;
+        }
+
+        li{
+            font-size: 1.7rem;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            background-color: $turquoise;
+            @include borderRadius(50%);
+            @include transition(background-color, 0.3s);
+            color: #FFFFFF;
+
+            &:hover{
+                background-color: $orange;
+            }
+
+            a{
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                color: #FFFFFF;
+            }
+        }
+    }
+}
+
+.currentSection{
+    color: orange;
 }
 
 /* FORM
@@ -2023,9 +2056,14 @@ button{
             &:last-of-type{
                 margin-bottom: 40px;
             }
+
+            &:before{
+                margin-right: 5px;
+                color: $secondaryTextColor;
+                font-size: 1.6rem;
+            }
         }
     }
-
 }
 
 /* INSERT 

@@ -123,22 +123,25 @@
             </a>
         </div>
         </#list>
-    </div>
 
 
 
-    <#if (totalPages?? && ( totalPages > 1 ))>
-    <ul>
-        <#list 1..totalPages as i>
-        <#if (currentPage?? && ( i == currentPage ))
-        <li class="currentPage">${i}</li>
-        <#else>
-        <li><a href="page?${i}">${i}</a></li>
+        <#if (totalPages?? && ( totalPages > 1 ))>
+        <div class="row pageList">
+            <ul>
+                <#list 1..totalPages as i>
+                <#if (currentPage?? && ( i == currentPage ))>
+                <li class="currentPage">${i}</li>
+                <#else>
+                <li><a href="?page=${i}">${i}</a></li>
+                </#if>
+                </#list>
+            </ul>
+        </div>
         </#if>
-        </#list>
-    </ul>
-    </#if>
 
 
+
+    </div>
     </#if>
 </div>

@@ -234,7 +234,7 @@ public interface RESTDataLayer extends DataLayer {
 
     CastMemberSeries getCastMemberSeries(int castMemberSeriesID);
 
-    CastMemberSeries getCastMembeSeries(CastMember castMember, Series series, String role);
+    CastMemberSeries getCastMemberSeries(CastMember castMember, Series series, String role);
 
     List<CastMemberSeries> getCastMemberSeries();
 
