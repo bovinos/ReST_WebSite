@@ -89,11 +89,11 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
     // Relationship
     // Relationship with attribute
-    private PreparedStatement sCastMemberSeriesByID, sCastMemberSeries, sCastMemberSeriesByCastMember, sCastMemberSeriesBySeries, sCastMemberSeriesByCastMemberAndSeries,
+    private PreparedStatement sCastMemberSeriesByID, sCastMemberSeriesByCastMemberAndSeriesAndRole, sCastMemberSeries, sCastMemberSeriesByCastMember, sCastMemberSeriesBySeries, sCastMemberSeriesByCastMemberAndSeries,
             iCastMemberSeries,
             uCastMemberSeries,
             dCastMemberSeries;
-    private PreparedStatement sChannelEpisodeByID, sChannelEpisode, sChannelEpisodeByChannel, sChannelEpisodeByEpisode, sChannelEpisodeByChannelAndEpisode,
+    private PreparedStatement sChannelEpisodeByID, sChannelEpisodeByChannelAndEpisodeAndDate, sChannelEpisode, sChannelEpisodeByChannel, sChannelEpisodeByEpisode, sChannelEpisodeByChannelAndEpisode,
             iChannelEpisode,
             uChannelEpisode,
             dChannelEpisode;
@@ -247,6 +247,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             // Relationship with attribute
             // CastMemberSeries
             sCastMemberSeriesByID = connection.prepareStatement("SELECT * FROM r_cast_member_series WHERE ID=?");
+            sCastMemberSeriesByCastMemberAndSeriesAndRole = connection.prepareStatement("SELECT ID FROM r_cast_member_series WHERE ID_cast_member=? AND ID_series=? AND role=?");
             sCastMemberSeries = connection.prepareStatement("SELECT ID FROM r_cast_member_series");
             sCastMemberSeriesByCastMember = connection.prepareStatement("SELECT ID FROM r_cast_member_series WHERE ID_cast_member=?");
             sCastMemberSeriesBySeries = connection.prepareStatement("SELECT ID FROM r_cast_member_series WHERE ID_series=?");
@@ -257,6 +258,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
 
             // ChannelEpisode
             sChannelEpisodeByID = connection.prepareStatement("SELECT * FROM r_channel_episode WHERE ID=?");
+            sChannelEpisodeByChannelAndEpisodeAndDate = connection.prepareStatement("SELECT ID FROM r_channel_episode WHERE ID_channel=? AND ID_episode=? AND date=?");
             sChannelEpisode = connection.prepareStatement("SELECT ID FROM r_channel_episode");
             sChannelEpisodeByChannel = connection.prepareStatement("SELECT ID FROM r_channel_episode WHERE ID_channel=?");
             sChannelEpisodeByEpisode = connection.prepareStatement("SELECT ID FROM r_channel_episode WHERE ID_episode=?");
@@ -2904,6 +2906,33 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     }
 
     @Override
+    // sCastMemberSeriesByCastMemberAndSeriesAndRole = "SELECT ID FROM r_cast_member_series WHERE ID_cast_member=?, ID_series=?, role=?"
+    public CastMemberSeries getCastMembeSeries(CastMember castMember, Series series, String role) {
+        CastMemberSeries result = null;
+        ResultSet rs = null;
+        try {
+            sCastMemberSeriesByCastMemberAndSeriesAndRole.setInt(1, castMember.getID());
+            sCastMemberSeriesByCastMemberAndSeriesAndRole.setInt(2, series.getID());
+            sCastMemberSeriesByCastMemberAndSeriesAndRole.setString(3, role);
+            rs = sCastMemberSeriesByCastMemberAndSeriesAndRole.executeQuery();
+            if (rs.next()) {
+                result = getCastMemberSeries(rs.getInt("ID"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
     // sCastMemberSeries = "SELECT ID FROM r_cast_member_series"
     public List<CastMemberSeries> getCastMemberSeries() {
         List<CastMemberSeries> result = new ArrayList();
@@ -3102,6 +3131,33 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             rs = sChannelEpisodeByID.executeQuery();
             if (rs.next()) {
                 result = new ChannelEpisodeMySQL(this, rs);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    // sCastMemberSeriesByCastMemberAndSeriesAndRole = "SELECT ID FROM r_channel_episode WHERE ID_channel=? AND ID_episode=? AND date=?"
+    public ChannelEpisode getChannelEpisode(Channel channel, Episode episode, Date date) {
+        ChannelEpisode result = null;
+        ResultSet rs = null;
+        try {
+            sCastMemberSeriesByCastMemberAndSeriesAndRole.setInt(1, channel.getID());
+            sCastMemberSeriesByCastMemberAndSeriesAndRole.setInt(2, episode.getID());
+            sCastMemberSeriesByCastMemberAndSeriesAndRole.setTimestamp(3, new java.sql.Timestamp(date.getTime()));
+            rs = sCastMemberSeriesByCastMemberAndSeriesAndRole.executeQuery();
+            if (rs.next()) {
+                result = getChannelEpisode(rs.getInt("ID"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
