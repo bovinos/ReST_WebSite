@@ -235,7 +235,10 @@ button {
       margin-right: 10px;
       position: relative;
       top: 5px;
-      font-size: 2.5rem; }
+      font-size: 2.5rem;
+      transition: color 0.3s ease-in-out;
+      -webkit-transition: color 0.3s ease-in-out;
+      -moz-transition: color 0.3s ease-in-out; }
     .formContainer form input[type="checkbox"]:checked + label:before, .formContainer form input[type="radio"]:checked + label:before {
       color: #EB7F00; }
     .formContainer form input[type="checkbox"]:not(:checked) + label:before, .formContainer form input[type="radio"]:not(:checked) + label:before {
@@ -290,9 +293,17 @@ button {
           font-family: 'ElegantIcons';
           content: "\33";
           position: absolute;
-          top: 0;
+          top: 2px;
           right: 0;
-          font-size: 3rem; }
+          font-size: 3rem;
+          transition: all 0.5s ease-in-out;
+          -webkit-transition: all 0.5s ease-in-out;
+          -moz-transition: all 0.5s ease-in-out; }
+      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:checked + label:before {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        transform: rotate(180deg);
+        top: 7px; }
       .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:checked ~ .mySingleSelectOption {
         max-height: 300px;
         margin-top: 30px;
@@ -1239,20 +1250,29 @@ button {
   font-size: 1.2rem; }
   #userSeries #seriesHint {
     width: 100%;
-    background-color: rgba(22, 149, 163, 0.9);
+    border-bottom: 1px solid rgba(22, 149, 163, 0.6);
     padding: 20px;
     margin: 25px 0;
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px; }
+    position: relative; }
     #userSeries #seriesHint h1 {
       font-family: Laila;
       font-size: 3rem;
-      color: #FFFFFF;
+      color: #1695A3;
       margin-bottom: 20px;
       text-align: center; }
-    #userSeries #seriesHint a {
-      position: absolute; }
+    #userSeries #seriesHint #viewAllHint {
+      position: absolute;
+      bottom: 5%;
+      right: 5%;
+      font-size: 1.4rem;
+      background-color: #1695A3;
+      color: #FFFFFF;
+      padding: 10px;
+      transition: background-color 0.3s ease-in-out;
+      -webkit-transition: background-color 0.3s ease-in-out;
+      -moz-transition: background-color 0.3s ease-in-out; }
+      #userSeries #seriesHint #viewAllHint:hover {
+        background-color: #EB7F00; }
     #userSeries #seriesHint .seriesBox {
       margin-bottom: 30px;
       text-align: center;
@@ -1617,6 +1637,8 @@ button {
 
   /* USER SERIES PAGE
   =============================================================================================== */
+  #userSeries #seriesHint {
+    display: none; }
   #userSeries .series {
     width: 100%; }
 

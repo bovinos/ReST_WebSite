@@ -2333,7 +2333,7 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
     public void removeSeries(Series series) {
         try {
             dSeries.setInt(1, series.getID());
-            iSeries.executeUpdate();
+            dSeries.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
