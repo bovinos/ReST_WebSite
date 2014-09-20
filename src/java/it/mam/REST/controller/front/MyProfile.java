@@ -174,8 +174,9 @@ public class MyProfile extends RESTBaseController {
             int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
             switch (section) {
                 case 1:
+                    request.setAttribute("currentSection", section);
                     if (request.getParameter("r") != null && request.getParameter("s") != null) {
-
+                            
                             action_rating_ProfileUserSeries(request, response);
                     } else if (request.getParameter("d") != null) {
 
@@ -185,6 +186,7 @@ public class MyProfile extends RESTBaseController {
                     }
                     break;
                 case 2:
+                        request.setAttribute("currentSection", section);
                         action_activate_ProfileUserBroadcastProgramming(request, response);
                     break;
                 default:

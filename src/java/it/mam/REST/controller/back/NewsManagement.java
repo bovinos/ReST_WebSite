@@ -178,6 +178,7 @@ public class NewsManagement extends RESTBaseController {
          int sezione = SecurityLayer.checkNumeric(request.getParameter("sezione"));
          switch(sezione){
              case 1:
+                 request.setAttribute("currentSection", sezione);
                     if(request.getParameter("in")!= null){
                     action_save_news(request, response);     
                     } else {
@@ -185,6 +186,7 @@ public class NewsManagement extends RESTBaseController {
                     }
              break;
              case 2:
+                 request.setAttribute("currentSection", sezione);
                     if(request.getParameter("rn")!= null){
                     action_delete_news(request, response);     
                     } else {

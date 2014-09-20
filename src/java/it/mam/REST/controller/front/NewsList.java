@@ -36,6 +36,27 @@ public class NewsList extends RESTBaseController {
         request.setAttribute("where", "news");
         request.setAttribute("news", getDataLayer().getNews());
         request.setAttribute("series", getDataLayer().getSeries()); // for filters
+        List<News> newsList =getDataLayer().getNews();
+        //Page management
+        int page; //page number 
+        if(request.getParameter("page") != null) {
+        page = SecurityLayer.checkNumeric(request.getParameter("page"));
+        } else {
+            page = 1;
+        }
+        request.setAttribute("currentPage", page);
+        int newsPerPage = 10; // number of news per page
+        int numberOfPages = Math.round(newsList.size()/newsPerPage) + 1; // total number of pages
+        request.setAttribute("totalPages", numberOfPages);
+        if(page == numberOfPages) {
+            request.setAttribute("news", newsList.subList((page*newsPerPage)-newsPerPage, newsList.size()));
+        } else if (page > numberOfPages || page < 1) {
+            action_error(request, response, "Riprova di nuovo!");
+        } else {
+            request.setAttribute("news", newsList.subList((page *newsPerPage)-newsPerPage, (page *newsPerPage)));
+        }
+        
+        
         //User session checking
         if (SecurityLayer.checkSession(request) != null) {
             try {
