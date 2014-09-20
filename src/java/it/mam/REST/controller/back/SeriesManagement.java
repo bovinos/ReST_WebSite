@@ -441,14 +441,13 @@ public class SeriesManagement extends RESTBaseController {
 
     // Receives all the necessary data to link a castmember to a series
     private void action_save_castmemberSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("user", user);
@@ -458,23 +457,34 @@ public class SeriesManagement extends RESTBaseController {
                 cms.setSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series"))));
                 cms.setRole(request.getParameter("role"));
                 getDataLayer().storeCastMemberSeries(cms);
+            } else {
+            //Error: empty field
+            request.setAttribute("error", "Uno dei campi è vuoto!");
+                action_insert_castmemberSeries(request, response);
+                return;
             }
             response.sendRedirect("GestioneSerie?sezione=6");
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id or castmember id or series id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
 
     }
 
+    // Activates the insert channel-episode template
     private void action_insert_channelEpisode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
@@ -483,20 +493,26 @@ public class SeriesManagement extends RESTBaseController {
             request.setAttribute("episodes", getDataLayer().getEpisodes());
             request.setAttribute("backContent_tpl", "insertChannelEpisode.ftl.html");
             result.activate("../back/backOutline.ftl.html", request, response);
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
+    // Receives all the necessary data to link an episode to a channel
     private void action_save_channelEpisode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
@@ -508,24 +524,31 @@ public class SeriesManagement extends RESTBaseController {
                 ce.setDate(new Date((SecurityLayer.checkDate(request.getParameter("date"))).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
                 getDataLayer().storeChannelEpisode(ce);
             } else {
-                action_error(request, response, "Inserire tutti i campi obbligatori");
+                request.setAttribute("error", "Uno dei campi è vuoto!");
+                action_insert_channelEpisode(request, response);
                 return;
             }
             response.sendRedirect("GestioneSerie?sezione=7");
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id or channel id or episode id is not a number or date is not valid or time is not valid
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
+    // Activates the insert genre-series template
     private void action_insert_genreSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
@@ -534,20 +557,26 @@ public class SeriesManagement extends RESTBaseController {
             request.setAttribute("series", getDataLayer().getSeries());
             request.setAttribute("backContent_tpl", "insertGenreSeries.ftl.html");
             result.activate("../back/backOutline.ftl.html", request, response);
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
+    // Receive all the necessary data to link a series to a genre
     private void action_save_genreSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -557,9 +586,15 @@ public class SeriesManagement extends RESTBaseController {
                 getDataLayer().storeSeries(s);
             }
             response.sendRedirect("GestioneSerie?sezione=8");
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id or series id or genre id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
     @Override
@@ -626,13 +661,12 @@ public class SeriesManagement extends RESTBaseController {
                 default:
                     action_error(request, response, "Field Error");
             }
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
-        } catch (IOException ex) {
-            action_error(request, response, "Internal Error");
+        } catch (NumberFormatException | IOException ex) {
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
+    // Checks if all the input fields have been filled
     private boolean checkEpisodeInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("episodeTitle") != null && request.getParameter("episodeTitle").length() > 0
                 && request.getParameter("episodeDescription") != null && request.getParameter("episodeDescription").length() > 0
@@ -642,6 +676,7 @@ public class SeriesManagement extends RESTBaseController {
         //&& request.getParameterValues("channels") != null && request.getParameterValues("channels").length > 0);
     }
 
+    // Checks if all the input fields have been filled
     private boolean checkSeriesInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("seriesName") != null && request.getParameter("seriesName").length() > 0
                 && request.getParameter("seriesYear") != null && request.getParameter("seriesYear").length() > 0
@@ -652,12 +687,14 @@ public class SeriesManagement extends RESTBaseController {
 
     }
 
+    // Checks if all the input fields have been filled
     private boolean checkChannelInputData(HttpServletRequest request, HttpServletResponse response) {
         return (request.getParameter("channelName") != null && request.getParameter("channelName").length() > 0
                 && request.getParameter("type") != null && request.getParameter("type").length() > 0)
                 && request.getParameter("channelNumber") != null && request.getParameter("channelNumber").length() > 0;
     }
 
+    // Checks if all the input fields have been filled
     private boolean checkCastMemberInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("castMemberName") != null && request.getParameter("castMemberName").length() > 0
                 && request.getParameter("castMemberSurname") != null && request.getParameter("castMemberSurname").length() > 0
@@ -670,12 +707,14 @@ public class SeriesManagement extends RESTBaseController {
 
     }
 
+    // Checks if all the input fields have been filled
     private boolean checkCastMemberSeriesInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("castMember") != null && request.getParameter("castMember").length() > 0
                 && request.getParameter("series") != null && request.getParameter("series").length() > 0
                 && request.getParameter("role") != null && request.getParameter("role").length() > 0;
     }
 
+    // Checks if all the input fields have been filled
     private boolean checkChannelEpisodeInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("channel") != null && request.getParameter("channel").length() > 0
                 && request.getParameter("episode") != null && request.getParameter("episode").length() > 0
@@ -683,6 +722,7 @@ public class SeriesManagement extends RESTBaseController {
                 && request.getParameter("time") != null && request.getParameter("time").length() > 0;
     }
 
+    // Checks if all the input fields have been filled
     private boolean checkGenreSeriesInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("genre") != null && request.getParameter("genre").length() > 0
                 && request.getParameter("series") != null && request.getParameter("series").length() > 0;
@@ -690,6 +730,7 @@ public class SeriesManagement extends RESTBaseController {
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet activates all the series management templates and allow to insert series, episodes, genres, castmembers, channels "
+                + "and to link them";
     }
 }
