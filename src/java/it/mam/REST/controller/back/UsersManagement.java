@@ -375,10 +375,6 @@ public class UsersManagement extends RESTBaseController {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             Group g = getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group")));
             Service s = getDataLayer().getService(SecurityLayer.checkNumeric(request.getParameter("service")));
-            g.setServices(g.getServices());
-            s.setGroups(s.getGroups());
-                System.err.println(g);
-                System.err.println(s);
             if(!(g.getServices().contains(s))) {
                 request.setAttribute("error", "Questo gruppo e questo servizio non sono associati!");
                 action_remove_serviceGroup(request, response);
