@@ -1,0 +1,22 @@
+
+<div id='removeGenre' class="formContainer">
+    <form action="GestioneSerie" method="POST">
+        <input type="hidden" name="sezione" value="12" />
+        <#if (genres?size > 0)>
+        <div class='row mySelectContainer'>
+            <h1>Seleziona i generi da eliminare</h1>
+            <div class="mySelect">
+                <#list genres as g>
+                <div class="row">
+                    <input type="checkbox" name="genres" id="genre_${g_index}" value="${g.ID}" />
+                    <label for="genre_${g_index}">${strip_slashes(g.name)?html}</label>
+                </div>
+                </#list>
+            </div>
+        </div>
+        <button type="submit" name="rg" value="1">Rimuovi generi</button>
+        <#else>
+        non ci sono generi da rimuovere
+        </#if>
+    </form>
+</div>

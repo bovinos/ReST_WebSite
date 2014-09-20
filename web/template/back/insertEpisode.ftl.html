@@ -14,18 +14,21 @@
         <div class="row">
             <textarea name="episodeDescription" rows="10" placeholder="Inserisci qui la trama dell'episodio" required="required" tabindex="4" ></textarea>
         </div>
-        <div class="selectContainer singleSelection">
-            <select name="series">
-                <optgroup label="Scegli la serie a cui appartiene l'episodio"> 
-                    <#if (series?size > 0)>
+        <div class="row mySelectContainer">
+            <div class="mySingleSelect">
+                <input type="checkbox" id="seriesSelect" class="mySingleSelectArrow" />
+                <label for="seriesSelect"></label>
+                <#if (series?size > 0)>
+                <div class="mySingleSelectOption">
+                    <input type="radio" name="series" id="noSeries" checked="checked" value="0" />
+                    <label for="noSeries">NessunaSerie</label>
                     <#list series as s>
-                    <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
+                    <input type="radio" name="series" id="series_${s_index}" value="${s.ID}" />
+                    <label for="series_${s_index}">${strip_slashes(s.name)?html}</label>
                     </#list>
-                    <#else>
-                    <option value="0">Non ci sono serie</option>
-                    </#if>
-                </optgroup>
-            </select>
+                </div>
+                </#if>
+            </div>
         </div>
         <button type="submit" name="ie" value="1">Aggiungi episodio</button>
     </form>

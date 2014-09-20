@@ -1,14 +1,14 @@
 
-<div id='insertServiceGroup' class='formContainer'>
+<div id='removeServiceGroup' class='formContainer'>
     <form action="GestioneUtenti" method="POST">
-        <input type="hidden" name="sezione" value="3" />
+        <input type="hidden" name="sezione" value="6" />
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="serviceSelect" class="mySingleSelectArrow" />
                 <label for="serviceSelect"></label>
                 <#if (services?size > 0)>
                 <div class="mySingleSelectOption">
-                    <input type="radio" name="service" id="noService" checked="checked" value="0" />
+                    <input type="radio" name="service" id="noService" value="0" />
                     <label for="noService">Nessun servizio</label>
                     <#list services as s>
                     <input type="radio" name="service" id="service_${s_index}" value="${s.ID}" />
@@ -20,20 +20,21 @@
         </div>
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
-                <input type="checkbox" id="groupSelect" class="mySingleSelectArrow" />
-                <label for="groupSelect"></label>
+                <input type="checkbox" id="prova" class="mySingleSelectArrow" />
+                <label for="prova"></label>
                 <#if (groups?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="group" id="noGroup" checked="checked" value="0" />
-                    <label for="noGroup">Nessun gruppo</label>
+                    <label for="noGroup">Nessuna serie</label>
                     <#list groups as g>
                     <input type="radio" name="group" id="group_${g_index}" value="${g.ID}" />
-                    <label for="group_${g_index}">${strip_slashes(g.name)?html}</label>
+                    <label for="group_${g_index}">[${strip_slashes(g.name)?html}</label>
                     </#list>
                 </div>
                 </#if>
             </div>
         </div>
-        <button type="submit" name="isg" value="1">Salva</button>
+        <button type="submit" name="rsg" value="1">Rimuovi associazione</button>
     </form>
 </div>
+

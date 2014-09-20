@@ -76,10 +76,10 @@
   #message p {
     padding-bottom: 20px;
     font-size: 1.7rem; }
-  #message .error {
+  #message.error {
     background-color: rgba(200, 0, 0, 0.7); }
-  #message .success {
-    background-color: rgba(0, 200, 0, 0.7); }
+  #message.success {
+    background-color: rgba(0, 150, 0, 0.7); }
 
 /* FONT
 =============================================================================================== */
@@ -294,14 +294,20 @@ button {
           right: 0;
           font-size: 3rem; }
       .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:checked ~ .mySingleSelectOption {
-        display: block; }
-      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:not(:checked) ~ .mySingleSelectOption input[type="radio"]:checked + label {
-        display: block; }
-      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:not(:checked) ~ .mySingleSelectOption input[type="radio"]:not(:checked) + label {
-        display: none; }
+        max-height: 300px;
+        margin-top: 30px;
+        transition: margin-top 0.1s linear, max-height 1s linear 0.1s;
+        -webkit-transition: margin-top 0.1s linear, max-height 1s linear 0.1s;
+        -moz-transition: margin-top 0.1s linear, max-height 1s linear 0.1s; }
+      .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:not(:checked) ~ .mySingleSelectOption {
+        max-height: 0;
+        margin-top: 0px;
+        transition: max-height 1s linear, margin-top 0.1s linear 1s;
+        -webkit-transition: max-height 1s linear, margin-top 0.1s linear 1s;
+        -moz-transition: max-height 1s linear, margin-top 0.1s linear 1s; }
     .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption {
+      overflow-y: scroll;
       text-align: left;
-      margin-top: 20px;
       margin-bottom: 10px;
       padding-left: 10px; }
       .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption input[type="radio"] + label {
@@ -311,7 +317,7 @@ button {
         cursor: pointer;
         font-size: 1.5rem;
         color: #444444;
-        top: 0;
+        top: 2px;
         left: 10px; }
       .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption input[type="radio"]:checked + label:before {
         content: '\5a'; }
@@ -585,14 +591,19 @@ button {
 
 /* LEFT COL
 =============================================================================================== */
-#leftCol .sectionTitle {
+#leftCol .title {
   font-family: Laila;
-  font-size: 2.5rem;
   text-align: center;
-  padding: 10px 0;
-  background: #225378;
-  color: #FFFFFF;
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  color: #FFFFFF; }
+  #leftCol .title.section {
+    padding: 10px 0;
+    background: #225378;
+    font-size: 2.5rem; }
+  #leftCol .title.subSection {
+    padding: 5px 0;
+    background: #1695A3;
+    font-size: 1.7rem; }
 #leftCol form .leftColRealForm {
   text-align: left;
   width: 80%;

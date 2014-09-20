@@ -1,0 +1,22 @@
+
+<div id='removeNews' class="formContainer">
+    <form action="GestioneNews" method="POST">
+        <input type="hidden" name="sezione" value="2" />
+        <#if (news?size > 0)>
+        <div class='row mySelectContainer'>
+            <h1>Seleziona le news da eliminare</h1>
+            <div class="mySelect">
+                <#list news as n>
+                <div class="row">
+                    <input type="checkbox" name="news" id="news_${n_index}" value="${n.ID}" />
+                    <label for="news_${n_index}">${strip_slashes(n.surname)?html}  ${strip_slashes(n.name)?html}</label>
+                </div>
+                </#list>
+            </div>
+        </div>
+        <button type="submit" name="rn" value="1">Rimuovi news</button>
+        <#else>
+        non ci sono news da rimuovere
+        </#if>
+    </form>
+</div>
