@@ -5,7 +5,7 @@
         <#if (news?size > 0)>
         <div class='row mySelectContainer'>
             <h1>Seleziona le news da eliminare</h1>
-            <div class="mySelect">
+            <div class="myMultipleSelect">
                 <#list news as n>
                 <div class="row">
                     <input type="checkbox" name="news" id="news_${n_index}" value="${n.ID}" />

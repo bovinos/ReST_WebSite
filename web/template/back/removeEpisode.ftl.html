@@ -5,7 +5,7 @@
         <#if (episodes?size > 0)>
         <div class='row mySelectContainer'>
             <h1>Seleziona gli episodi da eliminare</h1>
-            <div class="mySelect">
+            <div class="myMultipleSelect">
                 <#list episodes as e>
                 <div class="row">
                     <input type="checkbox" name="episode" id="episode_${e_index}" value="${e.ID}" />

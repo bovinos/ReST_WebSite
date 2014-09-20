@@ -5,7 +5,7 @@
         <#if (groups?size > 0)>
         <div class='row mySelectContainer'>
             <h1>Seleziona i gruppi da eliminare</h1>
-            <div class="mySelect">
+            <div class="myMultipleSelect">
                 <#list groups as g>
                 <div class="row">
                     <input type="checkbox" name="groups" id="group_${g_index}" value="${g.ID}" />

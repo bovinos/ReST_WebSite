@@ -40,16 +40,20 @@
                     <button type="submit" name="s" value="1" id="searchButtonFilter" data-icon="&#x55;"></button> 
                     <input type="text" name="fn" class="search" placeholder="Nome" maxlength="60" pattern="[a-zA-Z0-9\s]*" title="puoi inserire solo caratteri alfanumerici e spazi"/>
                 </div>
-                <div class="row">
-                    <div class="selectContainer singleSelection">
-                        <select name="fs">
-                            <optgroup label="Serie"> 
-                                <option value="0">Nessuna Serie</option>
-                                <#list series as s>
-                                <option value="${s.ID}">${strip_slashes(s.name)?html}</option>
-                                </#list>
-                            </optgroup>
-                        </select>
+                <div class="row mySelectContainer">
+                    <div class="mySingleSelect">
+                        <input type="checkbox" id="seriesSelect" class="mySingleSelectArrow" />
+                        <label for="seriesSelect"></label>
+                        <#if (series?size > 0)>
+                        <div class="mySingleSelectOption">
+                            <input type="radio" name="series" id="noSeries" checked="checked" value="0" />
+                            <label for="noSeries">Nessun serie</label>
+                            <#list series as s>
+                            <input type="radio" name="series" id="series_${s_index}" value="${s.ID}" />
+                            <label for="series_${s_index}">${strip_slashes(s.name)?html}</label>
+                            </#list>
+                        </div>
+                        </#if>
                     </div>
                 </div>
                 <#if user??>
