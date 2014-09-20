@@ -30,6 +30,8 @@ public class NewsManagement extends RESTBaseController {
         fail.activate(message, request, response);
     }
 
+    /* ============================== INSERT - SAVE =========================================*/
+    
     // Activates the insert news template
     private void action_activate_insert_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
@@ -108,6 +110,8 @@ public class NewsManagement extends RESTBaseController {
         action_activate_insert_news(request, response);
     }
     
+    /* ============================== REMOVE - DELETE ===============================*/
+    // Activates the remove news template
     private void action_activate_remove_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
         TemplateResult result = new TemplateResult(getServletContext());
@@ -134,6 +138,7 @@ public class NewsManagement extends RESTBaseController {
     }
     }
     
+// Receives all the necessary data to delete news
     private void action_delete_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
          try{
         TemplateResult result = new TemplateResult(getServletContext());
@@ -144,7 +149,14 @@ public class NewsManagement extends RESTBaseController {
             return;
         }
         request.setAttribute("user", user);
-        getDataLayer().removeNews(getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("nid"))));
+        if (request.getParameterValues("news") == null|| request.getParameterValues("news").length <= 0){
+            action_error(request, response, "Riprova di nuovo!");
+            return;
+        }
+        String[] news = request.getParameterValues("news");
+        for(String n: news) {
+            getDataLayer().removeNews(getDataLayer().getNews(SecurityLayer.checkNumeric(n)));
+        }
        } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -156,8 +168,8 @@ public class NewsManagement extends RESTBaseController {
               action_error(request, response, "Riprova di nuovo!");
               return;
     }
-         request.setAttribute("success", "News eliminata!");
-        action_activate_insert_news(request, response);
+         request.setAttribute("success", "Rimozione news completata!");
+        action_activate_remove_news(request, response);
     }
     
     @Override

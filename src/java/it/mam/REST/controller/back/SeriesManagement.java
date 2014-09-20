@@ -34,6 +34,8 @@ public class SeriesManagement extends RESTBaseController {
         fail.activate(message, request, response);
     }
 
+    /* =============================== INSERT - SAVE =======================================*/
+    
     // Activates the insert series template
     private void action_insert_series(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -604,6 +606,68 @@ public class SeriesManagement extends RESTBaseController {
     }
     }
 
+    /* ================================== REMOVE - DELETE ===================================*/
+    
+    // Activates the remove series template
+    private void action_remove_series(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            if (user.getGroup().getID() != Group.ADMIN) {
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+        }
+            request.setAttribute("user", user);
+            request.setAttribute("series", getDataLayer().getSeries());
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            request.setAttribute("backContent_tpl", "removeSeries.ftl.html");
+            result.activate("../back/backOutline.ftl.html", request, response);
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
+    }
+    
+    // Receives all the necessary data to delete a series
+    private void action_delete_series(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+         try {
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+            if (user.getGroup().getID() != Group.ADMIN) {
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+            }
+            request.setAttribute("user", user);
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            if (request.getParameterValues("series") == null|| request.getParameterValues("series").length <= 0){
+            action_error(request, response, "Riprova di nuovo!");
+            return;
+            }
+            String[] series = request.getParameterValues("series");
+            for(String s: series) {
+            getDataLayer().removeSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(s)));
+            }
+            request.setAttribute("success", "Rimozione serie completata!");
+            action_remove_series(request, response);
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+          } catch (NumberFormatException ex) {
+              //User id or series id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
+
+    }
+    
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
@@ -663,6 +727,13 @@ public class SeriesManagement extends RESTBaseController {
                         action_save_genreSeries(request, response);
                     } else {
                         action_insert_genreSeries(request, response);
+                    }
+                    break;
+                 case 9:
+                    if ((request.getParameter("rs")) != null) {
+                        action_delete_series(request, response);
+                    } else {
+                        action_remove_series(request, response);
                     }
                     break;
                 default:
