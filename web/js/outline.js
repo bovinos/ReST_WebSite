@@ -28,7 +28,7 @@ window.onload = function() {
 
     // tolgiamo la possibilità di poter selezionare il testo delle label
     // in modo da far funzionare al meglio le checkbox
-    var elements = document.getElementsByTagName("label");
+    var elements = document.querySelectorAll("label");
     for (var i = 0; i < elements.length; i++) {
         elements[i].onselectstart = function() {
             return false;
@@ -37,4 +37,14 @@ window.onload = function() {
             return false;
         }; // mozilla & chrome
     }
+
+    var timePicker = document.querySelector("#timePicker");
+    var hoursUp = document.querySelector("#hoursUp");
+    var hoursValue = document.querySelector("#hoursValue");
+    var hoursDown = document.querySelector("#hoursDown");
+    var minutesUp = document.querySelector("#minutesUp");
+    var minutesValue = document.querySelector("#minutesValue");
+    var minutesDown = document.querySelector("#minutesDown");
+
+
 };

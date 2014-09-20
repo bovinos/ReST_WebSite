@@ -8,7 +8,7 @@
             <div class="myMultipleSelect">
                 <#list episodes as e>
                 <div class="row">
-                    <input type="checkbox" name="episode" id="episode_${e_index}" value="${e.ID}" />
+                    <input type="checkbox" name="episodes" id="episode_${e_index}" value="${e.ID}" />
                     <label for="episode_${e_index}">[${strip_slashes(e.series.name)?html}] ${e.season}x${e.number} - ${strip_slashes(e.title)?html}</label>
                 </div>
                 </#list>

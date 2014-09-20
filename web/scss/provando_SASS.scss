@@ -2426,3 +2426,40 @@ button{
     }
 
 }
+
+/* PROVE JS
+===============================================================================================
+=============================================================================================== */
+#timePicker{
+    width: 50%;
+    padding: 5px;
+    @include boxShadow(0, 0, 5px, $turquoise);
+    @include borderRadius(4px);
+    text-align: center;
+
+    #hours, #minutes{
+        display: inline-block;
+    }
+
+    #hoursUp, #hoursDown, #minutesUp, #minutesDown{
+        color: $turquoise;
+        font-size: 5rem;
+    }
+
+    #hoursValue, #minutesValue{
+        margin: 10px;
+        font-size: 3rem;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+

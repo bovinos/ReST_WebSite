@@ -41,6 +41,18 @@
         <div class="row">
             <input name="time" type="text" placeholder="Orario trasmissione (hh:mm)" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])" required="required"/>
         </div>
+        <div id="timePicker" class="row">
+            <div id="hours">
+                <span id="hoursUp" class="arrow_carrot-up"></span>
+                <p id="hoursValue">00</p>
+                <span id="hoursDown" class="arrow_carrot-down"></span>
+            </div>
+            <div id="minutes">
+                <span id="minutesUp" class="arrow_carrot-up"></span>
+                <p id="minutesValue">00</p>
+                <span id="minutesDown" class="arrow_carrot-down"></span>
+            </div>
+        </div>
         <button type="submit" name="ice" value="1">Salva</button>
     </form>
 </div>
