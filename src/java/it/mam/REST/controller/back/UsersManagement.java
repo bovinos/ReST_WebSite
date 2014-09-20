@@ -381,7 +381,6 @@ public class UsersManagement extends RESTBaseController {
                 return;
             }
                 g.removeService(s);
-                System.err.println(g.getServices().isEmpty());
                 getDataLayer().storeGroup(g);
                 request.setAttribute("success", "Servizio e gruppo separati correttamente!");
                 action_remove_serviceGroup(request, response);
