@@ -27,42 +27,47 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SeriesManagement extends RESTBaseController {
 
-    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
 
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
 
-    // prende tutti i generi e tutti i membri del cast e li passa al template insertSeries.ftl.html
+    // Activates the insert series template
     private void action_insert_series(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
-            }
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+        }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "insertSeries.ftl.html");
             result.activate("../back/backOutline.ftl.html", request, response);
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
     }
-
+    }
+    
+    // Receives all the necessary data to insert a series
     private void action_save_series(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+         try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -75,7 +80,7 @@ public class SeriesManagement extends RESTBaseController {
                 series.setImageURL(request.getParameter("seriesImageURL"));
                 series.setState(request.getParameter("state"));
             } else {
-                action_error(request, response, "Inserire i campi obbligatori!");
+                action_error(request, response, "Uno dei campi è vuoto!");
                 return;
             }
             /*
@@ -91,51 +96,58 @@ public class SeriesManagement extends RESTBaseController {
             System.err.println(series);
             getDataLayer().storeSeries(RESTSecurityLayer.addSlashes(series));
             response.sendRedirect("GestioneSerie?sezione=1");
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id or year is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
 
     }
 
+    // Activates the insert episode template
     private void action_insert_episode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+       try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("user", user);
-            //Qui creo la lista delle serie che passo al template, in modo che si possa scegliere (opzionalmente)
-            //la serie a cui appartiene l'episodio.
             request.setAttribute("series", getDataLayer().getSeries());
-            //Qui creo la lista dei canali che passo al template, in modo che si possa scegliere (opzionalmente)
-            //il canale o i canali su cui verrà trasmesso l'episodio.
             request.setAttribute("channels", getDataLayer().getChannels());
             request.setAttribute("backContent_tpl", "insertEpisode.ftl.html");
             result.activate("../back/backOutline.ftl.html", request, response);
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
+    // Receives all the necessary data to insert an episode
     private void action_save_episode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+    try {
             TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (SecurityLayer.checkSession(request) == null) {
-                result.activate("logIn.ftl.html", request, response);
-            }
             if (user.getGroup().getID() != Group.ADMIN) {
-                result.activate("newsList.ftl.html", request, response);
+                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
             }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            Episode episode = getDataLayer().createEpisode();
-            // controllare se sono stati compilati tutti i form necessari ed eliminare le possibilità di SQL injection
+            Episode episode = getDataLayer().createEpisode(); 
             if (checkEpisodeInputData(request, response)) {
 
                 episode.setTitle(request.getParameter("episodeTitle"));
@@ -153,18 +165,25 @@ public class SeriesManagement extends RESTBaseController {
                  episode.setChannels(channelList);
                  */
             } else {
-                action_error(request, response, "Inserire i campi obbligatori");
+                action_error(request, response, "Uno dei campi è vuoto!");
                 return;
             }
 
             getDataLayer().storeEpisode(RESTSecurityLayer.addSlashes(episode));
             response.sendRedirect("GestioneSerie?sezione=2");
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //User id or episode number or episode season is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
 
     }
 
+    // Activates the insert channel template (RIPRENDERE DA QUESTO XD)
     private void action_insert_channel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());

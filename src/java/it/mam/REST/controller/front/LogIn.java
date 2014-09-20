@@ -13,13 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 
 public class LogIn extends RESTBaseController {
 
-    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
 
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
+    
+    // Activates the LogIn template
+    private void action_activate_login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        result.activate("logIn.ftl.html", request, response);
+    }
 
+    // Receives all the necessary data to log a user in
     private void action_submit_login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user;
         if (checkLoginInputData(request, response)) {
@@ -27,47 +34,41 @@ public class LogIn extends RESTBaseController {
             String password = Utility.stringToMD5(Utility.stringToMD5(request.getParameter("password")));
             user = getDataLayer().getUser(username, password);
             if (user == null) {
-                action_error(request, response, "Hai inserito dei dati non validi");
+            request.setAttribute("error", "Errore: hai inserito dei dati non validi!");
+                action_activate_login(request, response);
                 return;
             }
             SecurityLayer.createSession(request, username, user.getID());
 
         } else {
-            action_error(request, response, "Non hai riempito tutti i campi necessari!");
+            request.setAttribute("error", "Errore: uno dei campi è vuoto!");
+            action_activate_login(request, response);
+            return;
         }
         // in realtà dovrei ridirigere alla pagina in cui ha fatto il login
         response.sendRedirect("ListaNews");
     }
 
-    private void action_activate_login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        TemplateResult result = new TemplateResult(getServletContext());
-        result.activate("logIn.ftl.html", request, response);
-    }
-
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
         if (request.getParameter("logIn") != null) {
-
-            try {
                 action_submit_login(request, response);
-            } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
-            }
         } else {
-            try {
+            
                 action_activate_login(request, response);
+        }
             } catch (IOException ex) {
                 action_error(request, response, ex.getMessage());
             }
-        }
-
     }
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet activates the LogIn template, to allow anyone to lof into this website.";
     }
 
+    // Checks if all the input fields have been filled
     private boolean checkLoginInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("username") != null && request.getParameter("username").length() > 0
                 && request.getParameter("password") != null && request.getParameter("password").length() > 0;

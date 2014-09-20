@@ -26,20 +26,19 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MyProfile extends RESTBaseController {
 
-    // prende il template di default di errore e e ci stampa il messaggio passato come parametro
+    // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
 
-    // Attiva il template del palinsesto
+    // Activates the user broadcast programming template
     private void action_activate_ProfileUserBroadcastProgramming(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("where", "profile");
-        if (SecurityLayer.checkSession(request) == null) {
+        if (SecurityLayer.checkSession(request) != null) {
             result.activate("logIn.ftl.html", request, response);
-        }
-        try {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
             request.setAttribute("userProfileContent_tpl", "userBroadcastProgramming.ftl.html");
@@ -65,31 +64,45 @@ public class MyProfile extends RESTBaseController {
             request.setAttribute("schedule", schedule);
             request.setAttribute("days", days);
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            //User id is not a number
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
-    // attiva il template "le mie serie"
+    // Activates "My Series" template
     private void action_activate_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
         TemplateResult result = new TemplateResult(getServletContext());
-        if (SecurityLayer.checkSession(request) == null) {
-            result.activate("logIn.ftl.html", request, response);
-        }
-        try {
+        if (SecurityLayer.checkSession(request) != null) {
+
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
             request.setAttribute("userProfileContent_tpl", "userSeries.ftl.html");
             request.setAttribute("where", "profile");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            //User id is not a number
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
+    // Allow to rate a series 
     private void action_rating_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s")));
             UserSeries us = getDataLayer().getUserSeries(user, series);
             if (!(request.getParameter("r").equals(us.getRating()))) {
@@ -120,20 +133,34 @@ public class MyProfile extends RESTBaseController {
                 response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
 
             }
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            //User id or series id or rating is not a number
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
+    // Allow to delete a series from favourites
     private void action_delete_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-
-            User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
             getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
             response.sendRedirect("ProfiloPersonale?sezione=1");
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
         } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+            //User id or series id is not a number
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
@@ -141,47 +168,36 @@ public class MyProfile extends RESTBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            if (request.getParameter("sezione") == null) {
+                action_error(request, response, "Riprova di nuovo!");
+            }
             int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
             switch (section) {
                 case 1:
                     if (request.getParameter("r") != null && request.getParameter("s") != null) {
-                        try {
+
                             action_rating_ProfileUserSeries(request, response);
-                        } catch (IOException ex) {
-                            action_error(request, response, ex.getMessage());
-                        }
                     } else if (request.getParameter("d") != null) {
-                        try {
+
                             action_delete_ProfileUserSeries(request, response);
-                        } catch (IOException ex) {
-                            action_error(request, response, ex.getMessage());
-                        }
                     } else {
-                        try {
                             action_activate_ProfileUserSeries(request, response);
-                        } catch (IOException ex) {
-                            action_error(request, response, ex.getMessage());
-                        }
                     }
                     break;
                 case 2:
-                    try {
                         action_activate_ProfileUserBroadcastProgramming(request, response);
-                    } catch (IOException ex) {
-                        action_error(request, response, ex.getMessage());
-                    }
                     break;
                 default:
-                    action_error(request, response, "The requested resource is not available");
+                    action_error(request, response, "Riprova di nuovo!");
             }
-        } catch (NumberFormatException ex) {
-            action_error(request, response, "Field Error");
+        } catch (IOException ex) {
+            action_error(request, response, "Riprova di nuovo!");
         }
     }
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet contains some things related to user profile. It shows user series, broadcast programming and allows to rate or delete a favourite series";
     }
 
 }

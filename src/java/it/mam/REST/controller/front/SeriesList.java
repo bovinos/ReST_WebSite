@@ -52,7 +52,6 @@ public class SeriesList extends RESTBaseController {
 
         //genero e inserisco nella request le 5 serie più trendy
         request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
-
         result.activate("seriesList.ftl.html", request, response);
     }
 

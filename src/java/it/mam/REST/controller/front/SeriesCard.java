@@ -96,10 +96,10 @@ public class SeriesCard extends RESTBaseController {
                 getDataLayer().storeSeries(series);
                 response.sendRedirect("SchedaSerie?id=" + series.getID());
             } else {
-                //User session is no longer valid
-                request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-                response.sendRedirect("LogIn");
-            }
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
         } catch (NumberFormatException ex) {
             //User id or series id (a) is not a number
             action_error(request, response, "Riprova di nuovo!");
@@ -109,19 +109,20 @@ public class SeriesCard extends RESTBaseController {
     //Removes a series from the user's favourites
     private void action_removeSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            TemplateResult result = new TemplateResult(getServletContext());
             //User session checking
-            if (SecurityLayer.checkSession(request) != null) {
-                User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
-                Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
-                getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
-                series.setAddCount((series.getAddCount()) - 1);
-                getDataLayer().storeSeries(series);
-                response.sendRedirect("SchedaSerie?id=" + series.getID());
-            } else {
-                //User session is no longer valid
-                request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-                response.sendRedirect("LogIn");
-            }
+             if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
+            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
+            getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
+            series.setAddCount((series.getAddCount())-1);
+            getDataLayer().storeSeries(series);
+            response.sendRedirect("SchedaSerie?id=" + series.getID());
+             } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
         } catch (NumberFormatException ex) {
             //User id or series id (a) is not a number
             action_error(request, response, "Riprova di nuovo!");
@@ -157,80 +158,81 @@ public class SeriesCard extends RESTBaseController {
     }
 
     // Receives all the necessary data to comment a series and, if everything's ok, saves it in the Database
-    private void action_comment_series(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        try {
-            TemplateResult result = new TemplateResult(getServletContext());
-            //User session checking
-            if (SecurityLayer.checkSession(request) != null) {
-                if (checkSeriesCommentInputData(request, response)) {
-                    User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-                    Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
-                    Calendar c = Calendar.getInstance();
-                    String title = request.getParameter("commentTitle");
-                    String text = request.getParameter("commentText");
-                    Comment comment = getDataLayer().createComment();
-                    comment.setTitle(title);
-                    comment.setText(text);
-                    comment.setUser(user);
-                    comment.setDate(c.getTime());
-                    comment.setSeries(series);
-                    getDataLayer().storeComment(RESTSecurityLayer.addSlashes(comment));
-                    response.sendRedirect("SchedaSerie?id=" + series.getID());
-                } else {
-                    request.setAttribute("error", "Errore: uno dei campi è vuoto!");
-                    response.sendRedirect("SchedaSerie");
-                }
-            } else {
-                //User session is no longer valid
-                request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-                response.sendRedirect("LogIn");
-            }
-        } catch (NumberFormatException ex) {
+    private void action_comment_series (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        //User session checking
+        if(SecurityLayer.checkSession(request) != null){
+        if(checkSeriesCommentInputData(request, response)){
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
+        Calendar c = Calendar.getInstance();
+        String title = request.getParameter("commentTitle");
+        String text = request.getParameter("commentText");
+        Comment comment = getDataLayer().createComment();
+        comment.setTitle(title);
+        comment.setText(text);
+        comment.setUser(user);
+        comment.setDate(c.getTime());
+        comment.setSeries(series);
+        getDataLayer().storeComment(RESTSecurityLayer.addSlashes(comment));
+        response.sendRedirect("SchedaSerie?id=" + series.getID());
+        } else {
+            request.setAttribute("error", "Errore: uno dei campi è vuoto!");
+            action_series_info(request, response);
+        }
+        } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+        }catch (NumberFormatException ex){
             //User id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
         }
     }
 
     // Increases the number of comment's likes
-    private void action_like_comment_series(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        try {
-            //User session checking
-            if (SecurityLayer.checkSession(request) != null) {
-                Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric(request.getParameter("lc")));
-                comment.setLikes(comment.getLikes() + 1);
-                getDataLayer().storeComment(comment);
-                response.sendRedirect("SchedaSerie?id=" + SecurityLayer.checkNumeric(request.getParameter("s")));
-            } else {
-                //User session is no longer valid
-                request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-                response.sendRedirect("LogIn");
-            }
-        } catch (NumberFormatException ex) {
-            //Comment id or series id is not a number
-            action_error(request, response, "Riprova di nuovo!");
+    private void action_like_comment_series (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+         try{
+             TemplateResult result = new TemplateResult((getServletContext()));
+         //User session checking
+         if(SecurityLayer.checkSession(request) != null){ 
+         Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric(request.getParameter("lc")));
+         comment.setLikes(comment.getLikes() + 1);
+         getDataLayer().storeComment(comment);
+         response.sendRedirect("SchedaSerie?id=" + SecurityLayer.checkNumeric(request.getParameter("s")));   
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //Comment id or series id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
     }
 
     // Increases the number of comment's dislikes
-    private void action_dislike_comment_series(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        try {
-            TemplateResult result = new TemplateResult(getServletContext());
-            //User session checking
-            if (SecurityLayer.checkSession(request) != null) {
-                Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric((request.getParameter("dc"))));
-                comment.setDislikes(comment.getDislikes() + 1);
-                getDataLayer().storeComment(comment);
-                response.sendRedirect("SchedaSerie?id=" + SecurityLayer.checkNumeric((request.getParameter("s"))));
-            } else {
-                //User session is no longer valid
-                request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-                response.sendRedirect("LogIn");
-            }
-        } catch (NumberFormatException ex) {
-            //Comment id or series id is not a number
-            action_error(request, response, "Riprova di nuovo!");
+    private void action_dislike_comment_series (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+         try{
+         TemplateResult result = new TemplateResult(getServletContext());
+         //User session checking
+         if(SecurityLayer.checkSession(request) != null){
+         Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric((request.getParameter("dc"))));
+         comment.setDislikes(comment.getDislikes() + 1);
+         getDataLayer().storeComment(comment);
+         response.sendRedirect("SchedaSerie?id=" + SecurityLayer.checkNumeric((request.getParameter("s"))));  
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
         }
+          } catch (NumberFormatException ex) {
+              //Comment id or series id is not a number
+              action_error(request, response, "Riprova di nuovo!");
     }
+     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
