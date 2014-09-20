@@ -199,6 +199,9 @@ button {
   button:hover {
     background-color: #EB7F00; }
 
+.currentPage, .currentSection {
+  color: #EB7F00; }
+
 /* FORM
 =============================================================================================== */
 .formContainer {
@@ -1239,7 +1242,7 @@ button {
     color: #999999; }
 #userProfile nav li {
   font-size: 1.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-left: 10%; }
   #userProfile nav li:last-of-type {
     margin-bottom: 40px; }
@@ -1439,7 +1442,7 @@ button {
 =============================================================================================== */
 #backOutline nav li {
   font-size: 1.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-left: 10%; }
   #backOutline nav li:last-of-type {
     margin-bottom: 40px; }
@@ -1449,7 +1452,10 @@ button {
 #insertNews, #insertSeries, #insertEpisode, #insertChannel, #insertChannel,
 #insertGenre, #insertGenre, #insertCastMember, #insertGroup, #insertService,
 #insertCastMemberSeries, #insertChannelEpisode, #insertGenreSeries,
-#insertServiceGroup {
+#insertServiceGroup, #removeCastMember, #removeChannel, #removeEpisode,
+#removeGenre, #removeGroup, #removeNews, #removeSeries, #removeService,
+#removeCastMemberSeries, #removeChannelEpisode, #removeGenreSeries,
+#removeServiceGroup {
   width: 70%; }
 
 /* MEDIA QUERY
@@ -1686,7 +1692,10 @@ button {
   #insertNews, #insertSeries, #insertEpisode, #insertChannel, #insertChannel,
   #insertGenre, #insertGenre, #insertCastMember, #insertGroup, #insertService,
   #insertCastMemberSeries, #insertChannelEpisode, #insertGenreSeries,
-  #insertServiceGroup {
+  #insertServiceGroup, #removeCastMember, #removeChannel, #removeEpisode,
+  #removeGenre, #removeGroup, #removeNews, #removeSeries, #removeService,
+  #removeCastMemberSeries, #removeChannelEpisode, #removeGenreSeries,
+  #removeServiceGroup {
     width: 98%; } }
 /* PROVE JS
 ===============================================================================================

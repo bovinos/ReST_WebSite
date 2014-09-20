@@ -2,17 +2,17 @@
 <div id="backOutline">
     <div id="leftCol" class="four columns alpha">
         <nav>
+            <#switch currentSection!0 >
+            <#case "1">
             <h1 class="section title">Gestici News</h1>
             <h2 class="subSection title">Aggiungi</h2>
             <ul>
-                <li><a href="GestioneNews?sezione=1">News</a></li>
+                <li class="currentSection"><a href="GestioneNews?sezione=1">News</a></li>
             </ul>
-
             <h2 class="subSection title">Rimuovi</h2>
             <ul>
                 <li><a href="GestioneNews?sezione=2">News</a></li>
             </ul>
-
             <h1 class="section title">Gestici Serie</h1>
             <h2 class="subSection title">Aggiungi</h2>
             <ul>
@@ -24,9 +24,7 @@
                 <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
                 <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
                 <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
-
             </ul>
-
             <h2 class="subSection title">Rimuovi</h2>
             <ul>
                 <li><a href="GestioneSerie?sezione=9">Serie</a></li>
@@ -38,7 +36,6 @@
                 <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
                 <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
             </ul>
-
             <h1 class="section title">Gestisci Utenti</h1>
             <h2 class="subSection title">Aggiungi</h2>
             <ul>
@@ -46,14 +43,1141 @@
                 <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
                 <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
             </ul>
-
             <h2 class="subSection title">Rimuovi</h2>
             <ul>
                 <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
                 <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
                 <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
             </ul>
-
+            <#break>
+            <#case "2">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li class="currentSection"><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "3">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li class="currentSection"><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "4">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "5">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "6">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "7">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "8">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "9">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "10">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "11">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li class="currentSection"><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "12">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "13">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "14">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "15">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "16">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "17">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "18">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li class="currentSection"><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case "19">
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li class="currentSection"><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case 20>
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li class="currentSection"><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case 21>
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li class="currentSection"><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case 22>
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li class="currentSection"><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case 23>
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li class="currentSection"><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#case 24>
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li class="currentSection"><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            <#break>
+            <#default>
+            <h1 class="section title">Gestici News</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=1">News</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneNews?sezione=2">News</a></li>
+            </ul>
+            <h1 class="section title">Gestici Serie</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=1">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=2">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=3">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=4">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=5">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=6">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=7">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=8">Associazione genere e serie</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneSerie?sezione=9">Serie</a></li>
+                <li><a href="GestioneSerie?sezione=10">Episodio</a></li>
+                <li><a href="GestioneSerie?sezione=11">Canale</a></li>
+                <li><a href="GestioneSerie?sezione=12">Genere</a></li>
+                <li><a href="GestioneSerie?sezione=13">Membro del cast</a></li>
+                <li><a href="GestioneSerie?sezione=14">Associazione membro del cast e serie</a></li>
+                <li><a href="GestioneSerie?sezione=15">Associazione canale e episodio</a></li>
+                <li><a href="GestioneSerie?sezione=16">Associazione genere e serie</a></li>
+            </ul>
+            <h1 class="section title">Gestisci Utenti</h1>
+            <h2 class="subSection title">Aggiungi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=1">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=2">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=3">Associazione servizio e gruppo</a></li>
+            </ul>
+            <h2 class="subSection title">Rimuovi</h2>
+            <ul>
+                <li><a href="GestioneUtenti?sezione=4">Gruppo</a></li>
+                <li><a href="GestioneUtenti?sezione=5">Servizio</a></li>
+                <li><a href="GestioneUtenti?sezione=6">Associazione servizio e gruppo</a></li>
+            </ul>
+            </#switch>
         </nav>
     </div>
 

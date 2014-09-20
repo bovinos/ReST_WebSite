@@ -137,7 +137,20 @@
         </#if>
         </#list>
     </div>
+
+
+    <#if (totalPages?? && ( totalPages > 1 ))>
+    <ul>
+        <#list 1..totalPages as i>
+        <#if (currentPage?? && ( i == currentPage ))
+        <li class="currentPage">${i}</li>
+        <#else>
+        <li><a href="page?${i}">${i}</a></li>
+        </#if>
+        </#list>
+    </ul>
     </#if>
 
+    </#if>
 </div>
 
