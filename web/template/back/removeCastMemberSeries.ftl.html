@@ -1,16 +1,16 @@
 
-<div id='insertCastMemberSeries' class='formContainer'>
+<div id='removeCastMemberSeries' class='formContainer'>
     <form action="GestioneSerie" method="POST">
-        <input type="hidden" name="sezione" value="6" />
+        <input type="hidden" name="sezione" value="14" />
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="castMemberSelect" class="mySingleSelectArrow" />
                 <label for="castMemberSelect"></label>
-                <#if (castmembers?size > 0)>
+                <#if (castMembers?size > 0)>
                 <div class="mySingleSelectOption">
-                    <input type="radio" name="castMember" id="noCastMember" checked="checked" value="0" />
+                    <input type="radio" name="castMember" id="noCastMember" value="0" />
                     <label for="noCastMember">Nessun membro del cast</label>
-                    <#list castmembers as cm>
+                    <#list castMembers as cm>
                     <input type="radio" name="castMember" id="castMember_${cm_index}" value="${cm.ID}" />
                     <label for="castMember_${cm_index}">${strip_slashes(cm.surname)?html} ${strip_slashes(cm.name)?html}</label>
                     </#list>
@@ -20,24 +20,20 @@
         </div>
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
-                <input type="checkbox" id="seriesSelect" class="mySingleSelectArrow" />
-                <label for="seriesSelect"></label>
+                <input type="checkbox" id="prova" class="mySingleSelectArrow" />
+                <label for="prova"></label>
                 <#if (series?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="series" id="noSeries" checked="checked" value="0" />
                     <label for="noSeries">Nessuna serie</label>
                     <#list series as s>
                     <input type="radio" name="series" id="series_${s_index}" value="${s.ID}" />
-                    <label for="series_${s_index}">${strip_slashes(s.name)?html}</label>
+                    <label for="series_${s_index}">[${strip_slashes(s.name)?html}</label>
                     </#list>
                 </div>
                 </#if>
             </div>
         </div>
-        <div class="row">
-            <input name="role" type="text" maxlength="60" placeholder="Ruolo del membro del cast" required="required" />
-        </div>
-        <button type="submit" name="icms" value="1">Salva</button>
+        <button type="submit" name="rcms" value="1">Rimuovi associazione</button>
     </form>
 </div>
-

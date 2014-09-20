@@ -1,0 +1,22 @@
+
+<div id='removeService' class="formContainer">
+    <form action="GestioneUtenti" method="POST">
+        <input type="hidden" name="sezione" value="5" />
+        <#if (services?size > 0)>
+        <div class='row mySelectContainer'>
+            <h1>Seleziona i servizi da eliminare</h1>
+            <div class="mySelect">
+                <#list services as s>
+                <div class="row">
+                    <input type="checkbox" name="services" id="service_${s_index}" value="${s.ID}" />
+                    <label for="service_${s_index}">${strip_slashes(s.name)?html}</label>
+                </div>
+                </#list>
+            </div>
+        </div>
+        <button type="submit" name="rs" value="1">Rimuovi sservizi</button>
+        <#else>
+        non ci sono servizi da rimuovere
+        </#if>
+    </form>
+</div>

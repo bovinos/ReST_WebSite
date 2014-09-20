@@ -1,0 +1,22 @@
+
+<div id='removeCastMember' class="formContainer">
+    <form action="GestioneSerie" method="POST">
+        <input type="hidden" name="sezione" value="13" />
+        <#if (castMembers?size > 0)>
+        <div class='row mySelectContainer'>
+            <h1>Seleziona i membri del cast da eliminare</h1>
+            <div class="mySelect">
+                <#list castMembers as cm>
+                <div class="row">
+                    <input type="checkbox" name="castMembers" id="castMember_${cm_index}" value="${cm.ID}" />
+                    <label for="castMember_${cm_index}">${strip_slashes(cm.surname)?html}  ${strip_slashes(cm.name)?html}</label>
+                </div>
+                </#list>
+            </div>
+        </div>
+        <button type="submit" name="rcm" value="1">Rimuovi membri del cast</button>
+        <#else>
+        non ci sono membri del cast da rimuovere
+        </#if>
+    </form>
+</div>
