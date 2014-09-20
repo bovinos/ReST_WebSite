@@ -77,15 +77,14 @@ public class NewsManagement extends RESTBaseController {
             if(request.getParameter("newsImageURL") != null && request.getParameter("newsImageURL").length() > 0){
                 news.setImageURL(request.getParameter("newsImageURL"));
             }
-
+         if(request.getParameterValues("series") != null && request.getParameterValues("series").length > 0){
             String[] series = request.getParameterValues("series");
             List<Series> seriesList = new ArrayList();
-            if (series != null) {
                 for (String s: series){
                     seriesList.add(getDataLayer().getSeries(SecurityLayer.checkNumeric(s)));
                 }
                 news.setSeries(seriesList);
-            }
+         }
             } else {
             //Error: field empty
             request.setAttribute("error", "Uno dei campi obbligatori è vuoto!");
@@ -203,8 +202,7 @@ public class NewsManagement extends RESTBaseController {
     // Checks if all the input fields have been filled
     private boolean checkNewsInputData(HttpServletRequest request, HttpServletResponse response){
         return request.getParameter("newsTitle") != null && request.getParameter("newsTitle").length() > 0
-                && request.getParameter("newsText") != null && request.getParameter("newsText").length() > 0
-                && request.getParameterValues("series") != null && request.getParameterValues("series").length > 0;
+                && request.getParameter("newsText") != null && request.getParameter("newsText").length() > 0;
     }
     
     @Override

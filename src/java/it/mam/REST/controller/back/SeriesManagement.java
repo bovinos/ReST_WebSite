@@ -1035,6 +1035,8 @@ public class SeriesManagement extends RESTBaseController {
                 Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel")));
                 Episode e = getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode")));
                 ChannelEpisode ce = getDataLayer().getChannelEpisode(c, e, new Date((SecurityLayer.checkDate(request.getParameter("date"))).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
+                System.err.println(c);
+                System.err.println(e);
                 if (ce == null){
                request.setAttribute("error", "Questo canale e questo episodio non sono associati!");
                 action_remove_channelEpisode(request, response);
