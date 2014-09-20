@@ -405,6 +405,7 @@ public class UsersManagement extends RESTBaseController {
             int sezione = SecurityLayer.checkNumeric(request.getParameter("sezione"));
             switch (sezione) {
                 case 1:
+                    request.setAttribute("currentSection", sezione);
                     if ((request.getParameter("ig")) != null) {
                         action_save_group(request, response);
                     } else {
@@ -412,6 +413,7 @@ public class UsersManagement extends RESTBaseController {
                     }
                     break;
                 case 2:
+                    request.setAttribute("currentSection", sezione);
                     if ((request.getParameter("is")) != null) {
                         action_save_service(request, response);
                     } else {
@@ -419,6 +421,7 @@ public class UsersManagement extends RESTBaseController {
                     }
                     break;
                 case 3:
+                    request.setAttribute("currentSection", sezione);
                     if ((request.getParameter("isg")) != null) {
                         action_save_serviceGroup(request, response);
                     } else {
@@ -426,6 +429,7 @@ public class UsersManagement extends RESTBaseController {
                     }
                     break;
                  case 4:
+                     request.setAttribute("currentSection", sezione);
                     if ((request.getParameter("rg")) != null) {
                         action_delete_group(request, response);
                     } else {
@@ -433,6 +437,7 @@ public class UsersManagement extends RESTBaseController {
                     }
                     break;
                 case 5:
+                    request.setAttribute("currentSection", sezione);
                     if ((request.getParameter("rs")) != null) {
                         action_delete_service(request, response);
                     } else {
@@ -440,6 +445,7 @@ public class UsersManagement extends RESTBaseController {
                     }
                     break;
                 case 6:
+                    request.setAttribute("currentSection", sezione);
                     if ((request.getParameter("rsg")) != null) {
                         action_delete_serviceGroup(request, response);
                     } else {

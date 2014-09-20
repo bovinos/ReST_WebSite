@@ -37,17 +37,18 @@ public class SeriesList extends RESTBaseController {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("where", "series");
         List<Series> seriesList =getDataLayer().getSeries();
-        int page;
+        //Page management
+        int page; //page number 
         if(request.getParameter("page") != null) {
         page = SecurityLayer.checkNumeric(request.getParameter("page"));
         } else {
             page = 1;
         }
-        int seriesPerPage = 10;
-        int numberOfPages = Math.round(seriesList.size()/seriesPerPage) + 1;
+        int seriesPerPage = 10; // number of series per page
+        int numberOfPages = Math.round(seriesList.size()/seriesPerPage) + 1; // total number of pages
         request.setAttribute("totalPages", numberOfPages);
         if(page == numberOfPages) {
-            request.setAttribute("series", seriesList.subList((page*seriesPerPage)-seriesPerPage, seriesList.size()-1));
+            request.setAttribute("series", seriesList.subList((page*seriesPerPage)-seriesPerPage, seriesList.size()));
         } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
         } else {
