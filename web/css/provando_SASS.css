@@ -1719,4 +1719,7 @@ button {
     margin: 10px;
     font-size: 3rem; }
 
+#datePicker {
+  display: none; }
+
 /*# sourceMappingURL=provando_SASS.css.map */

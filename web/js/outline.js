@@ -24,6 +24,7 @@ Element.prototype.toggleClass = function(c) {
     }
 };
 
+
 window.onload = function() {
 
     // tolgiamo la possibilità di poter selezionare il testo delle label
@@ -38,6 +39,8 @@ window.onload = function() {
         }; // mozilla & chrome
     }
 
+
+    // TIME PICKER
     var timePickerInput = document.querySelector("#timePickerInput");
     var timePicker = document.querySelector("#timePicker");
     var hoursUp = document.querySelector("#hoursUp");
@@ -83,10 +86,117 @@ window.onload = function() {
     });
 
     minutesDown.addEventListener("click", function(e) {
-        minutesValue.val <= 0 ? minutesValue.val = 59 : minutesValue.val++;
+        minutesValue.val <= 0 ? minutesValue.val = 59 : minutesValue.val--;
         minutesValue.val <= 9 ? minutesValue.innerHTML = "0" + minutesValue.val : minutesValue.innerHTML = minutesValue.val;
         timePickerInput.value = hoursValue.innerHTML + ":" + minutesValue.innerHTML;
         e.stopPropagation();
     });
+
+
+
+    // DATE PICKER
+    var datePickerInput = document.querySelector("#datePickerInput");
+    var datePicker = document.querySelector("#datePicker");
+    var year = document.querySelector("#year");
+    var month = document.querySelector("#month");
+    var days = document.querySelectorAll("#datePicker td.day");
+    var previousMonth = document.querySelector("#previousMonth");
+    var nextMonth = document.querySelector("#nextMonth");
+
+    datePickerInput.addEventListener("click", function(e) {
+        var now = new Date();
+        month.val = now.getMonth();
+        month.innerHTML = getStringMonth(month.val);
+        year.val = now.getFullYear();
+        year.innerHTML = year.val;
+        createDatePicker(days, month.val, year.val);
+        e.stopPropagation();
+    });
+
+    nextMonth.addEventListener("click", function(e) {
+        if (month.val == 11) {
+            month.val = 0;
+            year.val++;
+        } else {
+            month.val++;
+        }
+        month.innerHTML = getStringMonth(month.val);
+        year.innerHTML = year.val;
+        createDatePicker(days, month.val, year.val);
+        e.stopPropagation();
+    });
+
+    previousMonth.addEventListener("click", function(e) {
+        if (month.val == 0) {
+            month.val = 11;
+            year--;
+        } else {
+            month.val--;
+        }
+        month.innerHTML = getStringMonth(month.val);
+        year.innerHTML = year.val;
+        createDatePicker(days, month.val, year.val);
+        e.stopPropagation();
+    });
+
+    for (var i = 0; i < days.length; i++) {
+        days[i].addEventListener("click", function(e) {
+            datePickerInput.value = e.target.val.getDate() + "/" + (e.target.val.getMonth() + 1) + "/" + e.target.val.getFullYear();
+            e.stopPropagation();
+        });
+    }
+
+
+
+    function createDatePicker(nodeList, month, year) {
+        var firstOfMonth = new Date(year, month, 1);
+        for (var i = 0; i < nodeList.length; i++) {
+            nodeList[i].val = new Date(firstOfMonth.getTime() - ((firstOfMonth.getDay() - i - 1) * 24 * 60 * 60 * 1000));
+            nodeList[i].innerHTML = nodeList[i].val.getDate();
+        }
+    }
+
+    function getStringMonth(month) {
+        switch (month) {
+            case 0:
+                return "Gennaio";
+                break;
+            case 1:
+                return "Febbraio";
+                break;
+            case 2:
+                return "Marzo";
+                break;
+            case 3:
+                return "Aprile";
+                break;
+            case 4:
+                return "Maggio";
+                break;
+            case 5:
+                return "Giugno";
+                break;
+            case 6:
+                return "Luglio";
+                break;
+            case 7:
+                return "Agosto";
+                break;
+            case 8:
+                return "Settembre";
+                break;
+            case 9:
+                return "Ottobre";
+                break;
+            case 10:
+                return "Novembre";
+                break;
+            case 11:
+                return "Dicembre";
+                break;
+
+        }
+    }
+
 
 };
