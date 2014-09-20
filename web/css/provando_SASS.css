@@ -1688,5 +1688,26 @@ button {
   #insertCastMemberSeries, #insertChannelEpisode, #insertGenreSeries,
   #insertServiceGroup {
     width: 98%; } }
+/* PROVE JS
+===============================================================================================
+=============================================================================================== */
+#timePicker {
+  width: 50%;
+  padding: 5px;
+  -webkit-box-shadow: 0 0 5px #1695A3;
+  -moz-box-shadow: 0 0 5px #1695A3;
+  box-shadow: 0 0 5px #1695A3;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  text-align: center; }
+  #timePicker #hours, #timePicker #minutes {
+    display: inline-block; }
+  #timePicker #hoursUp, #timePicker #hoursDown, #timePicker #minutesUp, #timePicker #minutesDown {
+    color: #1695A3;
+    font-size: 5rem; }
+  #timePicker #hoursValue, #timePicker #minutesValue {
+    margin: 10px;
+    font-size: 3rem; }
 
 /*# sourceMappingURL=provando_SASS.css.map */
