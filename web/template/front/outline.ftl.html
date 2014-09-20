@@ -21,9 +21,9 @@
                     <#if user??>
                     <#if (user.group?? && (user.group.ID == 1))> <!-- da rimpiazzare con isAdmin che mi passerà la logica -->
                     <#if (where?? && (where == "back"))>
-                    <li><a href="GestioneNews" class="active" data-icon="&#xe035;">Gestione</a></li>
+                    <li><a href="GestioneNews?sezione=1" class="active" data-icon="&#xe035;">Gestione</a></li>
                     <#else>
-                    <li><a href="GestioneNews" data-icon="&#xe035;">Gestione</a></li>
+                    <li><a href="GestioneNews?sezione=1" data-icon="&#xe035;">Gestione</a></li>
                     </#if>
                     </#if>
                     <#if (where?? && (where == "profile"))>
@@ -70,9 +70,9 @@
                     <#if user??>
                     <#if (user.group?? && (user.group.ID == 1))><!-- da rimpiazzare con isAdmin che mi passerà la logica -->
                     <#if (where?? && (where == "back"))>
-                    <li id="littleScreenAdminSettings"><a href="GestioneNews" class="active"><span class="icon_tools"></span></a></li>
+                    <li id="littleScreenAdminSettings"><a href="GestioneNews?sezione=1" class="active"><span class="icon_tools"></span></a></li>
                     <#else>
-                    <li id="littleScreenAdminSettings"><a href="GestioneNews"><span class="icon_tools"></span></a></li>
+                    <li id="littleScreenAdminSettings"><a href="GestioneNews?sezione=1"><span class="icon_tools"></span></a></li>
                     </#if>
                     </#if>
                     <#if (where?? && (where == "profile"))>
@@ -117,7 +117,7 @@
             <#if success??>
             <div id="message" class="success">
                 <h1>Complimenti!</h1>
-                <p>${succes?html}</p>                
+                <p>${success?html}</p>                
             </div>
             </#if>
 

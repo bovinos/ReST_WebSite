@@ -263,16 +263,16 @@ button {
   .formContainer form .mySelectContainer h1 {
     width: 100%;
     color: #1695A3;
-    border-left: 4px solid #EB7F00;
+    border-left: 3px solid #EB7F00;
     font-size: 1.5rem;
     margin-bottom: 5px;
     text-align: left;
     padding-left: 10px; }
-  .formContainer form .mySelectContainer .mySelect {
+  .formContainer form .mySelectContainer .myMultipleSelect {
     text-align: left;
     padding-left: 10px;
     overflow-y: scroll;
-    border-left: 4px solid #1695A3;
+    border-left: 3px solid #1695A3;
     width: 100%;
     max-height: 200px; }
   .formContainer form .mySelectContainer .mySingleSelect {
@@ -323,66 +323,6 @@ button {
         content: '\5a'; }
       .formContainer form .mySelectContainer .mySingleSelect .mySingleSelectOption input[type="radio"]:not(:checked) + label:before {
         content: '\56'; }
-  .formContainer form .selectContainer {
-    padding-left: 0;
-    position: relative; }
-    .formContainer form .selectContainer.singleSelection {
-      width: 100%;
-      overflow: hidden; }
-      .formContainer form .selectContainer.singleSelection:after {
-        position: absolute;
-        right: 0;
-        top: 0;
-        line-height: 2;
-        /* per piazzarla al centro verticalmente */
-        color: #1695A3;
-        border-right: 1px solid #1695A3;
-        font-family: 'ElegantIcons';
-        font-size: 1.5rem;
-        content: '\43';
-        pointer-events: none;
-        /* per far aprire la select anche cliccando sulla freccia */ }
-      .formContainer form .selectContainer.singleSelection select {
-        padding: 5px;
-        border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border: 1px solid #1695A3;
-        width: 120%;
-        /* in questo modo facciamo sforare la freccia della select che viene tagliata da overflow: hidden */
-        cursor: pointer; }
-      .formContainer form .selectContainer.singleSelection optgroup {
-        color: #1695A3;
-        width: 100%;
-        border-right: 1px solid #999999; }
-        .formContainer form .selectContainer.singleSelection optgroup option {
-          color: #000000; }
-          .formContainer form .selectContainer.singleSelection optgroup option:first-of-type {
-            margin-top: 3px; }
-    .formContainer form .selectContainer.multipleSelection {
-      width: 100%; }
-      .formContainer form .selectContainer.multipleSelection select {
-        border: 1px solid #1695A3;
-        width: 100%; }
-        .formContainer form .selectContainer.multipleSelection select optgroup {
-          color: #1695A3; }
-          .formContainer form .selectContainer.multipleSelection select optgroup option {
-            /* su chrome non funziona */
-            color: #000000;
-            padding: 3px 4px; }
-            .formContainer form .selectContainer.multipleSelection select optgroup option:first-of-type {
-              margin-top: 3px; }
-            .formContainer form .selectContainer.multipleSelection select optgroup option:before {
-              font-family: 'ElegantIcons';
-              content: "\4e";
-              color: #FFFFFF;
-              margin-right: 5px;
-              opacity: 0;
-              transition: opacity 0.3s ease-in-out;
-              -webkit-transition: opacity 0.3s ease-in-out;
-              -moz-transition: opacity 0.3s ease-in-out; }
-            .formContainer form .selectContainer.multipleSelection select optgroup option:checked:before {
-              opacity: 1; }
   .formContainer form button {
     margin-top: 30px;
     width: 100%;
@@ -611,8 +551,8 @@ button {
   margin-right: auto; }
   #leftCol form .leftColRealForm .row {
     margin-bottom: 25px; }
-  #leftCol form .leftColRealForm .mySelect .row {
-    margin-bottom: 5px; }
+  #leftCol form .leftColRealForm .mySelectContainer .myMultipleSelect .row {
+    margin-bottom: 0px; }
   #leftCol form .leftColRealForm #searchButtonFilter {
     margin-top: 0;
     padding: 0;
@@ -961,6 +901,7 @@ button {
       background-color: rgba(0, 0, 0, 0.7);
       height: 25px;
       line-height: 25px;
+      overflow: hidden;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -1296,6 +1237,75 @@ button {
 =============================================================================================== */
 #userSeries {
   font-size: 1.2rem; }
+  #userSeries #seriesHint {
+    width: 100%;
+    background-color: rgba(22, 149, 163, 0.9);
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px; }
+    #userSeries #seriesHint h1 {
+      font-family: Laila;
+      font-size: 3rem;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+      text-align: center; }
+    #userSeries #seriesHint a {
+      position: absolute; }
+    #userSeries #seriesHint .seriesBox {
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+      background: transparent url("../img/placeholder.jpg") no-repeat;
+      background-size: cover;
+      -webkit-box-shadow: 0 0 3px #1695A3;
+      -moz-box-shadow: 0 0 3px #1695A3;
+      box-shadow: 0 0 3px #1695A3; }
+      #userSeries #seriesHint .seriesBox a {
+        display: inline-block;
+        width: 100%;
+        height: 100%; }
+        #userSeries #seriesHint .seriesBox a:hover img {
+          -webkit-transform: scale(1.3) rotate(5deg);
+          -moz-transform: scale(1.3) rotate(5deg);
+          transform: scale(1.3) rotate(5deg); }
+        #userSeries #seriesHint .seriesBox a:hover > .seriesDescription {
+          max-height: 25px; }
+          #userSeries #seriesHint .seriesBox a:hover > .seriesDescription > p {
+            opacity: 1; }
+        #userSeries #seriesHint .seriesBox a .imgContainer {
+          display: inline-block;
+          width: 100%;
+          height: 135px;
+          overflow: hidden; }
+          #userSeries #seriesHint .seriesBox a .imgContainer img {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+            -webkit-transition: all 0.5s ease-in-out;
+            -moz-transition: all 0.5s ease-in-out; }
+        #userSeries #seriesHint .seriesBox a .seriesDescription {
+          background-color: rgba(0, 0, 0, 0.7);
+          line-height: 25px;
+          overflow: hidden;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          max-height: 0px;
+          transition: max-height 0.5s ease-in-out;
+          -webkit-transition: max-height 0.5s ease-in-out;
+          -moz-transition: max-height 0.5s ease-in-out; }
+          #userSeries #seriesHint .seriesBox a .seriesDescription p {
+            font-family: Laila;
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            -webkit-transition: opacity 0.8s ease-in-out;
+            -moz-transition: opacity 0.8s ease-in-out; }
   #userSeries .series {
     padding: 5px;
     -webkit-box-shadow: 0 0 3px #1695A3;
@@ -1476,40 +1486,31 @@ button {
   =============================================================================================== */
   #leftCol {
     text-align: center; }
-    #leftCol h1 {
+    #leftCol .title.section {
       display: none; }
-    #leftCol #searchButtonFilter {
-      display: inline;
-      font-size: 1.8rem;
-      color: #1695A3;
-      width: auto;
-      background: none;
-      transition: color 0.3s ease-in-out;
-      -webkit-transition: color 0.3s ease-in-out;
-      -moz-transition: color 0.3s ease-in-out; }
-      #leftCol #searchButtonFilter:hover {
-        color: #EB7F00; }
+    #leftCol .title.subSection {
+      margin-top: 30px;
+      background-color: transparent;
+      color: #EB7F00;
+      border-bottom: 1px solid rgba(22, 149, 163, 0.7); }
+    #leftCol form {
+      margin-bottom: 20px; }
+      #leftCol form .leftColRealForm {
+        text-align: center;
+        width: 98%; }
+        #leftCol form .leftColRealForm .row {
+          margin-bottom: 0; }
+        #leftCol form .leftColRealForm .mySelectContainer .myMultipleSelect .row {
+          margin-bottom: 0px; }
+        #leftCol form .leftColRealForm #searchButtonFilter {
+          display: inline; }
+        #leftCol form .leftColRealForm input[type="text"].search {
+          display: inline-block; }
+        #leftCol form .leftColRealForm .mySelectContainer, #leftCol form .leftColRealForm input, #leftCol form .leftColRealForm label, #leftCol form .leftColRealForm button, #leftCol form .leftColRealForm input[type="text"] {
+          display: none; }
     #leftCol #newsFilter div, #leftCol #seriesFilter div {
       padding: 0; }
-    #leftCol input[type="text"].search {
-      display: inline-block;
-      background: transparent;
-      border-bottom: 1px solid #1695A3;
-      border-top: none;
-      border-left: none;
-      border-right: none;
-      color: #444444;
-      font-size: 1.5rem;
-      width: 60%;
-      transition: border-bottom-color 0.3s ease-in-out;
-      -webkit-transition: border-bottom-color 0.3s ease-in-out;
-      -moz-transition: border-bottom-color 0.3s ease-in-out; }
-      #leftCol input[type="text"].search:focus {
-        border-bottom-color: #EB7F00;
-        transition: border-bottom-color 0.3s ease-in-out;
-        -webkit-transition: border-bottom-color 0.3s ease-in-out;
-        -moz-transition: border-bottom-color 0.3s ease-in-out; }
-    #leftCol .selectContainer, #leftCol input, #leftCol label, #leftCol button, #leftCol input[type="text"] {
+    #leftCol #newsSorting, #leftCol #seriesSorting {
       display: none; }
 
   /* LEFT COL

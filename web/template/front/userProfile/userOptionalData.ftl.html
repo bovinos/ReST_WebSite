@@ -32,7 +32,7 @@
         </div>
         <div class="row mySelectContainer">
             <h1>Seleziona i tuoi generi preferiti</h1>
-            <div class="mySelect">
+            <div class="myMultipleSelect">
                 <#if (user.genres?size > 0)>
                 <#list genres as g> 
                 <#list user.genres as ug> <!-- per ogni genere ciclo sulla lista di generi dell'utente per vedere se c'è -->

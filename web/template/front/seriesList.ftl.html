@@ -42,7 +42,7 @@
                 </div>
                 <div class="row mySelectContainer">
                     <h1>Genere</h1>
-                    <div class="mySelect">
+                    <div class="myMultipleSelect">
                         <#list genres as g>
                         <div class="row">
                             <input type="checkbox" id="genres_${g_index}" name="fg" value="${g.ID}" />
@@ -51,16 +51,20 @@
                         </#list>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="selectContainer singleSelection">
-                        <select name="fc">
-                            <optgroup label="Canali"> 
-                                <option value="0">Nessun canale</option>
-                                <#list channels as c>
-                                <option value="${c.ID}">${strip_slashes(c.name)?html}</option>
-                                </#list>
-                            </optgroup>
-                        </select>
+                <div class="row mySelectContainer">
+                    <div class="mySingleSelect">
+                        <input type="checkbox" id="channelSelect" class="mySingleSelectArrow" />
+                        <label for="channelSelect"></label>
+                        <#if (channels?size > 0)>
+                        <div class="mySingleSelectOption">
+                            <input type="radio" name="channel" checked="checked" id="noChannel" value="0" />
+                            <label for="noChannel">Non ci sono canali</label>
+                            <#list channels as c>
+                            <input type="radio" name="channel" id="channel_${c_index}" value="${c.ID}" />
+                            <label for="channel_${c_index}">${c.number} ${strip_slashes(c.name)?html}</label>
+                            </#list>
+                        </div>
+                        </#if>
                     </div>
                 </div>
                 <div class="row">
@@ -77,7 +81,7 @@
             </div><!-- FINE filtri -->
             <!-- Ordinamenti -->
             <h1 class="section title">Ordina per</h1>
-            <div id="SeriesSorting" class="leftColRealForm">
+            <div id="seriesSorting" class="leftColRealForm">
                 <div class="row">
                     <input type="radio" name="o" value="1" id="sortForPopularityRadio">
                     <label for="sortForPopularityRadio">Popolarit&agrave;</label>

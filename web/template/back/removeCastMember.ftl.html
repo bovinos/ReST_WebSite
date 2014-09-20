@@ -5,7 +5,7 @@
         <#if (castMembers?size > 0)>
         <div class='row mySelectContainer'>
             <h1>Seleziona i membri del cast da eliminare</h1>
-            <div class="mySelect">
+            <div class="myMultipleSelect">
                 <#list castMembers as cm>
                 <div class="row">
                     <input type="checkbox" name="castMembers" id="castMember_${cm_index}" value="${cm.ID}" />

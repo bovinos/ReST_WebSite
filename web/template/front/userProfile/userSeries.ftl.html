@@ -1,5 +1,32 @@
 
 <div id="userSeries">
+
+    <#if (seriesHint?size > 0)>
+    <div id="seriesHint" class="row">
+        <h1 class="row">Potrebbe interessarti anche</h1>
+        <#list seriesHint as sh>
+        <div class="seriesBox four columns omega">
+            <a href="SchedaSerie?id=${sh.ID}">
+                <div class="imgContainer">
+                    <img src="${strip_slashes(sh.imageURL)}" alt="immagine ${strip_slashes(sh.name)?html}"/>
+                </div>
+                <div class="seriesDescription">
+                    <p>${strip_slashes(sh.name)?html}</p>
+                </div>
+            </a>
+        </div>
+        <#if ((sh_index == 0) && (seriesHint?size > 1)) >
+        <div class="row">
+            <a href="#">Visualizza tutti i suggerimenti</a>
+        </div>
+        <#break>
+        </#if>
+        </#list>
+    </div>
+    </#if>
+
+
+
     <!-- Controllo se esistono serie preferite per questo utente -->
     <#if (user.series?size > 0)>
     <div id="userSeriesList">
