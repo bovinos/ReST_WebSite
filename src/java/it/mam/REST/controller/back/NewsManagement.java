@@ -31,7 +31,7 @@ public class NewsManagement extends RESTBaseController {
     }
 
     // Activates the insert news template
-    private void action_insert_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void action_activate_insert_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
         TemplateResult result = new TemplateResult(getServletContext());
         if(SecurityLayer.checkSession(request) != null){ 
@@ -42,8 +42,6 @@ public class NewsManagement extends RESTBaseController {
         }
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("user", user);
-        //Qui creo la lista delle serie che passo al template, in modo che si possa scegliere (opzionalmente)
-        //la serie o le serie a cui la news si riferisce. Non passo la lista dei generi perché non ce n'è bisogno lì.
         request.setAttribute("series", getDataLayer().getSeries());
         request.setAttribute("where", "back");
         request.setAttribute("backContent_tpl", "insertNews.ftl.html");
@@ -61,12 +59,14 @@ public class NewsManagement extends RESTBaseController {
 
      // Receives all the necessary data to insert a News and, if everything's ok, saves it in the Database
     private void action_save_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try{
+         try{
         TemplateResult result = new TemplateResult(getServletContext());
-        //User session checking
         if(SecurityLayer.checkSession(request) != null){ 
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-        if(user.getGroup().getID()!= Group.ADMIN) { result.activate("newsList.ftl.html", request, response);}
+        if(user.getGroup().getID()!= Group.ADMIN) { 
+            action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+        }
         request.setAttribute("user", user);
         News news = getDataLayer().createNews();
         if (checkNewsInputData(request, response)){
@@ -87,7 +87,7 @@ public class NewsManagement extends RESTBaseController {
             } else {
             //Error: field empty
             request.setAttribute("error", "Uno dei campi obbligatori è vuoto!");
-            action_insert_news(request, response);
+            action_activate_insert_news(request, response);
             return;
         }
                 news.setUser(user);
@@ -104,20 +104,84 @@ public class NewsManagement extends RESTBaseController {
               action_error(request, response, "Riprova di nuovo!");
               return;
     }
-        action_insert_news(request, response);
+        request.setAttribute("success", "News inserita correttamente!");
+        action_activate_insert_news(request, response);
+    }
+    
+    private void action_activate_remove_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        if(SecurityLayer.checkSession(request) != null){ 
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(user.getGroup().getID()!= Group.ADMIN) { 
+            action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+        }
+        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+        request.setAttribute("user", user);
+        request.setAttribute("news", getDataLayer().getNews());
+        request.setAttribute("where", "back");
+        request.setAttribute("backContent_tpl", "removeNews.ftl.html");
+        result.activate("../back/backOutline.ftl.html", request, response);
+           } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+          } catch (NumberFormatException ex) {
+              //User id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+    }
+    }
+    
+    private void action_delete_news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+         try{
+        TemplateResult result = new TemplateResult(getServletContext());
+        if(SecurityLayer.checkSession(request) != null){ 
+        User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+        if(user.getGroup().getID()!= Group.ADMIN) { 
+            action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            return;
+        }
+        request.setAttribute("user", user);
+        getDataLayer().removeNews(getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("nid"))));
+       } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+            return;
+        }
+          } catch (NumberFormatException ex) {
+              //User id or news id is not a number
+              action_error(request, response, "Riprova di nuovo!");
+              return;
+    }
+         request.setAttribute("success", "News eliminata!");
+        action_activate_insert_news(request, response);
     }
     
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-     try {
-         if(request.getParameter("in")!= null){
-        
-            action_save_news(request, response);     
-     } else {
-
-            action_insert_news(request, response);
-     }
-          } catch (IOException ex) {
+        try {
+         int sezione = SecurityLayer.checkNumeric(request.getParameter("sezione"));
+         switch(sezione){
+             case 1:
+                    if(request.getParameter("in")!= null){
+                    action_save_news(request, response);     
+                    } else {
+                    action_activate_insert_news(request, response);
+                    }
+             break;
+             case 2:
+                    if(request.getParameter("rn")!= null){
+                    action_delete_news(request, response);     
+                    } else {
+                    action_activate_remove_news(request, response);
+                    }
+            break;
+            default: action_error(request, response, "Riprova di nuovo!");
+         }
+          } catch (IOException | NumberFormatException ex) {
               action_error(request, response, "Riprova di nuovo!");
     }
     }
@@ -131,7 +195,7 @@ public class NewsManagement extends RESTBaseController {
     
     @Override
     public String getServletInfo() {
-        return "This servlet creates the news insert template and allow to save a news";
+        return "This servlet creates the news insert template and the news remove template and allow to save or delete a news";
     }
 
 }

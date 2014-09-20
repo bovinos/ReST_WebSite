@@ -83,8 +83,8 @@ public class UsersManagement extends RESTBaseController {
                 return;
             }
             getDataLayer().storeGroup(RESTSecurityLayer.addSlashes(group));
-            request.setAttribute("backContent_tpl", "insertGroup.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+                request.setAttribute("success", "Gruppo inserito correttamente!");
+                action_insert_group(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -152,8 +152,8 @@ public class UsersManagement extends RESTBaseController {
                 return;
             }
             getDataLayer().storeService(RESTSecurityLayer.addSlashes(service));
-            request.setAttribute("backContent_tpl", "insertService.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+            request.setAttribute("success", "Servizio inserito correttamente!");
+            action_insert_service(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -213,8 +213,8 @@ public class UsersManagement extends RESTBaseController {
                 service.addGroup(getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group"))));
                 getDataLayer().storeService(RESTSecurityLayer.addSlashes(service));
             }
-            request.setAttribute("backContent_tpl", "insertServiceGroup.ftl.html");
-            result.activate("../back/backOutline.ftl.html", request, response);
+                request.setAttribute("success", "Servizio e gruppo associati correttamente!");
+                action_insert_serviceGroup(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");

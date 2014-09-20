@@ -95,7 +95,8 @@ public class SeriesManagement extends RESTBaseController {
              */
             System.err.println(series);
             getDataLayer().storeSeries(RESTSecurityLayer.addSlashes(series));
-            response.sendRedirect("GestioneSerie?sezione=1");
+            request.setAttribute("success", "Serie inserita correttamente!");
+            action_insert_series(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -170,7 +171,8 @@ public class SeriesManagement extends RESTBaseController {
             }
 
             getDataLayer().storeEpisode(RESTSecurityLayer.addSlashes(episode));
-            response.sendRedirect("GestioneSerie?sezione=2");
+                request.setAttribute("success", "Episodio inserito correttamente!");
+                action_insert_episode(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -245,7 +247,8 @@ public class SeriesManagement extends RESTBaseController {
             }
 
             getDataLayer().storeChannel(RESTSecurityLayer.addSlashes(channel));
-            response.sendRedirect("GestioneSerie?sezione=3");
+            request.setAttribute("success", "Canale inserito correttamente!");
+            action_insert_channel(request, response);
                 } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -300,7 +303,8 @@ public class SeriesManagement extends RESTBaseController {
                 genre.setName(request.getParameter("genreName"));
             }
             getDataLayer().storeGenre(RESTSecurityLayer.addSlashes(genre));
-            response.sendRedirect("GestioneSerie?sezione=4");
+            request.setAttribute("success", "Genere inserito correttamente!");
+            action_insert_genre(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -311,8 +315,7 @@ public class SeriesManagement extends RESTBaseController {
               action_error(request, response, "Riprova di nuovo!");
     }
     }
-
-    
+   
     //Activates the insert castmember template
     private void action_insert_castmember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -399,7 +402,8 @@ public class SeriesManagement extends RESTBaseController {
                 action_insert_castmember(request, response);
                 return;
             }
-            response.sendRedirect("GestioneSerie?sezione=5");
+                request.setAttribute("success", "Membro del cast inserito correttamente!");
+                action_insert_castmember(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -463,7 +467,8 @@ public class SeriesManagement extends RESTBaseController {
                 action_insert_castmemberSeries(request, response);
                 return;
             }
-            response.sendRedirect("GestioneSerie?sezione=6");
+                request.setAttribute("success", "Membro del cast e serie associati correttamente!");
+                action_insert_castmemberSeries(request, response);
             } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -528,7 +533,8 @@ public class SeriesManagement extends RESTBaseController {
                 action_insert_channelEpisode(request, response);
                 return;
             }
-            response.sendRedirect("GestioneSerie?sezione=7");
+                request.setAttribute("success", "Canale ed episodio associati correttamente!");
+                action_insert_channelEpisode(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -585,7 +591,8 @@ public class SeriesManagement extends RESTBaseController {
                 s.addGenre(getDataLayer().getGenre(SecurityLayer.checkNumeric(request.getParameter("genre"))));
                 getDataLayer().storeSeries(s);
             }
-            response.sendRedirect("GestioneSerie?sezione=8");
+                request.setAttribute("success", "Genere e serie associati correttamente!");
+                action_insert_genreSeries(request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
@@ -659,7 +666,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 default:
-                    action_error(request, response, "Field Error");
+                    action_error(request, response, "Riprova di nuovo!");
             }
         } catch (NumberFormatException | IOException ex) {
             action_error(request, response, "Riprova di nuovo!");
