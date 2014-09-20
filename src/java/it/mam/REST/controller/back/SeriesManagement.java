@@ -868,7 +868,7 @@ public class SeriesManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
-            request.setAttribute("castmembers", getDataLayer().getCastMembers());
+            request.setAttribute("castMembers", getDataLayer().getCastMembers());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("series", getDataLayer().getSeries());
             request.setAttribute("backContent_tpl", "removeCastMember.ftl.html");
@@ -896,16 +896,16 @@ public class SeriesManagement extends RESTBaseController {
             }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            if (request.getParameterValues("castmembers") == null|| request.getParameterValues("castmembers").length <= 0){
+            if (request.getParameterValues("castMembers") == null|| request.getParameterValues("castMembers").length <= 0){
             request.setAttribute("error", "Uno dei campi è vuoto!");
             action_remove_castmember(request, response);
             return;
             }
-            String[] castmembers = request.getParameterValues("castmembers");
+            String[] castmembers = request.getParameterValues("castMembers");
             for(String cm: castmembers) {
             getDataLayer().removeCastMember(getDataLayer().getCastMember(SecurityLayer.checkNumeric(cm)));
             }
-                request.setAttribute("success", "Rimozione membro del cast completata!");
+                request.setAttribute("success", "Rimozione membri del cast completata!");
                 action_remove_castmember(request, response);
             } else {
             //User session is no longer valid
@@ -932,7 +932,7 @@ public class SeriesManagement extends RESTBaseController {
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("series", getDataLayer().getSeries());
-            request.setAttribute("castmembers", getDataLayer().getCastMembers());
+            request.setAttribute("castMembers", getDataLayer().getCastMembers());
             request.setAttribute("backContent_tpl", "removeCastMemberSeries.ftl.html");
             result.activate("../back/backOutline.ftl.html", request, response);
             } else {
