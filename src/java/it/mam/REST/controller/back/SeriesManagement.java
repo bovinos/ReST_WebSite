@@ -963,10 +963,14 @@ public class SeriesManagement extends RESTBaseController {
             action_remove_castmemberSeries(request, response);
             return;
              }
-           CastMemberSeries cms = getDataLayer().createCastMemberSeries();
-           cms.setCastMember(getDataLayer().getCastMember(SecurityLayer.checkNumeric(request.getParameter("castMember"))));
-           cms.setSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series"))));
-           cms.setRole(request.getParameter("role"));
+           CastMember cm = getDataLayer().getCastMember(SecurityLayer.checkNumeric(request.getParameter("castMember")));
+           Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
+           CastMemberSeries cms = getDataLayer().getCastMembeSeries(cm, s, request.getParameter("role"));
+           if (cms == null){
+               request.setAttribute("error", "Questo membro del cast e questa serie non sono associati!");
+                action_remove_castmemberSeries(request, response);
+                return;
+           }
             getDataLayer().removeCastMemberSeries(cms);
                 request.setAttribute("success", "Membro del cast e serie separati correttamente!");
                 action_remove_castmemberSeries(request, response);
@@ -1028,10 +1032,14 @@ public class SeriesManagement extends RESTBaseController {
                 action_remove_channelEpisode(request, response);
                 return;
             }
-                ChannelEpisode ce = getDataLayer().createChannelEpisode();
-                ce.setChannel(getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel"))));
-                ce.setEpisode(getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode"))));
-                ce.setDate(new Date((SecurityLayer.checkDate(request.getParameter("date"))).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
+                Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel")));
+                Episode e = getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode")));
+                ChannelEpisode ce = getDataLayer().getChannelEpisode(c, e, new Date((SecurityLayer.checkDate(request.getParameter("date"))).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
+                if (ce == null){
+               request.setAttribute("error", "Questo canale e questo episodio non sono associati!");
+                action_remove_channelEpisode(request, response);
+                return;
+           }
                 getDataLayer().removeChannelEpisode(ce);
             
                 request.setAttribute("success", "Canale ed episodio separati correttamente!");
@@ -1093,7 +1101,13 @@ public class SeriesManagement extends RESTBaseController {
                 return;
             }
              Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
-             s.removeGenre(getDataLayer().getGenre(SecurityLayer.checkNumeric(request.getParameter("genre"))));
+             Genre g = getDataLayer().getGenre(SecurityLayer.checkNumeric(request.getParameter("genre")));
+             if(!(s.getGenres().contains(g))){
+                request.setAttribute("error", "Questo genere e questa serie non sono associati!");
+                action_remove_genreSeries(request, response);
+                return;
+           }
+                s.removeGenre(g);
                 request.setAttribute("success", "Genere e serie separati correttamente!");
                 action_remove_genreSeries(request, response);
         } else {
