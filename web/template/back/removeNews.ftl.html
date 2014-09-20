@@ -9,7 +9,7 @@
                 <#list news as n>
                 <div class="row">
                     <input type="checkbox" name="news" id="news_${n_index}" value="${n.ID}" />
-                    <label for="news_${n_index}">${strip_slashes(n.surname)?html}  ${strip_slashes(n.name)?html}</label>
+                    <label for="news_${n_index}">${strip_slashes(n.title)?html}</label>
                 </div>
                 </#list>
             </div>

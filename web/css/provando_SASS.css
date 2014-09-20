@@ -901,6 +901,7 @@ button {
       background-color: rgba(0, 0, 0, 0.7);
       height: 25px;
       line-height: 25px;
+      overflow: hidden;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -1236,6 +1237,75 @@ button {
 =============================================================================================== */
 #userSeries {
   font-size: 1.2rem; }
+  #userSeries #seriesHint {
+    width: 100%;
+    background-color: rgba(22, 149, 163, 0.9);
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px; }
+    #userSeries #seriesHint h1 {
+      font-family: Laila;
+      font-size: 3rem;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+      text-align: center; }
+    #userSeries #seriesHint a {
+      position: absolute; }
+    #userSeries #seriesHint .seriesBox {
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+      background: transparent url("../img/placeholder.jpg") no-repeat;
+      background-size: cover;
+      -webkit-box-shadow: 0 0 3px #1695A3;
+      -moz-box-shadow: 0 0 3px #1695A3;
+      box-shadow: 0 0 3px #1695A3; }
+      #userSeries #seriesHint .seriesBox a {
+        display: inline-block;
+        width: 100%;
+        height: 100%; }
+        #userSeries #seriesHint .seriesBox a:hover img {
+          -webkit-transform: scale(1.3) rotate(5deg);
+          -moz-transform: scale(1.3) rotate(5deg);
+          transform: scale(1.3) rotate(5deg); }
+        #userSeries #seriesHint .seriesBox a:hover > .seriesDescription {
+          max-height: 25px; }
+          #userSeries #seriesHint .seriesBox a:hover > .seriesDescription > p {
+            opacity: 1; }
+        #userSeries #seriesHint .seriesBox a .imgContainer {
+          display: inline-block;
+          width: 100%;
+          height: 135px;
+          overflow: hidden; }
+          #userSeries #seriesHint .seriesBox a .imgContainer img {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+            -webkit-transition: all 0.5s ease-in-out;
+            -moz-transition: all 0.5s ease-in-out; }
+        #userSeries #seriesHint .seriesBox a .seriesDescription {
+          background-color: rgba(0, 0, 0, 0.7);
+          line-height: 25px;
+          overflow: hidden;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          max-height: 0px;
+          transition: max-height 0.5s ease-in-out;
+          -webkit-transition: max-height 0.5s ease-in-out;
+          -moz-transition: max-height 0.5s ease-in-out; }
+          #userSeries #seriesHint .seriesBox a .seriesDescription p {
+            font-family: Laila;
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            -webkit-transition: opacity 0.8s ease-in-out;
+            -moz-transition: opacity 0.8s ease-in-out; }
   #userSeries .series {
     padding: 5px;
     -webkit-box-shadow: 0 0 3px #1695A3;
