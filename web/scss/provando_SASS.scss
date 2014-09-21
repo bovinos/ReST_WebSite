@@ -194,6 +194,37 @@ $topBarHeight: 50px;
     @include animation(jump, 0.3s, linear, 0s, infinite, alternate);    
 }
 
+@-animation-keyframes pulse-shadow{
+    0%{
+        @include boxShadow(0, 0, 3px, $orange);
+    }
+    100%{
+        @include boxShadow(0, 0, 10px, $orange);
+    }
+}
+
+@-moz-keyframes pulse-shadow{
+    0%{
+        @include boxShadow(0, 0, 3px, $orange);
+    }
+    100%{
+        @include boxShadow(0, 0, 10px, $orange);
+    }
+}
+
+@-webkit-keyframes pulse-shadow{
+    0%{
+        @include boxShadow(0, 0, 3px, $orange);
+    }
+    100%{
+        @include boxShadow(0, 0, 10px, $orange);
+    }
+}
+
+.notifySeries{
+    @include boxShadow(0, 0, 3px, $orange);
+    @include animation(pulse-shadow, 0.3s, linear, 0s, infinite, alternate);  
+}
 
 /* FONT
 =============================================================================================== */
@@ -2044,6 +2075,20 @@ button{
             h1{
                 display: inline;
             }
+
+            .singleNotificationActive + label{
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .singleNotificationActive:not(:checked) ~ .timePickerInput{
+                display: none;
+            }
+
+            button{
+                font-size: 1.6rem;
+                padding: 7px 0;
+            }
         }
     }
 }
@@ -2607,19 +2652,25 @@ button{
 }
 
 #datePicker{
+    display: inline-block;
+    padding: 20px;
+    @include borderRadius(7px);
+    @include boxShadow(0, 0, 3px, $turquoise);
 
     table{
         color: $primaryTextColor;
 
+
         thead{
-            font-size: 1.5rem;
+            font-size: 2rem;
+            color: $turquoise;
 
             #previousMonth{
+                cursor: pointer;
 
             }
 
             #monthAndYear{
-                padding: 0 50px;
 
                 #month{
                     padding: 0 5px;
@@ -2631,17 +2682,24 @@ button{
             }
 
             #nextMonth{
-
+                cursor: pointer;
             }
 
             .dayOfWeek{
-                font-size: 1.3rem;
-                padding: 5px 0;
+                color: $blue;
+                font-size: 1.6rem;
+                padding: 20px 0 5px 0;
             }
 
         }
 
         tbody{
+
+            .day{
+                font-size: 1.6rem;
+                padding: 5px 10px;
+                cursor: pointer;
+            }
 
         }
     }

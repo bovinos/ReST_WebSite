@@ -23,7 +23,7 @@
                                 <p>${ce.episode.season}x${ce.episode.number} - ${strip_slashes(ce.episode.title)?html}</p>
                             </div>
                             <div class="row">
-                                <p>Su ${strip_slashes(ce.channel.name)?html} alle ${ce.date?time} </p>
+                                <p>Su ${strip_slashes(ce.channel.name)?html} alle ${ce.date?time?string.short} </p>
                             </div>
                         </div>
                     </div>

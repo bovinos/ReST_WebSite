@@ -32,7 +32,7 @@ public class EpisodeMySQL implements Episode {
     public EpisodeMySQL(RESTDataLayer dataLayer) {
 
         ID = 0;
-        number = -1; // because 0 can be the number of plot 
+        number = 0;
         season = 0;
         title = "";
         description = "";
