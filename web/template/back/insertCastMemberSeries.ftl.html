@@ -1,28 +1,26 @@
 
 <div id='insertCastMemberSeries' class='formContainer'>
+    <#if ((castMembers?size > 0) && (series?size > 0))>
     <form action="GestioneSerie" method="POST">
         <input type="hidden" name="sezione" value="6" />
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="castMemberSelect" class="mySingleSelectArrow" />
                 <label for="castMemberSelect"></label>
-                <#if (castmembers?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="castMember" id="noCastMember" checked="checked" value="0" />
                     <label for="noCastMember">Nessun membro del cast</label>
-                    <#list castmembers as cm>
+                    <#list castMembers as cm>
                     <input type="radio" name="castMember" id="castMember_${cm_index}" value="${cm.ID}" />
                     <label for="castMember_${cm_index}">${strip_slashes(cm.surname)?html} ${strip_slashes(cm.name)?html}</label>
                     </#list>
                 </div>
-                </#if>
             </div>
         </div>
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="seriesSelect" class="mySingleSelectArrow" />
                 <label for="seriesSelect"></label>
-                <#if (series?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="series" id="noSeries" checked="checked" value="0" />
                     <label for="noSeries">Nessuna serie</label>
@@ -31,7 +29,6 @@
                     <label for="series_${s_index}">${strip_slashes(s.name)?html}</label>
                     </#list>
                 </div>
-                </#if>
             </div>
         </div>
         <div class="row">
@@ -39,5 +36,18 @@
         </div>
         <button type="submit" name="icms" value="1">Salva</button>
     </form>
+    <#else>
+    <div class="noOption">
+        <#if ((castMembers?size <= 0) && (series?size <= 0))>
+        <p>Non ci sono nè membri del cast nè serie da poter associare</p>
+        <#else>
+        <#if (castMembers?size <= 0)>
+        <p>Non ci sono membri del cast da poter associare alle serie</p>
+        <#else>
+        <p>Non ci sono serie da poter associare ai membri del cast</p>
+        </#if>
+        </#if>
+    </div>
+    </#if>
 </div>
 

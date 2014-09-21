@@ -18,16 +18,16 @@
             <div class="mySingleSelect">
                 <input type="checkbox" id="seriesSelect" class="mySingleSelectArrow" />
                 <label for="seriesSelect"></label>
-                <#if (series?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="series" id="noSeries" checked="checked" value="0" />
-                    <label for="noSeries">NessunaSerie</label>
+                    <label for="noSeries">Nessuna serie</label>
+                    <#if (series?size > 0)>
                     <#list series as s>
                     <input type="radio" name="series" id="series_${s_index}" value="${s.ID}" />
                     <label for="series_${s_index}">${strip_slashes(s.name)?html}</label>
                     </#list>
+                    </#if>
                 </div>
-                </#if>
             </div>
         </div>
         <button type="submit" name="ie" value="1">Aggiungi episodio</button>

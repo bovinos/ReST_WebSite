@@ -1,8 +1,8 @@
 
 <div id='removeSeries' class="formContainer">
+    <#if (series?size > 0)>
     <form action="GestioneSerie" method="POST">
         <input type="hidden" name="sezione" value="9" />
-        <#if (series?size > 0)>
         <div class='row mySelectContainer'>
             <h1>Seleziona le serie da eliminare</h1>
             <div class="myMultipleSelect">
@@ -15,8 +15,10 @@
             </div>
         </div>
         <button type="submit" name="rs" value="1">Rimuovi serie</button>
-        <#else>
-        non ci sono serie da rimuovere
-        </#if>
     </form>
+    <#else>
+    <div class='noOption'>
+        <p>Non ci sono serie da rimuovere</p>
+    </div>
+    </#if>
 </div>

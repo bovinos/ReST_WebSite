@@ -1,32 +1,30 @@
 
 
 <div id='insertChannelEpisode' class='formContainer'>
+    <#if ((channels?size > 0) && (episodes?size > 0))>
     <form action="GestioneSerie" method="POST">
         <input type="hidden" name="sezione" value="7" />
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="channelSelect" class="mySingleSelectArrow" />
                 <label for="channelSelect"></label>
-                <#if (channels?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="channel" checked="checked" id="noChannel" value="0" />
-                    <label for="noChannel">Non ci sono canali</label>
+                    <label for="noChannel">Nessun canale</label>
                     <#list channels as c>
                     <input type="radio" name="channel" id="channel_${c_index}" value="${c.ID}" />
                     <label for="channel_${c_index}">${c.number} ${strip_slashes(c.name)?html}</label>
                     </#list>
                 </div>
-                </#if>
             </div>
         </div>
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="episodeSelect" class="mySingleSelectArrow" />
                 <label for="episodeSelect"></label>
-                <#if (episodes?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="episode" checked="checked" id="noEpisode" value="0" />
-                    <label for="noEpisode">non ci sono episodi</label>
+                    <label for="noEpisode">nessun episodio</label>
                     <#list episodes as e>
                     <input type="radio" name="episode" id="episode_${e_index}" value="${e.ID}" />
                     <label for="episode_${e_index}">[${strip_slashes(e.series.name)?html}] ${e.season}x${e.number} - ${strip_slashes(e.title)?html}</label>
@@ -122,5 +120,18 @@
         </div>
         <button type="submit" name="ice" value="1">Salva</button>
     </form>
+    <#else>
+    <div class="noOption">
+        <#if ((channels?size <= 0) && (episode?size <= 0))>
+        <p>Non ci sono nè canali nè episodi da poter associare</p>
+        <#else>
+        <#if (channels?size <= 0)>
+        <p>Non ci sono canali da poter associare con gli episodi</p>
+        <#else>
+        <p>Non ci sono episodi da poter associare ai canali</p>
+        </#if>
+        </#if>
+    </div>
+    </#if>
 </div>
 

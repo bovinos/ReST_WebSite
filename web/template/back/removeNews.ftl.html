@@ -1,8 +1,8 @@
 
 <div id='removeNews' class="formContainer">
+    <#if (news?size > 0)>
     <form action="GestioneNews" method="POST">
         <input type="hidden" name="sezione" value="2" />
-        <#if (news?size > 0)>
         <div class='row mySelectContainer'>
             <h1>Seleziona le news da eliminare</h1>
             <div class="myMultipleSelect">
@@ -15,8 +15,10 @@
             </div>
         </div>
         <button type="submit" name="rn" value="1">Rimuovi news</button>
-        <#else>
-        non ci sono news da rimuovere
-        </#if>
     </form>
+    <#else>
+    <div class='noOption'>
+        <p>Non ci sono news da rimuovere</p>
+    </div>
+    </#if>
 </div>

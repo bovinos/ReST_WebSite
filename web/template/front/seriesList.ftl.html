@@ -51,22 +51,22 @@
                         </#list>
                     </div>
                 </div>
+                <#if (channels?size > 0)>
                 <div class="row mySelectContainer">
                     <div class="mySingleSelect">
                         <input type="checkbox" id="channelSelect" class="mySingleSelectArrow" />
                         <label for="channelSelect"></label>
-                        <#if (channels?size > 0)>
                         <div class="mySingleSelectOption">
                             <input type="radio" name="channel" checked="checked" id="noChannel" value="0" />
-                            <label for="noChannel">Non ci sono canali</label>
+                            <label for="noChannel">Nessun canale</label>
                             <#list channels as c>
                             <input type="radio" name="channel" id="channel_${c_index}" value="${c.ID}" />
                             <label for="channel_${c_index}">${c.number} ${strip_slashes(c.name)?html}</label>
                             </#list>
                         </div>
-                        </#if>
                     </div>
                 </div>
+                </#if>
                 <div class="row">
                     <input type="radio" name="fs" value="1" id="filterOnGoingSeriesRadio">
                     <label for="filterOnGoingSeriesRadio">In corso</label>
@@ -112,16 +112,23 @@
     <div id="seriesList" class="twelve columns omega">
         <!-- se esistono stampiamole tutte -->
         <#list series as s>
-        <div class="seriesBox four columns">
-            <a href="SchedaSerie?id=${s.ID}">
-                <div class="imgContainer">
-                    <img src="${strip_slashes(s.imageURL)}" alt="immagine ${strip_slashes(s.name)?html}"/>
-                </div>
-                <div class="seriesDescription">
-                    <h1>${strip_slashes(s.name)?html}</h1>
-                </div>
-            </a>
+        <!-- stampo una riga ogni 3 elementi e se non sono agli ultimi 3 elementi -->
+        <#if ((s_index % 4) == 0)>
+        <div class="row">
+            </#if>
+            <div class="seriesBox four columns">
+                <a href="SchedaSerie?id=${s.ID}">
+                    <div class="imgContainer">
+                        <img src="${strip_slashes(s.imageURL)}" alt="immagine ${strip_slashes(s.name)?html}"/>
+                    </div>
+                    <div class="seriesDescription">
+                        <h1>${strip_slashes(s.name)?html}</h1>
+                    </div>
+                </a>
+            </div>
+            <#if ((((s_index + 1) % 4)  == 0) || ((s_index + 1) == series?size))>
         </div>
+        </#if>
         </#list>
 
 

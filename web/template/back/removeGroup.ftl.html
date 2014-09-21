@@ -1,8 +1,8 @@
 
 <div id='removeGroup' class="formContainer">
+    <#if (groups?size > 0)>
     <form action="GestioneUtenti" method="POST">
         <input type="hidden" name="sezione" value="4" />
-        <#if (groups?size > 0)>
         <div class='row mySelectContainer'>
             <h1>Seleziona i gruppi da eliminare</h1>
             <div class="myMultipleSelect">
@@ -15,8 +15,10 @@
             </div>
         </div>
         <button type="submit" name="rg" value="1">Rimuovi gruppi</button>
-        <#else>
-        non ci sono gruppi da rimuovere
-        </#if>
     </form>
+    <#else>
+    <div class='noOption'>
+        <p>Non ci sono gruppi da rimuovere</p>
+    </div>
+    </#if>
 </div>

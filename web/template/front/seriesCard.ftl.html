@@ -157,49 +157,58 @@
     <div id="commentsList">
         <!-- se esistono stampiamoli tutti -->
         <#list series.comments as c>
-        <div class="comment row">
-            <div class="imgContainer two columns">
-                <#if c.user.imageURL??>
-                <img src="${strip_slashes(c.user.imageURL)}" alt="User avatar"/>
-                <#else>
-                <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User Avatar placeholder"/>
+        <#if (c_index == previousLastCommentIndex) >
+        <div id="plc" class="comment row">
+            <#else>
+            <div class="comment row">
                 </#if>
-            </div>
-            <div class="notImgContainer fourteen columns">
-                <div class="header">
-                    <h1>${strip_slashes(c.title)?html}</h1>
+                <div class="imgContainer two columns">
+                    <#if c.user.imageURL??>
+                    <img src="${strip_slashes(c.user.imageURL)}" alt="User avatar"/>
+                    <#else>
+                    <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="User Avatar placeholder"/>
+                    </#if>
                 </div>
-                <div class="body">
-                    <p>${strip_slashes(c.text)?html}</p>
-                </div>
-                <div class="footer">
-                    <div class="left">
-                        <p>${strip_slashes(c.user.username)?html}, ${c.date?datetime} </p>
+                <div class="notImgContainer fourteen columns">
+                    <div class="header">
+                        <h1>${strip_slashes(c.title)?html}</h1>
                     </div>
-                    <div class="right">
-                        <p>
-                            <a href='?lc=${c.ID}&amp;s=${series.ID}'><span class="like" data-icon="&#xe0dd;">${strip_slashes(c.likes)?html}</span></a>
-                            <a href='?dc=${c.ID}&amp;s=${series.ID}'><span class="dislike" data-icon="&#xe0f1;">${strip_slashes(c.dislikes)?html}</span></a>
-                        </p>
+                    <div class="body">
+                        <p>${strip_slashes(c.text)?html}</p>
+                    </div>
+                    <div class="footer">
+                        <div class="left">
+                            <p>${strip_slashes(c.user.username)?html}, ${c.date?datetime} </p>
+                        </div>
+                        <div class="right">
+                            <p>
+                                <a href='?lc=${c.ID}&amp;s=${series.ID}'><span class="like" data-icon="&#xe0dd;">${strip_slashes(c.likes)?html}</span></a>
+                                <a href='?dc=${c.ID}&amp;s=${series.ID}'><span class="dislike" data-icon="&#xe0f1;">${strip_slashes(c.dislikes)?html}</span></a>
+                            </p>
+                        </div>
                     </div>
                 </div>
+            </div>    
+            </#list>
+            <#if (totalPages?? && currentPage?? && ( totalPages > currentPage ))>
+            <div class='row moreComments'>
+                <a href='?page=${currentPage + 1}'>Altri commenti</a>
             </div>
-        </div>    
-        </#list>
+            </#if>
+        </div>
+        </#if> <!-- FINE STAMPA DEI COMMENTI -->
     </div>
-    </#if> <!-- FINE STAMPA DEI COMMENTI -->
-</div>
-<!-- INSERISCI IL TUO COMMENTO
-============================================================================================== -->
-<div class="insertAComment formContainer">
-    <form action="SchedaSerie" method="POST" >
-        <input type="hidden" name="sid" value="${series.ID}"/>
-        <div class='row'>
-            <input name="commentTitle" type="text" maxlength="60" placeholder="Titolo commento" required="required">
-        </div>
-        <div class='row'>
-            <textarea name="commentText" rows="10" placeholder="Inserisci qui il tuo commento..." required="required" ></textarea>
-        </div>
-        <button type="submit" name="scs" value="1">Commenta</button>
-    </form>
-</div>
+    <!-- INSERISCI IL TUO COMMENTO
+    ============================================================================================== -->
+    <div class="insertAComment formContainer">
+        <form action="SchedaSerie" method="POST" >
+            <input type="hidden" name="sid" value="${series.ID}"/>
+            <div class='row'>
+                <input name="commentTitle" type="text" maxlength="60" placeholder="Titolo commento" required="required">
+            </div>
+            <div class='row'>
+                <textarea name="commentText" rows="10" placeholder="Inserisci qui il tuo commento..." required="required" ></textarea>
+            </div>
+            <button type="submit" name="scs" value="1">Commenta</button>
+        </form>
+    </div>
