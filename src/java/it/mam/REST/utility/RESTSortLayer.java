@@ -149,7 +149,7 @@ public class RESTSortLayer {
     }
 
     public static void checkNotifications(User user, HttpServletRequest request, HttpServletResponse response){
-                        //Series Notification checking
+             //Series Notification checking
                 int count = 0;
                 boolean trovato;
                 for (UserSeries us: user.getUserSeries()){
