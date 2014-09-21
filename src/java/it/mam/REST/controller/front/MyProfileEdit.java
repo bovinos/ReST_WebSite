@@ -40,6 +40,7 @@ public class MyProfileEdit extends RESTBaseController {
         
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("userProfileContent_tpl", "userSignUpData.ftl.html");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
          } else {
@@ -98,6 +99,7 @@ public class MyProfileEdit extends RESTBaseController {
         
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("genres", getDataLayer().getGenres());
             request.setAttribute("userProfileContent_tpl", "userOptionalData.ftl.html");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
@@ -183,6 +185,7 @@ public class MyProfileEdit extends RESTBaseController {
         if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("userProfileContent_tpl", "userNotifySettings.ftl.html");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
          } else {
@@ -241,7 +244,7 @@ public class MyProfileEdit extends RESTBaseController {
         int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
         switch (section) {
             case 1: //"Modifica dati di registrazione"...
-                request.setAttribute("currentSection", section);
+                request.setAttribute("currentSection", section+2);
                 if (request.getParameter("modifySignUpData") != null) { //Modified data sent...
                         action_submit_ProfileUserSignUpData(request, response);
                 } else { //Show modify screen...
@@ -249,7 +252,7 @@ public class MyProfileEdit extends RESTBaseController {
                 }
                 break;
             case 2: //"Modifica dati opzionali"...
-                request.setAttribute("currentSection", section);
+                request.setAttribute("currentSection", section+2);
                 if (request.getParameter("modifyOptionalData") != null) { //Modified data sent...
                         action_submit_ProfileUserOptionalData(request, response);
                 } else { //Show modify screen...
@@ -257,7 +260,7 @@ public class MyProfileEdit extends RESTBaseController {
                 }
                 break;
             case 3: //"Impostazioni Notifiche"...
-                request.setAttribute("currentSection", section);
+                request.setAttribute("currentSection", section+2);
                 if (request.getParameter("modifyNotifySettings") != null) { //Modified data sent...
                         action_submit_ProfileUserNotifySettings(request, response);
                 } else { //Show modify screen...

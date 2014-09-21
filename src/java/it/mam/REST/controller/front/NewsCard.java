@@ -5,6 +5,7 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Comment;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.User;
+import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -12,6 +13,8 @@ import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,22 +34,45 @@ public class NewsCard extends RESTBaseController{
     
     // Activates the News Card template
     private void action_news_info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        try{
+        News news = getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("id")));
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("where", "news");
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        request.setAttribute("news", getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("id"))));
+        request.setAttribute("news", news);
         //Controllo che la sessione attuale sia ancora valida
-        if (SecurityLayer.checkSession(request) != null){
-            try{
+        if (SecurityLayer.checkSession(request) != null){   
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         request.setAttribute("user", user);
-         } catch (NumberFormatException ex) {
+        RESTSortLayer.checkNotifications(user, request, response);
+        }
+            //Page management
+            int page; //page number 
+            if(request.getParameter("page") != null) {
+            page = SecurityLayer.checkNumeric(request.getParameter("page"));
+            } else {
+            page = 1;
+            }
+            List<Comment> commentsList = news.getComments();
+            request.setAttribute("currentPage", page);
+            int commentsPerPage = 10; // number of comments per page
+            int numberOfPages = Math.round(commentsList.size()/commentsPerPage) + 1; // total number of pages
+            request.setAttribute("totalPages", numberOfPages);
+             if(page == numberOfPages) {
+            request.setAttribute("comments", commentsList);
+            request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
+            } else if (page > numberOfPages || page < 1) {
+            action_error(request, response, "Riprova di nuovo!");
+            } else {
+            request.setAttribute("comments", commentsList.subList(0, (page *commentsPerPage)));
+            request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
+            }
+
+        result.activate("newsCard.ftl.html", request, response);
+            } catch (NumberFormatException ex) {
             action_error(request, response, "Riprova di nuovo!");
             return;
-        }
-        }
-        result.activate("newsCard.ftl.html", request, response);
+    }
     }
 
     // Receives all the necessary data to insert a comment to a news
@@ -58,6 +84,7 @@ public class NewsCard extends RESTBaseController{
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         News news = getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("nid")));
         Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
         String title = request.getParameter("commentTitle");
         String text = request.getParameter("commentText");
         Comment comment = getDataLayer().createComment();

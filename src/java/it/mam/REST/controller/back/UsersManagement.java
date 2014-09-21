@@ -4,6 +4,7 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Group;
 import it.mam.REST.data.model.Service;
 import it.mam.REST.data.model.User;
+import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -41,6 +42,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("services", getDataLayer().getServices());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "insertGroup.ftl.html");
@@ -110,6 +112,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("groups", getDataLayer().getGroups());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "insertService.ftl.html");
@@ -179,6 +182,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("services", getDataLayer().getServices());
             request.setAttribute("groups", getDataLayer().getGroups());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -241,6 +245,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("groups", getDataLayer().getGroups());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "removeGroup.ftl.html");
@@ -266,7 +271,7 @@ public class UsersManagement extends RESTBaseController {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
             return;
             }
-            getDataLayer().removeGroup(getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group"))));
+            getDataLayer().removeGroup(getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("groups"))));
                 request.setAttribute("success", "Rimozione gruppi completata!");
                 action_remove_group(request, response);
         } else {
@@ -292,6 +297,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("services", getDataLayer().getServices());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "removeService.ftl.html");
@@ -345,6 +351,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("services", getDataLayer().getServices());
             request.setAttribute("groups", getDataLayer().getGroups());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -375,10 +382,6 @@ public class UsersManagement extends RESTBaseController {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             Group g = getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group")));
             Service s = getDataLayer().getService(SecurityLayer.checkNumeric(request.getParameter("service")));
-            g.setServices(g.getServices());
-            s.setGroups(s.getGroups());
-                System.err.println(g);
-                System.err.println(s);
             if(!(g.getServices().contains(s))) {
                 request.setAttribute("error", "Questo gruppo e questo servizio non sono associati!");
                 action_remove_serviceGroup(request, response);
@@ -405,7 +408,7 @@ public class UsersManagement extends RESTBaseController {
             int sezione = SecurityLayer.checkNumeric(request.getParameter("sezione"));
             switch (sezione) {
                 case 1:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+18);
                     if ((request.getParameter("ig")) != null) {
                         action_save_group(request, response);
                     } else {
@@ -413,7 +416,7 @@ public class UsersManagement extends RESTBaseController {
                     }
                     break;
                 case 2:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+18);
                     if ((request.getParameter("is")) != null) {
                         action_save_service(request, response);
                     } else {
@@ -421,7 +424,7 @@ public class UsersManagement extends RESTBaseController {
                     }
                     break;
                 case 3:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+18);
                     if ((request.getParameter("isg")) != null) {
                         action_save_serviceGroup(request, response);
                     } else {
@@ -429,7 +432,7 @@ public class UsersManagement extends RESTBaseController {
                     }
                     break;
                  case 4:
-                     request.setAttribute("currentSection", sezione);
+                     request.setAttribute("currentSection", sezione+18);
                     if ((request.getParameter("rg")) != null) {
                         action_delete_group(request, response);
                     } else {
@@ -437,7 +440,7 @@ public class UsersManagement extends RESTBaseController {
                     }
                     break;
                 case 5:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+18);
                     if ((request.getParameter("rs")) != null) {
                         action_delete_service(request, response);
                     } else {
@@ -445,7 +448,7 @@ public class UsersManagement extends RESTBaseController {
                     }
                     break;
                 case 6:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+18);
                     if ((request.getParameter("rsg")) != null) {
                         action_delete_serviceGroup(request, response);
                     } else {
@@ -481,7 +484,7 @@ public class UsersManagement extends RESTBaseController {
 
     @Override
     public String getServletInfo() {
-        return "This servlet activates all the user management templates and allow to insert groups, services and to link them";
+        return "This servlet activates all the user management templates and allow to insert/remove groups, services and to link/destroy link between them";
     }
 
 }

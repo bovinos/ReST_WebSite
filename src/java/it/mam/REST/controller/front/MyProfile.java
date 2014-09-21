@@ -2,6 +2,7 @@ package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.ChannelEpisode;
+import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
@@ -40,6 +41,7 @@ public class MyProfile extends RESTBaseController {
         if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("userProfileContent_tpl", "userBroadcastProgramming.ftl.html");
             Calendar iterationCalendar = Calendar.getInstance();
             Calendar episodeCalendar = Calendar.getInstance();
@@ -86,6 +88,25 @@ public class MyProfile extends RESTBaseController {
             request.setAttribute("userProfileContent_tpl", "userSeries.ftl.html");
             request.setAttribute("where", "profile");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+            
+            //Series Notification checking (Different from RESTSortLayer.checkNotifications(user, request, response); because here we need the list of series!)
+                boolean trovato;
+                List<Series> seriesToNotify = new ArrayList();
+                for (UserSeries us: user.getUserSeries()){
+                    Series s = us.getSeries();
+                    trovato = false;
+                    for(Episode e: s.getEpisodes()){
+                        if(trovato) break;
+                        for(ChannelEpisode ce: e.getChannelEpisode())
+                         if(us.getEpisode() == e.getNumber()+1 && (new Date().getTime() - us.getAnticipationNotification().getTime()) >= ce.getDate().getTime()
+                                 && (new Date().getTime() < ce.getDate().getTime())){
+                             seriesToNotify.add(s);
+                             trovato = true;
+                         }
+                    }
+                }
+                request.setAttribute("notifySeries", seriesToNotify);
+            
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");

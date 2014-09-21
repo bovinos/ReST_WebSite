@@ -4,6 +4,7 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Message;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
+import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -11,6 +12,7 @@ import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +49,31 @@ public class SeriesCircle extends RESTBaseController {
                     //This series is not contained in this user's favourites
                     action_error(request, response, "Per entrare in questa cerchia, aggiungi questa serie alle preferite!");
                 }
+                
+                //Page management
+            int page; //page number 
+            if(request.getParameter("page") != null) {
+            page = SecurityLayer.checkNumeric(request.getParameter("page"));
+            } else {
+            page = 1;
+            }
+            List<Message> messagesList = series.getMessages();
+            request.setAttribute("currentPage", page);
+            int messagesPerPage = 10; // number of messages per page
+            int numberOfPages = Math.round(messagesList.size()/messagesPerPage) + 1; // total number of pages
+            System.err.println(numberOfPages);
+            request.setAttribute("totalPages", numberOfPages);
+             if(page == numberOfPages) {
+            request.setAttribute("comments", messagesList);
+            request.setAttribute("previousLastCommentIndex", (page-1)*messagesPerPage);
+            } else if (page > numberOfPages || page < 1) {
+            action_error(request, response, "Riprova di nuovo!");
+            } else {
+            request.setAttribute("comments", messagesList.subList(0, (page *messagesPerPage)));
+            request.setAttribute("previousLastCommentIndex", (page-1)*messagesPerPage);
+            }
+             
+             RESTSortLayer.checkNotifications(user, request, response);
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per visualizzare questa pagina!");
