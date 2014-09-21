@@ -17,6 +17,7 @@ import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,30 @@ public class SeriesCard extends RESTBaseController {
                 sn.getEpisodes().add(e);
             }
             request.setAttribute("seasons", seasonList);
-
+            
+            //Page management
+            int page; //page number 
+            if(request.getParameter("page") != null) {
+            page = SecurityLayer.checkNumeric(request.getParameter("page"));
+            } else {
+            page = 1;
+            }
+            List<Comment> commentsList = s.getComments();
+            Collections.reverse(commentsList);
+            request.setAttribute("currentPage", page);
+            int commentsPerPage = 10; // number of comments per page
+            int numberOfPages = (int) Math.ceil((double)commentsList.size()/commentsPerPage); // total number of pages
+            request.setAttribute("totalPages", numberOfPages);
+             if(page == numberOfPages) {
+            request.setAttribute("comments", commentsList);
+            request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
+            } else if (page > numberOfPages || page < 1) {
+            action_error(request, response, "Riprova di nuovo!");
+            } else {
+            request.setAttribute("comments", commentsList.subList(0, (page *commentsPerPage)));
+            request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
+            }
+            
             // User session checking
             if (SecurityLayer.checkSession(request) != null) {
                 try {
@@ -68,31 +92,10 @@ public class SeriesCard extends RESTBaseController {
                     UserSeries us = getDataLayer().getUserSeries(user, s);
                     favourite = (us != null);
                     request.setAttribute("favourite", favourite);
-                    RESTSortLayer.checkNotifications(user, request, response);
+                    RESTSortLayer.checkNotifications(user, request, response);      
                 } catch (NumberFormatException ex) {
                     //User id is not a number
                 }
-            }
-            //Page management
-            int page; //page number 
-            if(request.getParameter("page") != null) {
-            page = SecurityLayer.checkNumeric(request.getParameter("page"));
-            } else {
-            page = 1;
-            }
-            List<Comment> commentsList = s.getComments();
-            request.setAttribute("currentPage", page);
-            int commentsPerPage = 10; // number of comments per page
-            int numberOfPages = Math.round(commentsList.size()/commentsPerPage) + 1; // total number of pages
-            request.setAttribute("totalPages", numberOfPages);
-             if(page == numberOfPages) {
-            request.setAttribute("comments", commentsList);
-            request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
-            } else if (page > numberOfPages || page < 1) {
-            action_error(request, response, "Riprova di nuovo!");
-            } else {
-            request.setAttribute("comments", commentsList.subList(0, (page *commentsPerPage)));
-            request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
             }
             
         } catch (NumberFormatException ex) {

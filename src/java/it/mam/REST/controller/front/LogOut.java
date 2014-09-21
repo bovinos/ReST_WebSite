@@ -23,6 +23,7 @@ public class LogOut extends RESTBaseController {
     }
     // Logs a user out
     private void action_logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(SecurityLayer.checkSession(request) == null) action_error(request, response, "Non sei loggato!");
        SecurityLayer.disposeSession(request);
         // in realtà dovrei ridirigere alla pagina in cui ha fatto il logout
         response.sendRedirect("ListaNews");

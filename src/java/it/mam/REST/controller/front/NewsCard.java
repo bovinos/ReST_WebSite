@@ -13,6 +13,7 @@ import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 import javax.servlet.ServletException;
@@ -54,9 +55,10 @@ public class NewsCard extends RESTBaseController{
             page = 1;
             }
             List<Comment> commentsList = news.getComments();
+            Collections.reverse(commentsList);
             request.setAttribute("currentPage", page);
             int commentsPerPage = 10; // number of comments per page
-            int numberOfPages = Math.round(commentsList.size()/commentsPerPage) + 1; // total number of pages
+            int numberOfPages = (int) Math.ceil((double)commentsList.size()/commentsPerPage); // total number of pages
             request.setAttribute("totalPages", numberOfPages);
              if(page == numberOfPages) {
             request.setAttribute("comments", commentsList);
