@@ -83,10 +83,16 @@ public class NewsManagement extends RESTBaseController {
                 news.setImageURL(request.getParameter("newsImageURL"));
             }
          if(request.getParameterValues("series") != null && request.getParameterValues("series").length > 0){
-            String[] series = request.getParameterValues("series");
             List<Series> seriesList = new ArrayList();
-                for (String s: series){
-                    seriesList.add(getDataLayer().getSeries(SecurityLayer.checkNumeric(s)));
+            Series sr;
+                for (String s: request.getParameterValues("series")){
+                    sr = getDataLayer().getSeries(SecurityLayer.checkNumeric(s));
+                    if(sr == null){
+                        action_error(request, response, "Riprova di nuovo!");
+                        System.err.println("Errore in NewsManagement.java, nel metodo action_save_news: un ID di serie passato non corrisponde ad alcuna serie sul Database");
+                        return;
+                    }
+                    seriesList.add(sr);
                 }
                 news.setSeries(seriesList);
          }
@@ -163,9 +169,15 @@ public class NewsManagement extends RESTBaseController {
             System.err.println("Errore in NewsManagement.java, nel metodo action_delete_news: il parametro news è nullo");
             return;
         }
-        String[] news = request.getParameterValues("news");
-        for(String n: news) {
-            getDataLayer().removeNews(getDataLayer().getNews(SecurityLayer.checkNumeric(n)));
+        News nw;
+        for(String n: request.getParameterValues("news")) {
+            nw =getDataLayer().getNews(SecurityLayer.checkNumeric(n));
+            if (nw == null){
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in NewsManagement.java, nel metodo action_delete_news: un ID passato di una news non corrisponde a nessuna news sul Database");
+                return;
+            }
+            getDataLayer().removeNews(nw);
         }
        } else {
             //User session is no longer valid
@@ -189,6 +201,7 @@ public class NewsManagement extends RESTBaseController {
              if (request.getParameter("sezione") == null) {
                 action_error(request, response, "Riprova di nuovo!");
                 System.err.println("Errore nella Process Request di NewsManagement.java: il parametro sezione è nullo");
+                return;
             }
          int sezione = SecurityLayer.checkNumeric(request.getParameter("sezione"));
          switch(sezione){
@@ -209,6 +222,7 @@ public class NewsManagement extends RESTBaseController {
                     }
             break;
             default: action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request di NewsManagement.java: il parametro sezione non vale 1 o 2");
          }
           } catch (IOException | NumberFormatException ex) {
               action_error(request, response, "Riprova di nuovo!");

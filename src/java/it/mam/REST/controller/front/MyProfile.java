@@ -154,6 +154,7 @@ public class MyProfile extends RESTBaseController {
                     default:
                         action_error(request, response, "Riprova di nuovo!");
                         System.err.println("Errore in MyProfile.java, nel metodo action_rating_ProfileUserSeries: il valore del rating ricevuto non è compreso fra 1 e 5");
+                        return;
                 }
                 getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
                 // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
@@ -206,6 +207,7 @@ public class MyProfile extends RESTBaseController {
             if (request.getParameter("sezione") == null) {
                 action_error(request, response, "Riprova di nuovo!");
                 System.err.println("Errore nella Process Request di MyProfile.java: il parametro sezione è nullo");
+                return;
             }
             int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
             switch (section) {
@@ -229,9 +231,9 @@ public class MyProfile extends RESTBaseController {
                     action_error(request, response, "Riprova di nuovo!");
                     System.err.println("Errore nella Process Request di MyProfile.java: il parametro sezione non vale nè 1 nè 2");
             }
-        } catch (IOException ex) {
+        } catch (IOException |NumberFormatException ex) {
             action_error(request, response, "Riprova di nuovo!");
-            System.err.println("Errore nella Process Request di MyProfile.java: IOException");
+            System.err.println("Errore nella Process Request di MyProfile.java: IOException o NumberFormatException");
         }
     }
 

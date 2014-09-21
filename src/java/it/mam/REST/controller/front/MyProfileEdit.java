@@ -142,11 +142,17 @@ public class MyProfileEdit extends RESTBaseController {
             }
 
             if (request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0) {
-                String[] genres = request.getParameterValues("genres");
                 List<Genre> genresList = new ArrayList();
-                for (String s : genres) {
+                Genre g;
+                for (String s : request.getParameterValues("genres")) {
                     //prendo il genere dal DB e NON ci metto gli slash perché nel DB ce li ha già e non serve di toglierli perché non devo usarlo
-                    genresList.add(RESTSecurityLayer.addSlashes(getDataLayer().getGenre(SecurityLayer.checkNumeric(s))));
+                    g =getDataLayer().getGenre(SecurityLayer.checkNumeric(s));
+                    if(g == null){
+                        action_error(request, response, "Riprova di nuovo!");
+                        System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserOptionalData: un ID dei generi passato non corrisponde ad alcun genere sul Database ");
+                        return;
+                    }
+                    genresList.add(g);
                 }
 
                 user.setGenres(genresList);
@@ -164,6 +170,7 @@ public class MyProfileEdit extends RESTBaseController {
                     default:
                         action_error(request, response, "Field Error");
                         System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserOptionalData: il parametro gender non valeva nè 1(Maschio) nè 2(Femmina)");
+                        return;
                 }
             }
             getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
@@ -251,6 +258,7 @@ public class MyProfileEdit extends RESTBaseController {
             if(request.getParameter("sezione")== null){
                 action_error(request, response, "Riprova di nuovo!");
                 System.err.println("Errore nella Process Request MyProfileEdit.java: il parametro sezione è nullo");
+                return;
             }
         int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
         switch (section) {
@@ -282,9 +290,9 @@ public class MyProfileEdit extends RESTBaseController {
                 action_error(request, response, "Riprova di nuovo!");
                 System.err.println("Errore nella Process Request di MyProfileEdit.java: il parametro della sezione non vale 1, 2 o 3");
         }
-        } catch (IOException ex) {
+        } catch (IOException | NumberFormatException ex) {
             action_error(request, response, "Riprova di nuovo!");
-            System.err.println("Errore nella Process Request di MyProfileEdit.java: IOException");
+            System.err.println("Errore nella Process Request di MyProfileEdit.java: IOException o NumberFormatException");
         }
     }
 

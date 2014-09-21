@@ -81,7 +81,6 @@ public class NewsCard extends RESTBaseController{
             } catch (NumberFormatException ex) {
             action_error(request, response, "Riprova di nuovo!");
             System.err.println("Errore in NewsCard.java, nel metodo action_news_info: NumberFormatException");
-            return;
     }
     }
 

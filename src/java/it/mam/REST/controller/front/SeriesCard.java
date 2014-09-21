@@ -113,6 +113,7 @@ public class SeriesCard extends RESTBaseController {
             //Series id is not a number
             action_error(request, response, "Riprova di nuovo!");
             System.err.println("Errore in SeriesCard.java, nel metodo action_series_info: NumberFormatException");
+            return;
         }
         result.activate("seriesCard.ftl.html", request, response);
     }

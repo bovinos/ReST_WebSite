@@ -44,6 +44,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_series: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
@@ -59,6 +60,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_series: NumberFormatException");
         }
     }
 
@@ -70,6 +72,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_save_series: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
@@ -108,6 +111,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or year is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_save_series: NumberFormatException");
         }
 
     }
@@ -120,6 +124,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_episode: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -137,6 +142,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_episode: NumberFormatException");
         }
     }
 
@@ -148,6 +154,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_save_episode: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
@@ -185,6 +192,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or episode number or episode season is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_save_episode: NumberFormatException");
         }
 
     }
@@ -197,6 +205,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_channel: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -213,6 +222,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //Comment id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_channel: NumberFormatException");
         }
     }
 
@@ -224,6 +234,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_save_channel: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
@@ -242,6 +253,7 @@ public class SeriesManagement extends RESTBaseController {
                             break;
                         default:
                             action_error(request, response, "Invalid type");
+                            System.err.println("Errore in SeriesManagement.java, nel metodo action_save_channel: il parametro che indica il tipo di canale non è nè 1(free) nè 2(pay)");
                             return;
                     }
                     channel.setNumber(SecurityLayer.checkNumeric(request.getParameter("channelNumber")));
@@ -262,6 +274,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_save_channel: NumberFormatException");
         }
     }
 
@@ -273,6 +286,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_genre: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -289,6 +303,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_genre NumberFormatException");
         }
     }
 
@@ -300,6 +315,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_save_genre: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
@@ -319,6 +335,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_save_genre: NumberFormatException");
         }
     }
 
@@ -330,6 +347,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_castmember: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -347,6 +365,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_castmember: NumberFormatException");
         }
     }
 
@@ -358,6 +377,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_save_castmember: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
@@ -381,6 +401,7 @@ public class SeriesManagement extends RESTBaseController {
                             break;
                         default:
                             action_error(request, response, "Riprova di nuovo!");
+                            System.err.println("Errore in SeriesManagement.java, nel metodo action_save_castmember: il parametro che indica il sesso non è nè 1 (Maschio) nè 2 (Femmina)");
                             return;
                     }
 
@@ -419,6 +440,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or gender is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_save_castmember: NumberFormatException");
         }
     }
 
@@ -430,6 +452,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_castmemberSeries: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -448,6 +471,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_castmemberSeries: NumberFormatException");
         }
     }
 
@@ -459,6 +483,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_save_castmemberSeries: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -485,6 +510,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or castmember id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_save_castmemberSeries: NumberFormatException");
         }
 
     }
@@ -497,6 +523,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_channelEpisode: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -515,6 +542,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_channelEpisode: NumberFormatException");
         }
     }
 
@@ -526,6 +554,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_save_channelEpisode: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -533,8 +562,16 @@ public class SeriesManagement extends RESTBaseController {
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 if (checkChannelEpisodeInputData(request, response)) {
                     ChannelEpisode ce = getDataLayer().createChannelEpisode();
-                    ce.setChannel(getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel"))));
-                    ce.setEpisode(getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode"))));
+                    Channel ch =getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel")));
+                    Episode e = getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode")));
+                    if (e == null || ch == null){
+                        action_error(request, response, "Riprova di nuovo!");
+                        System.err.println("Errore in SeriesManagement.java, nel metodo action_save_channelEpisode: l'ID del canale o dell'episodio passato non corrisponde a nessun canale o episodio sul Database");
+                        return;
+                    }
+                    ce.setChannel(ch);
+                    ce.setEpisode(e);
+                    
                     Calendar c = Calendar.getInstance();
                     c.clear();
                     c.set(0, 0, 0, 0, 0, 0);
@@ -556,6 +593,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or channel id or episode id is not a number or date is not valid or time is not valid
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_save_channelEpisode: NumberFormatException");
         }
     }
 
@@ -567,6 +605,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_genreSeries: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -585,6 +624,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_insert_genreSeries: NumberFormatException");
         }
     }
 
@@ -596,13 +636,20 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_save_genreSeries: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 if (checkGenreSeriesInputData(request, response)) {
                     Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
-                    s.addGenre(getDataLayer().getGenre(SecurityLayer.checkNumeric(request.getParameter("genre"))));
+                    Genre g = getDataLayer().getGenre(SecurityLayer.checkNumeric(request.getParameter("genre")));
+                    if(s == null || g == null){
+                        action_error(request, response, "Riprova di nuovo!");
+                        System.err.println("Errore in SeriesManagement.java, nel metodo action_save_genreSeries: l'ID della serie o del genere passato non corrisponde a nessuna serie o genere sul Database");
+                        return;
+                    }
+                    s.addGenre(g);
                     getDataLayer().storeSeries(s);
                 } else {
                     request.setAttribute("error", "Uno dei campi è vuoto!");
@@ -619,6 +666,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or series id or genre id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_save_genreSeries: NumberFormatException");
         }
     }
 
@@ -631,6 +679,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_series: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
@@ -647,6 +696,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_series: NumberFormatException");
         }
     }
 
@@ -658,18 +708,25 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_series: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 if (request.getParameterValues("series") == null || request.getParameterValues("series").length <= 0) {
-                    request.setAttribute("error", "Uno dei campi è vuoto!");
-                    action_remove_series(request, response);
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_series: non sono state passate serie da cancellare!");
                     return;
                 }
-                String[] series = request.getParameterValues("series");
-                for (String s : series) {
-                    getDataLayer().removeSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(s)));
+                Series sr;
+                for (String s : request.getParameterValues("series")) {
+                    sr =getDataLayer().getSeries(SecurityLayer.checkNumeric(s));
+                    if(sr == null){
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_series: un ID di una serie passato non corrisponde a nessuna serie nel Database");
+                    return;
+                    }
+                    getDataLayer().removeSeries(sr);
                 }
                 request.setAttribute("success", "Rimozione serie completata!");
                 action_remove_series(request, response);
@@ -681,6 +738,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_series: NumberFormatException");
         }
 
     }
@@ -693,6 +751,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_episode: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -710,6 +769,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_episode: NumberFormatException");
         }
     }
 
@@ -721,18 +781,25 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_episode: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 if (request.getParameterValues("episodes") == null || request.getParameterValues("episodes").length <= 0) {
-                    request.setAttribute("error", "Uno dei campi è vuoto!");
-                    action_remove_episode(request, response);
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_episode: non sono stati passati episodi da cancellare!");
                     return;
                 }
-                String[] episodes = request.getParameterValues("episodes");
-                for (String e : episodes) {
-                    getDataLayer().removeEpisode(getDataLayer().getEpisode(SecurityLayer.checkNumeric(e)));
+                Episode ep;
+                for (String e : request.getParameterValues("episodes")) {
+                    ep = getDataLayer().getEpisode(SecurityLayer.checkNumeric(e));
+                    if(ep == null){
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_episode: un ID di un episodio passato non corrisponde a nessun episodio sul Database");
+                    return;
+                    }
+                    getDataLayer().removeEpisode(ep);
                 }
 
                 request.setAttribute("success", "Rimozione episodi completata!");
@@ -745,6 +812,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or episode number or episode season is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_episode: NumberFormatException");
         }
 
     }
@@ -757,6 +825,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_channel: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -774,6 +843,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //Comment id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_channel: NumberFormatException");
         }
     }
 
@@ -785,20 +855,28 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_channel: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-                if (request.getParameterValues("channel") == null || request.getParameterValues("channel").length <= 0) {
-                    request.setAttribute("error", "Uno dei campi è vuoto!");
-                    action_remove_channel(request, response);
+                if (request.getParameterValues("channels") == null || request.getParameterValues("channels").length <= 0) {
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_series: non sono stati passati canali da cancellare!");
                     return;
                 }
-                String[] channels = request.getParameterValues("channel");
-                for (String c : channels) {
-                    getDataLayer().removeChannel(getDataLayer().getChannel(SecurityLayer.checkNumeric(c)));
+                Channel ch;
+                for (String c : request.getParameterValues("channels")) {
+                    System.err.println(c);
+                    ch = getDataLayer().getChannel(SecurityLayer.checkNumeric(c));
+                    if(ch == null){
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_channel: un ID di un canale passato non corrisponde a nessun canale nel Database");
+                    return;
+                    }
+                    getDataLayer().removeChannel(ch);
                 }
-                request.setAttribute("success", "Canale inserito correttamente!");
+                request.setAttribute("success", "Rimozione canali completata!");
                 action_remove_channel(request, response);
             } else {
                 //User session is no longer valid
@@ -808,6 +886,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_channel: NumberFormatException");
         }
     }
 
@@ -819,6 +898,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_genre: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -836,6 +916,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_genre: NumberFormatException");
         }
     }
 
@@ -847,16 +928,23 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_genre: Utente senza permessi da amministratore");
                     return;
                 }
                 if (request.getParameterValues("genres") == null || request.getParameterValues("genres").length <= 0) {
-                    request.setAttribute("error", "Uno dei campi è vuoto!");
-                    action_remove_genre(request, response);
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_genre: non sono stati passati generi da cancellare!");
                     return;
                 }
-                String[] genres = request.getParameterValues("genres");
-                for (String g : genres) {
-                    getDataLayer().removeGenre(getDataLayer().getGenre(SecurityLayer.checkNumeric(g)));
+                Genre gr;
+                for (String g : request.getParameterValues("genres")) {
+                    gr = getDataLayer().getGenre(SecurityLayer.checkNumeric(g));
+                    if(gr == null){
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_genre: un ID di un genere passato non corrisponde a nessun genere nel Database");
+                    return;
+                    }
+                    getDataLayer().removeGenre(gr);
                 }
                 request.setAttribute("success", "Rimozione generi completata!");
                 action_remove_genre(request, response);
@@ -868,6 +956,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_genre: NumberFormatException");
         }
     }
 
@@ -879,6 +968,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_castmember: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -897,6 +987,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_castmember: NumberFormatException");
         }
     }
 
@@ -908,18 +999,25 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_castmember: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 if (request.getParameterValues("castMembers") == null || request.getParameterValues("castMembers").length <= 0) {
-                    request.setAttribute("error", "Uno dei campi è vuoto!");
-                    action_remove_castmember(request, response);
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_castmember: non sono stati passati membri del cast da cancellare!");
                     return;
                 }
-                String[] castmembers = request.getParameterValues("castMembers");
-                for (String cm : castmembers) {
-                    getDataLayer().removeCastMember(getDataLayer().getCastMember(SecurityLayer.checkNumeric(cm)));
+                CastMember cmb;
+                for (String cm : request.getParameterValues("castMembers")) {
+                    cmb =getDataLayer().getCastMember(SecurityLayer.checkNumeric(cm));
+                    if(cmb == null){
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_castmember: un ID di un membro del cast passato non corrisponde a nessun membro del cast nel Database");
+                    return;
+                    }
+                    getDataLayer().removeCastMember(cmb);
                 }
                 request.setAttribute("success", "Rimozione membri del cast completata!");
                 action_remove_castmember(request, response);
@@ -931,6 +1029,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or gender is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_castmember: NumberFormatException");
         }
     }
 
@@ -942,6 +1041,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_castmemberSeries: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -960,6 +1060,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_castmemberSeries: NumberFormatException");
         }
     }
 
@@ -971,6 +1072,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_castmemberSeries: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -982,6 +1084,11 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 CastMember cm = getDataLayer().getCastMember(SecurityLayer.checkNumeric(request.getParameter("castMember")));
                 Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
+                if(cm == null || s == null){
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_castmemberSeries: gli ID di serie o membro del cast passati non corrispondono a nessuna serie o membro del cast sul Database");
+                    return;
+                }
                 CastMemberSeries cms = getDataLayer().getCastMemberSeries(cm, s, request.getParameter("role"));
                 if (cms == null) {
                     request.setAttribute("error", "Questo membro del cast e questa serie non sono associati!");
@@ -999,6 +1106,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or castmember id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_castmemberSeries: NumberFormatException");
         }
 
     }
@@ -1011,6 +1119,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_channelEpisode: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -1029,6 +1138,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_channelEpisode: NumberFormatException");
         }
     }
 
@@ -1040,6 +1150,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_channelEpisode: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -1052,6 +1163,11 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel")));
                 Episode e = getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode")));
+                if(c == null || e == null){
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_channelEpisode: gli ID di canale o episodio passati non corrispondono a nessun canale o episodio sul Database");
+                    return;
+                }
                 Calendar cl = Calendar.getInstance();
                 cl.clear();
                 cl.set(0, 0, 0, 0, 0, 0);
@@ -1074,6 +1190,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or channel id or episode id is not a number or date is not valid or time is not valid
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_channelEpisode: NumberFormatException");
         }
     }
 
@@ -1085,6 +1202,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_genreSeries: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("where", "back");
@@ -1103,6 +1221,7 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_remove_genreSeries: NumberFormatException");
         }
     }
 
@@ -1114,6 +1233,7 @@ public class SeriesManagement extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 if (user.getGroup().getID() != Group.ADMIN) {
                     action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_genreSeries: Utente senza permessi da amministratore");
                     return;
                 }
                 request.setAttribute("user", user);
@@ -1125,6 +1245,11 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
                 Genre g = getDataLayer().getGenre(SecurityLayer.checkNumeric(request.getParameter("genre")));
+                if(s == null | g == null){
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_genreSeries: gli ID di serie o genere passati non corrispondono a nessuna serie o genere sul Database");
+                    return;
+                }
                 if (!(s.getGenres().contains(g))) {
                     request.setAttribute("error", "Questo genere e questa serie non sono associati!");
                     action_remove_genreSeries(request, response);
@@ -1141,12 +1266,18 @@ public class SeriesManagement extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or series id or genre id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_genreSeries: NumberFormatException");
         }
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
+             if (request.getParameter("sezione") == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request di SeriesManagement.java: il parametro sezione è nullo");
+                return;
+            }
             int sezione = SecurityLayer.checkNumeric(request.getParameter("sezione"));
             switch (sezione) {
                 case 1:
@@ -1279,9 +1410,11 @@ public class SeriesManagement extends RESTBaseController {
                     break;
                 default:
                     action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore nella Process Request di SeriesManagement.java: il parametro sezione non è compreso fra 1 e 16");
             }
         } catch (NumberFormatException | IOException ex) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di SeriesManagement.java: NumberFormatException o IOException");
         }
     }
 

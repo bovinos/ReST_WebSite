@@ -11,6 +11,8 @@ import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +40,7 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_insert_group: Utente senza permessi da amministratore");
             return;
             }
             request.setAttribute("where", "back");
@@ -55,6 +58,7 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_insert_group: NumberFormatException");
     }
     }
 
@@ -66,6 +70,7 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_save_group: Utente senza permessi da amministratore");
             return;
             }
             request.setAttribute("user", user);
@@ -97,6 +102,7 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_save_group: NumberFormatException");
     }
     }
 
@@ -108,6 +114,7 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_insert_service: Utente senza permessi da amministratore");
             return;
             }
             request.setAttribute("where", "back");
@@ -125,6 +132,7 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_insert_service: NumberFormatException");
     }
     }
 
@@ -136,6 +144,7 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_save_service: Utente senza permessi da amministratore");
             return;
             }
             request.setAttribute("user", user);
@@ -167,6 +176,7 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_save_service: NumberFormatException");
     }
     }
 
@@ -178,6 +188,7 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_insert_serviceGroup: Utente senza permessi da amministratore");
             return;
             }
             request.setAttribute("where", "back");
@@ -196,6 +207,7 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_insert_serviceGroup: NumberFormatException");
     }
     }
 
@@ -207,6 +219,7 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_save_serviceGroup: Utente senza permessi da amministratore");
             return;
             }
             request.setAttribute("user", user);
@@ -215,7 +228,13 @@ public class UsersManagement extends RESTBaseController {
             request.setAttribute("groups", getDataLayer().getGroups());
             if (checkServiceGroupInputData(request, response)) {
                 Service service = getDataLayer().getService(SecurityLayer.checkNumeric(request.getParameter("service")));
-                service.addGroup(getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group"))));
+                Group group = getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group")));
+                if(service == null || group == null){
+                    action_error(request, response, null);
+                    System.err.println("Errore in UsersManagement.java, nel metodo action_save_serviceGroup: gli ID passati di servizio e gruppo non corrispondono a nessun servizio o gruppo sul Database");
+                    return;
+                }
+                service.addGroup(group);
                 getDataLayer().storeService(RESTSecurityLayer.addSlashes(service));
             }
                 request.setAttribute("success", "Servizio e gruppo associati correttamente!");
@@ -228,6 +247,7 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id or service id or group id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_save_serviceGroup: NumberFormatException");
     }
     }
 
@@ -241,6 +261,7 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_remove_group: Utente senza permessi da amministratore");
             return;
             }
             request.setAttribute("where", "back");
@@ -258,6 +279,7 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_removeGroup: NumberFormatException");
     }
     }
 
@@ -269,9 +291,23 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_delete_group: Utente senza permessi da amministratore");
             return;
             }
-            getDataLayer().removeGroup(getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("groups"))));
+            if(request.getParameterValues("groups")== null || request.getParameterValues("groups").length <= 0){
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_deleteGroup: non è stato passato alcun gruppo da cancellare");
+                return;
+            }
+            for(String g: request.getParameterValues("groups")){
+                Group gr = getDataLayer().getGroup(SecurityLayer.checkNumeric(g));
+                if(gr == null){
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in UsersManagement.java, nel metodo action_deleteGroup: l'ID del gruppo passato non corrisponde a nessun gruppo sul Database");
+                    return;
+                }
+                getDataLayer().removeGroup(gr);
+            }
                 request.setAttribute("success", "Rimozione gruppi completata!");
                 action_remove_group(request, response);
         } else {
@@ -282,6 +318,7 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_deleteGroup: NumberFormatException");
     }
     }
 
@@ -293,6 +330,7 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_remove_service: Utente senza permessi da amministratore");
             return;
             }
             request.setAttribute("where", "back");
@@ -310,6 +348,7 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_removeService: NumberFormatException");
     }
     }
 
@@ -321,11 +360,26 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_delete_service: Utente senza permessi da amministratore");
             return;
             }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            getDataLayer().removeService(getDataLayer().getService(SecurityLayer.checkNumeric(request.getParameter("services"))));
+
+            if(request.getParameterValues("services") == null || request.getParameterValues("services").length <= 0){
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_delete_service: non è stato passato alcun servizio da cancellare");
+                return;
+            }
+            for(String s: request.getParameterValues("services")){
+                Service sr = getDataLayer().getService(SecurityLayer.checkNumeric(s));
+                if(sr == null){
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in UsersManagement.java, nel metodo action_delete_service: l'ID del servizio passato non corrisponde a nessun servizio sul Database");
+                    return;
+                }
+                getDataLayer().removeService(sr);
+            }
             request.setAttribute("success", "Servizio inserito correttamente!");
             action_remove_service(request, response);
         } else {
@@ -336,6 +390,7 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_delete_service: NumberFormatException");
     }
     }
 
@@ -347,6 +402,7 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_remove_serviceGroup: Utente senza permessi da amministratore");
             return;
             }
             request.setAttribute("where", "back");
@@ -365,6 +421,7 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_remove_serviceGroup: NumberFormatException");
     }
     }
 
@@ -376,12 +433,18 @@ public class UsersManagement extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             if (user.getGroup().getID() != Group.ADMIN) {
                 action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_delete_serviceGroup: Utente senza permessi da amministratore");
             return;
             }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             Group g = getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group")));
             Service s = getDataLayer().getService(SecurityLayer.checkNumeric(request.getParameter("service")));
+            if(g == null || s == null){
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in UsersManagement.java, nel metodo action_delete_serviceGroup: gli ID di gruppo o servizio passati non corrispondono a nessun gruppo o servizio sul Database");
+                return;
+            }
             if(!(g.getServices().contains(s))) {
                 request.setAttribute("error", "Questo gruppo e questo servizio non sono associati!");
                 action_remove_serviceGroup(request, response);
@@ -399,12 +462,18 @@ public class UsersManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id or service id or group id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in UsersManagement.java, nel metodo action_delete_serviceGroup: NumberFormatException");
     }
     }
     
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
+             if (request.getParameter("sezione") == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request di UsersManagement.java: il parametro sezione è nullo");
+                return;
+            }
             int sezione = SecurityLayer.checkNumeric(request.getParameter("sezione"));
             switch (sezione) {
                 case 1:
@@ -456,10 +525,12 @@ public class UsersManagement extends RESTBaseController {
                     }
                     break;
                 default:
-                    action_error(request, response, "Field Error");
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore nella Process Request di UsersManagement.java: il parametro sezione non è compreso fra 1 e 6");
             }
         } catch (NumberFormatException | IOException ex) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di UsersManagement.java: IOException o NumberFormatException");
         }
 
     }

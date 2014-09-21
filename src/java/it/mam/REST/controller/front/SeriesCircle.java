@@ -43,20 +43,7 @@ public class SeriesCircle extends RESTBaseController {
             System.err.println("Errore in SeriesCircle.java, nel metodo action_activate_circle: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
             return;
         }
-        request.setAttribute("series", series);
-        //User session checking
-        if (SecurityLayer.checkSession(request) != null) {
-                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-                request.setAttribute("user", user);
-                if(user.getSeries().contains(series)){
-                    result.activate("seriesCircle.ftl.html", request, response);
-                    return;
-                } else{
-                    //This series is not contained in this user's favourites
-                    action_error(request, response, "Per entrare in questa cerchia, aggiungi questa serie alle preferite!");
-                }
-                
-            // Start Page management ===================================================================
+                    // Start Page management ===================================================================
             int page; //page number 
             if(request.getParameter("page") != null) {
             page = SecurityLayer.checkNumeric(request.getParameter("page"));
@@ -81,7 +68,19 @@ public class SeriesCircle extends RESTBaseController {
             request.setAttribute("previousLastCommentIndex", (page-1)*messagesPerPage);
             }
             // End Page Management ====================================================================
-             RESTSortLayer.checkNotifications(user, request, response);
+             
+        request.setAttribute("series", series);
+        //User session checking
+        if (SecurityLayer.checkSession(request) != null) {
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
+                if(user.getSeries().contains(series)){
+                    result.activate("seriesCircle.ftl.html", request, response);
+                } else{
+                    //This series is not contained in this user's favourites
+                    action_error(request, response, "Per entrare in questa cerchia, aggiungi questa serie alle preferite!");
+                }
         } else {
             //User session is no longer valid
             request.setAttribute("error", "Devi essere loggato per visualizzare questa pagina!");

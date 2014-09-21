@@ -14,6 +14,7 @@ import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,7 @@ public class SeriesList extends RESTBaseController {
         request.setAttribute("where", "series"); 
         List<Series> seriesList =getDataLayer().getSeries();
         //Start Page Management ===========================================================================
+        Collections.reverse(seriesList);
         int page; //page number 
         if(request.getParameter("page") != null) {
         page = SecurityLayer.checkNumeric(request.getParameter("page"));
@@ -118,8 +120,13 @@ public class SeriesList extends RESTBaseController {
                 List<Series> filteredSeries = new ArrayList();
                 Calendar calendar = Calendar.getInstance();
                 Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("fc")));
-                for (ChannelEpisode ce : getDataLayer().getChannelEpisode()) {
-                    if (ce.getDate().after(calendar.getTime()) && ce.getChannel().equals(c) && !(filteredSeries.contains(ce.getEpisode().getSeries()))) {
+                if (c == null){
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesList.java, nel metodo action_FilterAndOrder_series_list: l'ID del canale passato non corrisponde a nessun canale del Database");
+                    return;
+                }
+                for (ChannelEpisode ce : c.getChannelEpisode()) {
+                    if (ce.getDate().getTime()>=calendar.getTimeInMillis() && !(filteredSeries.contains(ce.getEpisode().getSeries()))) {
                         filteredSeries.add(ce.getEpisode().getSeries());
                     }
                 }
@@ -142,9 +149,15 @@ public class SeriesList extends RESTBaseController {
         if (request.getParameterValues("fg") != null && request.getParameterValues("fg").length > 0) {
             List<Series> filteredSeries = new ArrayList();
             List<Genre> genresList = new ArrayList();
+            Genre gr;
             for (String g : request.getParameterValues("fg")) {
-
-                    genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(g)));
+                    gr =getDataLayer().getGenre(SecurityLayer.checkNumeric(g));
+                    if (gr == null){
+                        action_error(request, response, "Riprova di nuovo!");
+                        System.err.println("Errore in SeriesList.java, nel metodo action_FilterAndOrder_series_list: gli ID dei generi passati non corrispondono a nessun genere sul Database");
+                        return;
+                    }
+                    genresList.add(gr);
             }
             for (Series s : seriesList) {
                 if (s.getGenres().containsAll(genresList)) {
@@ -202,6 +215,7 @@ public class SeriesList extends RESTBaseController {
                         //The sorting-type parameter is not 1,2,3 or 4, so no sorting type has been chosen
                         action_error(request, response, "Riprova di nuovo!");
                         System.err.println("Errore nell'ordinamento di SeriesList.java, nel metodo action_FilterAndOrder_series_list: il valore che stabilisce il tipo di ordinamento non era 1,2,3 o 4");
+                        return;
                 }
         }
         request.setAttribute("series", seriesList);

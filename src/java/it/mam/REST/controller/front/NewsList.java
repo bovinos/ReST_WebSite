@@ -12,6 +12,7 @@ import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,14 +33,15 @@ public class NewsList extends RESTBaseController {
     //Activates the newsList template
     private void action_news_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
+        List<News> newsList =getDataLayer().getNews();
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("where", "news");
-        request.setAttribute("news", getDataLayer().getNews());
         request.setAttribute("series", getDataLayer().getSeries()); // for filters
-        List<News> newsList =getDataLayer().getNews();
+        
         
 
         //Start Page Management =======================================================================
+        Collections.reverse(newsList);
         int page; //page number 
         if(request.getParameter("page") != null) {
         page = SecurityLayer.checkNumeric(request.getParameter("page"));
