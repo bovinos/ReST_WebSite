@@ -49,7 +49,9 @@ public class SeriesList extends RESTBaseController {
         int numberOfPages = (int) Math.ceil((double)seriesList.size()/seriesPerPage); // total number of pages
         request.setAttribute("totalPages", numberOfPages);
         if(page == numberOfPages) {
-            request.setAttribute("series", seriesList.subList((page*seriesPerPage)-seriesPerPage, seriesList.size()));
+        request.setAttribute("series", seriesList.subList((page*seriesPerPage)-seriesPerPage, seriesList.size()));
+        } else if(seriesList.isEmpty()){
+             request.setAttribute("series", seriesList);
         } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
         } else {
