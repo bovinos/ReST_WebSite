@@ -25,6 +25,59 @@ Element.prototype.toggleClass = function(c) {
 };
 
 
+function createDatePickerHead() {
+    var thead = document.createElement("thead");
+    // ptimo tr
+    var tr = document.createElement("tr");
+    // primo th
+    var th = document.createElement("th");
+    th.setAttribute("id", "previousMonth");
+    var span = document.createElement("span");
+    span.setAttribute("class", "arrow_carrot-2left");
+    th.appendChild(span);
+    tr.appendChild(th);
+    // secondo th
+    th = document.createElement("th");
+    th.setAttribute("id", "monthAndYear");
+    th.setAttribute("colspan", "5");
+    // primo span
+    span = document.createElement("span");
+    span.setAttribute("id", "month");
+    th.appendChild(span);
+    // secondo span
+    span = document.createElement("span");
+    span.setAttribute("id", "year");
+    th.appendChild(span);
+    tr.appendChild(th);
+    // terzo th
+    th = document.createElement("th");
+    th.setAttribute("id", "nextMonth");
+    span = document.createElement("span");
+    span.setAttribute("class", "arrow_carrot-2right");
+    th.appendChild(span);
+    tr.appendChild(th);
+    // fine primo tr
+    thead.appendChild(tr)
+    // secondo tr
+    tr = document.createElement("tr");
+
+
+}
+
+
+function createDatePickerStructure() {
+    var datePicker = document.createElement("div");
+    datePicker.setAttribute("id", "datePicker");
+    datePicker.setAttribute("class", "row");
+    var table = document.createElement("table");
+    table.appendChild(createDatePickerHead());
+    table.appendChild(createDatePickerBody());
+    datePicker.appendChild(table);
+    return datePicker;
+}
+
+
+
 window.onload = function() {
 
     // tolgiamo la possibilità di poter selezionare il testo delle label

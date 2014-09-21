@@ -1867,18 +1867,35 @@ button {
     margin: 10px;
     font-size: 3rem; }
 
-#datePicker table {
-  color: #444444; }
-  #datePicker table thead {
-    font-size: 1.5rem; }
-    #datePicker table thead #monthAndYear {
-      padding: 0 50px; }
+#datePicker {
+  display: inline-block;
+  padding: 20px;
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -webkit-box-shadow: 0 0 3px #1695A3;
+  -moz-box-shadow: 0 0 3px #1695A3;
+  box-shadow: 0 0 3px #1695A3; }
+  #datePicker table {
+    color: #444444; }
+    #datePicker table thead {
+      font-size: 2rem;
+      color: #1695A3; }
+      #datePicker table thead #previousMonth {
+        cursor: pointer; }
       #datePicker table thead #monthAndYear #month {
         padding: 0 5px; }
       #datePicker table thead #monthAndYear #year {
         padding: 0 5px; }
-    #datePicker table thead .dayOfWeek {
-      font-size: 1.3rem;
-      padding: 5px 0; }
+      #datePicker table thead #nextMonth {
+        cursor: pointer; }
+      #datePicker table thead .dayOfWeek {
+        color: #225378;
+        font-size: 1.6rem;
+        padding: 20px 0 5px 0; }
+    #datePicker table tbody .day {
+      font-size: 1.6rem;
+      padding: 5px 10px;
+      cursor: pointer; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

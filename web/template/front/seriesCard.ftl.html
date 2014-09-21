@@ -157,7 +157,7 @@
     <div id="commentsList">
         <!-- se esistono stampiamoli tutti -->
         <#list comments as c>
-        <#if (previousLasCommentIndex?? && (c_index == previousLastCommentIndex)) >
+        <#if (previousLastCommentIndex?? && (c_index == previousLastCommentIndex)) >
         <div id="plc" class="comment row">
             <#else>
             <div class="comment row">
@@ -192,7 +192,7 @@
             </#list>
             <#if (totalPages?? && currentPage?? && ( totalPages > currentPage ))>
             <div class='row moreComments'>
-                <a href='?id=${series.ID}&amp;page=${currentPage + 1}'>Altri commenti</a>
+                <a href='?id=${series.ID}&amp;page=${currentPage + 1}#plc'>Altri commenti</a>
             </div>
             </#if>
         </div>
