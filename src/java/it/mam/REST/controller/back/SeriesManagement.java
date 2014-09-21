@@ -1134,7 +1134,7 @@ public class SeriesManagement extends RESTBaseController {
             int sezione = SecurityLayer.checkNumeric(request.getParameter("sezione"));
             switch (sezione) {
                 case 1:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("is")) != null) {
                         action_save_series(request, response);
                     } else {
@@ -1142,7 +1142,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 2:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("ie")) != null) {
                         action_save_episode(request, response);
                     } else {
@@ -1150,7 +1150,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 3:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("ic")) != null) {
                         action_save_channel(request, response);
                     } else {
@@ -1158,7 +1158,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 4:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("ig")) != null) {
                         action_save_genre(request, response);
                     } else {
@@ -1166,7 +1166,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 5:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("icm")) != null) {
                         action_save_castmember(request, response);
                     } else {
@@ -1174,7 +1174,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 6:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("icms")) != null) {
                         action_save_castmemberSeries(request, response);
                     } else {
@@ -1182,7 +1182,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 7:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("ice")) != null) {
                         action_save_channelEpisode(request, response);
                     } else {
@@ -1190,7 +1190,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 8:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("igs")) != null) {
                         action_save_genreSeries(request, response);
                     } else {
@@ -1198,7 +1198,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 9:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("rs")) != null) {
                         action_delete_series(request, response);
                     } else {
@@ -1206,7 +1206,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 10:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("re")) != null) {
                         action_delete_episode(request, response);
                     } else {
@@ -1214,7 +1214,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 11:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("rc")) != null) {
                         action_delete_channel(request, response);
                     } else {
@@ -1222,7 +1222,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 12:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("rg")) != null) {
                         action_delete_genre(request, response);
                     } else {
@@ -1230,7 +1230,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 13:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("rcm")) != null) {
                         action_delete_castmember(request, response);
                     } else {
@@ -1238,7 +1238,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 14:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("rcms")) != null) {
                         action_delete_castmemberSeries(request, response);
                     } else {
@@ -1246,7 +1246,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 15:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("rce")) != null) {
                         action_delete_channelEpisode(request, response);
                     } else {
@@ -1254,7 +1254,7 @@ public class SeriesManagement extends RESTBaseController {
                     }
                     break;
                 case 16:
-                    request.setAttribute("currentSection", sezione);
+                    request.setAttribute("currentSection", sezione+2);
                     if ((request.getParameter("rgs")) != null) {
                         action_delete_genreSeries(request, response);
                     } else {

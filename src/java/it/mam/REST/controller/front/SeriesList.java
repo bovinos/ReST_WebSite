@@ -44,6 +44,7 @@ public class SeriesList extends RESTBaseController {
         } else {
             page = 1;
         }
+        request.setAttribute("currentPage", page);
         int seriesPerPage = 10; // number of series per page
         int numberOfPages = Math.round(seriesList.size()/seriesPerPage) + 1; // total number of pages
         request.setAttribute("totalPages", numberOfPages);
