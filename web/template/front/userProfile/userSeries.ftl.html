@@ -34,82 +34,94 @@
         <#if (us_index % 3) == 0 >
         <div class="row">
             </#if>
-            <div id="s${us.series.ID}" class="series column omega">
-                <div class="head row">
-                    <a href="CerchiaSerie?id=${us.series.ID}" class="left"><span class="icon_chat_alt"></span></a>
-                    <h1 class="center"><a href="SchedaSerie?id=${us.series.ID}">${strip_slashes(us.series.name)}</a></h1>
-                    <a href="?sezione=1&amp;d=${us.series.ID}" class="right"><span class="icon_trash_alt"></span></a>
-                </div>
-                <div class="imgContainer row">
-                    <img src="${strip_slashes(us.series.imageURL)}" alt="Immagine di ${strip_slashes(us.series.name)}"/>
-                    <div class="ratingBox">
-                        <#switch us.rating!"0">
-                        <#case "1">
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1" class="icon_star rating star firstStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2" class="icon_star_alt rating star secondStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star_alt rating star thirdStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star_alt rating star fourthStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star_alt rating star fifthStar"></a>
-                        <#break>
-                        <#case "2">
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1"  class="icon_star rating star firstStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2"  class="icon_star rating star secondStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star_alt rating star thirdStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star_alt rating star fourthStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star_alt rating star fifthStar"></a>
-                        <#break>
-                        <#case "3">
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1"  class="icon_star rating star firstStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2"  class="icon_star rating star secondStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star rating star thirdStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star_alt rating star fourthStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star_alt rating star fifthStar"></a>
-                        <#break>
-                        <#case "4">
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1"  class="icon_star rating star firstStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2"  class="icon_star rating star secondStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star rating star thirdStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star rating star fourthStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star_alt rating star fifthStar"></a>
-                        <#break>
-                        <#case "5">
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1"  class="icon_star rating star firstStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2"  class="icon_star rating star secondStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star rating star thirdStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star rating star fourthStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star rating star fifthStar"></a>
-                        <#break>
-                        <#default>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1"  class="icon_star_alt rating star firstStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2"  class="icon_star_alt rating star secondStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star_alt rating star thirdStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star_alt rating star fourthStar"></a>
-                        <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star_alt rating star fifthStar"></a>
-                        </#switch>
-                    </div>
-                </div>
-                <div class="mySeriesInfo row">
+            <#if (notifySeries?size > 0)>
+            <#list notifySeries as ns>
+            <#if ns.ID == us.series.ID>
+            <div id="s${us.series.ID}" class="series column omega notifySeries">
+                <#break>
+                </#if>
+                </#list>
+                <#if (ns_index >= notifySeries?size)> <!-- cioè questa serie non è tra quelle da notificare -->
+                <div id="s${us.series.ID}" class="series column omega">
+                    </#if>
+                    <#else> <!-- cioè non ci sono serie da notificare -->
+                    <div id="s${us.series.ID}" class="series column omega">
+                        </#if>
+                        <div class="head row">
+                            <a href="CerchiaSerie?id=${us.series.ID}" class="left"><span class="icon_chat_alt"></span></a>
+                            <h1 class="center"><a href="SchedaSerie?id=${us.series.ID}">${strip_slashes(us.series.name)}</a></h1>
+                            <a href="?sezione=1&amp;d=${us.series.ID}" class="right"><span class="icon_trash_alt"></span></a>
+                        </div>
+                        <div class="imgContainer row">
+                            <img src="${strip_slashes(us.series.imageURL)}" alt="Immagine di ${strip_slashes(us.series.name)}"/>
+                            <div class="ratingBox">
+                                <#switch us.rating!"0">
+                                <#case "1">
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1" class="icon_star rating star firstStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2" class="icon_star_alt rating star secondStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star_alt rating star thirdStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star_alt rating star fourthStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star_alt rating star fifthStar"></a>
+                                <#break>
+                                <#case "2">
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1"  class="icon_star rating star firstStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2"  class="icon_star rating star secondStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star_alt rating star thirdStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star_alt rating star fourthStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star_alt rating star fifthStar"></a>
+                                <#break>
+                                <#case "3">
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1"  class="icon_star rating star firstStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2"  class="icon_star rating star secondStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star rating star thirdStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star_alt rating star fourthStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star_alt rating star fifthStar"></a>
+                                <#break>
+                                <#case "4">
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1"  class="icon_star rating star firstStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2"  class="icon_star rating star secondStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star rating star thirdStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star rating star fourthStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star_alt rating star fifthStar"></a>
+                                <#break>
+                                <#case "5">
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1"  class="icon_star rating star firstStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2"  class="icon_star rating star secondStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star rating star thirdStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star rating star fourthStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star rating star fifthStar"></a>
+                                <#break>
+                                <#default>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=1"  class="icon_star_alt rating star firstStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=2"  class="icon_star_alt rating star secondStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=3"  class="icon_star_alt rating star thirdStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=4"  class="icon_star_alt rating star fourthStar"></a>
+                                <a href="?sezione=1&amp;s=${us.series.ID}&amp;r=5"  class="icon_star_alt rating star fifthStar"></a>
+                                </#switch>
+                            </div>
+                        </div>
+                        <div class="mySeriesInfo row">
 
-                    <div class="row">
-                        <p>Ultimo episodio visto: ${us.season}x${us.episode}</p>
-                    </div>
-                    <div class="row">
-                        <p>Data prossimo episodio: </p>
-                    </div>
-                    <div class="row">
-                        <p>Anticipo notifica: ${us.anticipationNotification!"Notifica non impostata"}</p>
-                    </div>
+                            <div class="row">
+                                <p>Ultimo episodio visto: ${us.season}x${us.episode}</p>
+                            </div>
+                            <div class="row">
+                                <p>Data prossimo episodio: </p>
+                            </div>
+                            <div class="row">
+                                <p>Anticipo notifica: ${us.anticipationNotification!"Notifica non impostata"}</p>
+                            </div>
+                        </div>
+                    </div>        
+                    <#if ((((us_index + 1) % 3)  == 0) || ((us_index + 1) >= user.series?size ) )>
                 </div>
-            </div>        
-            <#if ((((us_index + 1) % 3)  == 0) || ((us_index + 1) >= user.series?size ) )>
+                </#if>
+                </#list>
+            </div>
+            <#else>
+            <!-- altrimenti diciamo che l'utente non ha serie preferite -->
+            <div>
+                <p>Purtroppo non hai ancora serie aggiunte ai preferiti.</p>
+            </div>
+            </#if> <!-- FINE STAMPA DELLE SERIE -->
         </div>
-        </#if>
-        </#list>
-    </div>
-    <#else>
-    <!-- altrimenti diciamo che l'utente non ha serie preferite -->
-    <div>
-        <p>Purtroppo non hai ancora serie aggiunte ai preferiti.</p>
-    </div>
-    </#if> <!-- FINE STAMPA DELLE SERIE -->
-</div>

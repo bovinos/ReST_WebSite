@@ -30,7 +30,6 @@
                     <label for="episode_${e_index}">[${strip_slashes(e.series.name)?html}] ${e.season}x${e.number} - ${strip_slashes(e.title)?html}</label>
                     </#list>
                 </div>
-                </#if>
             </div>
         </div>
         <div class="row">
@@ -40,18 +39,18 @@
             <table>
                 <thead>
                     <tr>
-                        <th><span id="previousMonth" class="arrow_carrot-2left"></span></th>
-                        <th colspan="5"><span id="month"></span><span id="year"></span></th>
-                        <th><span id="nextMonth" class="arrow_carrot-2right"></span></th>
+                        <th id="previousMonth"><span class="arrow_carrot-2left"></span></th>
+                        <th colspan="5" id="monthAndYear"><span id="month"></span><span id="year"></span></th>
+                        <th id="nextMonth"><span class="arrow_carrot-2right"></span></th>
                     </tr>
                     <tr>
-                        <th class="DOW">Lu</th>
-                        <th class="DOW">Ma</th>
-                        <th class="DOW">Me</th>
-                        <th class="DOW">Gi</th>
-                        <th class="DOW">Ve</th>
-                        <th class="DOW">Sa</th>
-                        <th class="DOW">Do</th>
+                        <th class="dayOfWeek">Lu</th>
+                        <th class="dayOfWeek">Ma</th>
+                        <th class="dayOfWeek">Me</th>
+                        <th class="dayOfWeek">Gi</th>
+                        <th class="dayOfWeek">Ve</th>
+                        <th class="dayOfWeek">Sa</th>
+                        <th class="dayOfWeek">Do</th>
                     </tr>
                 </thead>
                 <tbody>

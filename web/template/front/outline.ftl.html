@@ -27,9 +27,17 @@
                     </#if>
                     </#if>
                     <#if (where?? && (where == "profile"))>
+                    <#if (notifyCount!0 > 0) >
+                    <li><a href="ProfiloPersonale?sezione=1" class="active" data-icon="&#xe08a;">Profilo<span class="notifyCount">${notifyCount}</span></a></li>
+                    <#else>
                     <li><a href="ProfiloPersonale?sezione=1" class="active" data-icon="&#xe08a;">Profilo</a></li>
+                    </#if>
+                    <#else>
+                    <#if (notifyCount!0 > 0) >
+                    <li><a href="ProfiloPersonale?sezione=1" data-icon="&#xe08a;">Profilo<span class="notifyCount">${notifyCount}</span></a></li>
                     <#else>
                     <li><a href="ProfiloPersonale?sezione=1" data-icon="&#xe08a;">Profilo</a></li>
+                    </#if>
                     </#if>
                     </#if>
                     <#if (where?? && (where == "news"))>
@@ -77,9 +85,17 @@
                     </#if>
                     </#if>
                     <#if (where?? && (where == "profile"))>
+                    <#if (notifyCount!0 > 0) >
+                    <li><a href="ProfiloPersonale?sezione=1" class="active"><span class="icon_profile"></span><span class="notifyCount">${notifyCount}</span></a></li>
+                    <#else>
                     <li><a href="ProfiloPersonale?sezione=1" class="active"><span class="icon_profile"></span></a></li>
+                    </#if>
+                    <#else>
+                    <#if (notifyCount!0 > 0) >
+                    <li><a href="ProfiloPersonale?sezione=1"><span class="icon_profile"></span><span class="notifyCount">${notifyCount}</span></a></li>
                     <#else>
                     <li><a href="ProfiloPersonale?sezione=1"><span class="icon_profile"></span></a></li>
+                    </#if>
                     </#if>
                     </#if>
                     <#if (where?? && (where == "news"))>

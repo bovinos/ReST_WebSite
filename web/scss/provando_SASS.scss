@@ -2546,7 +2546,45 @@ button{
 }
 
 #datePicker{
-    display: none;
+
+    table{
+        color: $primaryTextColor;
+
+        thead{
+            font-size: 1.5rem;
+
+            #previousMonth{
+
+            }
+
+            #monthAndYear{
+                padding: 0 50px;
+
+                #month{
+                    padding: 0 5px;
+                }
+
+                #year{
+                    padding: 0 5px;
+                }
+            }
+
+            #nextMonth{
+
+            }
+
+            .dayOfWeek{
+                font-size: 1.3rem;
+                padding: 5px 0;
+            }
+
+        }
+
+        tbody{
+
+        }
+    }
+
 }
 
 

@@ -1782,7 +1782,18 @@ button {
     margin: 10px;
     font-size: 3rem; }
 
-#datePicker {
-  display: none; }
+#datePicker table {
+  color: #444444; }
+  #datePicker table thead {
+    font-size: 1.5rem; }
+    #datePicker table thead #monthAndYear {
+      padding: 0 50px; }
+      #datePicker table thead #monthAndYear #month {
+        padding: 0 5px; }
+      #datePicker table thead #monthAndYear #year {
+        padding: 0 5px; }
+    #datePicker table thead .dayOfWeek {
+      font-size: 1.3rem;
+      padding: 5px 0; }
 
 /*# sourceMappingURL=provando_SASS.css.map */
