@@ -70,7 +70,7 @@ public class SeriesCircle extends RESTBaseController {
             } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
             } else {
-            request.setAttribute("comments", messagesList.subList(0, (page *messagesPerPage)));
+            request.setAttribute("messages", messagesList.subList(0, (page *messagesPerPage)));
             request.setAttribute("previousLastCommentIndex", (page-1)*messagesPerPage);
             }
              
