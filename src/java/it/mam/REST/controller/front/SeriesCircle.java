@@ -64,11 +64,12 @@ public class SeriesCircle extends RESTBaseController {
             int messagesPerPage = 10; // number of messages per page
             int numberOfPages = (int) Math.ceil((double)messagesList.size()/messagesPerPage); // total number of pages
             request.setAttribute("totalPages", numberOfPages);
-             if(page == numberOfPages) {
+             if(page == numberOfPages || messagesList.isEmpty()) {
             request.setAttribute("messages", messagesList);
             request.setAttribute("previousLastCommentIndex", (page-1)*messagesPerPage);
             } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
+            return;
             } else {
             request.setAttribute("messages", messagesList.subList(0, (page *messagesPerPage)));
             request.setAttribute("previousLastCommentIndex", (page-1)*messagesPerPage);

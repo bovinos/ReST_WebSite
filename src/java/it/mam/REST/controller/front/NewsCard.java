@@ -60,11 +60,12 @@ public class NewsCard extends RESTBaseController{
             int commentsPerPage = 10; // number of comments per page
             int numberOfPages = (int) Math.ceil((double)commentsList.size()/commentsPerPage); // total number of pages
             request.setAttribute("totalPages", numberOfPages);
-             if(page == numberOfPages) {
+            if(page == numberOfPages || commentsList.isEmpty()){
             request.setAttribute("comments", commentsList);
             request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
             } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
+            return;
             } else {
             request.setAttribute("comments", commentsList.subList(0, (page *commentsPerPage)));
             request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
