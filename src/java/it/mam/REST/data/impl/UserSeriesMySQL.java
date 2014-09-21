@@ -38,7 +38,7 @@ public class UserSeriesMySQL implements UserSeries {
         rating = UserSeries.ZERO;
         anticipationNotification = null;
         addDate = null;
-        season = 0;
+        season = 1;
         episode = 0;
         dirty = false;
 
