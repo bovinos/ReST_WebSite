@@ -12,6 +12,7 @@ import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -58,13 +59,13 @@ public class SeriesCircle extends RESTBaseController {
             page = 1;
             }
             List<Message> messagesList = series.getMessages();
+            Collections.reverse(messagesList);
             request.setAttribute("currentPage", page);
             int messagesPerPage = 10; // number of messages per page
-            int numberOfPages = Math.round(messagesList.size()/messagesPerPage) + 1; // total number of pages
-            System.err.println(numberOfPages);
+            int numberOfPages = (int) Math.ceil((double)messagesList.size()/messagesPerPage); // total number of pages
             request.setAttribute("totalPages", numberOfPages);
              if(page == numberOfPages) {
-            request.setAttribute("comments", messagesList);
+            request.setAttribute("messages", messagesList);
             request.setAttribute("previousLastCommentIndex", (page-1)*messagesPerPage);
             } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");

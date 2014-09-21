@@ -22,6 +22,7 @@ public class LogIn extends RESTBaseController {
     
     // Activates the LogIn template
     private void action_activate_login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(SecurityLayer.checkSession(request) != null) action_error(request, response, "Sei già loggato!");
         TemplateResult result = new TemplateResult(getServletContext());
         result.activate("logIn.ftl.html", request, response);
     }
