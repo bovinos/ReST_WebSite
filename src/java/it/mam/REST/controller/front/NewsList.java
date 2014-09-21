@@ -1,9 +1,12 @@
 package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
+import it.mam.REST.data.model.ChannelEpisode;
+import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
+import it.mam.REST.data.model.UserSeries;
 import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
@@ -12,6 +15,7 @@ import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -62,6 +66,22 @@ public class NewsList extends RESTBaseController {
             try {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
+                //Series Notification checking
+                int count = 0;
+                boolean trovato;
+                for (UserSeries us: user.getUserSeries()){
+                    Series s = us.getSeries();
+                    trovato = false;
+                    for(Episode e: s.getEpisodes()){
+                        if(trovato) break;
+                        for(ChannelEpisode ce: e.getChannelEpisode())
+                         if(us.getEpisode() == e.getNumber()+1 && (new Date().getTime() - us.getAnticipationNotification().getTime()) >= ce.getDate().getTime()){
+                             count++;
+                             trovato = true;
+                         }
+                    }
+                }
+                
             } catch (NumberFormatException ex) {
                 //User id is not a number
             }
