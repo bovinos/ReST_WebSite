@@ -78,6 +78,7 @@ public class SeriesCard extends RESTBaseController {
             request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
             } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
+            return;
             } else {
             request.setAttribute("comments", commentsList.subList(0, (page *commentsPerPage)));
             request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);

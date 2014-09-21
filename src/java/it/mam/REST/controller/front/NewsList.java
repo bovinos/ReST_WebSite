@@ -54,6 +54,7 @@ public class NewsList extends RESTBaseController {
              request.setAttribute("series", newsList);
         } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
+            return;
         } else {
             request.setAttribute("news", newsList.subList((page *newsPerPage)-newsPerPage, (page *newsPerPage)));
         }

@@ -54,6 +54,7 @@ public class SeriesList extends RESTBaseController {
              request.setAttribute("series", seriesList);
         } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
+            return;
         } else {
             request.setAttribute("series", seriesList.subList((page *seriesPerPage)-seriesPerPage, (page *seriesPerPage)));
         }
