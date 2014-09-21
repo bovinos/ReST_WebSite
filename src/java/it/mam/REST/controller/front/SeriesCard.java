@@ -45,6 +45,8 @@ public class SeriesCard extends RESTBaseController {
             Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
             request.setAttribute("series", s);
             request.setAttribute("seriesRating", RESTSortLayer.getMediumRating(s));
+            
+            
             //Creates a list of "season" objects which contain the season number and a list of the episode that belongs to that season
             List<Season> seasonList = new ArrayList();
             List<Episode> episodeList = s.getEpisodes();
