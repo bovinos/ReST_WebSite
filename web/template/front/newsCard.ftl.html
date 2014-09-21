@@ -41,11 +41,11 @@
     ============================================================================================== -->
     <h2>Commenti</h2>
     <!-- Controllo se esistono Commenti per questa serie -->
-    <#if (news.comments?size > 0)>
+    <#if (comments?size > 0)>
     <div id="commentsList">
         <!-- se esistono stampiamoli tutti -->
-        <#list news.comments as c>
-        <#if (c_index == previousLastCommentIndex) >
+        <#list comments as c>
+        <#if (previousLastCommentIndex?? && (c_index == previousLastCommentIndex)) >
         <div id="plc" class="comment row">
             <#else>
             <div class="comment row">
@@ -81,7 +81,7 @@
 
             <#if (totalPages?? && currentPage?? && ( totalPages > currentPage ))>
             <div class='row moreComments'>
-                <a href='?page=${currentPage + 1}'>Altri commenti</a>
+                <a href='?id=${news.ID}&amp;page=${currentPage + 1}'>Altri commenti</a>
             </div>
             </#if>
 

@@ -11,11 +11,11 @@
     <!-- MESSAGGI CERCHIA
     ============================================================================================== -->
     <!-- Controllo se esistono Messaggi per questa serie -->
-    <#if (series.messages?size > 0)>
+    <#if (messages?size > 0)>
     <div id="commentsList">
         <!-- se esistono stampiamoli tutti -->
-        <#list series.messages as m>
-        <#if (c_index == previousLastCommentIndex) >
+        <#list messages as m>
+        <#if (previousLastCommentIndex?? && (m_index == previousLastCommentIndex)) >
         <div id="plc" class="comment row">
             <#else>
             <div class="comment row">
@@ -48,7 +48,7 @@
 
             <#if (totalPages?? && currentPage?? && ( totalPages > currentPage ))>
             <div class='row moreComments'>
-                <a href='?page=${currentPage + 1}'>Altri commenti</a>
+                <a href='?id=${series.ID}&amp;page=${currentPage + 1}'>Altri commenti</a>
             </div>
             </#if>
 

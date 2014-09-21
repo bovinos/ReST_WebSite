@@ -34,7 +34,7 @@
         <#if (us_index % 3) == 0 >
         <div class="row">
             </#if>
-            <#if (notifySeries?size > 0)>
+            <#if (notifySeries?? && (notifySeries?size > 0))>
             <#list notifySeries as ns>
             <#if ns.ID == us.series.ID>
             <div id="s${us.series.ID}" class="series column omega notifySeries">

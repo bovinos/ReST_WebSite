@@ -42,6 +42,12 @@ $topBarHeight: 50px;
     box-shadow: $x $y $blur $color;
 }
 
+@mixin animation($name, $time, $timingFunction, $delay, $count, $direction){
+    -moz-animation: $name $time $timingFunction $delay $count $direction;
+    -webkit-animation: $name $time $timingFunction $delay $count $direction;
+    animation: $name $time $timingFunction $delay $count $direction;
+}
+
 
 /* ANIMAZIONI
 =============================================================================================== */
@@ -117,14 +123,13 @@ $topBarHeight: 50px;
 }
 
 #message{
-    -moz-animation: fade-in-out 20s 1 linear;
-    -webkit-animation: fade-in-out 20s 1 linear;
     max-height: 0; /* animazione */
     opacity: 0; /* animazione */
     width: 50%;
     margin: 20px auto 20px auto;
     text-align: center;
     @include borderRadius(20px);
+    @include animation(fade-in-out, 20s, linear, 0s, 1, normal);
 
     h1, p{
         font-family: Laila;
@@ -150,6 +155,43 @@ $topBarHeight: 50px;
         background-color: rgba(0, 150, 0, 0.7);
     }
 
+}
+
+@keyframes jump{
+    0%{
+        top: 3px;
+    }
+    100%{
+        top: 7px;
+    }
+}
+
+@-moz-keyframes jump{
+    0%{
+        top: 3px;
+    }
+    100%{
+        top: 7px;
+    }
+}
+
+
+@-webkit-keyframes jump{
+    0%{
+        top: 3px;
+    }
+    100%{
+        top: 7px;
+    }
+}
+
+.notifyCount{
+    font-size: 1.4rem;
+    color: $orange;
+    position: relative;
+    left: 3px;
+    top: 3px;
+    @include animation(jump, 0.3s, linear, 0s, infinite, alternate);    
 }
 
 
@@ -344,6 +386,25 @@ button{
         font-family: Laila;
         font-size: 2rem;
         color: $primaryTextColor;
+    }
+}
+
+.moreComments{
+    text-align: right;
+    margin-top: 20px;
+
+    a{
+        font-size: 1.5rem;
+        margin-right: 5%;
+        display: inline-block;
+        padding: 10px;
+        color: #FFFFFF;
+        background-color: $blue;
+        @include transition(background-color, 0.3s);
+
+        &:hover{
+            background-color: $orange;
+        }
     }
 }
 
@@ -895,6 +956,7 @@ button{
             display: inline-block;
             color: #FFFFFF;
             font-size: 1.6rem;
+            position: relative;
 
             a{
                 display: inline-block;
@@ -1640,14 +1702,13 @@ button{
     }
 
     .footer{
-        margin: 0 3% 30px 3%;
+        margin: 0 0 30px 0;
         font-size: 1.2rem;
         overflow: hidden;
         color: $secondaryTextColor;
 
         .left{
             float: left;
-            margin-left: 5%;
         }
 
         .right{
