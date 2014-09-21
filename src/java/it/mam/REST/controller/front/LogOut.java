@@ -23,7 +23,10 @@ public class LogOut extends RESTBaseController {
     }
     // Logs a user out
     private void action_logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(SecurityLayer.checkSession(request) == null) action_error(request, response, "Non sei loggato!");
+        if(SecurityLayer.checkSession(request) == null) {
+            action_error(request, response, "Non sei loggato!");
+            return;
+        }
        SecurityLayer.disposeSession(request);
         // in realtà dovrei ridirigere alla pagina in cui ha fatto il logout
         response.sendRedirect("ListaNews");
@@ -34,7 +37,8 @@ public class LogOut extends RESTBaseController {
         try {
             action_logout(request, response);
         } catch (IOException ex) {
-            action_error(request, response, ex.getMessage());
+            action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di LogOut.java: IOException");
         }
     }
 

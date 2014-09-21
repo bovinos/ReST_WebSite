@@ -38,6 +38,11 @@ public class SeriesCircle extends RESTBaseController {
         request.setAttribute("where", "series");
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
+        if(series == null) {
+            action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCircle.java, nel metodo action_activate_circle: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+            return;
+        }
         request.setAttribute("series", series);
         //User session checking
         if (SecurityLayer.checkSession(request) != null) {
@@ -51,7 +56,7 @@ public class SeriesCircle extends RESTBaseController {
                     action_error(request, response, "Per entrare in questa cerchia, aggiungi questa serie alle preferite!");
                 }
                 
-                //Page management
+            // Start Page management ===================================================================
             int page; //page number 
             if(request.getParameter("page") != null) {
             page = SecurityLayer.checkNumeric(request.getParameter("page"));
@@ -69,12 +74,13 @@ public class SeriesCircle extends RESTBaseController {
             request.setAttribute("previousLastCommentIndex", (page-1)*messagesPerPage);
             } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCircle.java, nel metodo action_activate_circle: la pagina corrente è maggiore del numero totale di pagine o è minore di 1");
             return;
             } else {
             request.setAttribute("messages", messagesList.subList(0, (page *messagesPerPage)));
             request.setAttribute("previousLastCommentIndex", (page-1)*messagesPerPage);
             }
-             
+            // End Page Management ====================================================================
              RESTSortLayer.checkNotifications(user, request, response);
         } else {
             //User session is no longer valid
@@ -84,6 +90,7 @@ public class SeriesCircle extends RESTBaseController {
         } catch (NumberFormatException ex) {
                 //series id or user id is not a number
                 action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in SeriesCircle.java, nel metodo action_activate_circle: NumberFormatException");
             }
     }
 
@@ -95,6 +102,11 @@ public class SeriesCircle extends RESTBaseController {
             if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
+            if(series == null){
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in SeriesCircle.java, nel metodo action_message_circle: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                return;
+            }
             Calendar c = Calendar.getInstance();
             if(checkMessageInputData(request, response)){
             String title = request.getParameter("messageTitle");
@@ -120,6 +132,7 @@ public class SeriesCircle extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //user id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCircle.java, nel metodo action_message_circle: NumberFormatException");
         }
     }
 
@@ -135,6 +148,7 @@ public class SeriesCircle extends RESTBaseController {
         }
         } catch (IOException ex) {
                 action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request di SeriesCircle.java: IOException");
             }
     }
 

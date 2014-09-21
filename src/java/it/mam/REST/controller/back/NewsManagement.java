@@ -41,6 +41,7 @@ public class NewsManagement extends RESTBaseController {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(user.getGroup().getID()!= Group.ADMIN) { 
             action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            System.err.println("Errore in NewsManagement.java, nel metodo action_activate_insert_news: Utente senza permessi da amministratore");
             return;
         }
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -58,6 +59,7 @@ public class NewsManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in NewsManagement.java, nel metodo action_activate_insert_news: NumberFormatException");
     }
     }
 
@@ -69,6 +71,7 @@ public class NewsManagement extends RESTBaseController {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(user.getGroup().getID()!= Group.ADMIN) { 
             action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            System.err.println("Errore in NewsManagement.java, nel metodo action_save_news: Utente senza permessi da amministratore");
             return;
         }
         request.setAttribute("user", user);
@@ -105,6 +108,7 @@ public class NewsManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in NewsManagement.java, nel metodo action_save_news: NumberFormatException");
               return;
     }
         request.setAttribute("success", "News inserita correttamente!");
@@ -120,6 +124,7 @@ public class NewsManagement extends RESTBaseController {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(user.getGroup().getID()!= Group.ADMIN) { 
             action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            System.err.println("Errore in NewsManagement.java, nel metodo action_activate_remove_news: Utente senza permessi da amministratore");
             return;
         }
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -137,6 +142,7 @@ public class NewsManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in NewsManagement.java, nel metodo action_activate_remove_news: NumberFormatException");
     }
     }
     
@@ -148,11 +154,13 @@ public class NewsManagement extends RESTBaseController {
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         if(user.getGroup().getID()!= Group.ADMIN) { 
             action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+            System.err.println("Errore in NewsManagement.java, nel metodo action_delete_news: Utente senza permessi da amministratore");
             return;
         }
         request.setAttribute("user", user);
         if (request.getParameterValues("news") == null|| request.getParameterValues("news").length <= 0){
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in NewsManagement.java, nel metodo action_delete_news: il parametro news è nullo");
             return;
         }
         String[] news = request.getParameterValues("news");
@@ -168,6 +176,7 @@ public class NewsManagement extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //User id or news id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in NewsManagement.java, nel metodo action_delete_news: NumberFormatException");
               return;
     }
          request.setAttribute("success", "Rimozione news completata!");
@@ -177,6 +186,10 @@ public class NewsManagement extends RESTBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
+             if (request.getParameter("sezione") == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request di NewsManagement.java: il parametro sezione è nullo");
+            }
          int sezione = SecurityLayer.checkNumeric(request.getParameter("sezione"));
          switch(sezione){
              case 1:
@@ -199,6 +212,8 @@ public class NewsManagement extends RESTBaseController {
          }
           } catch (IOException | NumberFormatException ex) {
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore nella Process Request di MyProfile.java: NumberFormatException o IOException");
+
     }
     }
 

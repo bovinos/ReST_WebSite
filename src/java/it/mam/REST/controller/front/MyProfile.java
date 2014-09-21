@@ -73,6 +73,7 @@ public class MyProfile extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in MyProfile.java, nel metodo action_activate_ProfileUserBroadcastProgramming: NumberFormatException");
         }
     }
 
@@ -98,7 +99,7 @@ public class MyProfile extends RESTBaseController {
                     for(Episode e: s.getEpisodes()){
                         if(trovato) break;
                         for(ChannelEpisode ce: e.getChannelEpisode())
-                         if(us.getEpisode() == e.getNumber()+1 && (new Date().getTime() - us.getAnticipationNotification().getTime()) >= ce.getDate().getTime()
+                         if(us.getEpisode()+1 == e.getNumber() && (new Date().getTime() - us.getAnticipationNotification().getTime()) >= ce.getDate().getTime()
                                  && (new Date().getTime() < ce.getDate().getTime())){
                              seriesToNotify.add(s);
                              trovato = true;
@@ -115,6 +116,7 @@ public class MyProfile extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in MyProfile.java, nel metodo action_activate_ProfileUserSeries: NumberFormatException");
         }
     }
 
@@ -125,6 +127,11 @@ public class MyProfile extends RESTBaseController {
             if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s")));
+            if(series == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in MyProfile.java, nel metodo action_rating_ProfileUserSeries: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                return;
+            }
             UserSeries us = getDataLayer().getUserSeries(user, series);
             if (!(request.getParameter("r").equals(us.getRating()))) {
                 int rating = SecurityLayer.checkNumeric(request.getParameter("r"));
@@ -145,9 +152,9 @@ public class MyProfile extends RESTBaseController {
                         us.setRating(UserSeries.FIVE);
                         break;
                     default:
-                        action_error(request, response, "Internal Error");
+                        action_error(request, response, "Riprova di nuovo!");
+                        System.err.println("Errore in MyProfile.java, nel metodo action_rating_ProfileUserSeries: il valore del rating ricevuto non è compreso fra 1 e 5");
                 }
-                System.err.println("PRIMA DI STORE USER SERIES");
                 getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
                 // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
                 // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima xD
@@ -162,6 +169,7 @@ public class MyProfile extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or series id or rating is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in MyProfile.java, nel metodo action_rating_ProfileUserSeries: NumberFormatException");
         }
     }
 
@@ -172,6 +180,11 @@ public class MyProfile extends RESTBaseController {
             if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
+            if(series == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in MyProfile.java, nel metodo action_delete_ProfileUserSeries: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                return;
+            }
             getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
             response.sendRedirect("ProfiloPersonale?sezione=1");
          } else {
@@ -182,6 +195,7 @@ public class MyProfile extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in MyProfile.java, nel metodo action_delete_ProfileUserSeries: NumberFormatException");
         }
     }
 
@@ -191,6 +205,7 @@ public class MyProfile extends RESTBaseController {
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             if (request.getParameter("sezione") == null) {
                 action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request di MyProfile.java: il parametro sezione è nullo");
             }
             int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
             switch (section) {
@@ -212,9 +227,11 @@ public class MyProfile extends RESTBaseController {
                     break;
                 default:
                     action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore nella Process Request di MyProfile.java: il parametro sezione non vale nè 1 nè 2");
             }
         } catch (IOException ex) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di MyProfile.java: IOException");
         }
     }
 

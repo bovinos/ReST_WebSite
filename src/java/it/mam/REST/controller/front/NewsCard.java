@@ -37,6 +37,11 @@ public class NewsCard extends RESTBaseController{
     private void action_news_info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
         News news = getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("id")));
+        if(news == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in NewsCard.java, nel metodo action_news_info: l'ID della news ricevuto non corrisponde a nessuna news nel Database");
+                return;
+            }
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("where", "news");
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -47,7 +52,7 @@ public class NewsCard extends RESTBaseController{
         request.setAttribute("user", user);
         RESTSortLayer.checkNotifications(user, request, response);
         }
-            //Page management
+            //Start Page Management ====================================================================
             int page; //page number 
             if(request.getParameter("page") != null) {
             page = SecurityLayer.checkNumeric(request.getParameter("page"));
@@ -65,15 +70,17 @@ public class NewsCard extends RESTBaseController{
             request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
             } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCard.java, nel metodo action_series_info: la pagina corrente è maggiore del numero totale di pagine o è minore di 1");
             return;
             } else {
             request.setAttribute("comments", commentsList.subList(0, (page *commentsPerPage)));
             request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
             }
-
-        result.activate("newsCard.ftl.html", request, response);
+            // End Page Management ====================================================================
+             result.activate("newsCard.ftl.html", request, response);
             } catch (NumberFormatException ex) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in NewsCard.java, nel metodo action_news_info: NumberFormatException");
             return;
     }
     }
@@ -86,6 +93,11 @@ public class NewsCard extends RESTBaseController{
         if(checkNewsCommentInputData(request, response)){
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         News news = getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("nid")));
+                if(news == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in NewsCard.java, nel metodo action_comment_news: l'ID della news ricevuto non corrisponde a nessuna news nel Database");
+                return;
+                }
         Calendar c = Calendar.getInstance();
         c.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
         String title = request.getParameter("commentTitle");
@@ -110,6 +122,7 @@ public class NewsCard extends RESTBaseController{
         } catch (NumberFormatException ex) {
             //User id or news id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in NewsCard.java, nel metodo action_comment_news: NumberFormatException");
         }
     }
     
@@ -119,6 +132,11 @@ public class NewsCard extends RESTBaseController{
          TemplateResult result = new TemplateResult(getServletContext());
          if(SecurityLayer.checkSession(request) != null){ 
          News news = getDataLayer().getNews(SecurityLayer.checkNumeric((request.getParameter("ln"))));
+                if(news == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in NewsCard.java, nel metodo action_like_news: l'ID della news ricevuto non corrisponde a nessuna news nel Database");
+                return;
+                }
          news.setLikes(news.getLikes() + 1);
          getDataLayer().storeNews(news);
          response.sendRedirect("SchedaNews?id=" + news.getID());   
@@ -130,6 +148,7 @@ public class NewsCard extends RESTBaseController{
         } catch (NumberFormatException ex) {
             //News id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in NewsCard.java, nel metodo action_like_news: NumberFormatException");
         }
      }
     
@@ -139,6 +158,11 @@ public class NewsCard extends RESTBaseController{
          TemplateResult result = new TemplateResult(getServletContext());
          if(SecurityLayer.checkSession(request) != null){ 
          News news = getDataLayer().getNews(SecurityLayer.checkNumeric((request.getParameter("dn"))));
+                if(news == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in NewsCard.java, nel metodo action_dislike_news: l'ID della news ricevuto non corrisponde a nessuna news nel Database");
+                return;
+                }
          news.setDislikes(news.getDislikes() + 1);
          getDataLayer().storeNews(news);
          response.sendRedirect("SchedaNews?id=" + news.getID());
@@ -150,6 +174,7 @@ public class NewsCard extends RESTBaseController{
         } catch (NumberFormatException ex) {
             //News id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in NewsCard.java, nel metodo action_dislike_news: NumberFormatException");
         }
      }
      
@@ -159,8 +184,18 @@ public class NewsCard extends RESTBaseController{
          TemplateResult result = new TemplateResult(getServletContext());
          if(SecurityLayer.checkSession(request) != null){ 
          Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric(request.getParameter("lc")));
+                 if(comment == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in NewsCard.java, nel metodo action_like_comment_news: l'ID del commento ricevuto non corrisponde a nessun commento nel Database");
+                return;
+            }
          comment.setLikes(comment.getLikes() + 1);
          getDataLayer().storeComment(comment);
+                if((getDataLayer().getNews(SecurityLayer.checkNumeric(request.getParameter("n")))) == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in NewsCard.java, nel metodo action_like_comment_news: l'ID della news ricevuto non corrisponde a nessuna news nel Database");
+                return;
+            }
          response.sendRedirect("SchedaNews?id=" + SecurityLayer.checkNumeric(request.getParameter("n")));   
           } else {
             //User session is no longer valid
@@ -170,6 +205,7 @@ public class NewsCard extends RESTBaseController{
         } catch (NumberFormatException ex) {
             //Comment id or news id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in NewsCard.java, nel metodo action_like_comment_news: NumberFormatException");
         }
      }
     
@@ -179,6 +215,11 @@ public class NewsCard extends RESTBaseController{
          TemplateResult result = new TemplateResult(getServletContext());
          if(SecurityLayer.checkSession(request) != null){ 
          Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric((request.getParameter("dc"))));
+                if(comment == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in NewsCard.java, nel metodo action_dislike_comment_news: l'ID del commento ricevuto non corrisponde a nessun commento nel Database");
+                return;
+            }
          comment.setDislikes(comment.getDislikes() + 1);
          getDataLayer().storeComment(comment);
          response.sendRedirect("SchedaNews?id=" + SecurityLayer.checkNumeric((request.getParameter("n"))));  
@@ -190,6 +231,7 @@ public class NewsCard extends RESTBaseController{
         } catch (NumberFormatException ex) {
             //Comment id or User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in NewsCard.java, nel metodo action_dislike_comment_news: NumberFormatException");
         }
      }
      
@@ -223,6 +265,7 @@ public class NewsCard extends RESTBaseController{
         }
         } catch (IOException ex) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di NewsCard.java: IOException");
         }
     }
     

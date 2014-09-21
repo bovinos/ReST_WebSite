@@ -43,6 +43,11 @@ public class SeriesCard extends RESTBaseController {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         try {
             Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
+            if(s == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in SeriesCard.java, nel metodo action_series_info: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                return;
+            }
             request.setAttribute("series", s);
             request.setAttribute("seriesRating", RESTSortLayer.getMediumRating(s));
             
@@ -60,7 +65,7 @@ public class SeriesCard extends RESTBaseController {
             }
             request.setAttribute("seasons", seasonList);
             
-            //Page management
+            //Start Page Management ====================================================================
             int page; //page number 
             if(request.getParameter("page") != null) {
             page = SecurityLayer.checkNumeric(request.getParameter("page"));
@@ -78,12 +83,15 @@ public class SeriesCard extends RESTBaseController {
             request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
             } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCard.java, nel metodo action_series_info: la pagina corrente è maggiore del numero totale di pagine o è minore di 1");
             return;
             } else {
             request.setAttribute("comments", commentsList.subList(0, (page *commentsPerPage)));
             request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
             }
-            
+            // End Page Management ====================================================================
+             
+             
             // User session checking
             if (SecurityLayer.checkSession(request) != null) {
                 try {
@@ -104,6 +112,7 @@ public class SeriesCard extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //Series id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCard.java, nel metodo action_series_info: NumberFormatException");
         }
         result.activate("seriesCard.ftl.html", request, response);
     }
@@ -117,6 +126,11 @@ public class SeriesCard extends RESTBaseController {
 
                 User user = getDataLayer().getUser((SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString())));
                 Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("a")));
+               if(series == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in SeriesCard.java, nel metodo action_addSeries: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                return;
+            }
                 UserSeries us = getDataLayer().createUserSeries();
                 us.setUser(user);
                 us.setSeries(series);
@@ -132,6 +146,7 @@ public class SeriesCard extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or series id (a) is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCard.java, nel metodo action_addSeries: NumberFormatException");
         }
     }
 
@@ -143,6 +158,11 @@ public class SeriesCard extends RESTBaseController {
              if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser((int) request.getSession().getAttribute("userid"));
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("d")));
+                if(series == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in SeriesCard.java, nel metodo action_removeSeries: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                return;
+            }
             getDataLayer().removeUserSeries(getDataLayer().getUserSeries(user, series));
             series.setAddCount((series.getAddCount())-1);
             getDataLayer().storeSeries(series);
@@ -155,6 +175,7 @@ public class SeriesCard extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or series id (a) is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCard.java, nel metodo action_removeSeries: NumberFormatException");
         }
     }
 
@@ -166,6 +187,7 @@ public class SeriesCard extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //News id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCard.java, nel metodo action_go_to_series_news: NumberFormatException");
         }
     }
 
@@ -173,6 +195,11 @@ public class SeriesCard extends RESTBaseController {
     private void action_find_similar_series(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("g")));
+            if(s == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                 System.err.println("Errore in SeriesCard.java, nel metodo action_find_similar_series: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                return;
+            }
             String location = "";
             //Series are similar if they have all genres in common
             for (Genre g : s.getGenres()) {
@@ -183,6 +210,7 @@ public class SeriesCard extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //Series id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCard.java, nel metodo action_find_similar_series: NumberFormatException");
         }
     }
 
@@ -195,6 +223,11 @@ public class SeriesCard extends RESTBaseController {
         if(checkSeriesCommentInputData(request, response)){
         User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
         Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
+          if(series == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                 System.err.println("Errore in SeriesCard.java, nel metodo action_comment_series: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                return;
+            }
         Calendar c = Calendar.getInstance();
         String title = request.getParameter("commentTitle");
         String text = request.getParameter("commentText");
@@ -218,6 +251,7 @@ public class SeriesCard extends RESTBaseController {
         }catch (NumberFormatException ex){
             //User id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCard.java, nel metodo action_comment_series: NumberFormatException");
         }
     }
 
@@ -228,6 +262,11 @@ public class SeriesCard extends RESTBaseController {
          //User session checking
          if(SecurityLayer.checkSession(request) != null){ 
          Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric(request.getParameter("lc")));
+          if(comment == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in SeriesCard.java, nel metodo action_like_comment_series: l'ID del commento ricevuto non corrisponde a nessun commento nel Database");
+                return;
+            }
          comment.setLikes(comment.getLikes() + 1);
          getDataLayer().storeComment(comment);
          response.sendRedirect("SchedaSerie?id=" + SecurityLayer.checkNumeric(request.getParameter("s")));   
@@ -239,6 +278,7 @@ public class SeriesCard extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //Comment id or series id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in SeriesCard.java, nel metodo action_like_comment_series: NumberFormatException");
     }
     }
 
@@ -249,6 +289,11 @@ public class SeriesCard extends RESTBaseController {
          //User session checking
          if(SecurityLayer.checkSession(request) != null){
          Comment comment = getDataLayer().getComment(SecurityLayer.checkNumeric((request.getParameter("dc"))));
+         if(comment == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                 System.err.println("Errore in SeriesCard.java, nel metodo action_dislike_comment_series: l'ID del commento ricevuto non corrisponde a nessun commento nel Database");
+                return;
+            }
          comment.setDislikes(comment.getDislikes() + 1);
          getDataLayer().storeComment(comment);
          response.sendRedirect("SchedaSerie?id=" + SecurityLayer.checkNumeric((request.getParameter("s"))));  
@@ -260,6 +305,7 @@ public class SeriesCard extends RESTBaseController {
           } catch (NumberFormatException ex) {
               //Comment id or series id is not a number
               action_error(request, response, "Riprova di nuovo!");
+              System.err.println("Errore in SeriesCard.java, nel metodo action_dislike_comment_series: NumberFormatException");
     }
      }
 
@@ -299,6 +345,7 @@ public class SeriesCard extends RESTBaseController {
             }
         } catch (IOException ex) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di SeriesCard.java: IOException");
         }
     }
 

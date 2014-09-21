@@ -67,6 +67,7 @@ public class SignUp extends RESTBaseController {
         }
         } catch (IOException ex) {
                 action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request di SignUp.java: IOException");
             }
     }
 

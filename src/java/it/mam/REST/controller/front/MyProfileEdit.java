@@ -51,6 +51,7 @@ public class MyProfileEdit extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in MyProfileEdit.java, nel metodo action_activate_ProfileUserSignUpData: NumberFormatException");
         }
     }
 
@@ -85,8 +86,9 @@ public class MyProfileEdit extends RESTBaseController {
             result.activate("logIn.ftl.html", request, response);
         }
         } catch (NumberFormatException ex) {
-            //User id or series id (a) is not a number
+            //User id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserSignUpData: NumberFormatException");
         }
     }
 
@@ -111,6 +113,7 @@ public class MyProfileEdit extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in MyProfileEdit.java, nel metodo action_activate_ProfileUserOptionalData: NumberFormatException");
         }
     }
 
@@ -160,9 +163,9 @@ public class MyProfileEdit extends RESTBaseController {
                         break;
                     default:
                         action_error(request, response, "Field Error");
+                        System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserOptionalData: il parametro gender non valeva nè 1(Maschio) nè 2(Femmina)");
                 }
             }
-            System.err.println(user);
             getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
                request.setAttribute("success", "Dati opzionali modificati correttamente!");
                 action_activate_ProfileUserOptionalData(request, response);
@@ -174,6 +177,7 @@ public class MyProfileEdit extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or age or genre id or gender is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserOptionalData: NumberFormatException");
         }
     }
     
@@ -196,6 +200,7 @@ public class MyProfileEdit extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in MyProfileEdit.java, nel metodo action_activate_ProfileUserNotifySettings: NumberFormatException");
         }
 
     }
@@ -221,6 +226,7 @@ public class MyProfileEdit extends RESTBaseController {
                     getDataLayer().storeUser(user);
                     if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
                         action_error(request, response, "Riprova di nuovo!");
+                        System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserNotifySettings: Il parametro che stabilisce l'anticipo della notifica è presente anche se le notifiche sono disabilitate!");
                         return;
                     }
             }
@@ -234,6 +240,7 @@ public class MyProfileEdit extends RESTBaseController {
         } catch (NumberFormatException ex) {
             //User id or t is not a number
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserNotifySettings: NumberFormatException");
         }
     }
 
@@ -241,6 +248,10 @@ public class MyProfileEdit extends RESTBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         try{
+            if(request.getParameter("sezione")== null){
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request MyProfileEdit.java: il parametro sezione è nullo");
+            }
         int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
         switch (section) {
             case 1: //"Modifica dati di registrazione"...
@@ -269,9 +280,11 @@ public class MyProfileEdit extends RESTBaseController {
                 break;
             default:
                 action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request di MyProfileEdit.java: il parametro della sezione non vale 1, 2 o 3");
         }
         } catch (IOException ex) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di MyProfileEdit.java: IOException");
         }
     }
 

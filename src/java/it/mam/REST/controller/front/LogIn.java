@@ -22,7 +22,10 @@ public class LogIn extends RESTBaseController {
     
     // Activates the LogIn template
     private void action_activate_login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(SecurityLayer.checkSession(request) != null) action_error(request, response, "Sei già loggato!");
+        if(SecurityLayer.checkSession(request) != null) {
+            action_error(request, response, "Sei già loggato!");
+            return;
+        }
         TemplateResult result = new TemplateResult(getServletContext());
         result.activate("logIn.ftl.html", request, response);
     }
@@ -35,7 +38,7 @@ public class LogIn extends RESTBaseController {
             String password = Utility.stringToMD5(Utility.stringToMD5(request.getParameter("password")));
             user = getDataLayer().getUser(username, password);
             if (user == null) {
-            request.setAttribute("error", "Errore: hai inserito dei dati non validi!");
+                request.setAttribute("error", "Errore: hai inserito dei dati non validi!");
                 action_activate_login(request, response);
                 return;
             }
@@ -60,7 +63,8 @@ public class LogIn extends RESTBaseController {
                 action_activate_login(request, response);
         }
             } catch (IOException ex) {
-                action_error(request, response, ex.getMessage());
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request di LogIn.java: IOException");
             }
     }
 

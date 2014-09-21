@@ -37,7 +37,9 @@ public class NewsList extends RESTBaseController {
         request.setAttribute("news", getDataLayer().getNews());
         request.setAttribute("series", getDataLayer().getSeries()); // for filters
         List<News> newsList =getDataLayer().getNews();
-        //Page management
+        
+
+        //Start Page Management =======================================================================
         int page; //page number 
         if(request.getParameter("page") != null) {
         page = SecurityLayer.checkNumeric(request.getParameter("page"));
@@ -54,11 +56,12 @@ public class NewsList extends RESTBaseController {
              request.setAttribute("series", newsList);
         } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in NewsList.java, nel metodo action_news_list: la pagina corrente è maggiore del numero totale di pagine o è minore di 1");
             return;
         } else {
             request.setAttribute("news", newsList.subList((page *newsPerPage)-newsPerPage, (page *newsPerPage)));
         }
-        
+        // End Page Management =======================================================================
         
         //User session checking
         if (SecurityLayer.checkSession(request) != null) {
@@ -77,6 +80,7 @@ public class NewsList extends RESTBaseController {
         result.activate("newsList.ftl.html", request, response);
     }
 
+    // Filters and orders the news
     private void action_FilterAndOrder_newslist(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -121,6 +125,7 @@ public class NewsList extends RESTBaseController {
                 newsList = filteredNews;
             } catch (NumberFormatException ex) {
                 action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in NewsList.java, nel metodo action_FilterAndOrder_newslist: NumberFormatException");
                 return;
             }
         }
@@ -141,6 +146,7 @@ public class NewsList extends RESTBaseController {
             }
         } catch (NumberFormatException ex) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in NewsList.java, nel metodo action_FilterAndOrder_newslist: NumberFormatException");
             return;
         }
 
@@ -160,6 +166,7 @@ public class NewsList extends RESTBaseController {
                 }
             } catch (NumberFormatException ex) {
                 action_error(request, response, "Field Error");
+                System.err.println("Errore in NewsList.java, nel metodo action_FilterAndOrder_newslist: NumberFormatException");
                 return;
             }
             newsList = filteredNews;
@@ -180,6 +187,7 @@ public class NewsList extends RESTBaseController {
                     break;
                 default:
                     action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore nell'ordinamento di NewsList.java, nel metodo action_FilterAndOrder_newslist: il valore che stabilisce il tipo di ordinamento non era 1,2 o 3");
                     return;
             }
         }
@@ -190,14 +198,6 @@ public class NewsList extends RESTBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        List<Series> sl = getDataLayer().getHintSeries(getDataLayer().getUser(6));
-        System.out.println("================================================================================");
-        System.out.println(sl.size());
-        System.out.println("================================================================================");
-        for (Series s : sl) {
-            System.out.println(s.getID());
-            System.out.println("================================================================================");
-        }
      try {
         if (request.getParameter("s") != null) {
 
@@ -208,6 +208,7 @@ public class NewsList extends RESTBaseController {
         }
          } catch (IOException ex) {
                 action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request di NewsList.java: IOException");
             }
     }
 

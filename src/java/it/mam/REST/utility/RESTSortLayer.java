@@ -157,11 +157,12 @@ public class RESTSortLayer {
                     trovato = false;
                     for(Episode e: s.getEpisodes()){
                         if(trovato) break;
-                        for(ChannelEpisode ce: e.getChannelEpisode())
-                         if(us.getEpisode() == e.getNumber()+1 && (new Date().getTime() - us.getAnticipationNotification().getTime()) >= ce.getDate().getTime()
+                        for(ChannelEpisode ce: e.getChannelEpisode()){
+                         if(us.getEpisode()+1 == e.getNumber() && (new Date().getTime() - us.getAnticipationNotification().getTime()) >= ce.getDate().getTime()
                                  && (new Date().getTime() < ce.getDate().getTime())){
                              count++;
                              trovato = true;
+                         }
                          }
                     }
                 }

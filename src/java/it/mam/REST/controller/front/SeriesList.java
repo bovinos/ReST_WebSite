@@ -35,9 +35,9 @@ public class SeriesList extends RESTBaseController {
     private void action_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        request.setAttribute("where", "series");
+        request.setAttribute("where", "series"); 
         List<Series> seriesList =getDataLayer().getSeries();
-        //Page management
+        //Start Page Management ===========================================================================
         int page; //page number 
         if(request.getParameter("page") != null) {
         page = SecurityLayer.checkNumeric(request.getParameter("page"));
@@ -54,10 +54,14 @@ public class SeriesList extends RESTBaseController {
              request.setAttribute("series", seriesList);
         } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in action_series_list in SeriesList.java: il numero di pagina corrente è superiore al numero totale di pagine o è minore di 1");
             return;
         } else {
             request.setAttribute("series", seriesList.subList((page *seriesPerPage)-seriesPerPage, (page *seriesPerPage)));
         }
+        // End Page Management =======================================================================
+        
+        
         // User session checking
         try{
         if (SecurityLayer.checkSession(request) != null) {
@@ -70,7 +74,7 @@ public class SeriesList extends RESTBaseController {
         }
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
-        //genero e inserisco nella request le 5 serie più trendy
+        //Generate and insert into request the 5 trendiest series
         request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
         result.activate("seriesList.ftl.html", request, response);
     }
@@ -87,13 +91,13 @@ public class SeriesList extends RESTBaseController {
             request.setAttribute("user", user);
             request.setAttribute("series", getDataLayer().getHintSeries(user));
             RESTSortLayer.checkNotifications(user, request, response);
-        } //else nothing, this list can be seen without beeing logged in
+        } //else nothing, this list can be seen without being logged in
          } catch (NumberFormatException ex) {
              //User id is not a number
         }
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
-        //genero e inserisco nella request le 5 serie più trendy
+        //Generate and insert into request the 5 trendiest series
         request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
         result.activate("seriesList.ftl.html", request, response);
     }
@@ -172,6 +176,7 @@ public class SeriesList extends RESTBaseController {
                     default:
                         //The status parameter is not 1 (ongoing) nor 2 (complete)
                         action_error(request, response, "Riprova di nuovo!");
+                        System.err.println("Errore nel filtro per status di SeriesList.java, nel metodo action_FilterAndOrder_series_list: il valore di status per cui filtrare non valeva nè 1 (in corso) nè 2 (completa)");
                         return;
                 }
                 seriesList = filteredSeries;
@@ -196,6 +201,7 @@ public class SeriesList extends RESTBaseController {
                     default:
                         //The sorting-type parameter is not 1,2,3 or 4, so no sorting type has been chosen
                         action_error(request, response, "Riprova di nuovo!");
+                        System.err.println("Errore nell'ordinamento di SeriesList.java, nel metodo action_FilterAndOrder_series_list: il valore che stabilisce il tipo di ordinamento non era 1,2,3 o 4");
                 }
         }
         request.setAttribute("series", seriesList);
@@ -207,6 +213,7 @@ public class SeriesList extends RESTBaseController {
         result.activate("seriesList.ftl.html", request, response);
          } catch (NumberFormatException ex) {
             action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesList.java, nel metodo action_FilterAndOrder_series_list: NumberFormatException");
         }
     }
 
@@ -225,6 +232,7 @@ public class SeriesList extends RESTBaseController {
         }
             } catch (IOException ex) {
                 action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore nella Process Request di SeriesList.java: IOException");
             }
     }
 
