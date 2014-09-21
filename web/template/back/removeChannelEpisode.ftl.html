@@ -1,12 +1,12 @@
 
 <div id='removeChannelEpisode' class='formContainer'>
+    <#if ((channels?size > 0) && (episodes?size > 0))>
     <form action="GestioneSerie" method="POST">
         <input type="hidden" name="sezione" value="15" />
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="channelSelect" class="mySingleSelectArrow" />
                 <label for="channelSelect"></label>
-                <#if (channels?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="channel" checked="checked" id="noChannel" value="0" />
                     <label for="noChannel">Nessun canale</label>
@@ -15,23 +15,20 @@
                     <label for="channel_${c_index}">${c.number} ${strip_slashes(c.name)?html}</label>
                     </#list>
                 </div>
-                </#if>
             </div>
         </div>
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="episodeSelect" class="mySingleSelectArrow" />
                 <label for="episodeSelect"></label>
-                <#if (episodes?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="episode" id="noEpisode" checked="checked" value="0" />
-                    <label for="noEpisode">Nessun Episodio</label>
+                    <label for="noEpisode">Nessun episodio</label>
                     <#list episodes as e>
                     <input type="radio" name="episode" id="episode_${e_index}" value="${e.ID}" />
                     <label for="episode_${e_index}">[${strip_slashes(e.series.name)?html}] ${e.season}x${e.number} - ${strip_slashes(e.title)?html}</label>
                     </#list>
                 </div>
-                </#if>
             </div>
         </div>
         <div class="row">
@@ -42,4 +39,17 @@
         </div>
         <button type="submit" name="rce" value="1">Rimuovi associazione</button>
     </form>
+    <#else>
+    <div class="noOption">
+        <#if ((channels?size <= 0) && (episodes?size <= 0))>
+        <p>Non ci sono nè canali nè episodi da poter dissociare</p>
+        <#else>
+        <#if (channels?size <= 0)>
+        <p>Non ci sono canali da poter dissociare dagli episodi</p>
+        <#else>
+        <p>Non ci sono episodi da poter dissociare dai canali</p>
+        </#if>
+        </#if>
+    </div>
+    </#if>
 </div>

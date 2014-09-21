@@ -1,8 +1,8 @@
 
 <div id='removeCastMember' class="formContainer">
+    <#if (castMembers?size > 0)>
     <form action="GestioneSerie" method="POST">
         <input type="hidden" name="sezione" value="13" />
-        <#if (castMembers?size > 0)>
         <div class='row mySelectContainer'>
             <h1>Seleziona i membri del cast da eliminare</h1>
             <div class="myMultipleSelect">
@@ -15,8 +15,10 @@
             </div>
         </div>
         <button type="submit" name="rcm" value="1">Rimuovi membri del cast</button>
-        <#else>
-        non ci sono membri del cast da rimuovere
-        </#if>
     </form>
+    <#else>
+    <div class='noOption'>
+        <p>Non ci sono membri del cast da rimuovere</p>
+    </div>
+    </#if>
 </div>

@@ -1,12 +1,12 @@
 
 <div id='insertServiceGroup' class='formContainer'>
+    <#if ((services?size > 0) && (groups?size > 0))>
     <form action="GestioneUtenti" method="POST">
         <input type="hidden" name="sezione" value="3" />
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="serviceSelect" class="mySingleSelectArrow" />
                 <label for="serviceSelect"></label>
-                <#if (services?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="service" id="noService" checked="checked" value="0" />
                     <label for="noService">Nessun servizio</label>
@@ -15,14 +15,12 @@
                     <label for="service_${s_index}">${strip_slashes(s.name)?html}</label>
                     </#list>
                 </div>
-                </#if>
             </div>
         </div>
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="groupSelect" class="mySingleSelectArrow" />
                 <label for="groupSelect"></label>
-                <#if (groups?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="group" id="noGroup" checked="checked" value="0" />
                     <label for="noGroup">Nessun gruppo</label>
@@ -31,9 +29,21 @@
                     <label for="group_${g_index}">${strip_slashes(g.name)?html}</label>
                     </#list>
                 </div>
-                </#if>
             </div>
         </div>
         <button type="submit" name="isg" value="1">Salva</button>
     </form>
+    <#else>
+    <div class="noOption">
+        <#if ((services?size <= 0) && (groups?size <= 0))>
+        <p>Non ci sono nè servizi nè gruppi da poter associare</p>
+        <#else>
+        <#if (services?size <= 0)>
+        <p>Non ci sono servizi da poter associare ai gruppi</p>
+        <#else>
+        <p>Non ci sono gruppi da poter associare ai servizi</p>
+        </#if>
+        </#if>
+    </div>
+    </#if>
 </div>

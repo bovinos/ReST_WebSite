@@ -1,12 +1,12 @@
 
 <div id='insertGenreSeries' class='formContainer'>
+    <#if ((genres?size > 0) && (series?size > 0))>
     <form action="GestioneSerie" method="POST">
         <input type="hidden" name="sezione" value="8" />
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="genreSelect" class="mySingleSelectArrow" />
                 <label for="genreSelect"></label>
-                <#if (genres?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="genre" id="noGenre" checked="checked" value="0" />
                     <label for="noGenre">Nessun genere</label>
@@ -15,14 +15,12 @@
                     <label for="genre_${g_index}">${strip_slashes(g.name)?html}</label>
                     </#list>
                 </div>
-                </#if>
             </div>
         </div>
         <div class="row mySelectContainer">
             <div class="mySingleSelect">
                 <input type="checkbox" id="seriesSelect" class="mySingleSelectArrow" />
                 <label for="seriesSelect"></label>
-                <#if (series?size > 0)>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="series" id="noSeries" checked="checked" value="0" />
                     <label for="noSeries">Nessuna serie</label>
@@ -31,10 +29,22 @@
                     <label for="series_${s_index}">${strip_slashes(s.name)?html}</label>
                     </#list>
                 </div>
-                </#if>
             </div>
         </div>
         <button type="submit" name="igs" value="1">Salva</button>
     </form>
+    <#else>
+    <div class="noOption">
+        <#if ((genres?size <= 0) && (series?size <= 0))>
+        <p>Non ci sono nè generi nè serie da poter associare</p>
+        <#else>
+        <#if (genres?size <= 0)>
+        <p>Non ci sono generi da poter associare alle serie</p>
+        <#else>
+        <p>Non ci sono serie da poter associare ai generi</p>
+        </#if>
+        </#if>
+    </div>
+    </#if>
 </div>
 

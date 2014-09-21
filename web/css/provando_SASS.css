@@ -209,7 +209,7 @@ button {
     width: 30px;
     height: 30px;
     line-height: 30px;
-    background-color: #1695A3;
+    background-color: #225378;
     border-radius: 50%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -227,6 +227,13 @@ button {
 
 .currentSection {
   color: #EB7F00; }
+
+.noOption {
+  margin-top: 50px; }
+  .noOption p {
+    font-family: Laila;
+    font-size: 2rem;
+    color: #444444; }
 
 /* FORM
 =============================================================================================== */
@@ -755,9 +762,14 @@ button {
       #littleScreenTopBar ul li#littleScreenSearch {
         display: none;
         width: 100%; }
+        #littleScreenTopBar ul li#littleScreenSearch a {
+          display: inline-block;
+          font-size: 3rem; }
         #littleScreenTopBar ul li#littleScreenSearch form {
+          width: 85%;
           text-align: left;
-          padding-left: 0 2%; }
+          display: inline-block;
+          padding-right: 2%; }
           #littleScreenTopBar ul li#littleScreenSearch form input {
             color: #ACF0F2;
             width: 80%;
@@ -1272,6 +1284,11 @@ button {
   margin-left: 10%; }
   #userProfile nav li:last-of-type {
     margin-bottom: 40px; }
+  #userProfile nav li:before {
+    font-family: 'ElegantIcons';
+    content: "\39";
+    color: #EB7F00;
+    margin-right: 5px; }
 
 /* USER SERIES PAGE
 =============================================================================================== */
@@ -1662,7 +1679,7 @@ button {
     margin: 10px 1%;
     font-size: 1.3rem; }
 
-  /* PROFILO UTENTE
+  /* USER PROFILE
   ===============================================================================================
   =============================================================================================== */
   #userProfile #userImageAndUsername .imgContainer {
@@ -1677,11 +1694,6 @@ button {
       margin-left: 1%; }
       #userProfile nav li:last-of-type {
         margin-bottom: 10px; }
-      #userProfile nav li:before {
-        font-family: 'ElegantIcons';
-        content: "\39";
-        color: #EB7F00;
-        margin-right: 5px; }
 
   /* USER SERIES PAGE
   =============================================================================================== */
@@ -1720,7 +1732,7 @@ button {
     #backOutline nav li {
       font-size: 1.5rem;
       margin-bottom: 10px;
-      margin-left: 1%; }
+      margin-left: 10%; }
       #backOutline nav li:last-of-type {
         margin-bottom: 10px; }
       #backOutline nav li:before {

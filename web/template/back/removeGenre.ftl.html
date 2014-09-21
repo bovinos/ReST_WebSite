@@ -1,8 +1,8 @@
 
 <div id='removeGenre' class="formContainer">
+    <#if (genres?size > 0)>
     <form action="GestioneSerie" method="POST">
         <input type="hidden" name="sezione" value="12" />
-        <#if (genres?size > 0)>
         <div class='row mySelectContainer'>
             <h1>Seleziona i generi da eliminare</h1>
             <div class="myMultipleSelect">
@@ -15,8 +15,10 @@
             </div>
         </div>
         <button type="submit" name="rg" value="1">Rimuovi generi</button>
-        <#else>
-        non ci sono generi da rimuovere
-        </#if>
     </form>
+    <#else>
+    <div class='noOption'>
+        <p>Non ci sono generi da rimuovere</p>
+    </div>
+    </#if>
 </div>

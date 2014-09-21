@@ -17,7 +17,6 @@ import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -431,7 +430,7 @@ public class SeriesManagement extends RESTBaseController {
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("series", getDataLayer().getSeries());
-                request.setAttribute("castmembers", getDataLayer().getCastMembers());
+                request.setAttribute("castMembers", getDataLayer().getCastMembers());
                 request.setAttribute("backContent_tpl", "insertCastMemberSeries.ftl.html");
                 result.activate("../back/backOutline.ftl.html", request, response);
             } else {
@@ -516,29 +515,29 @@ public class SeriesManagement extends RESTBaseController {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
             if (SecurityLayer.checkSession(request) != null) {
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (user.getGroup().getID() != Group.ADMIN) {
-                action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
-            return;
-            }
-            request.setAttribute("where", "back");
-            request.setAttribute("user", user);
-            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-            if (checkChannelEpisodeInputData(request, response)) {
-                ChannelEpisode ce = getDataLayer().createChannelEpisode();
-                ce.setChannel(getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel"))));
-                ce.setEpisode(getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode"))));
-                Calendar c = Calendar.getInstance();
-                c.clear();
-                c.set(0, 0, 0, 0, 0, 0);
-                c.setTimeInMillis((SecurityLayer.checkDate(request.getParameter("date")).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
-                ce.setDate(c.getTime());
-                getDataLayer().storeChannelEpisode(ce);
-            } else {
-                request.setAttribute("error", "Uno dei campi è vuoto!");
-                action_insert_channelEpisode(request, response);
-                return;
-            }
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                if (user.getGroup().getID() != Group.ADMIN) {
+                    action_error(request, response, "Non hai i permessi per effettuare questa operazione!");
+                    return;
+                }
+                request.setAttribute("where", "back");
+                request.setAttribute("user", user);
+                request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+                if (checkChannelEpisodeInputData(request, response)) {
+                    ChannelEpisode ce = getDataLayer().createChannelEpisode();
+                    ce.setChannel(getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel"))));
+                    ce.setEpisode(getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode"))));
+                    Calendar c = Calendar.getInstance();
+                    c.clear();
+                    c.set(0, 0, 0, 0, 0, 0);
+                    c.setTimeInMillis((SecurityLayer.checkDate(request.getParameter("date")).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
+                    ce.setDate(c.getTime());
+                    getDataLayer().storeChannelEpisode(ce);
+                } else {
+                    request.setAttribute("error", "Uno dei campi è vuoto!");
+                    action_insert_channelEpisode(request, response);
+                    return;
+                }
                 request.setAttribute("success", "Canale ed episodio associati correttamente!");
                 action_insert_channelEpisode(request, response);
             } else {
@@ -1042,10 +1041,10 @@ public class SeriesManagement extends RESTBaseController {
                 cl.set(0, 0, 0, 0, 0, 0);
                 cl.setTimeInMillis((SecurityLayer.checkDate(request.getParameter("date")).getTimeInMillis() + SecurityLayer.checkTime(request.getParameter("time"))));
                 ChannelEpisode ce = getDataLayer().getChannelEpisode(c, e, cl.getTime());
-                if (ce == null){
-               request.setAttribute("error", "Questo canale e questo episodio non sono associati!");
-                action_remove_channelEpisode(request, response);
-                return;
+                if (ce == null) {
+                    request.setAttribute("error", "Questo canale e questo episodio non sono associati!");
+                    action_remove_channelEpisode(request, response);
+                    return;
                 }
                 getDataLayer().removeChannelEpisode(ce);
 

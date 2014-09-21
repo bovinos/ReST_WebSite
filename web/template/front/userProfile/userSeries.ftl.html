@@ -31,7 +31,7 @@
         <!-- se esistono stampiamole tutte -->
         <#list user.userSeries as us>
         <!-- stampo una riga ogni 3 elementi e se non sono agli ultimi 3 elementi -->
-        <#if ((us_index % 3) == 0) && ((us_index + 3) <= user.userSeries?size)>
+        <#if (us_index % 3) == 0 >
         <div class="row">
             </#if>
             <div id="s${us.series.ID}" class="series column omega">
@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </div>        
-            <#if ((us_index + 1) % 3)  == 0>
+            <#if ((((us_index + 1) % 3)  == 0) || ((us_index + 1) >= user.series?size ) )>
         </div>
         </#if>
         </#list>

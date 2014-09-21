@@ -1,8 +1,8 @@
 
 <div id='removeChannel' class="formContainer">
+    <#if (channels?size > 0)>
     <form action="GestioneSerie" method="POST">
         <input type="hidden" name="sezione" value="11" />
-        <#if (channels?size > 0)>
         <div class='row mySelectContainer'>
             <h1>Seleziona i canali da eliminare</h1>
             <div class="myMultipleSelect">
@@ -15,8 +15,10 @@
             </div>
         </div>
         <button type="submit" name="rc" value="1">Rimuovi canali</button>
-        <#else>
-        non ci sono canali da rimuovere
-        </#if>
     </form>
+    <#else>
+    <div class='noOption'>
+        <p>Non ci sono canali da rimuovere</p>
+    </div>
+    </#if>
 </div>
