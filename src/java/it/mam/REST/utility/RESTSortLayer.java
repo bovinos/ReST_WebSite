@@ -1,11 +1,17 @@
 package it.mam.REST.utility;
 
+import it.mam.REST.data.model.ChannelEpisode;
+import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
+import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
+import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -142,4 +148,24 @@ public class RESTSortLayer {
         return newsList;
     }
 
+    public static void checkNotifications(User user, HttpServletRequest request, HttpServletResponse response){
+                        //Series Notification checking
+                int count = 0;
+                boolean trovato;
+                for (UserSeries us: user.getUserSeries()){
+                    Series s = us.getSeries();
+                    trovato = false;
+                    for(Episode e: s.getEpisodes()){
+                        if(trovato) break;
+                        for(ChannelEpisode ce: e.getChannelEpisode())
+                         if(us.getEpisode() == e.getNumber()+1 && (new Date().getTime() - us.getAnticipationNotification().getTime()) >= ce.getDate().getTime()
+                                 && (new Date().getTime() < ce.getDate().getTime())){
+                             count++;
+                             trovato = true;
+                         }
+                    }
+                }
+                request.setAttribute("notifyCount", count);
+    }
+    
 }

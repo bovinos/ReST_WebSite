@@ -68,10 +68,33 @@ public class SeriesCard extends RESTBaseController {
                     UserSeries us = getDataLayer().getUserSeries(user, s);
                     favourite = (us != null);
                     request.setAttribute("favourite", favourite);
+                    RESTSortLayer.checkNotifications(user, request, response);
                 } catch (NumberFormatException ex) {
                     //User id is not a number
                 }
             }
+            //Page management
+            int page; //page number 
+            if(request.getParameter("page") != null) {
+            page = SecurityLayer.checkNumeric(request.getParameter("page"));
+            } else {
+            page = 1;
+            }
+            List<Comment> commentsList = s.getComments();
+            request.setAttribute("currentPage", page);
+            int commentsPerPage = 10; // number of comments per page
+            int numberOfPages = Math.round(commentsList.size()/commentsPerPage) + 1; // total number of pages
+            request.setAttribute("totalPages", numberOfPages);
+             if(page == numberOfPages) {
+            request.setAttribute("comments", commentsList);
+            request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
+            } else if (page > numberOfPages || page < 1) {
+            action_error(request, response, "Riprova di nuovo!");
+            } else {
+            request.setAttribute("comments", commentsList.subList(0, (page *commentsPerPage)));
+            request.setAttribute("previousLastCommentIndex", (page-1)*commentsPerPage);
+            }
+            
         } catch (NumberFormatException ex) {
             //Series id is not a number
             action_error(request, response, "Riprova di nuovo!");

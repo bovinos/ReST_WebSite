@@ -67,20 +67,7 @@ public class NewsList extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
                 //Series Notification checking
-                int count = 0;
-                boolean trovato;
-                for (UserSeries us: user.getUserSeries()){
-                    Series s = us.getSeries();
-                    trovato = false;
-                    for(Episode e: s.getEpisodes()){
-                        if(trovato) break;
-                        for(ChannelEpisode ce: e.getChannelEpisode())
-                         if(us.getEpisode() == e.getNumber()+1 && (new Date().getTime() - us.getAnticipationNotification().getTime()) >= ce.getDate().getTime()){
-                             count++;
-                             trovato = true;
-                         }
-                    }
-                }
+                RESTSortLayer.checkNotifications(user, request, response);
                 
             } catch (NumberFormatException ex) {
                 //User id is not a number

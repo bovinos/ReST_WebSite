@@ -10,6 +10,7 @@ import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.Group;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
+import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -46,6 +47,7 @@ public class SeriesManagement extends RESTBaseController {
                     return;
                 }
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "insertSeries.ftl.html");
                 result.activate("../back/backOutline.ftl.html", request, response);
@@ -122,6 +124,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("series", getDataLayer().getSeries());
                 request.setAttribute("channels", getDataLayer().getChannels());
                 request.setAttribute("backContent_tpl", "insertEpisode.ftl.html");
@@ -198,6 +201,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "insertChannel.ftl.html");
                 result.activate("../back/backOutline.ftl.html", request, response);
@@ -273,6 +277,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "insertGenre.ftl.html");
                 result.activate("../back/backOutline.ftl.html", request, response);
@@ -329,6 +334,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("series", getDataLayer().getSeries());
                 request.setAttribute("backContent_tpl", "insertCastMember.ftl.html");
@@ -428,6 +434,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("series", getDataLayer().getSeries());
                 request.setAttribute("castMembers", getDataLayer().getCastMembers());
@@ -494,6 +501,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("channels", getDataLayer().getChannels());
                 request.setAttribute("episodes", getDataLayer().getEpisodes());
@@ -563,6 +571,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("genres", getDataLayer().getGenres());
                 request.setAttribute("series", getDataLayer().getSeries());
@@ -625,6 +634,7 @@ public class SeriesManagement extends RESTBaseController {
                     return;
                 }
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("series", getDataLayer().getSeries());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "removeSeries.ftl.html");
@@ -687,6 +697,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("series", getDataLayer().getSeries());
                 request.setAttribute("episodes", getDataLayer().getEpisodes());
                 request.setAttribute("backContent_tpl", "removeEpisode.ftl.html");
@@ -750,6 +761,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("channels", getDataLayer().getChannels());
                 request.setAttribute("backContent_tpl", "removeChannel.ftl.html");
@@ -811,6 +823,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("genres", getDataLayer().getGenres());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "removeGenre.ftl.html");
@@ -870,6 +883,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("castMembers", getDataLayer().getCastMembers());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("series", getDataLayer().getSeries());
@@ -932,6 +946,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("series", getDataLayer().getSeries());
                 request.setAttribute("castMembers", getDataLayer().getCastMembers());
@@ -1000,6 +1015,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("channels", getDataLayer().getChannels());
                 request.setAttribute("episodes", getDataLayer().getEpisodes());
@@ -1073,6 +1089,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("genres", getDataLayer().getGenres());
                 request.setAttribute("series", getDataLayer().getSeries());

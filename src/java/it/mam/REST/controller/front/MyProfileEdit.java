@@ -40,6 +40,7 @@ public class MyProfileEdit extends RESTBaseController {
         
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("userProfileContent_tpl", "userSignUpData.ftl.html");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
          } else {
@@ -98,6 +99,7 @@ public class MyProfileEdit extends RESTBaseController {
         
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("genres", getDataLayer().getGenres());
             request.setAttribute("userProfileContent_tpl", "userOptionalData.ftl.html");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
@@ -183,6 +185,7 @@ public class MyProfileEdit extends RESTBaseController {
         if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("userProfileContent_tpl", "userNotifySettings.ftl.html");
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
          } else {

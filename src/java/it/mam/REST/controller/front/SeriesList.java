@@ -60,7 +60,7 @@ public class SeriesList extends RESTBaseController {
         if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
-            
+            RESTSortLayer.checkNotifications(user, request, response);
         }
          } catch (NumberFormatException ex) {
              //User id is not a number
@@ -83,6 +83,7 @@ public class SeriesList extends RESTBaseController {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
             request.setAttribute("user", user);
             request.setAttribute("series", getDataLayer().getHintSeries(user));
+            RESTSortLayer.checkNotifications(user, request, response);
         } //else nothing, this list can be seen without beeing logged in
          } catch (NumberFormatException ex) {
              //User id is not a number

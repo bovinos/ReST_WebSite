@@ -4,6 +4,7 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Group;
 import it.mam.REST.data.model.Service;
 import it.mam.REST.data.model.User;
+import it.mam.REST.utility.RESTSortLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -41,6 +42,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("services", getDataLayer().getServices());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "insertGroup.ftl.html");
@@ -110,6 +112,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("groups", getDataLayer().getGroups());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "insertService.ftl.html");
@@ -179,6 +182,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("services", getDataLayer().getServices());
             request.setAttribute("groups", getDataLayer().getGroups());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -241,6 +245,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("groups", getDataLayer().getGroups());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "removeGroup.ftl.html");
@@ -292,6 +297,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("services", getDataLayer().getServices());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
             request.setAttribute("backContent_tpl", "removeService.ftl.html");
@@ -345,6 +351,7 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("where", "back");
             request.setAttribute("user", user);
+            RESTSortLayer.checkNotifications(user, request, response);
             request.setAttribute("services", getDataLayer().getServices());
             request.setAttribute("groups", getDataLayer().getGroups());
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
