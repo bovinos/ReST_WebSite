@@ -99,29 +99,39 @@ public class MyProfile extends RESTBaseController {
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
             
             //Series Notification checking (Different from RESTSortLayer.checkNotifications(user, request, response); because here we need the list of series!)
+
+            //Series Notification checking
+                int count = 0;
                 boolean trovato;
-                List<Series> seriesToNotify = new ArrayList();
-                for (UserSeries us: user.getUserSeries()){
-                     Calendar anticipation = Calendar.getInstance();
+                List<Series> SeriesToNotify = new ArrayList();
+                Date now = new Date();
+                for (UserSeries us : user.getUserSeries()) {
                     if (us.getAnticipationNotification() == null) {
-                        anticipation.set(0, 0, 0, 0, 0, 0);
-                    } else {
-                        anticipation.set(0, 0, 0, 0, 0, 0);
-                        anticipation.setTime(us.getAnticipationNotification());
-                    }
+                                continue;
+                            }
                     Series s = us.getSeries();
                     trovato = false;
-                    for(Episode e: s.getEpisodes()){
-                        if(trovato) break;
-                        for(ChannelEpisode ce: e.getChannelEpisode())
-                         if(us.getEpisode()+1 == e.getNumber() && (new Date().getTime() - anticipation.getTimeInMillis()) >= ce.getDate().getTime()
-                                 && (new Date().getTime() < ce.getDate().getTime())){
-                             seriesToNotify.add(s);
-                             trovato = true;
-                         }
+                    for (Episode e : s.getEpisodes()) {
+                        if (trovato) {
+                            break;
+                        }
+                        for (ChannelEpisode ce : e.getChannelEpisode()) {
+                            System.err.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                            System.err.println(now);
+                            System.err.println(ce.getDate());
+                            System.err.println(us.getAnticipationNotification());
+                            if (us.getEpisode() + 1 == e.getNumber() && us.getSeason() == e.getSeason()
+                                    && (now.getTime() >= ce.getDate().getTime() - us.getAnticipationNotification().getTime())
+                                    && now.before(ce.getDate())) {
+                                SeriesToNotify.add(s);
+                                trovato = true;
+                            }
+                        }
                     }
                 }
-                request.setAttribute("notifySeries", seriesToNotify);
+                    System.err.println(SeriesToNotify.size());
+                    request.setAttribute("notifySeries", SeriesToNotify);
+
             
         } else {
             //User session is no longer valid
@@ -222,6 +232,10 @@ public class MyProfile extends RESTBaseController {
             if (request.getParameter("a") != null){
                 if(request.getParameter("an") != null){
                 us.setAnticipationNotification(new Date(SecurityLayer.checkTime(request.getParameter("an"))));
+                } else {
+                    action_error(request, response, "Uno dei campi è vuoto!");
+                    System.err.println("Errore in MyProfile.java, nel metodo action_setNotification_ProfileUserSeries: l'anticipo della notifica è vuoto");
+                    return;
                 }
             } else us.setAnticipationNotification(null);
             if (SecurityLayer.checkNumeric(request.getParameter("lastEpisodeSeen")) == 0) {

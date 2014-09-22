@@ -508,11 +508,19 @@ public class SeriesManagement extends RESTBaseController {
                         request.setAttribute("error", "Non hai selezionato alcuna serie!");
                         action_insert_castmemberSeries(request, response);
                         return;
+                    }   
+                    CastMember c = getDataLayer().getCastMember(SecurityLayer.checkNumeric(request.getParameter("castMember")));
+                    Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
+                    if(getDataLayer().getCastMemberSeries(c, s, request.getParameter("role")) != null){
+                        request.setAttribute("error", "Il membro del cast in quel ruolo e la serie inseriti sono già associati!");
+                        action_insert_castmemberSeries(request, response);
+                        return;                        
                     }
                     CastMemberSeries cms = getDataLayer().createCastMemberSeries();
-                    cms.setCastMember(getDataLayer().getCastMember(SecurityLayer.checkNumeric(request.getParameter("castMember"))));
-                    cms.setSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series"))));
+                    cms.setCastMember(c);
+                    cms.setSeries(s);
                     cms.setRole(request.getParameter("role"));
+                    
                     getDataLayer().storeCastMemberSeries(cms);
                 } else {
                     //Error: empty field
