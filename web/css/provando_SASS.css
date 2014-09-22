@@ -612,7 +612,6 @@ button {
   padding: 10px; }
   .accordion .accordionSection {
     overflow: hidden;
-    cursor: pointer;
     /* accordion verticale */
     width: 100%;
     height: 40px;
@@ -639,9 +638,9 @@ button {
     .accordion .accordionSection .accordionContent {
       display: none;
       line-height: 1.4;
-      margin: 10px 3% 10px 10px;
-      cursor: auto; }
+      margin: 10px 3% 10px 10px; }
     .accordion .accordionSection .accordionSectionTitle a {
+      cursor: pointer;
       display: block;
       padding-left: 10px;
       font-size: 1.6rem;
@@ -1246,21 +1245,22 @@ button {
     max-width: 100%;
     height: auto; }
 #newsCard #newsText {
-  margin: 0 3% 10px 3%;
+  width: 80%;
+  margin: 0 auto 10px auto;
   text-align: center;
   font-size: 1.5rem;
   line-height: 1.4;
   color: #444444; }
 #newsCard .footer {
-  margin: 0 0 30px 0;
+  width: 80%;
+  margin: 0 auto 30px auto;
   font-size: 1.2rem;
   overflow: hidden;
   color: #999999; }
   #newsCard .footer .left {
     float: left; }
   #newsCard .footer .right {
-    float: right;
-    margin-right: 5%; }
+    float: right; }
     #newsCard .footer .right a {
       color: #999999; }
     #newsCard .footer .right .authorAndDate {
@@ -1762,7 +1762,10 @@ button {
     font-size: 2.5rem; }
   #newsCard #newsText {
     margin: 10px 1%;
-    font-size: 1.3rem; }
+    font-size: 1.3rem;
+    width: 98%; }
+  #newsCard .footer {
+    width: 98%; }
 
   /* USER PROFILE
   ===============================================================================================
@@ -1836,66 +1839,115 @@ button {
   #removeCastMemberSeries, #removeChannelEpisode, #removeGenreSeries,
   #removeServiceGroup {
     width: 98%; } }
-/* PROVE JS
+/* JS
 ===============================================================================================
 =============================================================================================== */
-#timePicker {
-  width: 50%;
-  padding: 5px;
-  -webkit-box-shadow: 0 0 5px #1695A3;
-  -moz-box-shadow: 0 0 5px #1695A3;
-  box-shadow: 0 0 5px #1695A3;
-  border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  text-align: center;
-  display: none; }
-  #timePicker.show {
-    display: block; }
-  #timePicker #hours, #timePicker #minutes {
-    display: inline-block; }
-  #timePicker #hoursUp, #timePicker #hoursDown, #timePicker #minutesUp, #timePicker #minutesDown {
-    color: #1695A3;
-    font-size: 5rem;
-    cursor: pointer;
-    transition: color 0.3s ease-in-out;
-    -webkit-transition: color 0.3s ease-in-out;
-    -moz-transition: color 0.3s ease-in-out; }
-    #timePicker #hoursUp:hover, #timePicker #hoursDown:hover, #timePicker #minutesUp:hover, #timePicker #minutesDown:hover {
-      color: #EB7F00; }
-  #timePicker #hoursValue, #timePicker #minutesValue {
-    margin: 10px;
-    font-size: 3rem; }
+#myTimePickerContainer {
+  position: relative; }
+  #myTimePickerContainer #myTimePicker {
+    margin-top: 5px;
+    background-color: #FFFFFF;
+    position: absolute;
+    left: 20px;
+    z-index: 10;
+    width: 175px;
+    padding: 5px;
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-box-shadow: 0 0 3px #1695A3;
+    -moz-box-shadow: 0 0 3px #1695A3;
+    box-shadow: 0 0 3px #1695A3;
+    -moz-animation: slide 0.5s ease 0s 1 normal;
+    -webkit-animation: slide 0.5s ease 0s 1 normal;
+    animation: slide 0.5s ease 0s 1 normal;
+    text-align: center; }
+    #myTimePickerContainer #myTimePicker #hours, #myTimePickerContainer #myTimePicker #minutes {
+      display: inline-block; }
+      #myTimePickerContainer #myTimePicker #hours p, #myTimePickerContainer #myTimePicker #minutes p {
+        margin: 10px;
+        font-size: 3rem; }
+    #myTimePickerContainer #myTimePicker .arrow {
+      color: #1695A3;
+      font-size: 5rem;
+      cursor: pointer;
+      transition: color 0.3s ease-in-out;
+      -webkit-transition: color 0.3s ease-in-out;
+      -moz-transition: color 0.3s ease-in-out; }
+      #myTimePickerContainer #myTimePicker .arrow:hover {
+        color: #EB7F00; }
 
-#datePicker {
-  display: inline-block;
-  padding: 20px;
-  border-radius: 7px;
-  -webkit-border-radius: 7px;
-  -moz-border-radius: 7px;
-  -webkit-box-shadow: 0 0 3px #1695A3;
-  -moz-box-shadow: 0 0 3px #1695A3;
-  box-shadow: 0 0 3px #1695A3; }
-  #datePicker table {
-    color: #444444; }
-    #datePicker table thead {
-      font-size: 2rem;
-      color: #1695A3; }
-      #datePicker table thead #previousMonth {
-        cursor: pointer; }
-      #datePicker table thead #monthAndYear #month {
-        padding: 0 5px; }
-      #datePicker table thead #monthAndYear #year {
-        padding: 0 5px; }
-      #datePicker table thead #nextMonth {
-        cursor: pointer; }
-      #datePicker table thead .dayOfWeek {
-        color: #225378;
+@keyframes slide {
+  0% {
+    left: -30px;
+    opacity: 0; }
+  100% {
+    left: 20px;
+    opacity: 1; } }
+@-moz-keyframes slide {
+  0% {
+    left: -30px;
+    opacity: 0; }
+  100% {
+    left: 20px;
+    opacity: 1; } }
+@-webkit-keyframes slide {
+  0% {
+    left: -30px;
+    opacity: 0; }
+  100% {
+    left: 20px;
+    opacity: 1; } }
+#myDatePickerContainer {
+  position: relative; }
+  #myDatePickerContainer #myDatePicker {
+    margin-top: 5px;
+    background-color: #FFFFFF;
+    z-index: 10;
+    position: absolute;
+    left: 20px;
+    display: inline-block;
+    padding: 20px;
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-box-shadow: 0 0 3px #1695A3;
+    -moz-box-shadow: 0 0 3px #1695A3;
+    box-shadow: 0 0 3px #1695A3;
+    -moz-animation: slide 0.5s ease 0s 1 normal;
+    -webkit-animation: slide 0.5s ease 0s 1 normal;
+    animation: slide 0.5s ease 0s 1 normal; }
+    #myDatePickerContainer #myDatePicker table {
+      color: #444444; }
+      #myDatePickerContainer #myDatePicker table thead {
+        font-size: 2rem;
+        color: #225378; }
+        #myDatePickerContainer #myDatePicker table thead #previousMonth, #myDatePickerContainer #myDatePicker table thead #nextMonth {
+          cursor: pointer;
+          color: #1695A3;
+          transition: color 0.3s ease-in-out;
+          -webkit-transition: color 0.3s ease-in-out;
+          -moz-transition: color 0.3s ease-in-out; }
+          #myDatePickerContainer #myDatePicker table thead #previousMonth:hover, #myDatePickerContainer #myDatePicker table thead #nextMonth:hover {
+            color: #EB7F00; }
+        #myDatePickerContainer #myDatePicker table thead #monthAndYear #month {
+          padding: 0 5px; }
+        #myDatePickerContainer #myDatePicker table thead #monthAndYear #year {
+          padding: 0 5px; }
+        #myDatePickerContainer #myDatePicker table thead .dayOfWeek {
+          font-size: 1.6rem;
+          padding: 20px 0 5px 0; }
+      #myDatePickerContainer #myDatePicker table tbody .day {
         font-size: 1.6rem;
-        padding: 20px 0 5px 0; }
-    #datePicker table tbody .day {
-      font-size: 1.6rem;
-      padding: 5px 10px;
-      cursor: pointer; }
+        padding: 5px 10px;
+        cursor: pointer; }
+        #myDatePickerContainer #myDatePicker table tbody .day.oldMonthDay, #myDatePickerContainer #myDatePicker table tbody .day.newMonthDay {
+          color: #999999; }
+        #myDatePickerContainer #myDatePicker table tbody .day.activeDay {
+          background-color: #EB7F00;
+          border-radius: 3px;
+          -webkit-border-radius: 3px;
+          -moz-border-radius: 3px;
+          color: #FFFFFF; }
 
 /*# sourceMappingURL=provando_SASS.css.map */

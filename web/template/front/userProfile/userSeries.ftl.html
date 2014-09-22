@@ -126,11 +126,15 @@
                                             <input type="checkbox" id="episodeSelect${us_index}" class="mySingleSelectArrow" />
                                             <label for="episodeSelect${us_index}"></label>
                                             <div class="mySingleSelectOption">
-                                                <input type="radio" name="series" id="noEpisodeFor${us_index}" checked="checked" value="0" />
+                                                <input type="radio" name="series" id="noEpisodeFor${us_index}" checked="checked"  value="0" />
                                                 <label for="noEpisodeFor${us_index}">Non impostato</label>
                                                 <#if (us.series.episodes?size > 0)>
                                                 <#list us.series.episodes as e>
+                                                <#if ((e.season == us.season) && (e.number == us.episode)) >
+                                                <input type="radio" name="series" id="episode_${e.ID}" checked="checked" value="${e.ID}" />
+                                                <#else>
                                                 <input type="radio" name="series" id="episode_${e.ID}" value="${e.ID}" />
+                                                </#if>
                                                 <label for="episode_${e.ID}">${e.season}x${e.number} ${strip_slashes(e.title)?html}</label>
                                                 </#list>
                                                 </#if>

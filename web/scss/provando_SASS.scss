@@ -814,7 +814,6 @@ button{
 
     .accordionSection{   
         overflow: hidden;    
-        cursor: pointer;   
         /* accordion verticale */
         width: 100%;   
         height: 40px;
@@ -855,10 +854,10 @@ button{
             display: none;
             line-height: 1.4;
             margin: 10px 3% 10px 10px;
-            cursor: auto;
         }
 
         .accordionSectionTitle a{
+            cursor: pointer; 
             display: block;
             padding-left: 10px;
             font-size: 1.6rem;
@@ -1725,7 +1724,8 @@ button{
     }
 
     #newsText{
-        margin: 0 3% 10px 3%;
+        width: 80%;
+        margin: 0 auto 10px auto;
         text-align: center;
         font-size: 1.5rem;
         line-height: 1.4;
@@ -1733,7 +1733,8 @@ button{
     }
 
     .footer{
-        margin: 0 0 30px 0;
+        width: 80%;
+        margin: 0 auto 30px auto;
         font-size: 1.2rem;
         overflow: hidden;
         color: $secondaryTextColor;
@@ -1744,7 +1745,6 @@ button{
 
         .right{
             float: right;
-            margin-right: 5%;
 
             a{
                 color: $secondaryTextColor;
@@ -2498,6 +2498,11 @@ button{
         #newsText{
             margin: 10px 1%;
             font-size: 1.3rem;
+            width: 98%;
+        }
+
+        .footer{
+            width: 98%;
         }
     }
 
@@ -2614,97 +2619,157 @@ button{
 
 }
 
-/* PROVE JS
+/* JS
 ===============================================================================================
 =============================================================================================== */
-#timePicker{
-    width: 50%;
-    padding: 5px;
-    @include boxShadow(0, 0, 5px, $turquoise);
-    @include borderRadius(4px);
-    text-align: center;
-    display: none;
+#myTimePickerContainer{
+    position: relative;
 
-    &.show{
-        display: block;
-    }
+    #myTimePicker{
+        margin-top: 5px;
+        background-color: #FFFFFF;
+        position: absolute;
+        left: 20px;
+        z-index: 10;
+        width: 175px;
+        padding: 5px;
+        @include borderRadius(7px);
+        @include boxShadow(0, 0, 3px, $turquoise);
+        @include animation(slide, 0.5s, ease, 0s, 1, normal);
+        text-align: center;
 
-    #hours, #minutes{
-        display: inline-block;
-    }
+        #hours, #minutes{
+            display: inline-block;
 
-    #hoursUp, #hoursDown, #minutesUp, #minutesDown{
-        color: $turquoise;
-        font-size: 5rem;
-        cursor: pointer;
-        @include transition(color, 0.3s);
-
-        &:hover{
-            color: $orange;
+            p{
+                margin: 10px;
+                font-size: 3rem;
+            }
         }
-    }
 
-    #hoursValue, #minutesValue{
-        margin: 10px;
-        font-size: 3rem;
-    }
-
-}
-
-#datePicker{
-    display: inline-block;
-    padding: 20px;
-    @include borderRadius(7px);
-    @include boxShadow(0, 0, 3px, $turquoise);
-
-    table{
-        color: $primaryTextColor;
-
-
-        thead{
-            font-size: 2rem;
+        .arrow{
             color: $turquoise;
+            font-size: 5rem;
+            cursor: pointer;
+            @include transition(color, 0.3s);
 
-            #previousMonth{
-                cursor: pointer;
-
+            &:hover{
+                color: $orange;
             }
-
-            #monthAndYear{
-
-                #month{
-                    padding: 0 5px;
-                }
-
-                #year{
-                    padding: 0 5px;
-                }
-            }
-
-            #nextMonth{
-                cursor: pointer;
-            }
-
-            .dayOfWeek{
-                color: $blue;
-                font-size: 1.6rem;
-                padding: 20px 0 5px 0;
-            }
-
-        }
-
-        tbody{
-
-            .day{
-                font-size: 1.6rem;
-                padding: 5px 10px;
-                cursor: pointer;
-            }
-
         }
     }
-
 }
+
+@keyframes slide{
+    0%{
+        left: -30px;
+        opacity: 0;
+    }
+    100%{
+        left: 20px;
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes slide{
+    0%{
+        left: -30px;
+        opacity: 0;
+    }
+    100%{
+        left: 20px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes slide{
+    0%{
+        left: -30px;
+        opacity: 0;
+    }
+    100%{
+        left: 20px;
+        opacity: 1;
+    }
+}
+
+#myDatePickerContainer{
+    position: relative;
+
+    #myDatePicker{
+        margin-top: 5px;
+        background-color: #FFFFFF;
+        z-index: 10;
+        position: absolute;
+        left: 20px;
+        display: inline-block;
+        padding: 20px;
+        @include borderRadius(7px);
+        @include boxShadow(0, 0, 3px, $turquoise);
+        @include animation(slide, 0.5s, ease, 0s, 1, normal);
+
+        table{
+            color: $primaryTextColor;
+
+            thead{
+                font-size: 2rem;
+                color: $blue;
+
+                #previousMonth{
+                    cursor: pointer;
+                    color: $turquoise;
+                    @include transition(color, 0.3s);
+
+                    &:hover{
+                        color: $orange;
+                    }
+                }
+
+                #monthAndYear{
+
+                    #month{
+                        padding: 0 5px;
+                    }
+
+                    #year{
+                        padding: 0 5px;
+                    }
+                }
+
+                #nextMonth{
+                    @extend #previousMonth;
+                }
+
+                .dayOfWeek{
+                    font-size: 1.6rem;
+                    padding: 20px 0 5px 0;
+                }
+
+            }
+
+            tbody{
+
+                .day{
+                    font-size: 1.6rem;
+                    padding: 5px 10px;
+                    cursor: pointer;
+
+                    &.oldMonthDay, &.newMonthDay{
+                        color: $secondaryTextColor
+                    }
+
+                    &.activeDay{
+                        background-color: $orange;
+                        @include borderRadius(3px);
+                        color: #FFFFFF;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 
 
 
