@@ -53,7 +53,9 @@ public class UserSeriesMySQL implements UserSeries {
         userID = rs.getInt("ID_user");
         seriesID = rs.getInt("ID_series");
         rating = rs.getString("rating");
-        anticipationNotification = new Date(rs.getTime("anticipation_notification").getTime());
+        if (rs.getTime("anticipation_notification") != null) {
+            anticipationNotification = new Date(rs.getTime("anticipation_notification").getTime());
+        }
         addDate = rs.getDate("add_date");
         season = rs.getInt("season");
         episode = rs.getInt("episode");
