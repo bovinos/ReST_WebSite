@@ -9,7 +9,7 @@
                 <label for="genreSelect"></label>
                 <div class="mySingleSelectOption">
                     <input type="radio" name="genre" id="noGenre" checked="checked" value="0" />
-                    <label for="noGenre">Nessun Genere</label>
+                    <label for="noGenre">Nessun genere</label>
                     <#list genres as g>
                     <input type="radio" name="genre" id="genre_${g_index}" value="${g.ID}" />
                     <label for="genre_${g_index}">${strip_slashes(g.name)?html}</label>
@@ -26,7 +26,7 @@
                     <label for="noSeries">Nessuna serie</label>
                     <#list series as s>
                     <input type="radio" name="series" id="series_${s_index}" value="${s.ID}" />
-                    <label for="series_${s_index}">[${strip_slashes(s.name)?html}</label>
+                    <label for="series_${s_index}">${strip_slashes(s.name)?html}</label>
                     </#list>
                 </div>
             </div>

@@ -226,6 +226,157 @@ $topBarHeight: 50px;
     @include animation(pulse-shadow, 0.3s, linear, 0s, infinite, alternate);  
 }
 
+/* JS
+===============================================================================================
+=============================================================================================== */
+#myTimePickerContainer{
+    position: relative;
+
+    #myTimePicker{
+        margin-top: 5px;
+        background-color: #FFFFFF;
+        position: absolute;
+        left: 20px;
+        z-index: 10;
+        width: 175px;
+        padding: 5px;
+        @include borderRadius(7px);
+        @include boxShadow(0, 0, 3px, $turquoise);
+        @include animation(slide, 0.5s, ease, 0s, 1, normal);
+        text-align: center;
+
+        #hours, #minutes{
+            display: inline-block;
+
+            p{
+                margin: 10px;
+                font-size: 3rem;
+            }
+        }
+
+        .arrow{
+            color: $turquoise;
+            font-size: 5rem;
+            cursor: pointer;
+            @include transition(color, 0.3s);
+
+            &:hover{
+                color: $orange;
+            }
+        }
+    }
+}
+
+@keyframes slide{
+    0%{
+        left: -30px;
+        opacity: 0;
+    }
+    100%{
+        left: 20px;
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes slide{
+    0%{
+        left: -30px;
+        opacity: 0;
+    }
+    100%{
+        left: 20px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes slide{
+    0%{
+        left: -30px;
+        opacity: 0;
+    }
+    100%{
+        left: 20px;
+        opacity: 1;
+    }
+}
+
+#myDatePickerContainer{
+    position: relative;
+
+    #myDatePicker{
+        margin-top: 5px;
+        background-color: #FFFFFF;
+        z-index: 10;
+        position: absolute;
+        left: 20px;
+        display: inline-block;
+        padding: 20px;
+        @include borderRadius(7px);
+        @include boxShadow(0, 0, 3px, $turquoise);
+        @include animation(slide, 0.5s, ease, 0s, 1, normal);
+
+        table{
+            color: $primaryTextColor;
+
+            thead{
+                font-size: 2rem;
+                color: $blue;
+
+                #previousMonth{
+                    cursor: pointer;
+                    color: $turquoise;
+                    @include transition(color, 0.3s);
+
+                    &:hover{
+                        color: $orange;
+                    }
+                }
+
+                #monthAndYear{
+
+                    #month{
+                        padding: 0 5px;
+                    }
+
+                    #year{
+                        padding: 0 5px;
+                    }
+                }
+
+                #nextMonth{
+                    @extend #previousMonth;
+                }
+
+                .dayOfWeek{
+                    font-size: 1.6rem;
+                    padding: 20px 0 5px 0;
+                }
+
+            }
+
+            tbody{
+
+                .day{
+                    font-size: 1.6rem;
+                    padding: 5px 10px;
+                    cursor: pointer;
+
+                    &.oldMonthDay, &.newMonthDay{
+                        color: $secondaryTextColor
+                    }
+
+                    &.activeDay{
+                        background-color: $orange;
+                        @include borderRadius(3px);
+                        color: #FFFFFF;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 /* FONT
 =============================================================================================== */
 @font-face{
@@ -1576,6 +1727,42 @@ button{
         margin-bottom: 50px;
     }
 
+    #castList{
+
+        .castMember{
+            margin: 0 3%;
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(22, 149, 163, 0.4);
+
+            &:last-of-type{ /* l'ultimo elemento che ha classe comment */
+                border-bottom: none;
+            }
+        }
+
+        .imgContainer{
+            display: inline-block;
+            width: 75px;
+
+            img{
+                width: 100%;
+                height: auto;
+                overflow: hidden;
+            }
+        }
+
+        h3{
+            color: $blue;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        p{
+            color: $primaryTextColor;
+            font-size: 1.5rem;
+            margin: 5px 0;
+        }
+    }
+
     .episode{
         border-bottom: 1px solid rgba(22, 149, 163, 0.6);
 
@@ -1755,6 +1942,11 @@ button{
                     background-color: $blue;
                     color: #FFFFFF;
                     padding: 3px 5px;
+                    @include transition(background-color, 0.3s);
+
+                    &:hover{
+                        background-color: $orange;
+                    }
                 }
             } 
         }
@@ -2061,8 +2253,6 @@ button{
         .imgContainer{
             position: relative;
             display: inline-block;
-            background: transparent url('../img/placeholder.jpg') no-repeat;
-            background-size: cover;
             min-height: 100px;
             width: 98%;
 
@@ -2241,9 +2431,6 @@ button{
 }
 
 
-/* MEDIA QUERY
-===============================================================================================
-=============================================================================================== */
 @media only screen and (max-width: 767px) {
 
     /* ERROR MESSAGE
@@ -2517,8 +2704,13 @@ button{
             width: 98%;
         }
 
-        .footer{
+        &>.footer{
             width: 98%;
+
+            .left.tag{
+                float: none;
+                max-width: none;
+            }
         }
     }
 
@@ -2633,157 +2825,72 @@ button{
         width: 98%;
     }
 
-}
 
-/* JS
-===============================================================================================
-=============================================================================================== */
-#myTimePickerContainer{
-    position: relative;
+    /* JS
+    ===============================================================================================
+    =============================================================================================== */
+    #myDatePickerContainer{
 
-    #myTimePicker{
-        margin-top: 5px;
-        background-color: #FFFFFF;
-        position: absolute;
-        left: 20px;
-        z-index: 10;
-        width: 175px;
-        padding: 5px;
-        @include borderRadius(7px);
-        @include boxShadow(0, 0, 3px, $turquoise);
-        @include animation(slide, 0.5s, ease, 0s, 1, normal);
-        text-align: center;
+        #myDatePicker{
+            padding: 5px;
 
-        #hours, #minutes{
-            display: inline-block;
+            table{
 
-            p{
-                margin: 10px;
+                thead{
+                    font-size: 1.6rem;
+
+                    #monthAndYear{
+
+                        #month{
+                            padding: 0 2px;
+                        }
+
+                        #year{
+                            padding: 0 2px;
+                        }
+                    }
+
+                    .dayOfWeek{
+                        font-size: 1.4rem;
+                        padding: 7px 0 2px 0;
+                    }
+
+                }
+
+                tbody{
+
+                    .day{
+                        font-size: 1.4rem;
+                        padding: 2px 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    #myTimePickerContainer{
+
+        #myTimePicker{
+            width: 100px;
+            padding: 5px;
+
+            #hours, #minutes{
+
+                p{
+                    margin: 10px;
+                    font-size: 2rem;
+                }
+            }
+
+            .arrow{
                 font-size: 3rem;
             }
         }
-
-        .arrow{
-            color: $turquoise;
-            font-size: 5rem;
-            cursor: pointer;
-            @include transition(color, 0.3s);
-
-            &:hover{
-                color: $orange;
-            }
-        }
     }
+
 }
 
-@keyframes slide{
-    0%{
-        left: -30px;
-        opacity: 0;
-    }
-    100%{
-        left: 20px;
-        opacity: 1;
-    }
-}
 
-@-moz-keyframes slide{
-    0%{
-        left: -30px;
-        opacity: 0;
-    }
-    100%{
-        left: 20px;
-        opacity: 1;
-    }
-}
-
-@-webkit-keyframes slide{
-    0%{
-        left: -30px;
-        opacity: 0;
-    }
-    100%{
-        left: 20px;
-        opacity: 1;
-    }
-}
-
-#myDatePickerContainer{
-    position: relative;
-
-    #myDatePicker{
-        margin-top: 5px;
-        background-color: #FFFFFF;
-        z-index: 10;
-        position: absolute;
-        left: 20px;
-        display: inline-block;
-        padding: 20px;
-        @include borderRadius(7px);
-        @include boxShadow(0, 0, 3px, $turquoise);
-        @include animation(slide, 0.5s, ease, 0s, 1, normal);
-
-        table{
-            color: $primaryTextColor;
-
-            thead{
-                font-size: 2rem;
-                color: $blue;
-
-                #previousMonth{
-                    cursor: pointer;
-                    color: $turquoise;
-                    @include transition(color, 0.3s);
-
-                    &:hover{
-                        color: $orange;
-                    }
-                }
-
-                #monthAndYear{
-
-                    #month{
-                        padding: 0 5px;
-                    }
-
-                    #year{
-                        padding: 0 5px;
-                    }
-                }
-
-                #nextMonth{
-                    @extend #previousMonth;
-                }
-
-                .dayOfWeek{
-                    font-size: 1.6rem;
-                    padding: 20px 0 5px 0;
-                }
-
-            }
-
-            tbody{
-
-                .day{
-                    font-size: 1.6rem;
-                    padding: 5px 10px;
-                    cursor: pointer;
-
-                    &.oldMonthDay, &.newMonthDay{
-                        color: $secondaryTextColor
-                    }
-
-                    &.activeDay{
-                        background-color: $orange;
-                        @include borderRadius(3px);
-                        color: #FFFFFF;
-                    }
-                }
-            }
-        }
-    }
-}
 
 
 

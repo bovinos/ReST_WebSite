@@ -25,10 +25,6 @@
         <param-value>M &amp; A &amp; M</param-value>
     </context-param>
     <context-param>
-        <param-name>view.encoding</param-name>
-        <param-value>UTF-8</param-value>
-    </context-param>
-    <context-param>
         <param-name>view.outline_template</param-name>
         <param-value>front/outline.ftl.html</param-value>
     </context-param>
