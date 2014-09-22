@@ -207,6 +207,7 @@ public class RESTSortLayer {
     } */
     public static void checkNotifications(User user, HttpServletRequest request, HttpServletResponse response) {
         //Series Notification checking
+        if(!user.getNotificationStatus()) return;
         int count = 0;
         boolean trovato;
         Date now = new Date();

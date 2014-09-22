@@ -99,9 +99,7 @@ public class MyProfile extends RESTBaseController {
             result.activate("userProfile/userProfileOutline.ftl.html", request, response);
             
             //Series Notification checking (Different from RESTSortLayer.checkNotifications(user, request, response); because here we need the list of series!)
-
-            //Series Notification checking
-                int count = 0;
+              if(user.getNotificationStatus()){
                 boolean trovato;
                 List<Series> SeriesToNotify = new ArrayList();
                 Date now = new Date();
@@ -131,7 +129,7 @@ public class MyProfile extends RESTBaseController {
                 }
                     System.err.println(SeriesToNotify.size());
                     request.setAttribute("notifySeries", SeriesToNotify);
-
+              }
             
         } else {
             //User session is no longer valid
@@ -230,11 +228,11 @@ public class MyProfile extends RESTBaseController {
                 return;
             }
             if (request.getParameter("a") != null){
-                if(request.getParameter("an") != null){
+                if(request.getParameter("an") != null && request.getParameter("an").length() > 0){
                 us.setAnticipationNotification(new Date(SecurityLayer.checkTime(request.getParameter("an"))));
                 } else {
-                    action_error(request, response, "Uno dei campi è vuoto!");
-                    System.err.println("Errore in MyProfile.java, nel metodo action_setNotification_ProfileUserSeries: l'anticipo della notifica è vuoto");
+                    request.setAttribute("error", "Non hai inserito l'anticipo della notifica!");
+                    action_activate_ProfileUserSeries(request, response);
                     return;
                 }
             } else us.setAnticipationNotification(null);
