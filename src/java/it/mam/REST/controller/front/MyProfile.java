@@ -120,12 +120,17 @@ public class MyProfile extends RESTBaseController {
         }
     }
 
-    // Allow to rate a series 
+    // Allows to rate a series 
     private void action_rating_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
             if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
+            if (!(checkRatingInputData(request, response))){
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in MyProfile.java, nel metodo action_rating_ProfileUserSeries: l'ID della serie non è stato inviato");
+                return;
+            }
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s")));
             if(series == null) {
                 action_error(request, response, "Riprova di nuovo!");
@@ -174,11 +179,17 @@ public class MyProfile extends RESTBaseController {
         }
     }
 
+    // Allows to set the time before notifications and the last episode seen
     private void action_setNotification_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
             TemplateResult result = new TemplateResult(getServletContext());
             if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
+              if (!(checkSetNotificationInputData(request, response))){
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in MyProfile.java, nel metodo action_rating_ProfileUserSeries: l'ID della serie non è stato inviato");
+                return;
+            }
             //Series checking
             Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
             if(series == null) {
@@ -194,11 +205,15 @@ public class MyProfile extends RESTBaseController {
                 return;
             }
             if (request.getParameter("a") != null){
-                us.setAnticipationNotification(new Date(SecurityLayer.checkTime(request.getParameter("an"))));
+                if(request.getParameter("an") != null){
+                us.setAnticipationNotification(new Date(SecurityLayer.checkTime(request.getParameter("an")) - RESTSortLayer.HOUR_IN_MILLISECONDS));
+                }
             } 
-                System.err.println("========================" + request.getParameter("lastEpisodeSeen"));
+            if (SecurityLayer.checkNumeric(request.getParameter("lastEpisodeSeen")) == 0) {
+                us.setEpisode(0);
+                us.setSeason(1);
+            } else {
             Episode e = getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("lastEpisodeSeen")));
-                System.err.println("Dopo il controllo sull'episodio");
             if (e == null){
                 action_error(request, response, "Riprova di nuovo!");
                 System.err.println("Errore in MyProfile.java, nel metodo action_setNotification_ProfileUserSeries: l'ID dell'episodio ricevuto non corrisponde a nessun episodio nel Database");
@@ -206,7 +221,7 @@ public class MyProfile extends RESTBaseController {
             }
             us.setSeason(e.getSeason());
             us.setEpisode(e.getNumber());
-            
+            }
                 getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
                 // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
                 // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima xD
@@ -291,6 +306,16 @@ public class MyProfile extends RESTBaseController {
         }
     }
 
+    private boolean checkRatingInputData(HttpServletRequest request, HttpServletResponse response){
+        return request.getParameter("s") != null && request.getParameter("s").length() > 0
+                && request.getParameter("r") != null && request.getParameter("r").length() > 0;
+    }
+    
+     private boolean checkSetNotificationInputData(HttpServletRequest request, HttpServletResponse response){
+        return request.getParameter("series") != null && request.getParameter("series").length() > 0
+                && request.getParameter("lastEpisodeSeen") != null && request.getParameter("lastEpisodeSeen").length() > 0;
+    }
+    
     @Override
     public String getServletInfo() {
         return "This servlet contains some things related to user profile. It shows user series, broadcast programming and allows to rate or delete a favourite series";
