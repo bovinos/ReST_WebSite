@@ -14,7 +14,6 @@ import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,50 +28,50 @@ public class SeriesList extends RESTBaseController {
     // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
-            fail.activate(message, request, response);
+        fail.activate(message, request, response);
     }
 
     // Activates the seriesList template
     private void action_series_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        request.setAttribute("where", "series"); 
-        List<Series> seriesList =getDataLayer().getSeries();
+        request.setAttribute("where", "series");
+        List<Series> seriesList = getDataLayer().getSeries();
         //Start Page Management ===========================================================================
-        Collections.reverse(seriesList);
+        // Collections.reverse(seriesList);
+        RESTSortLayer.trendify(seriesList);
         int page; //page number 
-        if(request.getParameter("page") != null) {
-        page = SecurityLayer.checkNumeric(request.getParameter("page"));
+        if (request.getParameter("page") != null) {
+            page = SecurityLayer.checkNumeric(request.getParameter("page"));
         } else {
             page = 1;
         }
         request.setAttribute("currentPage", page);
         int seriesPerPage = 10; // number of series per page
-        int numberOfPages = (int) Math.ceil((double)seriesList.size()/seriesPerPage); // total number of pages
+        int numberOfPages = (int) Math.ceil((double) seriesList.size() / seriesPerPage); // total number of pages
         request.setAttribute("totalPages", numberOfPages);
-        if(page == numberOfPages) {
-        request.setAttribute("series", seriesList.subList((page*seriesPerPage)-seriesPerPage, seriesList.size()));
-        } else if(seriesList.isEmpty()){
-             request.setAttribute("series", seriesList);
+        if (page == numberOfPages) {
+            request.setAttribute("series", seriesList.subList((page * seriesPerPage) - seriesPerPage, seriesList.size()));
+        } else if (seriesList.isEmpty()) {
+            request.setAttribute("series", seriesList);
         } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
             System.err.println("Errore in action_series_list in SeriesList.java: il numero di pagina corrente è superiore al numero totale di pagine o è minore di 1");
             return;
         } else {
-            request.setAttribute("series", seriesList.subList((page *seriesPerPage)-seriesPerPage, (page *seriesPerPage)));
+            request.setAttribute("series", seriesList.subList((page * seriesPerPage) - seriesPerPage, (page * seriesPerPage)));
         }
         // End Page Management =======================================================================
-        
-        
+
         // User session checking
-        try{
-        if (SecurityLayer.checkSession(request) != null) {
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            request.setAttribute("user", user);
-            RESTSortLayer.checkNotifications(user, request, response);
-        }
-         } catch (NumberFormatException ex) {
-             //User id is not a number
+        try {
+            if (SecurityLayer.checkSession(request) != null) {
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
+            }
+        } catch (NumberFormatException ex) {
+            //User id is not a number
         }
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
@@ -80,22 +79,22 @@ public class SeriesList extends RESTBaseController {
         request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
         result.activate("seriesList.ftl.html", request, response);
     }
-    
+
     // Activates the seriesList template with the recommended series
     private void action_hint_series(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("where", "series");
         // User session checking
-        try{
-        if (SecurityLayer.checkSession(request) != null) {
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            request.setAttribute("user", user);
-            request.setAttribute("series", getDataLayer().getHintSeries(user));
-            RESTSortLayer.checkNotifications(user, request, response);
-        } //else nothing, this list can be seen without being logged in
-         } catch (NumberFormatException ex) {
-             //User id is not a number
+        try {
+            if (SecurityLayer.checkSession(request) != null) {
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                request.setAttribute("user", user);
+                request.setAttribute("series", getDataLayer().getHintSeries(user));
+                RESTSortLayer.checkNotifications(user, request, response);
+            } //else nothing, this list can be seen without being logged in
+        } catch (NumberFormatException ex) {
+            //User id is not a number
         }
         request.setAttribute("genres", getDataLayer().getGenres());
         request.setAttribute("channels", getDataLayer().getChannels());
@@ -109,7 +108,7 @@ public class SeriesList extends RESTBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         List<Series> seriesList = getDataLayer().getSeries();
-        if(SecurityLayer.checkSession(request) != null){
+        if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
             request.setAttribute("user", user);
         }
@@ -120,56 +119,55 @@ public class SeriesList extends RESTBaseController {
                 List<Series> filteredSeries = new ArrayList();
                 Calendar calendar = Calendar.getInstance();
                 Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("fc")));
-                if (c == null){
+                if (c == null) {
                     action_error(request, response, "Riprova di nuovo!");
                     System.err.println("Errore in SeriesList.java, nel metodo action_FilterAndOrder_series_list: l'ID del canale passato non corrisponde a nessun canale del Database");
                     return;
                 }
                 for (ChannelEpisode ce : c.getChannelEpisode()) {
-                    if (ce.getDate().getTime()>=calendar.getTimeInMillis() && !(filteredSeries.contains(ce.getEpisode().getSeries()))) {
+                    if (ce.getDate().getTime() >= calendar.getTimeInMillis() && !(filteredSeries.contains(ce.getEpisode().getSeries()))) {
                         filteredSeries.add(ce.getEpisode().getSeries());
                     }
                 }
                 seriesList = filteredSeries;
             }
 
-
-        //Filters series by Name
-        if (request.getParameter("fn") != null && request.getParameter("fn").length() > 0) {
-            List<Series> filteredSeries = new ArrayList();
-            String name = ((request.getParameter("fn")).trim()).toLowerCase();
-            for (Series s : seriesList) {
-                if (((s.getName().toLowerCase()).contains(name))) {
-                    filteredSeries.add(s);
+            //Filters series by Name
+            if (request.getParameter("fn") != null && request.getParameter("fn").length() > 0) {
+                List<Series> filteredSeries = new ArrayList();
+                String name = ((request.getParameter("fn")).trim()).toLowerCase();
+                for (Series s : seriesList) {
+                    if (((s.getName().toLowerCase()).contains(name))) {
+                        filteredSeries.add(s);
+                    }
                 }
+                seriesList = filteredSeries;
             }
-            seriesList = filteredSeries;
-        }
-        //Filters series by Genre
-        if (request.getParameterValues("fg") != null && request.getParameterValues("fg").length > 0) {
-            List<Series> filteredSeries = new ArrayList();
-            List<Genre> genresList = new ArrayList();
-            Genre gr;
-            for (String g : request.getParameterValues("fg")) {
-                    gr =getDataLayer().getGenre(SecurityLayer.checkNumeric(g));
-                    if (gr == null){
+            //Filters series by Genre
+            if (request.getParameterValues("fg") != null && request.getParameterValues("fg").length > 0) {
+                List<Series> filteredSeries = new ArrayList();
+                List<Genre> genresList = new ArrayList();
+                Genre gr;
+                for (String g : request.getParameterValues("fg")) {
+                    gr = getDataLayer().getGenre(SecurityLayer.checkNumeric(g));
+                    if (gr == null) {
                         action_error(request, response, "Riprova di nuovo!");
                         System.err.println("Errore in SeriesList.java, nel metodo action_FilterAndOrder_series_list: gli ID dei generi passati non corrispondono a nessun genere sul Database");
                         return;
                     }
                     genresList.add(gr);
-            }
-            for (Series s : seriesList) {
-                if (s.getGenres().containsAll(genresList)) {
-                    filteredSeries.add(s);
                 }
+                for (Series s : seriesList) {
+                    if (s.getGenres().containsAll(genresList)) {
+                        filteredSeries.add(s);
+                    }
+                }
+                seriesList = filteredSeries;
             }
-            seriesList = filteredSeries;
-        }
 
-        //Filters series by status
-        if (request.getParameter("fs") != null && request.getParameter("fs").length() > 0) {
-            List<Series> filteredSeries = new ArrayList();
+            //Filters series by status
+            if (request.getParameter("fs") != null && request.getParameter("fs").length() > 0) {
+                List<Series> filteredSeries = new ArrayList();
                 int status = SecurityLayer.checkNumeric(request.getParameter("fs"));
                 switch (status) {
                     case 1:
@@ -193,13 +191,13 @@ public class SeriesList extends RESTBaseController {
                         return;
                 }
                 seriesList = filteredSeries;
-        }
+            }
 
-        //Sortings
-        if (request.getParameter("o") != null && request.getParameter("o").length() > 0) {
+            //Sortings
+            if (request.getParameter("o") != null && request.getParameter("o").length() > 0) {
                 int ordertype = SecurityLayer.checkNumeric(request.getParameter("o"));
                 switch (ordertype) {
-                    case 1: 
+                    case 1:
                         RESTSortLayer.sortSeriesByPopularity(seriesList);
                         break;
                     case 2:
@@ -217,15 +215,15 @@ public class SeriesList extends RESTBaseController {
                         System.err.println("Errore nell'ordinamento di SeriesList.java, nel metodo action_FilterAndOrder_series_list: il valore che stabilisce il tipo di ordinamento non era 1,2,3 o 4");
                         return;
                 }
-        }
-        request.setAttribute("series", seriesList);
-        request.setAttribute("genres", getDataLayer().getGenres());
-        request.setAttribute("channels", getDataLayer().getChannels());
+            }
+            request.setAttribute("series", seriesList);
+            request.setAttribute("genres", getDataLayer().getGenres());
+            request.setAttribute("channels", getDataLayer().getChannels());
 
-        //Generates and inserts in the request the 5 trendiest series
-        request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
-        result.activate("seriesList.ftl.html", request, response);
-         } catch (NumberFormatException ex) {
+            //Generates and inserts in the request the 5 trendiest series
+            request.setAttribute("trendiestSeries", RESTSortLayer.trendify(getDataLayer().getSeries()).subList(0, 5));
+            result.activate("seriesList.ftl.html", request, response);
+        } catch (NumberFormatException ex) {
             action_error(request, response, "Riprova di nuovo!");
             System.err.println("Errore in SeriesList.java, nel metodo action_FilterAndOrder_series_list: NumberFormatException");
         }
@@ -234,20 +232,20 @@ public class SeriesList extends RESTBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-        if (request.getParameter("s") != null) {
-            action_FilterAndOrder_series_list(request, response);
-        } else {
-            if(request.getParameter("sh") != null){
-            action_hint_series(request, response);
-            } else{
-             action_series_list(request, response);
-            }
+            if (request.getParameter("s") != null) {
+                action_FilterAndOrder_series_list(request, response);
+            } else {
+                if (request.getParameter("sh") != null) {
+                    action_hint_series(request, response);
+                } else {
+                    action_series_list(request, response);
+                }
 
-        }
-            } catch (IOException ex) {
-                action_error(request, response, "Riprova di nuovo!");
-                System.err.println("Errore nella Process Request di SeriesList.java: IOException");
             }
+        } catch (IOException ex) {
+            action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di SeriesList.java: IOException");
+        }
     }
 
     @Override
