@@ -179,13 +179,33 @@ public class MyProfile extends RESTBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
             if (SecurityLayer.checkSession(request) != null) {
             User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
-            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s")));
+            //Series checking
+            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
             if(series == null) {
                 action_error(request, response, "Riprova di nuovo!");
-                System.err.println("Errore in MyProfile.java, nel metodo action_rating_ProfileUserSeries: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                System.err.println("Errore in MyProfile.java, nel metodo action_setNotification_ProfileUserSeries: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
                 return;
             }
+            //UserSeries checking
             UserSeries us = getDataLayer().getUserSeries(user, series);
+            if(us == null){
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in MyProfile.java, nel metodo action_setNotification_ProfileUserSeries: l'ID della serie e dello user ricevuti non sono associati nel Database");
+                return;
+            }
+            if (request.getParameter("a") != null){
+                us.setAnticipationNotification(new Date(SecurityLayer.checkTime(request.getParameter("an"))));
+            } 
+                System.err.println("========================" + request.getParameter("lastEpisodeSeen"));
+            Episode e = getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("lastEpisodeSeen")));
+                System.err.println("Dopo il controllo sull'episodio");
+            if (e == null){
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in MyProfile.java, nel metodo action_setNotification_ProfileUserSeries: l'ID dell'episodio ricevuto non corrisponde a nessun episodio nel Database");
+                return;
+            }
+            us.setSeason(e.getSeason());
+            us.setEpisode(e.getNumber());
             
                 getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
                 // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
@@ -198,7 +218,7 @@ public class MyProfile extends RESTBaseController {
             result.activate("logIn.ftl.html", request, response);
         }
         } catch (NumberFormatException ex) {
-            //User id or series id or rating is not a number
+            //User id or series id or episode is not a number
             action_error(request, response, "Riprova di nuovo!");
             System.err.println("Errore in MyProfile.java, nel metodo action_rating_ProfileUserSeries: NumberFormatException");
         }
@@ -250,6 +270,9 @@ public class MyProfile extends RESTBaseController {
                     } else if (request.getParameter("d") != null) {
 
                             action_delete_ProfileUserSeries(request, response);
+                    } else if (request.getParameter("ems") != null) {
+
+                            action_setNotification_ProfileUserSeries(request, response);
                     } else {
                             action_activate_ProfileUserSeries(request, response);
                     }
