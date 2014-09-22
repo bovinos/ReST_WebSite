@@ -129,22 +129,27 @@
     <!-- Controllo se esistono stagioni per questa serie -->
     <#if (series.castMemberSeries?size > 0)>
     <div id="castList" class="accordion row">
-        <!-- se esistono stampiamole tutte -->
-        <#list series.castMemberSeries as cms>
-        <div class='castMember row'>
-            <div class="imgContainer two columns">
-                <#if cms.castMember.imageURL??>
-                <img src="${strip_slashes(cms.castMember.imageURL)}" alt="Immagine di ${strip_slashes(cms.castMember.surname)?html} ${strip_slashes(cms.castMember.name)?html}"/>
-                <#else>
-                <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="Placeholder immagine membro del cast"/>
-                </#if>
+        <div id="MembriDelCast" class="accordionSection">
+            <h1 class="accordionSectionTitle"><a href="#MembriDelCast">Membri del cast</a></h1>
+            <!-- se esistono stampiamole tutte -->
+            <#list series.castMemberSeries as cms>
+            <div class='castMember row accordionContent'>
+                <div class="imgContainer two columns verticalCenter">
+                    <#if cms.castMember.imageURL??>
+                    <img src="${strip_slashes(cms.castMember.imageURL)}" alt="Immagine di ${strip_slashes(cms.castMember.surname)?html} ${strip_slashes(cms.castMember.name)?html}"/>
+                    <#else>
+                    <img src="http://www.gemologyproject.com/wiki/images/5/5f/Placeholder.jpg" alt="Placeholder immagine membro del cast"/>
+                    </#if>
+                </div>
+                <div class="notImgContainer fourteen columns">
+                    <h3>${strip_slashes(cms.castMember.surname)?html} ${strip_slashes(cms.castMember.name)?html}</h3>
+                    <p>Nazionalit&agrave;: ${strip_slashes(cms.castMember.country)?html}</p>
+                    <p>Data di nascita: ${strip_slashes(cms.castMember.birthDate)?html}</p>
+                    <p>Ruolo: ${strip_slashes(cms.role)?html}</p>
+                </div>
             </div>
-            <div class="notImgContainer fourteen columns">
-                <h3>${strip_slashes(cms.castMember.surname)?html} ${strip_slashes(cms.castMember.name)?html}</h3>
-                <p>${strip_slashes(cms.role)?html}</p>
-            </div>
+            </#list>
         </div>
-        </#list>
     </div>
     </#if>
 

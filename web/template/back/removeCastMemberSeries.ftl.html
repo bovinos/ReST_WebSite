@@ -26,7 +26,7 @@
                     <label for="noSeries">Nessuna serie</label>
                     <#list series as s>
                     <input type="radio" name="series" id="series_${s_index}" value="${s.ID}" />
-                    <label for="series_${s_index}">[${strip_slashes(s.name)?html}</label>
+                    <label for="series_${s_index}">${strip_slashes(s.name)?html}</label>
                     </#list>
                 </div>
             </div>

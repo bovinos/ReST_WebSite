@@ -189,7 +189,7 @@ var MyDatePicker = (function() {
     function setEventListenerToMyDatePicker() {
 
         document.addEventListener("click", function(e) {
-            if (e.target !== myDatePicker && datePickerInput.parentNode.lastChild === myDatePicker) {
+            if (e.target !== myDatePicker.firstChild && datePickerInput.parentNode.lastChild === myDatePicker) {
                 console.log(datePickerInput.parentNode.lastChild === myDatePicker);
                 console.log("rimuovendo");
                 datePickerInput.parentNode.removeChild(myDatePicker);
@@ -211,10 +211,22 @@ var MyDatePicker = (function() {
             month.val == 0 ? setMyDatePickerValue(11, (year.val - 1)) : setMyDatePickerValue((month.val - 1), year.val);
             e.stopPropagation();
         });
+        previousMonth.onselectstart = function() {
+            return false;
+        }; // explorer
+        previousMonth.onmousedown = function() {
+            return false;
+        }; // mozilla & chrome
         nextMonth.addEventListener("click", function(e) {
             month.val == 11 ? setMyDatePickerValue(0, (year.val + 1)) : setMyDatePickerValue((month.val + 1), year.val);
             e.stopPropagation();
         });
+        nextMonth.onselectstart = function() {
+            return false;
+        }; // explorer
+        nextMonth.onmousedown = function() {
+            return false;
+        }; // mozilla & chrome
         for (var i = 0; i < days.length; i++) {
             days[i].addEventListener("click", function(e) {
                 var day = e.target.val.getDate() < 10 ? "0" + e.target.val.getDate() : e.target.val.getDate();
@@ -230,6 +242,12 @@ var MyDatePicker = (function() {
                 e.target.addClass("activeDay");
                 e.stopPropagation();
             });
+            days[i].onselectstart = function() {
+                return false;
+            }; // explorer
+            days[i].onmousedown = function() {
+                return false;
+            }; // mozilla & chrome
         }
     }
 
@@ -323,9 +341,7 @@ var MyTimePicker = (function() {
     function setEventListenerToMyTimePicker() {
 
         document.addEventListener("click", function(e) {
-            if (e.target !== myTimePicker && timePickerInput.parentNode.lastChild === myTimePicker) {
-                console.log(timePickerInput.parentNode.lastChild === myTimePicker);
-                console.log("rimuovendo");
+            if (e.target !== myTimePicker.firstChild && timePickerInput.parentNode.lastChild === myTimePicker) {
                 timePickerInput.parentNode.removeChild(myTimePicker);
                 e.stopPropagation();
             } else if (e.target === timePickerInput && timePickerInput.parentNode.lastChild !== myTimePicker) {
@@ -333,7 +349,6 @@ var MyTimePicker = (function() {
                 if (timePickerInput.value && new RegExp("([01][0-9]|2[0-3]):([0-5][0-9])").test(timePickerInput.value)) {
                     var timeArray = timePickerInput.value.split(":");
                     setMyTimePickerValue(parseInt(timeArray[0]), parseInt(timeArray[1]));
-                    console.log("tempo settato: " + timeArray[0] + timeArray[1]);
                 } else {
                     initMyTimePickerValue();
                 }
@@ -347,24 +362,48 @@ var MyTimePicker = (function() {
             timePickerInput.value = hoursValue.innerHTML + ":" + minutesValue.innerHTML;
             e.stopPropagation();
         });
+        hoursUp.onselectstart = function() {
+            return false;
+        }; // explorer
+        hoursUp.onmousedown = function() {
+            return false;
+        }; // mozilla & chrome
         hoursDown.addEventListener("click", function(e) {
             hoursValue.val <= 0 ? hoursValue.val = 23 : hoursValue.val--;
             hoursValue.val <= 9 ? hoursValue.innerHTML = "0" + hoursValue.val : hoursValue.innerHTML = hoursValue.val;
             timePickerInput.value = hoursValue.innerHTML + ":" + minutesValue.innerHTML;
             e.stopPropagation();
         });
+        hoursDown.onselectstart = function() {
+            return false;
+        }; // explorer
+        hoursDown.onmousedown = function() {
+            return false;
+        }; // mozilla & chrome
         minutesUp.addEventListener("click", function(e) {
             minutesValue.val >= 59 ? minutesValue.val = 0 : minutesValue.val++;
             minutesValue.val <= 9 ? minutesValue.innerHTML = "0" + minutesValue.val : minutesValue.innerHTML = minutesValue.val;
             timePickerInput.value = hoursValue.innerHTML + ":" + minutesValue.innerHTML;
             e.stopPropagation();
         });
+        minutesUp.onselectstart = function() {
+            return false;
+        }; // explorer
+        minutesUp.onmousedown = function() {
+            return false;
+        }; // mozilla & chrome
         minutesDown.addEventListener("click", function(e) {
             minutesValue.val <= 0 ? minutesValue.val = 59 : minutesValue.val--;
             minutesValue.val <= 9 ? minutesValue.innerHTML = "0" + minutesValue.val : minutesValue.innerHTML = minutesValue.val;
             timePickerInput.value = hoursValue.innerHTML + ":" + minutesValue.innerHTML;
             e.stopPropagation();
         });
+        minutesDown.onselectstart = function() {
+            return false;
+        }; // explorer
+        minutesDown.onmousedown = function() {
+            return false;
+        }; // mozilla & chrome
     }
 
     function createMyTimePicker() {

@@ -20,10 +20,10 @@
                         </div>
                         <div class="dayEpisodeInfo row">
                             <div class="row">
-                                <p>${ce.episode.season}x${ce.episode.number} - ${strip_slashes(ce.episode.title)?html}</p>
+                                <p>${ce.episode.season?string("00")}x${ce.episode.number?string("00")} - ${strip_slashes(ce.episode.title)?html}</p>
                             </div>
                             <div class="row">
-                                <p>Su ${strip_slashes(ce.channel.name)?html} alle ${ce.date?time?string.short} </p>
+                                <p>Su ${strip_slashes(ce.channel.name)?html} alle ${ce.date?string("HH:mm")} </p>
                             </div>
                         </div>
                     </div>
