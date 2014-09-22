@@ -6,7 +6,6 @@ import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
-import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -148,25 +147,34 @@ public class RESTSortLayer {
         return newsList;
     }
 
-    public static void checkNotifications(User user, HttpServletRequest request, HttpServletResponse response){
-             //Series Notification checking
-                int count = 0;
-                boolean trovato;
-                for (UserSeries us: user.getUserSeries()){
-                    Series s = us.getSeries();
-                    trovato = false;
-                    for(Episode e: s.getEpisodes()){
-                        if(trovato) break;
-                        for(ChannelEpisode ce: e.getChannelEpisode()){
-                         if(us.getEpisode()+1 == e.getNumber() && (new Date().getTime() - us.getAnticipationNotification().getTime()) >= ce.getDate().getTime()
-                                 && (new Date().getTime() < ce.getDate().getTime())){
-                             count++;
-                             trovato = true;
-                         }
-                         }
+    public static void checkNotifications(User user, HttpServletRequest request, HttpServletResponse response) {
+        //Series Notification checking
+        int count = 0;
+        boolean trovato;
+        Date now = new Date();
+        for (UserSeries us : user.getUserSeries()) {
+            Series s = us.getSeries();
+            trovato = false;
+            for (Episode e : s.getEpisodes()) {
+                if (trovato) {
+                    break;
+                }
+                for (ChannelEpisode ce : e.getChannelEpisode()) {
+                    System.err.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    System.err.println(now);
+                    System.err.println(ce.getDate());
+                    System.err.println(us.getAnticipationNotification());
+                    if (us.getEpisode() + 1 == e.getNumber() && us.getSeason() == e.getSeason() && us.getAnticipationNotification() != null
+                            && (now.getTime() >= ce.getDate().getTime() - us.getAnticipationNotification().getTime())
+                            && now.before(ce.getDate())) {
+                        count++;
+                        trovato = true;
                     }
                 }
-                request.setAttribute("notifyCount", count);
+            }
+        }
+        System.err.println(count);
+        request.setAttribute("notifyCount", count);
     }
-    
+
 }
