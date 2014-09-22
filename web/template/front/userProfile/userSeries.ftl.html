@@ -135,7 +135,7 @@
                                                 <#else>
                                                 <input type="radio" name="lastEpisodeSeen" id="episode_${e.ID}" value="${e.ID}" />
                                                 </#if>
-                                                <label for="episode_${e.ID}">${e.season}x${e.number} ${strip_slashes(e.title)?html}</label>
+                                                <label for="episode_${e.ID}">${e.season?string("00")}x${e.number?string("00")} - ${strip_slashes(e.title)?html}</label>
                                                 </#list>
                                                 </#if>
                                             </div>
