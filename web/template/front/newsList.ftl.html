@@ -46,10 +46,10 @@
                         <input type="checkbox" id="seriesSelect" class="mySingleSelectArrow" />
                         <label for="seriesSelect"></label>
                         <div class="mySingleSelectOption">
-                            <input type="radio" name="series" id="noSeries" checked="checked" value="0" />
+                            <input type="radio" name="fs" id="noSeries" checked="checked" value="0" />
                             <label for="noSeries">Nessuna serie</label>
                             <#list series as s>
-                            <input type="radio" name="series" id="series_${s_index}" value="${s.ID}" />
+                            <input type="radio" name="fs" id="series_${s_index}" value="${s.ID}" />
                             <label for="series_${s_index}">${strip_slashes(s.name)?html}</label>
                             </#list>
                         </div>

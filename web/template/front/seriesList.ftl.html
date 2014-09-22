@@ -57,10 +57,10 @@
                         <input type="checkbox" id="channelSelect" class="mySingleSelectArrow" />
                         <label for="channelSelect"></label>
                         <div class="mySingleSelectOption">
-                            <input type="radio" name="channel" checked="checked" id="noChannel" value="0" />
+                            <input type="radio" name="fc" checked="checked" id="noChannel" value="0" />
                             <label for="noChannel">Nessun canale</label>
                             <#list channels as c>
-                            <input type="radio" name="channel" id="channel_${c_index}" value="${c.ID}" />
+                            <input type="radio" name="fc" id="channel_${c_index}" value="${c.ID}" />
                             <label for="channel_${c_index}">${c.number} ${strip_slashes(c.name)?html}</label>
                             </#list>
                         </div>
