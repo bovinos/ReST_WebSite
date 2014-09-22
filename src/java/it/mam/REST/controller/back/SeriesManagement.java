@@ -166,6 +166,11 @@ public class SeriesManagement extends RESTBaseController {
                     episode.setDescription((request.getParameter("episodeDescription")));
                     episode.setNumber(SecurityLayer.checkNumeric(request.getParameter("episodeNumber")));
                     episode.setSeason(SecurityLayer.checkNumeric(request.getParameter("episodeSeason")));
+                    if( SecurityLayer.checkNumeric(request.getParameter("series")) == 0) {
+                        request.setAttribute("error", "Non hai selezionato alcuna serie per questo episodio!");
+                        action_insert_episode(request, response);
+                        return;
+                    }
                     episode.setSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series"))));
                     /*
                      //Ricavo tutti i canali che l'utente ha scelto per l'episodio, li trasformo in lista e li setto nell'episodio
@@ -389,7 +394,13 @@ public class SeriesManagement extends RESTBaseController {
                     castMember.setSurname(request.getParameter("castMemberSurname"));
                     castMember.setCountry(request.getParameter("castMemberCountry"));
                     castMember.setImageURL(request.getParameter("castMemberImageURL"));
+                    try{
                     castMember.setBirthDate((SecurityLayer.checkDate(request.getParameter("castMemberBirthDate"))).getTime());
+                    } catch (NumberFormatException ex){
+                        request.setAttribute("error", "La data di nascita inserita non è valida!");
+                        action_insert_castmember(request, response);
+                        return;
+                    }
                     int gender = SecurityLayer.checkNumeric(request.getParameter("gender"));
 
                     switch (gender) {
@@ -489,6 +500,15 @@ public class SeriesManagement extends RESTBaseController {
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("user", user);
                 if (checkCastMemberSeriesInputData(request, response)) {
+                    if(SecurityLayer.checkNumeric(request.getParameter("castMember")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcun membro del cast!");
+                        action_insert_castmemberSeries(request, response);
+                        return;
+                    } else if(SecurityLayer.checkNumeric(request.getParameter("series")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcuna serie!");
+                        action_insert_castmemberSeries(request, response);
+                        return;
+                    }
                     CastMemberSeries cms = getDataLayer().createCastMemberSeries();
                     cms.setCastMember(getDataLayer().getCastMember(SecurityLayer.checkNumeric(request.getParameter("castMember"))));
                     cms.setSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series"))));
@@ -561,6 +581,15 @@ public class SeriesManagement extends RESTBaseController {
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 if (checkChannelEpisodeInputData(request, response)) {
+                    if(SecurityLayer.checkNumeric(request.getParameter("channel")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcun canale!");
+                        action_insert_channelEpisode(request, response);
+                        return;
+                    } else if(SecurityLayer.checkNumeric(request.getParameter("episode")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcun episodio!");
+                        action_insert_channelEpisode(request, response);
+                        return;
+                    }
                     ChannelEpisode ce = getDataLayer().createChannelEpisode();
                     Channel ch =getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel")));
                     Episode e = getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode")));
@@ -642,6 +671,15 @@ public class SeriesManagement extends RESTBaseController {
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 if (checkGenreSeriesInputData(request, response)) {
+                    if(SecurityLayer.checkNumeric(request.getParameter("genre")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcun genere");
+                        action_insert_genreSeries(request, response);
+                        return;
+                    } else if(SecurityLayer.checkNumeric(request.getParameter("series")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcuna serie!");
+                        action_insert_genreSeries(request, response);
+                        return;
+                    }
                     Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
                     Genre g = getDataLayer().getGenre(SecurityLayer.checkNumeric(request.getParameter("genre")));
                     if(s == null || g == null){
@@ -714,8 +752,8 @@ public class SeriesManagement extends RESTBaseController {
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 if (request.getParameterValues("series") == null || request.getParameterValues("series").length <= 0) {
-                    action_error(request, response, "Riprova di nuovo!");
-                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_series: non sono state passate serie da cancellare!");
+                    request.setAttribute("error", "Non hai selezionato alcuna serie!");
+                    action_remove_series(request, response);
                     return;
                 }
                 Series sr;
@@ -787,8 +825,8 @@ public class SeriesManagement extends RESTBaseController {
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 if (request.getParameterValues("episodes") == null || request.getParameterValues("episodes").length <= 0) {
-                    action_error(request, response, "Riprova di nuovo!");
-                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_episode: non sono stati passati episodi da cancellare!");
+                    request.setAttribute("error", "Non hai selezionato alcun episodio!");
+                    action_remove_episode(request, response);
                     return;
                 }
                 Episode ep;
@@ -861,8 +899,8 @@ public class SeriesManagement extends RESTBaseController {
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 if (request.getParameterValues("channels") == null || request.getParameterValues("channels").length <= 0) {
-                    action_error(request, response, "Riprova di nuovo!");
-                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_series: non sono stati passati canali da cancellare!");
+                    request.setAttribute("error", "Non hai selezionato alcun canale!");
+                    action_remove_channel(request, response);
                     return;
                 }
                 Channel ch;
@@ -932,8 +970,8 @@ public class SeriesManagement extends RESTBaseController {
                     return;
                 }
                 if (request.getParameterValues("genres") == null || request.getParameterValues("genres").length <= 0) {
-                    action_error(request, response, "Riprova di nuovo!");
-                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_genre: non sono stati passati generi da cancellare!");
+                    request.setAttribute("error", "Non hai selezionato alcun genere!");
+                    action_remove_genre(request, response);
                     return;
                 }
                 Genre gr;
@@ -1005,8 +1043,8 @@ public class SeriesManagement extends RESTBaseController {
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 if (request.getParameterValues("castMembers") == null || request.getParameterValues("castMembers").length <= 0) {
-                    action_error(request, response, "Riprova di nuovo!");
-                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_castmember: non sono stati passati membri del cast da cancellare!");
+                    request.setAttribute("error", "Non hai selezionato alcun membro del cast!");
+                    action_remove_castmember(request, response);
                     return;
                 }
                 CastMember cmb;
@@ -1082,16 +1120,25 @@ public class SeriesManagement extends RESTBaseController {
                     action_remove_castmemberSeries(request, response);
                     return;
                 }
+                    if(SecurityLayer.checkNumeric(request.getParameter("castMember")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcun membro del cast!");
+                        action_remove_castmemberSeries(request, response);
+                        return;
+                    } else if(SecurityLayer.checkNumeric(request.getParameter("series")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcuna serie!");
+                        action_remove_castmemberSeries(request, response);
+                        return;
+                    }
                 CastMember cm = getDataLayer().getCastMember(SecurityLayer.checkNumeric(request.getParameter("castMember")));
                 Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
-                if(cm == null || s == null){
+                if (cm == null || s == null) {
                     action_error(request, response, "Riprova di nuovo!");
-                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_castmemberSeries: gli ID di serie o membro del cast passati non corrispondono a nessuna serie o membro del cast sul Database");
+                    System.err.println("Errore in SeriesManagement.java, nel metodo action_delete_castmemberSeries: gli ID del membro del cast o della serie non corrispondono a membri del cast o serie sul Database");
                     return;
                 }
                 CastMemberSeries cms = getDataLayer().getCastMemberSeries(cm, s, request.getParameter("role"));
                 if (cms == null) {
-                    request.setAttribute("error", "Questo membro del cast e questa serie non sono associati!");
+                    request.setAttribute("error", "Questo membro del cast e questa serie non sono associati o il ruolo non corrisponde!");
                     action_remove_castmemberSeries(request, response);
                     return;
                 }
@@ -1161,6 +1208,15 @@ public class SeriesManagement extends RESTBaseController {
                     action_remove_channelEpisode(request, response);
                     return;
                 }
+                if(SecurityLayer.checkNumeric(request.getParameter("channel")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcun canale!");
+                        action_remove_channelEpisode(request, response);
+                        return;
+                    } else if(SecurityLayer.checkNumeric(request.getParameter("episode")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcun episodio!");
+                        action_remove_channelEpisode(request, response);
+                        return;
+                    }
                 Channel c = getDataLayer().getChannel(SecurityLayer.checkNumeric(request.getParameter("channel")));
                 Episode e = getDataLayer().getEpisode(SecurityLayer.checkNumeric(request.getParameter("episode")));
                 if(c == null || e == null){
@@ -1243,6 +1299,15 @@ public class SeriesManagement extends RESTBaseController {
                     action_remove_genreSeries(request, response);
                     return;
                 }
+                 if(SecurityLayer.checkNumeric(request.getParameter("genre")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcun genere!");
+                        action_remove_genreSeries(request, response);
+                        return;
+                    } else if(SecurityLayer.checkNumeric(request.getParameter("series")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcuna serie!");
+                        action_remove_genreSeries(request, response);
+                        return;
+                    }
                 Series s = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series")));
                 Genre g = getDataLayer().getGenre(SecurityLayer.checkNumeric(request.getParameter("genre")));
                 if(s == null | g == null){
@@ -1256,6 +1321,7 @@ public class SeriesManagement extends RESTBaseController {
                     return;
                 }
                 s.removeGenre(g);
+                getDataLayer().storeSeries(s);
                 request.setAttribute("success", "Genere e serie separati correttamente!");
                 action_remove_genreSeries(request, response);
             } else {

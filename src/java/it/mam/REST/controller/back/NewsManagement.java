@@ -165,9 +165,9 @@ public class NewsManagement extends RESTBaseController {
         }
         request.setAttribute("user", user);
         if (request.getParameterValues("news") == null|| request.getParameterValues("news").length <= 0){
-            action_error(request, response, "Riprova di nuovo!");
-            System.err.println("Errore in NewsManagement.java, nel metodo action_delete_news: il parametro news è nullo");
-            return;
+                        request.setAttribute("error", "Non hai selezionato alcuna news!");
+                        action_activate_remove_news(request, response);
+                        return;
         }
         News nw;
         for(String n: request.getParameterValues("news")) {

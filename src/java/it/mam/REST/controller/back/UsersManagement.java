@@ -294,11 +294,11 @@ public class UsersManagement extends RESTBaseController {
                 System.err.println("Errore in UsersManagement.java, nel metodo action_delete_group: Utente senza permessi da amministratore");
             return;
             }
-            if(request.getParameterValues("groups")== null || request.getParameterValues("groups").length <= 0){
-                action_error(request, response, "Riprova di nuovo!");
-                System.err.println("Errore in UsersManagement.java, nel metodo action_deleteGroup: non è stato passato alcun gruppo da cancellare");
-                return;
-            }
+            if (request.getParameterValues("groups") == null || request.getParameterValues("groups").length <= 0) {
+                    request.setAttribute("error", "Non hai selezionato alcun gruppo!");
+                    action_remove_group(request, response);
+                    return;
+                }   
             for(String g: request.getParameterValues("groups")){
                 Group gr = getDataLayer().getGroup(SecurityLayer.checkNumeric(g));
                 if(gr == null){
@@ -366,11 +366,11 @@ public class UsersManagement extends RESTBaseController {
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
 
-            if(request.getParameterValues("services") == null || request.getParameterValues("services").length <= 0){
-                action_error(request, response, "Riprova di nuovo!");
-                System.err.println("Errore in UsersManagement.java, nel metodo action_delete_service: non è stato passato alcun servizio da cancellare");
-                return;
-            }
+            if (request.getParameterValues("services") == null || request.getParameterValues("services").length <= 0) {
+                    request.setAttribute("error", "Non hai selezionato alcun servizio!");
+                    action_remove_service(request, response);
+                    return;
+                }
             for(String s: request.getParameterValues("services")){
                 Service sr = getDataLayer().getService(SecurityLayer.checkNumeric(s));
                 if(sr == null){
@@ -438,6 +438,15 @@ public class UsersManagement extends RESTBaseController {
             }
             request.setAttribute("user", user);
             request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            if(SecurityLayer.checkNumeric(request.getParameter("group")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcun gruppo!");
+                        action_remove_serviceGroup(request, response);
+                        return;
+                    } else if(SecurityLayer.checkNumeric(request.getParameter("service")) == 0){
+                        request.setAttribute("error", "Non hai selezionato alcun servizio!");
+                        action_remove_serviceGroup(request, response);
+                        return;
+                    }
             Group g = getDataLayer().getGroup(SecurityLayer.checkNumeric(request.getParameter("group")));
             Service s = getDataLayer().getService(SecurityLayer.checkNumeric(request.getParameter("service")));
             if(g == null || s == null){

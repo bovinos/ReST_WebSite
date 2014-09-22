@@ -174,6 +174,37 @@ public class MyProfile extends RESTBaseController {
         }
     }
 
+    private void action_setNotification_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        try {
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+            User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
+            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("s")));
+            if(series == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in MyProfile.java, nel metodo action_rating_ProfileUserSeries: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                return;
+            }
+            UserSeries us = getDataLayer().getUserSeries(user, series);
+            
+                getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+                // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
+                // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima xD
+                response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
+
+         } else {
+            //User session is no longer valid
+            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+            result.activate("logIn.ftl.html", request, response);
+        }
+        } catch (NumberFormatException ex) {
+            //User id or series id or rating is not a number
+            action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in MyProfile.java, nel metodo action_rating_ProfileUserSeries: NumberFormatException");
+        }
+    }
+
+    
     // Allow to delete a series from favourites
     private void action_delete_ProfileUserSeries(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
