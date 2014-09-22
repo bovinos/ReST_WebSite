@@ -56,7 +56,15 @@ public class MyProfile extends RESTBaseController {
                     episodeCalendar.setTimeInMillis(ce.getDate().getTime());
                     if (episodeCalendar.get(Calendar.DAY_OF_MONTH) == iterationCalendar.get(Calendar.DAY_OF_MONTH)
                             && episodeCalendar.get(Calendar.MONTH) == iterationCalendar.get(Calendar.MONTH)
-                            && episodeCalendar.get(Calendar.YEAR) == iterationCalendar.get(Calendar.YEAR)) {
+                            && episodeCalendar.get(Calendar.YEAR) == iterationCalendar.get(Calendar.YEAR)
+                            && (episodeCalendar.get(Calendar.HOUR) * RESTSortLayer.HOUR_IN_MILLISECONDS + 
+                                  episodeCalendar.get(Calendar.MINUTE) * RESTSortLayer.MINUTE_IN_MILLISECONDS +
+                                  episodeCalendar.get(Calendar.SECOND) * RESTSortLayer.SECOND_IN_MILLISECONDS) > 
+                                  (iterationCalendar.get(Calendar.HOUR) * RESTSortLayer.HOUR_IN_MILLISECONDS + 
+                                  iterationCalendar.get(Calendar.MINUTE) * RESTSortLayer.MINUTE_IN_MILLISECONDS +
+                                  iterationCalendar.get(Calendar.SECOND) * RESTSortLayer.SECOND_IN_MILLISECONDS)
+                            && (getDataLayer().getUserSeries(user, ce.getEpisode().getSeries()).getSeason()) == ce.getEpisode().getSeason()
+                            && (getDataLayer().getUserSeries(user, ce.getEpisode().getSeries()).getEpisode() +1) == ce.getEpisode().getNumber()) {
                         ceResult.add(ce);
                     }
                 }
@@ -94,12 +102,19 @@ public class MyProfile extends RESTBaseController {
                 boolean trovato;
                 List<Series> seriesToNotify = new ArrayList();
                 for (UserSeries us: user.getUserSeries()){
+                     Calendar anticipation = Calendar.getInstance();
+                    if (us.getAnticipationNotification() == null) {
+                        anticipation.set(0, 0, 0, 0, 0, 0);
+                    } else {
+                        anticipation.set(0, 0, 0, 0, 0, 0);
+                        anticipation.setTime(us.getAnticipationNotification());
+                    }
                     Series s = us.getSeries();
                     trovato = false;
                     for(Episode e: s.getEpisodes()){
                         if(trovato) break;
                         for(ChannelEpisode ce: e.getChannelEpisode())
-                         if(us.getEpisode()+1 == e.getNumber() && (new Date().getTime() - us.getAnticipationNotification().getTime()) >= ce.getDate().getTime()
+                         if(us.getEpisode()+1 == e.getNumber() && (new Date().getTime() - anticipation.getTimeInMillis()) >= ce.getDate().getTime()
                                  && (new Date().getTime() < ce.getDate().getTime())){
                              seriesToNotify.add(s);
                              trovato = true;
@@ -206,9 +221,9 @@ public class MyProfile extends RESTBaseController {
             }
             if (request.getParameter("a") != null){
                 if(request.getParameter("an") != null){
-                us.setAnticipationNotification(new Date(SecurityLayer.checkTime(request.getParameter("an")) - RESTSortLayer.HOUR_IN_MILLISECONDS));
+                us.setAnticipationNotification(new Date(SecurityLayer.checkTime(request.getParameter("an"))));
                 }
-            } 
+            } else us.setAnticipationNotification(null);
             if (SecurityLayer.checkNumeric(request.getParameter("lastEpisodeSeen")) == 0) {
                 us.setEpisode(0);
                 us.setSeason(1);
