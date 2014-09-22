@@ -384,7 +384,7 @@ window.onload = function() {
 
 
     // TIME PICKER
-    var datePickerInputs = document.querySelectorAll(".datePickerInput");
+    var datePickerInputs = document.querySelectorAll(".myDatePickerInput");
     for (var i = 0; i < datePickerInputs.length; i++) {
         console.log(datePickerInputs[i]);
         datePickerInputs[i].addEventListener("click", function(e) {
@@ -392,7 +392,7 @@ window.onload = function() {
         });
     }
 
-    var timePickerInputs = document.querySelectorAll(".timePickerInput");
+    var timePickerInputs = document.querySelectorAll(".myTimePickerInput");
     for (var i = 0; i < timePickerInputs.length; i++) {
         console.log(timePickerInputs[i]);
         timePickerInputs[i].addEventListener("click", function(e) {

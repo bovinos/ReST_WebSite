@@ -572,8 +572,7 @@ button {
         /* la posiziono alla prima immagine */
         transition: left 0.8s ease-in-out;
         -webkit-transition: left 0.8s ease-in-out;
-        -moz-transition: left 0.8s ease-in-out;
-        -webkit-animation: slide infinite alternate 60s ease; }
+        -moz-transition: left 0.8s ease-in-out; }
         #slider #slideshow-wrap #slideshow-inner ul li {
           width: 20%;
           /* 20% perch├® la width totale era il 500%, quindi viene il 100%. ma se fosse stata del 1000% (cio├¿ 10 immagini) qui ci andava 10%*/
@@ -1132,6 +1131,7 @@ button {
         width: 99.3%;
         margin-top: 5px; }
   #seriesCard #seriesDescription {
+    white-space: pre-line;
     margin: 0 auto 50px auto;
     text-align: center;
     font-size: 1.5rem;
@@ -1163,6 +1163,7 @@ button {
       color: #1695A3;
       padding-left: 10px; }
     #seriesCard .episode p {
+      white-space: pre-line;
       border-left: 3px solid #1695A3;
       color: #444444;
       font-size: 1.3rem;
@@ -1190,6 +1191,7 @@ button {
   font-size: 1.7rem;
   color: #1695A3; }
 #commentsList .body p {
+  white-space: pre-line;
   color: #444444;
   font-size: 1.5rem;
   line-height: 1.4;
@@ -1245,41 +1247,51 @@ button {
     max-width: 100%;
     height: auto; }
 #newsCard #newsText {
+  white-space: pre-line;
   width: 80%;
   margin: 0 auto 10px auto;
   text-align: center;
   font-size: 1.5rem;
   line-height: 1.4;
   color: #444444; }
-#newsCard .footer {
+#newsCard > .footer {
   width: 80%;
   margin: 0 auto 30px auto;
   font-size: 1.2rem;
   overflow: hidden;
   color: #999999; }
-  #newsCard .footer .left {
-    float: left; }
-  #newsCard .footer .right {
+  #newsCard > .footer .left {
+    float: left;
+    max-width: 30%;
+    padding: 1px 0; }
+    #newsCard > .footer .left.tag p {
+      line-height: 2.5rem; }
+      #newsCard > .footer .left.tag p a {
+        white-space: nowrap;
+        background-color: #225378;
+        color: #FFFFFF;
+        padding: 3px 5px; }
+  #newsCard > .footer .right {
     float: right; }
-    #newsCard .footer .right a {
+    #newsCard > .footer .right a {
       color: #999999; }
-    #newsCard .footer .right .authorAndDate {
+    #newsCard > .footer .right .authorAndDate {
       margin-bottom: 5px; }
-    #newsCard .footer .right .like {
+    #newsCard > .footer .right .like {
       margin-right: 10px; }
-      #newsCard .footer .right .like:before {
+      #newsCard > .footer .right .like:before {
         margin-right: 3px;
         transition: color 0.3s ease-in-out;
         -webkit-transition: color 0.3s ease-in-out;
         -moz-transition: color 0.3s ease-in-out; }
-      #newsCard .footer .right .like:hover:before {
+      #newsCard > .footer .right .like:hover:before {
         color: #33cc00; }
-    #newsCard .footer .right .dislike:before {
+    #newsCard > .footer .right .dislike:before {
       margin-right: 3px;
       transition: color 0.3s ease-in-out;
       -webkit-transition: color 0.3s ease-in-out;
       -moz-transition: color 0.3s ease-in-out; }
-    #newsCard .footer .right .dislike:hover:before {
+    #newsCard > .footer .right .dislike:hover:before {
       color: #cc0000; }
 
 /* SERIES CIRCLE PAGE
@@ -1509,7 +1521,7 @@ button {
       #userSeries .series .mySeriesInfo .singleNotificationActive + label {
         display: block;
         margin-bottom: 10px; }
-      #userSeries .series .mySeriesInfo .singleNotificationActive:not(:checked) ~ .timePickerInput {
+      #userSeries .series .mySeriesInfo .singleNotificationActive:not(:checked) ~ .myTimePickerInput {
         display: none; }
       #userSeries .series .mySeriesInfo button {
         font-size: 1.6rem;

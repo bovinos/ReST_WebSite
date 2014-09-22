@@ -766,7 +766,6 @@ button{
                 position: relative;
                 left: 0px; /* la posiziono alla prima immagine */
                 @include transition(left, 0.8s);
-                -webkit-animation: slide infinite alternate 60s ease;
 
                 li {
                     width: 20%; /* 20% perché la width totale era il 500%, quindi viene il 100%. ma se fosse stata del 1000% (cioè 10 immagini) qui ci andava 10%*/
@@ -1550,6 +1549,7 @@ button{
     }
 
     #seriesDescription{
+        white-space: pre-line;
         margin: 0 auto 50px auto;
         text-align: center;
         font-size: 1.5rem;
@@ -1592,6 +1592,7 @@ button{
         }
 
         p{
+            white-space: pre-line;
             border-left: 3px solid $turquoise;
             color: $primaryTextColor;
             font-size: 1.3rem;
@@ -1639,6 +1640,7 @@ button{
     .body{
 
         p{
+            white-space: pre-line;
             color: $primaryTextColor;
             font-size: 1.5rem;
             line-height: 1.4;
@@ -1724,6 +1726,7 @@ button{
     }
 
     #newsText{
+        white-space: pre-line;
         width: 80%;
         margin: 0 auto 10px auto;
         text-align: center;
@@ -1732,7 +1735,7 @@ button{
         color: $primaryTextColor;
     }
 
-    .footer{
+    &>.footer{
         width: 80%;
         margin: 0 auto 30px auto;
         font-size: 1.2rem;
@@ -1741,6 +1744,19 @@ button{
 
         .left{
             float: left;
+            max-width: 30%;
+            padding: 1px 0;
+
+            &.tag p{
+                line-height: 2.5rem;
+
+                a{
+                    white-space: nowrap;
+                    background-color: $blue;
+                    color: #FFFFFF;
+                    padding: 3px 5px;
+                }
+            } 
         }
 
         .right{
@@ -2081,7 +2097,7 @@ button{
                 margin-bottom: 10px;
             }
 
-            .singleNotificationActive:not(:checked) ~ .timePickerInput{
+            .singleNotificationActive:not(:checked) ~ .myTimePickerInput{
                 display: none;
             }
 

@@ -106,16 +106,16 @@
                                     <input type="hidden" name="sezione" value="1" />
                                     <input type="hidden" name="series" value="${us.series.ID}" />
                                     <#if us.anticipationNotification??>
-                                    <div class="row">
+                                    <div class="row myTimePickerContainer">
                                         <input type="checkbox" checked='checked' name="a" id="notificationActive${us_index}" class="singleNotificationActive" value="1" />
                                         <label for="notificationActive${us_index}">Anticipo notifica</label>
-                                        <input class="timePickerInput" value="${us.anticipationNotification?string.short}" name="an" type="text" placeholder="Anticipo (hh:mm)" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])" required="required"/>
+                                        <input class="myTimePickerInput" value="${us.anticipationNotification?string("hh:mm")}" name="an" type="text" placeholder="Anticipo (hh:mm)" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])" required="required"/>
                                     </div>
                                     <#else>
-                                    <div class="row">
+                                    <div class="row myTimePickerContainer">
                                         <input type="checkbox" checked='checked' name="a" id="notificationActive${us_index}" class="singleNotificationActive" value="1" />
                                         <label for="notificationActive${us_index}">Anticipo notifica</label>
-                                        <input class="timePickerInput" name="an" type="text" placeholder="Anticipo (hh:mm)" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])" required="required"/>
+                                        <input class="myTimePickerInput" name="an" type="text" placeholder="Anticipo (hh:mm)" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])" required="required"/>
                                     </div>
                                     </#if>
                                     <div class="row">
@@ -126,14 +126,14 @@
                                             <input type="checkbox" id="episodeSelect${us_index}" class="mySingleSelectArrow" />
                                             <label for="episodeSelect${us_index}"></label>
                                             <div class="mySingleSelectOption">
-                                                <input type="radio" name="series" id="noEpisodeFor${us_index}" checked="checked"  value="0" />
+                                                <input type="radio" name="lastEpisodeSeen" id="noEpisodeFor${us_index}" checked="checked"  value="0" />
                                                 <label for="noEpisodeFor${us_index}">Non impostato</label>
                                                 <#if (us.series.episodes?size > 0)>
                                                 <#list us.series.episodes as e>
                                                 <#if ((e.season == us.season) && (e.number == us.episode)) >
-                                                <input type="radio" name="series" id="episode_${e.ID}" checked="checked" value="${e.ID}" />
+                                                <input type="radio" name="lastEpisodeSeen" id="episode_${e.ID}" checked="checked" value="${e.ID}" />
                                                 <#else>
-                                                <input type="radio" name="series" id="episode_${e.ID}" value="${e.ID}" />
+                                                <input type="radio" name="lastEpisodeSeen" id="episode_${e.ID}" value="${e.ID}" />
                                                 </#if>
                                                 <label for="episode_${e.ID}">${e.season}x${e.number} ${strip_slashes(e.title)?html}</label>
                                                 </#list>
@@ -144,7 +144,7 @@
                                     <div class="row">
                                         <p>Data prossimo episodio: </p>
                                     </div>
-                                    <button type="submit" name="ems">Salva Modifiche</button>
+                                    <button type="submit" name="ems" value="1">Salva Modifiche</button>
                                 </form>
                             </div>
                             <!--
