@@ -39,11 +39,12 @@
             <#if ns.ID == us.series.ID>
             <div id="s${us.series.ID}" class="series column omega notifySeries">
                 <#break>
-                </#if>
-                </#list>
-                <#if (ns_index >= notifySeries?size)> <!-- cioè questa serie non è tra quelle da notificare -->
+                <#else>
+                <#if (ns_index == (notifySeries?size - 1 ))> <!-- cioè questa serie non è tra quelle da notificare -->
                 <div id="s${us.series.ID}" class="series column omega">
                     </#if>
+                    </#if>
+                    </#list>
                     <#else> <!-- cioè non ci sono serie da notificare -->
                     <div id="s${us.series.ID}" class="series column omega">
                         </#if>
