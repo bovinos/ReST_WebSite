@@ -22,7 +22,7 @@
     </context-param>
     <context-param>
         <param-name>view.data.author</param-name>
-        <param-value>M &amp; A &amp; M</param-value>
+        <param-value>M &amp; A</param-value>
     </context-param>
     <context-param>
         <param-name>view.outline_template</param-name>
