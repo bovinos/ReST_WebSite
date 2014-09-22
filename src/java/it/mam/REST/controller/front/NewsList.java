@@ -36,7 +36,7 @@ public class NewsList extends RESTBaseController {
         List<News> newsList =getDataLayer().getNews();
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("where", "news");
-        request.setAttribute("series", getDataLayer().getSeries()); // for filters
+        request.setAttribute("series", RESTSortLayer.sortSeriesByName(getDataLayer().getSeries())); // for filters
         
         
 
