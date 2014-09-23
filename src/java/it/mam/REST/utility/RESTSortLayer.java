@@ -7,8 +7,6 @@ import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
-import it.univaq.f4i.iw.framework.security.SecurityLayer;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -152,9 +150,8 @@ public class RESTSortLayer {
     }
 
     //CASTMEMBERS
-    
-    public static List<CastMember> sortCastMemberBySurname (List<CastMember> castMemberList){
-                castMemberList.sort(new Comparator() {
+    public static List<CastMember> sortCastMemberBySurname(List<CastMember> castMemberList) {
+        castMemberList.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
                 return ((CastMember) o1).getSurname().compareToIgnoreCase(((CastMember) o2).getSurname());
@@ -162,11 +159,10 @@ public class RESTSortLayer {
         });
         return castMemberList;
     }
-    
+
     //EPISODES
-    
-    public static List<Episode> sortEpisodeBySeriesAndNumber (List<Episode> episodeList){
-                episodeList.sort(new Comparator() {
+    public static List<Episode> sortEpisodeBySeriesAndNumber(List<Episode> episodeList) {
+        episodeList.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
                 return ((Episode) o1).getSeries().getName().compareToIgnoreCase(((Episode) o2).getSeries().getName());
@@ -174,47 +170,49 @@ public class RESTSortLayer {
         });
         return episodeList;
     }
-    
+
     //NOTIFICATIONS
     /*
-    public static void checkNotifications(User user, HttpServletRequest request, HttpServletResponse response){
-             //Series Notification checking
-                int count = 0;
-                boolean trovato;
-                for (UserSeries us: user.getUserSeries()){
-                    if (us.getAnticipationNotification() == null) {
-                        continue;
-                    }
-                    Series s = us.getSeries();
-                    trovato = false;
-                    for(Episode e: s.getEpisodes()){
-                        if(trovato) break;
-                        for(ChannelEpisode ce: e.getChannelEpisode()){
-                            System.err.println("Controllo Episodio:   " + (us.getEpisode()+1 == e.getNumber())
-                                            + "    Controllo Stagione:  " + (us.getSeason() == e.getSeason()) + 
-                                        "    Controllo data di ora > data ep - anticipo:     " + (new Date().getTime() >= ce.getDate().getTime()- us.getAnticipationNotification().getTime())
-                                        + " Controllo data di ora < data trasmissione ep:    " + (new Date().getTime() < ce.getDate().getTime()));
-                         if(us.getEpisode()+1 == e.getNumber() && us.getSeason() == e.getSeason() && (new Date().getTime() >= ce.getDate().getTime()- us.getAnticipationNotification().getTime())
-                                 && (new Date().getTime() < ce.getDate().getTime())){
-                             count++;
-                             trovato = true;
-                         }
-                         }
-                    }
-                }
-                System.err.println("==========================" +count);
-                request.setAttribute("notifyCount", count);
-    } */
+     public static void checkNotifications(User user, HttpServletRequest request, HttpServletResponse response){
+     //Series Notification checking
+     int count = 0;
+     boolean trovato;
+     for (UserSeries us: user.getUserSeries()){
+     if (us.getAnticipationNotification() == null) {
+     continue;
+     }
+     Series s = us.getSeries();
+     trovato = false;
+     for(Episode e: s.getEpisodes()){
+     if(trovato) break;
+     for(ChannelEpisode ce: e.getChannelEpisode()){
+     System.err.println("Controllo Episodio:   " + (us.getEpisode()+1 == e.getNumber())
+     + "    Controllo Stagione:  " + (us.getSeason() == e.getSeason()) + 
+     "    Controllo data di ora > data ep - anticipo:     " + (new Date().getTime() >= ce.getDate().getTime()- us.getAnticipationNotification().getTime())
+     + " Controllo data di ora < data trasmissione ep:    " + (new Date().getTime() < ce.getDate().getTime()));
+     if(us.getEpisode()+1 == e.getNumber() && us.getSeason() == e.getSeason() && (new Date().getTime() >= ce.getDate().getTime()- us.getAnticipationNotification().getTime())
+     && (new Date().getTime() < ce.getDate().getTime())){
+     count++;
+     trovato = true;
+     }
+     }
+     }
+     }
+     System.err.println("==========================" +count);
+     request.setAttribute("notifyCount", count);
+     } */
     public static void checkNotifications(User user, HttpServletRequest request, HttpServletResponse response) {
         //Series Notification checking
-        if(!user.getNotificationStatus()) return;
+        if (!user.getNotificationStatus()) {
+            return;
+        }
         int count = 0;
         boolean trovato;
         Date now = new Date();
         for (UserSeries us : user.getUserSeries()) {
             if (us.getAnticipationNotification() == null) {
-                        continue;
-                    }
+                continue;
+            }
             Series s = us.getSeries();
             trovato = false;
             for (Episode e : s.getEpisodes()) {
@@ -222,12 +220,10 @@ public class RESTSortLayer {
                     break;
                 }
                 for (ChannelEpisode ce : e.getChannelEpisode()) {
-                    System.err.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                    System.err.println(now);
-                    System.err.println(ce.getDate());
-                    System.err.println(us.getAnticipationNotification());
+                    // togliamo un'altra ora perché l'anticipo è corretto, ma il tempo viene calcolato a partire
+                    // dall'01:00:00 quindi se come anticipo avessimo 2h ne verrebbe contata solo una
                     if (us.getEpisode() + 1 == e.getNumber() && us.getSeason() == e.getSeason()
-                            && (now.getTime() >= ce.getDate().getTime() - us.getAnticipationNotification().getTime())
+                            && (now.getTime() >= ce.getDate().getTime() - us.getAnticipationNotification().getTime() - RESTSortLayer.HOUR_IN_MILLISECONDS)
                             && now.before(ce.getDate())) {
                         count++;
                         trovato = true;

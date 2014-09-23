@@ -135,9 +135,9 @@
     -moz-box-shadow: 0 0 10px #EB7F00;
     box-shadow: 0 0 10px #EB7F00; } }
 .notifySeries {
-  -webkit-box-shadow: 0 0 3px #EB7F00;
-  -moz-box-shadow: 0 0 3px #EB7F00;
-  box-shadow: 0 0 3px #EB7F00;
+  -webkit-box-shadow: 0 0 0px #EB7F00;
+  -moz-box-shadow: 0 0 0px #EB7F00;
+  box-shadow: 0 0 0px #EB7F00;
   -moz-animation: pulse-shadow 0.3s linear 0s infinite alternate;
   -webkit-animation: pulse-shadow 0.3s linear 0s infinite alternate;
   animation: pulse-shadow 0.3s linear 0s infinite alternate; }
@@ -145,41 +145,6 @@
 /* JS
 ===============================================================================================
 =============================================================================================== */
-#myTimePickerContainer {
-  position: relative; }
-  #myTimePickerContainer #myTimePicker {
-    margin-top: 5px;
-    background-color: #FFFFFF;
-    position: absolute;
-    left: 20px;
-    z-index: 10;
-    width: 175px;
-    padding: 5px;
-    border-radius: 7px;
-    -webkit-border-radius: 7px;
-    -moz-border-radius: 7px;
-    -webkit-box-shadow: 0 0 3px #1695A3;
-    -moz-box-shadow: 0 0 3px #1695A3;
-    box-shadow: 0 0 3px #1695A3;
-    -moz-animation: slide 0.5s ease 0s 1 normal;
-    -webkit-animation: slide 0.5s ease 0s 1 normal;
-    animation: slide 0.5s ease 0s 1 normal;
-    text-align: center; }
-    #myTimePickerContainer #myTimePicker #hours, #myTimePickerContainer #myTimePicker #minutes {
-      display: inline-block; }
-      #myTimePickerContainer #myTimePicker #hours p, #myTimePickerContainer #myTimePicker #minutes p {
-        margin: 10px;
-        font-size: 3rem; }
-    #myTimePickerContainer #myTimePicker .arrow {
-      color: #1695A3;
-      font-size: 5rem;
-      cursor: pointer;
-      transition: color 0.3s ease-in-out;
-      -webkit-transition: color 0.3s ease-in-out;
-      -moz-transition: color 0.3s ease-in-out; }
-      #myTimePickerContainer #myTimePicker .arrow:hover {
-        color: #EB7F00; }
-
 @keyframes slide {
   0% {
     left: -30px;
@@ -223,6 +188,7 @@
     #myDatePickerContainer #myDatePicker table {
       color: #444444; }
       #myDatePickerContainer #myDatePicker table thead {
+        text-align: center;
         font-size: 2rem;
         color: #225378; }
         #myDatePickerContainer #myDatePicker table thead #previousMonth, #myDatePickerContainer #myDatePicker table thead #nextMonth {
@@ -233,25 +199,66 @@
           -moz-transition: color 0.3s ease-in-out; }
           #myDatePickerContainer #myDatePicker table thead #previousMonth:hover, #myDatePickerContainer #myDatePicker table thead #nextMonth:hover {
             color: #EB7F00; }
+        #myDatePickerContainer #myDatePicker table thead #previousMonth {
+          text-align: left; }
         #myDatePickerContainer #myDatePicker table thead #monthAndYear #month {
           padding: 0 5px; }
         #myDatePickerContainer #myDatePicker table thead #monthAndYear #year {
           padding: 0 5px; }
+        #myDatePickerContainer #myDatePicker table thead #nextMonth {
+          text-align: right; }
         #myDatePickerContainer #myDatePicker table thead .dayOfWeek {
           font-size: 1.6rem;
           padding: 20px 0 5px 0; }
-      #myDatePickerContainer #myDatePicker table tbody .day {
-        font-size: 1.6rem;
-        padding: 5px 10px;
-        cursor: pointer; }
-        #myDatePickerContainer #myDatePicker table tbody .day.oldMonthDay, #myDatePickerContainer #myDatePicker table tbody .day.newMonthDay {
-          color: #999999; }
-        #myDatePickerContainer #myDatePicker table tbody .day.activeDay {
-          background-color: #EB7F00;
-          border-radius: 3px;
-          -webkit-border-radius: 3px;
-          -moz-border-radius: 3px;
-          color: #FFFFFF; }
+      #myDatePickerContainer #myDatePicker table tbody {
+        text-align: center; }
+        #myDatePickerContainer #myDatePicker table tbody .day {
+          font-size: 1.6rem;
+          padding: 5px 10px;
+          cursor: pointer; }
+          #myDatePickerContainer #myDatePicker table tbody .day.oldMonthDay, #myDatePickerContainer #myDatePicker table tbody .day.newMonthDay {
+            color: #999999; }
+          #myDatePickerContainer #myDatePicker table tbody .day.activeDay {
+            background-color: #EB7F00;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            color: #FFFFFF; }
+
+#myTimePickerContainer {
+  position: relative; }
+  #myTimePickerContainer #myTimePicker {
+    margin-top: 5px;
+    background-color: #FFFFFF;
+    position: absolute;
+    left: 20px;
+    z-index: 10;
+    width: 175px;
+    padding: 5px;
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-box-shadow: 0 0 3px #1695A3;
+    -moz-box-shadow: 0 0 3px #1695A3;
+    box-shadow: 0 0 3px #1695A3;
+    -moz-animation: slide 0.5s ease 0s 1 normal;
+    -webkit-animation: slide 0.5s ease 0s 1 normal;
+    animation: slide 0.5s ease 0s 1 normal;
+    text-align: center; }
+    #myTimePickerContainer #myTimePicker #hours, #myTimePickerContainer #myTimePicker #minutes {
+      display: inline-block; }
+      #myTimePickerContainer #myTimePicker #hours p, #myTimePickerContainer #myTimePicker #minutes p {
+        margin: 10px;
+        font-size: 3rem; }
+    #myTimePickerContainer #myTimePicker .arrow {
+      color: #1695A3;
+      font-size: 5rem;
+      cursor: pointer;
+      transition: color 0.3s ease-in-out;
+      -webkit-transition: color 0.3s ease-in-out;
+      -moz-transition: color 0.3s ease-in-out; }
+      #myTimePickerContainer #myTimePicker .arrow:hover {
+        color: #EB7F00; }
 
 /* FONT
 =============================================================================================== */

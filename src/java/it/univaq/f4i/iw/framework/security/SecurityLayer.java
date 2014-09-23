@@ -111,7 +111,9 @@ public class SecurityLayer {
     //questa funzione rimuove gli slash aggiunti da addSlashes
     //this function removes the slashes added by addSlashes
     public static String stripSlashes(String s) {
-        if (s == null) return s;
+        if (s == null) {
+            return s;
+        }
         return s.replaceAll("\\\\(['\"\\\\])", "$1");
     }
 
@@ -141,7 +143,7 @@ public class SecurityLayer {
             throw new NumberFormatException();
         }
         int day = SecurityLayer.checkNumeric(d[0]);
-        int month = SecurityLayer.checkNumeric(d[1])- 1;
+        int month = SecurityLayer.checkNumeric(d[1]) - 1;
         int year = SecurityLayer.checkNumeric(d[2]);
 
         //controllo se i valori non sono zero, che i mesi non abbiano più dei loro giorni e controllo correttamente Febbraio
@@ -173,11 +175,11 @@ public class SecurityLayer {
         if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
             throw new NumberFormatException();
         }
-        System.err.println("hours" + hours * RESTSortLayer.HOUR_IN_MILLISECONDS); 
+        System.err.println("hours" + hours * RESTSortLayer.HOUR_IN_MILLISECONDS);
         System.err.println("minutes" + minutes * RESTSortLayer.MINUTE_IN_MILLISECONDS);
         return (hours * RESTSortLayer.HOUR_IN_MILLISECONDS + minutes * RESTSortLayer.MINUTE_IN_MILLISECONDS);
     }
-    
+
     //--------- CONNECTION SECURITY ------------
     //questa funzione verifica se il protocollo HTTPS è attivo
     //checks if the HTTPS protocol is in use

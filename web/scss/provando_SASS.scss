@@ -222,51 +222,13 @@ $topBarHeight: 50px;
 }
 
 .notifySeries{
-    @include boxShadow(0, 0, 3px, $orange);
+    @include boxShadow(0, 0, 0px, $orange);
     @include animation(pulse-shadow, 0.3s, linear, 0s, infinite, alternate);  
 }
 
 /* JS
 ===============================================================================================
 =============================================================================================== */
-#myTimePickerContainer{
-    position: relative;
-
-    #myTimePicker{
-        margin-top: 5px;
-        background-color: #FFFFFF;
-        position: absolute;
-        left: 20px;
-        z-index: 10;
-        width: 175px;
-        padding: 5px;
-        @include borderRadius(7px);
-        @include boxShadow(0, 0, 3px, $turquoise);
-        @include animation(slide, 0.5s, ease, 0s, 1, normal);
-        text-align: center;
-
-        #hours, #minutes{
-            display: inline-block;
-
-            p{
-                margin: 10px;
-                font-size: 3rem;
-            }
-        }
-
-        .arrow{
-            color: $turquoise;
-            font-size: 5rem;
-            cursor: pointer;
-            @include transition(color, 0.3s);
-
-            &:hover{
-                color: $orange;
-            }
-        }
-    }
-}
-
 @keyframes slide{
     0%{
         left: -30px;
@@ -319,17 +281,23 @@ $topBarHeight: 50px;
             color: $primaryTextColor;
 
             thead{
+                text-align: center;
                 font-size: 2rem;
                 color: $blue;
 
-                #previousMonth{
+                #previousMonth, #nextMonth{
                     cursor: pointer;
                     color: $turquoise;
                     @include transition(color, 0.3s);
 
+
                     &:hover{
                         color: $orange;
                     }
+                }
+
+                #previousMonth{
+                    text-align: left;
                 }
 
                 #monthAndYear{
@@ -344,7 +312,7 @@ $topBarHeight: 50px;
                 }
 
                 #nextMonth{
-                    @extend #previousMonth;
+                    text-align: right;
                 }
 
                 .dayOfWeek{
@@ -355,6 +323,7 @@ $topBarHeight: 50px;
             }
 
             tbody{
+                text-align: center;
 
                 .day{
                     font-size: 1.6rem;
@@ -376,6 +345,43 @@ $topBarHeight: 50px;
     }
 }
 
+#myTimePickerContainer{
+    position: relative;
+
+    #myTimePicker{
+        margin-top: 5px;
+        background-color: #FFFFFF;
+        position: absolute;
+        left: 20px;
+        z-index: 10;
+        width: 175px;
+        padding: 5px;
+        @include borderRadius(7px);
+        @include boxShadow(0, 0, 3px, $turquoise);
+        @include animation(slide, 0.5s, ease, 0s, 1, normal);
+        text-align: center;
+
+        #hours, #minutes{
+            display: inline-block;
+
+            p{
+                margin: 10px;
+                font-size: 3rem;
+            }
+        }
+
+        .arrow{
+            color: $turquoise;
+            font-size: 5rem;
+            cursor: pointer;
+            @include transition(color, 0.3s);
+
+            &:hover{
+                color: $orange;
+            }
+        }
+    }
+}
 
 /* FONT
 =============================================================================================== */

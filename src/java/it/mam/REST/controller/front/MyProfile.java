@@ -113,12 +113,10 @@ public class MyProfile extends RESTBaseController {
                                 break;
                             }
                             for (ChannelEpisode ce : e.getChannelEpisode()) {
-                                System.err.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                                System.err.println(now);
-                                System.err.println(ce.getDate());
-                                System.err.println(us.getAnticipationNotification());
+                                // togliamo un'altra ora perché l'anticipo è corretto, ma il tempo viene calcolato a partire
+                                // dall'01:00:00 quindi se come anticipo avessimo 2h ne verrebbe contata solo una
                                 if (us.getEpisode() + 1 == e.getNumber() && us.getSeason() == e.getSeason()
-                                        && (now.getTime() >= ce.getDate().getTime() - us.getAnticipationNotification().getTime())
+                                        && (now.getTime() >= ce.getDate().getTime() - us.getAnticipationNotification().getTime() - RESTSortLayer.HOUR_IN_MILLISECONDS)
                                         && now.before(ce.getDate())) {
                                     SeriesToNotify.add(s);
                                     trovato = true;
@@ -184,7 +182,7 @@ public class MyProfile extends RESTBaseController {
                             return;
                     }
                     getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
-                // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
+                    // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
                     // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima xD
                     response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
 
@@ -228,7 +226,8 @@ public class MyProfile extends RESTBaseController {
                 }
                 if (request.getParameter("a") != null) {
                     if (request.getParameter("an") != null && request.getParameter("an").length() > 0) {
-                        us.setAnticipationNotification(new Date(SecurityLayer.checkTime(request.getParameter("an"))));
+                        // togliamo un'ora perché la data viene calcolata a partire dall'1:00:00 del gennaio del 1970
+                        us.setAnticipationNotification(new Date(SecurityLayer.checkTime(request.getParameter("an")) - RESTSortLayer.HOUR_IN_MILLISECONDS));
                     } else {
                         request.setAttribute("error", "Non hai inserito l'anticipo della notifica!");
                         action_activate_ProfileUserSeries(request, response);
@@ -327,7 +326,10 @@ public class MyProfile extends RESTBaseController {
                     action_error(request, response, "Riprova di nuovo!");
                     System.err.println("Errore nella Process Request di MyProfile.java: il parametro sezione non vale nè 1 nè 2");
             }
-        } catch (IOException | NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
+            action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di MyProfile.java: IOException o NumberFormatException");
+        } catch (IOException ex) {
             action_error(request, response, "Riprova di nuovo!");
             System.err.println("Errore nella Process Request di MyProfile.java: IOException o NumberFormatException");
         }

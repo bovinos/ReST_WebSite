@@ -34,20 +34,20 @@ public class MyProfileEdit extends RESTBaseController {
     // Activates the sign up data template
     private void action_activate_ProfileUserSignUpData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-        TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("where", "profile");
-        if (SecurityLayer.checkSession(request) != null) {
-        
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            request.setAttribute("user", user);
-            RESTSortLayer.checkNotifications(user, request, response);
-            request.setAttribute("userProfileContent_tpl", "userSignUpData.ftl.html");
-            result.activate("userProfile/userProfileOutline.ftl.html", request, response);
-         } else {
-            //User session is no longer valid
-            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-            result.activate("logIn.ftl.html", request, response);
-        }
+            TemplateResult result = new TemplateResult(getServletContext());
+            request.setAttribute("where", "profile");
+            if (SecurityLayer.checkSession(request) != null) {
+
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
+                request.setAttribute("userProfileContent_tpl", "userSignUpData.ftl.html");
+                result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+            } else {
+                //User session is no longer valid
+                request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+                result.activate("logIn.ftl.html", request, response);
+            }
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
@@ -60,31 +60,31 @@ public class MyProfileEdit extends RESTBaseController {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
             if (SecurityLayer.checkSession(request) != null) {
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
-            if ((request.getParameter("username") != null && request.getParameter("username").length() > 0)
-                    && !(request.getParameter("username").equals(user.getUsername()))) {
-                user.setUsername(request.getParameter("username"));
-            }
-            if ((request.getParameter("mail") != null && request.getParameter("mail").length() > 0)
-                    && !(request.getParameter("mail").equals(user.getMail()))) {
-                user.setMail(request.getParameter("mail"));
-            }
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric(request.getSession().getAttribute("userid").toString()));
+                if ((request.getParameter("username") != null && request.getParameter("username").length() > 0)
+                        && !(request.getParameter("username").equals(user.getUsername()))) {
+                    user.setUsername(request.getParameter("username"));
+                }
+                if ((request.getParameter("mail") != null && request.getParameter("mail").length() > 0)
+                        && !(request.getParameter("mail").equals(user.getMail()))) {
+                    user.setMail(request.getParameter("mail"));
+                }
 
-            if (request.getParameter("oldpassword") != null && request.getParameter("oldpassword").length() > 0
-                    && (Utility.stringToMD5(Utility.stringToMD5(request.getParameter("oldpassword")))).equals(user.getPassword())
-                    && (request.getParameter("newpassword") != null && request.getParameter("newpassword").length() > 0)
-                    && (request.getParameter("confirmpassword") != null && request.getParameter("confirmpassword").length() > 0)
-                    && (request.getParameter("newpassword").equals(request.getParameter("confirmpassword")))) {
-                user.setPassword(Utility.stringToMD5(Utility.stringToMD5(request.getParameter("newpassword"))));
+                if (request.getParameter("oldpassword") != null && request.getParameter("oldpassword").length() > 0
+                        && (Utility.stringToMD5(Utility.stringToMD5(request.getParameter("oldpassword")))).equals(user.getPassword())
+                        && (request.getParameter("newpassword") != null && request.getParameter("newpassword").length() > 0)
+                        && (request.getParameter("confirmpassword") != null && request.getParameter("confirmpassword").length() > 0)
+                        && (request.getParameter("newpassword").equals(request.getParameter("confirmpassword")))) {
+                    user.setPassword(Utility.stringToMD5(Utility.stringToMD5(request.getParameter("newpassword"))));
+                }
+                getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
+                request.setAttribute("success", "Dati di registrazione modificati correttamente!");
+                action_activate_ProfileUserSignUpData(request, response);
+            } else {
+                //User session is no longer valid
+                request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+                result.activate("logIn.ftl.html", request, response);
             }
-            getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
-            request.setAttribute("success", "Dati di registrazione modificati correttamente!");
-            action_activate_ProfileUserSignUpData(request, response);
-        } else {
-            //User session is no longer valid
-            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-            result.activate("logIn.ftl.html", request, response);
-        }
         } catch (NumberFormatException ex) {
             //User id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
@@ -95,21 +95,21 @@ public class MyProfileEdit extends RESTBaseController {
     // Activates the optional data template
     private void action_activate_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-        TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("where", "profile");
-        if (SecurityLayer.checkSession(request) != null) {
-        
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            request.setAttribute("user", user);
-            RESTSortLayer.checkNotifications(user, request, response);
-            request.setAttribute("genres", getDataLayer().getGenres());
-            request.setAttribute("userProfileContent_tpl", "userOptionalData.ftl.html");
-            result.activate("userProfile/userProfileOutline.ftl.html", request, response);
-         } else {
-            //User session is no longer valid
-            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-            result.activate("logIn.ftl.html", request, response);
-        }
+            TemplateResult result = new TemplateResult(getServletContext());
+            request.setAttribute("where", "profile");
+            if (SecurityLayer.checkSession(request) != null) {
+
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
+                request.setAttribute("genres", getDataLayer().getGenres());
+                request.setAttribute("userProfileContent_tpl", "userOptionalData.ftl.html");
+                result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+            } else {
+                //User session is no longer valid
+                request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+                result.activate("logIn.ftl.html", request, response);
+            }
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
@@ -120,90 +120,90 @@ public class MyProfileEdit extends RESTBaseController {
     // Allows to insert/modify user's optional data
     private void action_submit_ProfileUserOptionalData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-             TemplateResult result = new TemplateResult(getServletContext());
+            TemplateResult result = new TemplateResult(getServletContext());
             if (SecurityLayer.checkSession(request) != null) {
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (request.getParameter("name") != null && request.getParameter("name").length() > 0
-                    && !(request.getParameter("name").equals(user.getName()))) {
-                user.setName(request.getParameter("name"));
-            }
-            if (request.getParameter("surname") != null && request.getParameter("surname").length() > 0
-                    && !(request.getParameter("surname").equals(user.getSurname()))) {
-                user.setSurname(request.getParameter("surname"));
-            }
-            if (request.getParameter("age") != null && request.getParameter("age").length() > 0
-                    && !(request.getParameter("age").equals(String.valueOf(user.getAge())))) {
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                if (request.getParameter("name") != null && request.getParameter("name").length() > 0
+                        && !(request.getParameter("name").equals(user.getName()))) {
+                    user.setName(request.getParameter("name"));
+                }
+                if (request.getParameter("surname") != null && request.getParameter("surname").length() > 0
+                        && !(request.getParameter("surname").equals(user.getSurname()))) {
+                    user.setSurname(request.getParameter("surname"));
+                }
+                if (request.getParameter("age") != null && request.getParameter("age").length() > 0
+                        && !(request.getParameter("age").equals(String.valueOf(user.getAge())))) {
 
                     user.setAge(SecurityLayer.checkNumeric(request.getParameter("age")));
-            }
-            if (request.getParameter("imageURL") != null && request.getParameter("imageURL").length() > 0
-                    && !(request.getParameter("imageURL").equals(user.getImageURL()))) {
-                user.setImageURL(request.getParameter("imageURL"));
-            }
+                }
+                if (request.getParameter("imageURL") != null && request.getParameter("imageURL").length() > 0
+                        && !(request.getParameter("imageURL").equals(user.getImageURL()))) {
+                    user.setImageURL(request.getParameter("imageURL"));
+                }
 
-            if (request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0) {
-                List<Genre> genresList = new ArrayList();
-                Genre g;
-                for (String s : request.getParameterValues("genres")) {
-                    //prendo il genere dal DB e NON ci metto gli slash perché nel DB ce li ha già e non serve di toglierli perché non devo usarlo
-                    g =getDataLayer().getGenre(SecurityLayer.checkNumeric(s));
-                    if(g == null){
-                        action_error(request, response, "Riprova di nuovo!");
-                        System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserOptionalData: un ID dei generi passato non corrisponde ad alcun genere sul Database ");
-                        return;
+                if (request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0) {
+                    List<Genre> genresList = new ArrayList();
+                    Genre g;
+                    for (String s : request.getParameterValues("genres")) {
+                        //prendo il genere dal DB e NON ci metto gli slash perché nel DB ce li ha già e non serve di toglierli perché non devo usarlo
+                        g = getDataLayer().getGenre(SecurityLayer.checkNumeric(s));
+                        if (g == null) {
+                            action_error(request, response, "Riprova di nuovo!");
+                            System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserOptionalData: un ID dei generi passato non corrisponde ad alcun genere sul Database ");
+                            return;
+                        }
+                        genresList.add(g);
                     }
-                    genresList.add(g);
+
+                    user.setGenres(genresList);
                 }
 
-                user.setGenres(genresList);
-            }
-
-            if (request.getParameter("gender") != null && request.getParameter("gender").length() > 0
-                    && !(request.getParameter("gender").equals(user.getGender()))) {
-                switch (SecurityLayer.checkNumeric(request.getParameter("gender"))) {
-                    case 1:
-                        user.setGender(User.MALE);
-                        break;
-                    case 2:
-                        user.setGender(User.FEMALE);
-                        break;
-                    default:
-                        action_error(request, response, "Field Error");
-                        System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserOptionalData: il parametro gender non valeva nè 1(Maschio) nè 2(Femmina)");
-                        return;
+                if (request.getParameter("gender") != null && request.getParameter("gender").length() > 0
+                        && !(request.getParameter("gender").equals(user.getGender()))) {
+                    switch (SecurityLayer.checkNumeric(request.getParameter("gender"))) {
+                        case 1:
+                            user.setGender(User.MALE);
+                            break;
+                        case 2:
+                            user.setGender(User.FEMALE);
+                            break;
+                        default:
+                            action_error(request, response, "Field Error");
+                            System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserOptionalData: il parametro gender non valeva nè 1(Maschio) nè 2(Femmina)");
+                            return;
+                    }
                 }
-            }
-            getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
-               request.setAttribute("success", "Dati opzionali modificati correttamente!");
+                getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
+                request.setAttribute("success", "Dati opzionali modificati correttamente!");
                 action_activate_ProfileUserOptionalData(request, response);
-         } else {
-            //User session is no longer valid
-            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-            result.activate("logIn.ftl.html", request, response);
-        }
+            } else {
+                //User session is no longer valid
+                request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+                result.activate("logIn.ftl.html", request, response);
+            }
         } catch (NumberFormatException ex) {
             //User id or age or genre id or gender is not a number
             action_error(request, response, "Riprova di nuovo!");
             System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserOptionalData: NumberFormatException");
         }
     }
-    
+
     // Activates the notify settings template
     private void action_activate_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-        TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("where", "profile");
-        if (SecurityLayer.checkSession(request) != null) {
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            request.setAttribute("user", user);
-            RESTSortLayer.checkNotifications(user, request, response);
-            request.setAttribute("userProfileContent_tpl", "userNotifySettings.ftl.html");
-            result.activate("userProfile/userProfileOutline.ftl.html", request, response);
-         } else {
-            //User session is no longer valid
-            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-            result.activate("logIn.ftl.html", request, response);
-        }
+            TemplateResult result = new TemplateResult(getServletContext());
+            request.setAttribute("where", "profile");
+            if (SecurityLayer.checkSession(request) != null) {
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                request.setAttribute("user", user);
+                RESTSortLayer.checkNotifications(user, request, response);
+                request.setAttribute("userProfileContent_tpl", "userNotifySettings.ftl.html");
+                result.activate("userProfile/userProfileOutline.ftl.html", request, response);
+            } else {
+                //User session is no longer valid
+                request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+                result.activate("logIn.ftl.html", request, response);
+            }
         } catch (NumberFormatException ex) {
             //User id is not a number
             action_error(request, response, "Riprova di nuovo!");
@@ -215,20 +215,20 @@ public class MyProfileEdit extends RESTBaseController {
     // Allows to insert/modify user's notify settings
     private void action_submit_ProfileUserNotifySettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-        TemplateResult result = new TemplateResult(getServletContext());
-        if (SecurityLayer.checkSession(request) != null) {
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            if (request.getParameter("a") != null && request.getParameter("a").length() > 0) {
-                user.setNotificationStatus(true);
-                getDataLayer().storeUser(user);
-                if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
-                    List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
-                    for (UserSeries us : userseriesList) {
-                        us.setAnticipationNotification(new Date((SecurityLayer.checkNumeric(request.getParameter("t")) * RESTSortLayer.HOUR_IN_MILLISECONDS) - RESTSortLayer.HOUR_IN_MILLISECONDS));
-                        getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+            TemplateResult result = new TemplateResult(getServletContext());
+            if (SecurityLayer.checkSession(request) != null) {
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                if (request.getParameter("a") != null && request.getParameter("a").length() > 0) {
+                    user.setNotificationStatus(true);
+                    getDataLayer().storeUser(user);
+                    if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
+                        List<UserSeries> userseriesList = getDataLayer().getUserSeries(user);
+                        for (UserSeries us : userseriesList) {
+                            us.setAnticipationNotification(new Date((SecurityLayer.checkNumeric(request.getParameter("t")) * RESTSortLayer.HOUR_IN_MILLISECONDS) - RESTSortLayer.HOUR_IN_MILLISECONDS));
+                            getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
+                        }
                     }
-                }   
-            }else {   
+                } else {
                     user.setNotificationStatus(false);
                     getDataLayer().storeUser(user);
                     if (request.getParameter("t") != null && request.getParameter("t").length() > 0) {
@@ -236,14 +236,14 @@ public class MyProfileEdit extends RESTBaseController {
                         System.err.println("Errore in MyProfileEdit.java, nel metodo action_submit_ProfileUserNotifySettings: Il parametro che stabilisce l'anticipo della notifica è presente anche se le notifiche sono disabilitate!");
                         return;
                     }
+                }
+                request.setAttribute("success", "Impostazioni notifiche modificate correttamente!");
+                action_activate_ProfileUserNotifySettings(request, response);
+            } else {
+                //User session is no longer valid
+                request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
+                result.activate("logIn.ftl.html", request, response);
             }
-            request.setAttribute("success", "Impostazioni notifiche modificate correttamente!");
-            action_activate_ProfileUserNotifySettings(request, response);
-         } else {
-            //User session is no longer valid
-            request.setAttribute("error", "Devi essere loggato per eseguire quest'azione!");
-            result.activate("logIn.ftl.html", request, response);
-        }
         } catch (NumberFormatException ex) {
             //User id or t is not a number
             action_error(request, response, "Riprova di nuovo!");
@@ -254,43 +254,46 @@ public class MyProfileEdit extends RESTBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        try{
-            if(request.getParameter("sezione")== null){
+        try {
+            if (request.getParameter("sezione") == null) {
                 action_error(request, response, "Riprova di nuovo!");
                 System.err.println("Errore nella Process Request MyProfileEdit.java: il parametro sezione è nullo");
                 return;
             }
-        int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
-        switch (section) {
-            case 1: //"Modifica dati di registrazione"...
-                request.setAttribute("currentSection", section+2);
-                if (request.getParameter("modifySignUpData") != null) { //Modified data sent...
+            int section = SecurityLayer.checkNumeric(request.getParameter("sezione"));
+            switch (section) {
+                case 1: //"Modifica dati di registrazione"...
+                    request.setAttribute("currentSection", section + 2);
+                    if (request.getParameter("modifySignUpData") != null) { //Modified data sent...
                         action_submit_ProfileUserSignUpData(request, response);
-                } else { //Show modify screen...
+                    } else { //Show modify screen...
                         action_activate_ProfileUserSignUpData(request, response);
-                }
-                break;
-            case 2: //"Modifica dati opzionali"...
-                request.setAttribute("currentSection", section+2);
-                if (request.getParameter("modifyOptionalData") != null) { //Modified data sent...
+                    }
+                    break;
+                case 2: //"Modifica dati opzionali"...
+                    request.setAttribute("currentSection", section + 2);
+                    if (request.getParameter("modifyOptionalData") != null) { //Modified data sent...
                         action_submit_ProfileUserOptionalData(request, response);
-                } else { //Show modify screen...
+                    } else { //Show modify screen...
                         action_activate_ProfileUserOptionalData(request, response);
-                }
-                break;
-            case 3: //"Impostazioni Notifiche"...
-                request.setAttribute("currentSection", section+2);
-                if (request.getParameter("modifyNotifySettings") != null) { //Modified data sent...
+                    }
+                    break;
+                case 3: //"Impostazioni Notifiche"...
+                    request.setAttribute("currentSection", section + 2);
+                    if (request.getParameter("modifyNotifySettings") != null) { //Modified data sent...
                         action_submit_ProfileUserNotifySettings(request, response);
-                } else { //Show modify screen...
+                    } else { //Show modify screen...
                         action_activate_ProfileUserNotifySettings(request, response);
-                }
-                break;
-            default:
-                action_error(request, response, "Riprova di nuovo!");
-                System.err.println("Errore nella Process Request di MyProfileEdit.java: il parametro della sezione non vale 1, 2 o 3");
-        }
-        } catch (IOException | NumberFormatException ex) {
+                    }
+                    break;
+                default:
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore nella Process Request di MyProfileEdit.java: il parametro della sezione non vale 1, 2 o 3");
+            }
+        } catch (NumberFormatException ex) {
+            action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di MyProfileEdit.java: IOException o NumberFormatException");
+        } catch (IOException ex) {
             action_error(request, response, "Riprova di nuovo!");
             System.err.println("Errore nella Process Request di MyProfileEdit.java: IOException o NumberFormatException");
         }
