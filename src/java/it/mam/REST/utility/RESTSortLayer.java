@@ -1,17 +1,13 @@
 package it.mam.REST.utility;
 
 import it.mam.REST.data.model.CastMember;
-import it.mam.REST.data.model.ChannelEpisode;
 import it.mam.REST.data.model.Episode;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
-import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -171,67 +167,4 @@ public class RESTSortLayer {
         return episodeList;
     }
 
-    //NOTIFICATIONS
-    /*
-     public static void checkNotifications(User user, HttpServletRequest request, HttpServletResponse response){
-     //Series Notification checking
-     int count = 0;
-     boolean trovato;
-     for (UserSeries us: user.getUserSeries()){
-     if (us.getAnticipationNotification() == null) {
-     continue;
-     }
-     Series s = us.getSeries();
-     trovato = false;
-     for(Episode e: s.getEpisodes()){
-     if(trovato) break;
-     for(ChannelEpisode ce: e.getChannelEpisode()){
-     System.err.println("Controllo Episodio:   " + (us.getEpisode()+1 == e.getNumber())
-     + "    Controllo Stagione:  " + (us.getSeason() == e.getSeason()) + 
-     "    Controllo data di ora > data ep - anticipo:     " + (new Date().getTime() >= ce.getDate().getTime()- us.getAnticipationNotification().getTime())
-     + " Controllo data di ora < data trasmissione ep:    " + (new Date().getTime() < ce.getDate().getTime()));
-     if(us.getEpisode()+1 == e.getNumber() && us.getSeason() == e.getSeason() && (new Date().getTime() >= ce.getDate().getTime()- us.getAnticipationNotification().getTime())
-     && (new Date().getTime() < ce.getDate().getTime())){
-     count++;
-     trovato = true;
-     }
-     }
-     }
-     }
-     System.err.println("==========================" +count);
-     request.setAttribute("notifyCount", count);
-     } */
-    public static void checkNotifications(User user, HttpServletRequest request, HttpServletResponse response) {
-        //Series Notification checking
-        if (!user.getNotificationStatus()) {
-            return;
-        }
-        int count = 0;
-        boolean trovato;
-        Date now = new Date();
-        for (UserSeries us : user.getUserSeries()) {
-            if (us.getAnticipationNotification() == null) {
-                continue;
-            }
-            Series s = us.getSeries();
-            trovato = false;
-            for (Episode e : s.getEpisodes()) {
-                if (trovato) {
-                    break;
-                }
-                for (ChannelEpisode ce : e.getChannelEpisode()) {
-                    // togliamo un'altra ora perché l'anticipo è corretto, ma il tempo viene calcolato a partire
-                    // dall'01:00:00 quindi se come anticipo avessimo 2h ne verrebbe contata solo una
-                    if (us.getEpisode() + 1 == e.getNumber() && us.getSeason() == e.getSeason()
-                            && (now.getTime() >= ce.getDate().getTime() - us.getAnticipationNotification().getTime() - RESTSortLayer.HOUR_IN_MILLISECONDS)
-                            && now.before(ce.getDate())) {
-                        count++;
-                        trovato = true;
-                    }
-                }
-            }
-        }
-        System.err.println(count);
-        request.setAttribute("notifyCount", count);
-    }
 }

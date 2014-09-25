@@ -156,7 +156,6 @@ public class NewsMySQL implements News {
     }
 
     @Override
-    // gestire il fatto che l'utente deve essere un admin per poter postare news
     public void setUser(User user) {
         this.user = user;
         userID = user.getID();

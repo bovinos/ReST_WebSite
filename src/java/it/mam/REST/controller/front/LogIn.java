@@ -2,7 +2,7 @@ package it.mam.REST.controller.front;
 
 import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.User;
-import it.mam.REST.utility.Utility;
+import it.mam.REST.utility.RESTUtility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
@@ -19,10 +19,10 @@ public class LogIn extends RESTBaseController {
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
-    
+
     // Activates the LogIn template
     private void action_activate_login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(SecurityLayer.checkSession(request) != null) {
+        if (SecurityLayer.checkSession(request) != null) {
             action_error(request, response, "Sei già loggato!");
             return;
         }
@@ -35,7 +35,7 @@ public class LogIn extends RESTBaseController {
         User user;
         if (checkLoginInputData(request, response)) {
             String username = SecurityLayer.addSlashes(request.getParameter("username"));
-            String password = Utility.stringToMD5(Utility.stringToMD5(request.getParameter("password")));
+            String password = RESTUtility.stringToMD5(RESTUtility.stringToMD5(request.getParameter("password")));
             user = getDataLayer().getUser(username, password);
             if (user == null) {
                 request.setAttribute("error", "Errore: hai inserito dei dati non validi!");
@@ -49,23 +49,22 @@ public class LogIn extends RESTBaseController {
             action_activate_login(request, response);
             return;
         }
-        // in realtà dovrei ridirigere alla pagina in cui ha fatto il login
         response.sendRedirect("ListaNews");
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-        if (request.getParameter("logIn") != null) {
+            if (request.getParameter("logIn") != null) {
                 action_submit_login(request, response);
-        } else {
-            
+            } else {
+
                 action_activate_login(request, response);
-        }
-            } catch (IOException ex) {
-                action_error(request, response, "Riprova di nuovo!");
-                System.err.println("Errore nella Process Request di LogIn.java: IOException");
             }
+        } catch (IOException ex) {
+            action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di LogIn.java: IOException");
+        }
     }
 
     @Override

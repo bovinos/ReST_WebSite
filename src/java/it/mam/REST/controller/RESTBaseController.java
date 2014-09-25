@@ -20,17 +20,8 @@ import javax.sql.DataSource;
  */
 public abstract class RESTBaseController extends HttpServlet {
 
-    // perchè public?
     public RESTDataLayer dataLayer;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     */
     protected abstract void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException;
 
     private void processBaseRequest(HttpServletRequest request, HttpServletResponse response) {

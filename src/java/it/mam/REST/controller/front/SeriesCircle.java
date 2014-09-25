@@ -4,7 +4,7 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Message;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
-import it.mam.REST.utility.RESTSortLayer;
+import it.mam.REST.utility.RESTUtility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -30,104 +30,104 @@ public class SeriesCircle extends RESTBaseController {
         FailureResult fail = new FailureResult(getServletContext());
         fail.activate(message, request, response);
     }
-   
-   // Activates the series circle template
+
+    // Activates the series circle template
     private void action_activate_circle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-        TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("where", "series");
-        request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
-        Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
-        if(series == null) {
-            action_error(request, response, "Riprova di nuovo!");
-            System.err.println("Errore in SeriesCircle.java, nel metodo action_activate_circle: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
-            return;
-        }
-                    // Start Page management ===================================================================
+            TemplateResult result = new TemplateResult(getServletContext());
+            request.setAttribute("where", "series");
+            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("id")));
+            if (series == null) {
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in SeriesCircle.java, nel metodo action_activate_circle: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                return;
+            }
+            // Start Page management ===================================================================
             int page; //page number 
-            if(request.getParameter("page") != null) {
-            page = SecurityLayer.checkNumeric(request.getParameter("page"));
+            if (request.getParameter("page") != null) {
+                page = SecurityLayer.checkNumeric(request.getParameter("page"));
             } else {
-            page = 1;
+                page = 1;
             }
             List<Message> messagesList = series.getMessages();
             Collections.reverse(messagesList);
             request.setAttribute("currentPage", page);
             int messagesPerPage = 10; // number of messages per page
-            int numberOfPages = (int) Math.ceil((double)messagesList.size()/messagesPerPage); // total number of pages
+            int numberOfPages = (int) Math.ceil((double) messagesList.size() / messagesPerPage); // total number of pages
             request.setAttribute("totalPages", numberOfPages);
-             if(page == numberOfPages || messagesList.isEmpty()) {
-            request.setAttribute("messages", messagesList);
-            request.setAttribute("previousLastCommentIndex", (page-1)*messagesPerPage);
+            if (page == numberOfPages || messagesList.isEmpty()) {
+                request.setAttribute("messages", messagesList);
+                request.setAttribute("previousLastCommentIndex", (page - 1) * messagesPerPage);
             } else if (page > numberOfPages || page < 1) {
-            action_error(request, response, "Riprova di nuovo!");
-            System.err.println("Errore in SeriesCircle.java, nel metodo action_activate_circle: la pagina corrente è maggiore del numero totale di pagine o è minore di 1");
-            return;
+                action_error(request, response, "Riprova di nuovo!");
+                System.err.println("Errore in SeriesCircle.java, nel metodo action_activate_circle: la pagina corrente è maggiore del numero totale di pagine o è minore di 1");
+                return;
             } else {
-            request.setAttribute("messages", messagesList.subList(0, (page *messagesPerPage)));
-            request.setAttribute("previousLastCommentIndex", (page-1)*messagesPerPage);
+                request.setAttribute("messages", messagesList.subList(0, (page * messagesPerPage)));
+                request.setAttribute("previousLastCommentIndex", (page - 1) * messagesPerPage);
             }
             // End Page Management ====================================================================
-             
-        request.setAttribute("series", series);
-        //User session checking
-        if (SecurityLayer.checkSession(request) != null) {
+
+            request.setAttribute("series", series);
+            //User session checking
+            if (SecurityLayer.checkSession(request) != null) {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
-                if(user.getSeries().contains(series)){
+                RESTUtility.checkNotifications(user, request, response);
+                if (user.getSeries().contains(series)) {
                     result.activate("seriesCircle.ftl.html", request, response);
-                } else{
+                } else {
                     //This series is not contained in this user's favourites
                     action_error(request, response, "Per entrare in questa cerchia, aggiungi questa serie alle preferite!");
                 }
-        } else {
-            //User session is no longer valid
-            request.setAttribute("error", "Devi essere loggato per visualizzare questa pagina!");
-            result.activate("logIn.ftl.html", request, response);
-        }
-        } catch (NumberFormatException ex) {
-                //series id or user id is not a number
-                action_error(request, response, "Riprova di nuovo!");
-                System.err.println("Errore in SeriesCircle.java, nel metodo action_activate_circle: NumberFormatException");
+            } else {
+                //User session is no longer valid
+                request.setAttribute("error", "Devi essere loggato per visualizzare questa pagina!");
+                result.activate("logIn.ftl.html", request, response);
             }
+        } catch (NumberFormatException ex) {
+            //series id or user id is not a number
+            action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore in SeriesCircle.java, nel metodo action_activate_circle: NumberFormatException");
+        }
     }
 
-   // Receives all the necessary data to send a message in the circle and, if everything's ok, saves it in the Database
+    // Receives all the necessary data to send a message in the circle and, if everything's ok, saves it in the Database
     private void action_message_circle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
             //User session checking
             if (SecurityLayer.checkSession(request) != null) {
-            User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
-            Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
-            if(series == null){
-                action_error(request, response, "Riprova di nuovo!");
-                System.err.println("Errore in SeriesCircle.java, nel metodo action_message_circle: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
-                return;
-            }
-            Calendar c = Calendar.getInstance();
-            if(checkMessageInputData(request, response)){
-            String title = request.getParameter("messageTitle");
-            String text = request.getParameter("messageText");
-            Message message = getDataLayer().createMessage();
-            message.setTitle(title);
-            message.setText(text);
-            message.setUser(user);
-            message.setDate(c.getTime());
-            message.setSeries(series);
-            getDataLayer().storeMessage(RESTSecurityLayer.addSlashes(message));
-            response.sendRedirect("CerchiaSerie?id=" + series.getID());
+                User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
+                Series series = getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("sid")));
+                if (series == null) {
+                    action_error(request, response, "Riprova di nuovo!");
+                    System.err.println("Errore in SeriesCircle.java, nel metodo action_message_circle: l'ID della serie ricevuto non corrisponde a nessuna serie nel Database");
+                    return;
+                }
+                Calendar c = Calendar.getInstance();
+                if (checkMessageInputData(request, response)) {
+                    String title = request.getParameter("messageTitle");
+                    String text = request.getParameter("messageText");
+                    Message message = getDataLayer().createMessage();
+                    message.setTitle(title);
+                    message.setText(text);
+                    message.setUser(user);
+                    message.setDate(c.getTime());
+                    message.setSeries(series);
+                    getDataLayer().storeMessage(RESTSecurityLayer.addSlashes(message));
+                    response.sendRedirect("CerchiaSerie?id=" + series.getID());
+                } else {
+                    //Error: field empty
+                    request.setAttribute("error", "Errore: uno dei campi è vuoto!");
+                    action_activate_circle(request, response);
+                }
             } else {
-                //Error: field empty
-                request.setAttribute("error", "Errore: uno dei campi è vuoto!");
-                action_activate_circle(request, response);
+                //User session is no longer valid
+                request.setAttribute("error", "Devi essere loggato per mandare messaggi in una cerchia!");
+                result.activate("logIn.ftl.html", request, response);
             }
-           } else {
-            //User session is no longer valid
-            request.setAttribute("error", "Devi essere loggato per mandare messaggi in una cerchia!");
-            result.activate("logIn.ftl.html", request, response);
-        }
         } catch (NumberFormatException ex) {
             //user id or series id is not a number
             action_error(request, response, "Riprova di nuovo!");
@@ -138,25 +138,25 @@ public class SeriesCircle extends RESTBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-        if (request.getParameter("scms") != null) {
-            
+            if (request.getParameter("scms") != null) {
+
                 action_message_circle(request, response);
-            
-        } else {
+
+            } else {
                 action_activate_circle(request, response);
-        }
-        } catch (IOException ex) {
-                action_error(request, response, "Riprova di nuovo!");
-                System.err.println("Errore nella Process Request di SeriesCircle.java: IOException");
             }
+        } catch (IOException ex) {
+            action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di SeriesCircle.java: IOException");
+        }
     }
 
-        // Checks if all the input fields have been filled
+    // Checks if all the input fields have been filled
     private boolean checkMessageInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("messageTitle") != null && request.getParameter("messageTitle").length() > 0
                 && request.getParameter("messageText") != null && request.getParameter("messageText").length() > 0;
     }
-    
+
     @Override
     public String getServletInfo() {
         return "This servlet activates the series circle template to show all the messages sent by users. It also allow a user to send"

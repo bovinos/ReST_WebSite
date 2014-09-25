@@ -55,7 +55,6 @@ public class UserSeriesMySQL implements UserSeries {
         rating = rs.getString("rating");
         if (rs.getTime("anticipation_notification") != null) {
             anticipationNotification = new Date(rs.getTime("anticipation_notification").getTime());
-            System.err.println("ANTICIPATION: " + anticipationNotification);
         }
         addDate = rs.getDate("add_date");
         season = rs.getInt("season");

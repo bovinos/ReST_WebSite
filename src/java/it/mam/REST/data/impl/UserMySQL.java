@@ -41,7 +41,7 @@ public class UserMySQL implements User {
     private List<UserSeries> userSeries;
     private List<Genre> genres;
     private List<Message> messages;
-    private List<News> news; // is not null only if the user is an admin
+    private List<News> news;
 
     public UserMySQL(RESTDataLayer dataLayer) {
 
@@ -109,7 +109,6 @@ public class UserMySQL implements User {
     }
 
     @Override
-    // reminder: encrypt or decript the password
     public void setPassword(String password) {
         this.password = password;
         dirty = true;
@@ -121,7 +120,6 @@ public class UserMySQL implements User {
     }
 
     @Override
-    // reminder: check the mail with RegExp
     public void setMail(String mail) {
         this.mail = mail;
         dirty = true;
@@ -276,7 +274,6 @@ public class UserMySQL implements User {
     }
 
     @Override
-    // reminder: menage the admin & news question
     public List<News> getNews() {
         if (news == null) {
             news = dataLayer.getNews(this);

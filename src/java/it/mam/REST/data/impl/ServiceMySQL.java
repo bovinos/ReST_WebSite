@@ -108,8 +108,6 @@ public class ServiceMySQL implements Service {
     }
 
     @Override
-    // ask to prof: if i first add a group and then i want to getGroups()? they aren't loaded from DB!!!
-    // ask to prof: where are the List<> initialized?
     public void addGroup(Group group) {
         if (groups == null) {
             groups = dataLayer.getGroups(this);

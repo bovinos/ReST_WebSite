@@ -11,6 +11,7 @@ import it.mam.REST.data.model.Group;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.mam.REST.utility.RESTSortLayer;
+import it.mam.REST.utility.RESTUtility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -48,7 +49,7 @@ public class SeriesManagement extends RESTBaseController {
                     return;
                 }
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "insertSeries.ftl.html");
                 result.activate("../back/backOutline.ftl.html", request, response);
@@ -89,17 +90,6 @@ public class SeriesManagement extends RESTBaseController {
                     action_error(request, response, "Uno dei campi è vuoto!");
                     return;
                 }
-                /*
-                 //Mi prendo l'array dei generi dalla richiesta e lo trasformo in una lista
-                 String[] genres = request.getParameterValues("genres");
-                 List<Genre> genresList = new ArrayList();
-                 for (String s: genres){
-                 //prendo il genere dal DB e NON ci metto gli slash perché nel DB ce li ha già e non serve di toglierli perché non devo usarlo
-                 genresList.add(getDataLayer().getGenre(SecurityLayer.checkNumeric(s)));
-                 series.setGenres(genresList);
-                 }
-                 */
-                System.err.println(series);
                 getDataLayer().storeSeries(RESTSecurityLayer.addSlashes(series));
                 request.setAttribute("success", "Serie inserita correttamente!");
                 action_insert_series(request, response);
@@ -129,7 +119,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("series", RESTSortLayer.sortSeriesByName(getDataLayer().getSeries()));
                 request.setAttribute("channels", getDataLayer().getChannels());
                 request.setAttribute("backContent_tpl", "insertEpisode.ftl.html");
@@ -172,15 +162,6 @@ public class SeriesManagement extends RESTBaseController {
                         return;
                     }
                     episode.setSeries(getDataLayer().getSeries(SecurityLayer.checkNumeric(request.getParameter("series"))));
-                    /*
-                     //Ricavo tutti i canali che l'utente ha scelto per l'episodio, li trasformo in lista e li setto nell'episodio
-                     String[] channels = request.getParameterValues("channels");
-                     List<Channel> channelList = new ArrayList();
-                     for (String c : channels) {
-                     channelList.add(getDataLayer().getChannel(SecurityLayer.checkNumeric(c)));
-                     }
-                     episode.setChannels(channelList);
-                     */
                 } else {
                     action_error(request, response, "Uno dei campi è vuoto!");
                     return;
@@ -215,7 +196,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "insertChannel.ftl.html");
                 result.activate("../back/backOutline.ftl.html", request, response);
@@ -296,7 +277,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "insertGenre.ftl.html");
                 result.activate("../back/backOutline.ftl.html", request, response);
@@ -357,7 +338,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("series", getDataLayer().getSeries());
                 request.setAttribute("backContent_tpl", "insertCastMember.ftl.html");
@@ -388,7 +369,6 @@ public class SeriesManagement extends RESTBaseController {
                 request.setAttribute("user", user);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 CastMember castMember = getDataLayer().createCastMember();
-                //CastMemberSeries cms = getDataLayer().createCastMemberSeries();
                 if (checkCastMemberInputData(request, response)) {
                     castMember.setName(request.getParameter("castMemberName"));
                     castMember.setSurname(request.getParameter("castMemberSurname"));
@@ -415,27 +395,8 @@ public class SeriesManagement extends RESTBaseController {
                             System.err.println("Errore in SeriesManagement.java, nel metodo action_save_castmember: il parametro che indica il sesso non è nè 1 (Maschio) nè 2 (Femmina)");
                             return;
                     }
-
-//                String[] series = request.getParameterValues("series");
-//                List<Series> seriesList = new ArrayList();
-//                if (series != null) {
-//                    for (String s : series) {
-//                        seriesList.add(RESTSecurityLayer.addSlashes(getDataLayer().getSeries(SecurityLayer.checkNumeric(s))));
-//                    }
-//                    castMember.setSeries(seriesList);
-//                }
                     getDataLayer().storeCastMember(RESTSecurityLayer.addSlashes(castMember));
 
-                    //Salvo i dati della relazione
-//                String[] roles = request.getParameterValues("roles");
-//                cms.setCastMember(castMember);
-//                for (Series s : castMember.getSeries()) {
-//                    for (String r : roles) {
-//                        cms.setSeries(s);
-//                        cms.setRole(r);
-//                        getDataLayer().storeCastMemberSeries(RESTSecurityLayer.addSlashes(cms));
-//                    }
-//                }
                 } else {
                     request.setAttribute("error", "Uno dei campi è vuoto!");
                     action_insert_castmember(request, response);
@@ -468,7 +429,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("series", RESTSortLayer.sortSeriesByName(getDataLayer().getSeries()));
                 request.setAttribute("castMembers", RESTSortLayer.sortCastMemberBySurname(getDataLayer().getCastMembers()));
@@ -556,7 +517,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("channels", getDataLayer().getChannels());
                 request.setAttribute("episodes", RESTSortLayer.sortEpisodeBySeriesAndNumber(getDataLayer().getEpisodes()));
@@ -647,7 +608,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("genres", getDataLayer().getGenres());
                 request.setAttribute("series", RESTSortLayer.sortSeriesByName(getDataLayer().getSeries()));
@@ -729,7 +690,7 @@ public class SeriesManagement extends RESTBaseController {
                     return;
                 }
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("series", RESTSortLayer.sortSeriesByName(getDataLayer().getSeries()));
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "removeSeries.ftl.html");
@@ -802,7 +763,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("series", getDataLayer().getSeries());
                 request.setAttribute("episodes", RESTSortLayer.sortEpisodeBySeriesAndNumber(getDataLayer().getEpisodes()));
                 request.setAttribute("backContent_tpl", "removeEpisode.ftl.html");
@@ -876,7 +837,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("channels", getDataLayer().getChannels());
                 request.setAttribute("backContent_tpl", "removeChannel.ftl.html");
@@ -913,7 +874,6 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 Channel ch;
                 for (String c : request.getParameterValues("channels")) {
-                    System.err.println(c);
                     ch = getDataLayer().getChannel(SecurityLayer.checkNumeric(c));
                     if (ch == null) {
                         action_error(request, response, "Riprova di nuovo!");
@@ -949,7 +909,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("genres", getDataLayer().getGenres());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "removeGenre.ftl.html");
@@ -1019,7 +979,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("castMembers", getDataLayer().getCastMembers());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("series", getDataLayer().getSeries());
@@ -1092,7 +1052,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("series", RESTSortLayer.sortSeriesByName(getDataLayer().getSeries()));
                 request.setAttribute("castMembers", getDataLayer().getCastMembers());
@@ -1179,7 +1139,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("channels", getDataLayer().getChannels());
                 request.setAttribute("episodes", RESTSortLayer.sortEpisodeBySeriesAndNumber(getDataLayer().getEpisodes()));
@@ -1271,7 +1231,7 @@ public class SeriesManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("genres", getDataLayer().getGenres());
                 request.setAttribute("series", RESTSortLayer.sortSeriesByName(getDataLayer().getSeries()));
@@ -1502,7 +1462,6 @@ public class SeriesManagement extends RESTBaseController {
                 && request.getParameter("episodeNumber") != null && request.getParameter("episodeNumber").length() > 0
                 && request.getParameter("episodeSeason") != null && request.getParameter("episodeSeason").length() > 0
                 && request.getParameter("series") != null && request.getParameter("series").length() > 0;
-        //&& request.getParameterValues("channels") != null && request.getParameterValues("channels").length > 0);
     }
 
     // Checks if all the input fields have been filled
@@ -1512,8 +1471,6 @@ public class SeriesManagement extends RESTBaseController {
                 && request.getParameter("seriesDescription") != null && request.getParameter("seriesDescription").length() > 0
                 && request.getParameter("seriesImageURL") != null && request.getParameter("seriesImageURL").length() > 0
                 && request.getParameter("state") != null && request.getParameter("state").length() > 0;
-        //&& request.getParameterValues("genres") != null && request.getParameterValues("genres").length > 0;
-
     }
 
     // Checks if all the input fields have been filled
@@ -1531,9 +1488,6 @@ public class SeriesManagement extends RESTBaseController {
                 && request.getParameter("gender") != null && request.getParameter("gender").length() > 0
                 && request.getParameter("castMemberCountry") != null && request.getParameter("castMemberCountry").length() > 0
                 && request.getParameter("castMemberImageURL") != null && request.getParameter("castMemberImageURL").length() > 0;
-        // && request.getParameterValues("series") != null && request.getParameterValues("series").length > 0
-        // && request.getParameterValues("roles") != null && request.getParameterValues("roles").length > 0;
-
     }
 
     // Checks if all the input fields have been filled

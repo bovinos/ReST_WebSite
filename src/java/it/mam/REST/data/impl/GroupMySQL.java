@@ -156,10 +156,6 @@ public class GroupMySQL implements Group {
     public void removeAllServices() {
         services = null;
         dirty = true;
-        /**
-         * <qui dobbiamo eliminare anche dal DB? oppure è meglio che si faccia
-         * al momento della store?>
-         */
     }
 
     @Override

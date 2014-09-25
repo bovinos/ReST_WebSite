@@ -3,7 +3,13 @@
     <div id="schedule" class='accordion'>
         <#list days as day>
         <div id='Giorno${day_index + 1}' class='day accordionSection'>
+            <#if (day_index == 0)>
+            <h1 class='accordionSectionTitle today'><a href="#Giorno${day_index + 1}">Oggi</a></h1>
+            <#elseif (day_index == 1)>
+            <h1 class='accordionSectionTitle tomorrow'><a href="#Giorno${day_index + 1}">Domani</a></h1>
+            <#else>
             <h1 class='accordionSectionTitle'><a href="#Giorno${day_index + 1}">${day?date?string.short}</a></h1>
+            </#if>
             <div class='accordionContent'>
                 <#if (schedule[day_index]?size > 0) >
                 <#list schedule[day_index] as ce>

@@ -7,7 +7,8 @@
         <link rel="stylesheet" href="css/reset.css" type="text/css"/>
         <link rel="stylesheet" href="css/grid.css" type="text/css"/>
         <link rel="stylesheet" href="lib/ElegantFonts/ElegantFonts.css" type="text/css"/>
-        <link rel="stylesheet" href="css/provando_SASS.css" type="text/css"/>
+        <link rel="stylesheet" href="css/myStyle.css" type="text/css"/>
+        <script src="js/myScript.js" type="text/javascript"></script>
     </head>
 
     <body>
@@ -19,7 +20,7 @@
                 <ul>
                     <!-- controllo sulla sessione dell'utente -->
                     <#if user??>
-                    <#if (user.group?? && (user.group.ID == 1))> <!-- da rimpiazzare con isAdmin che mi passerà la logica -->
+                    <#if (user.group?? && (user.group.ID == 1))> 
                     <#if (where?? && (where == "back"))>
                     <li><a href="GestioneNews?sezione=1" class="active" data-icon="&#xe035;">Gestione</a></li>
                     <#else>
@@ -27,13 +28,13 @@
                     </#if>
                     </#if>
                     <#if (where?? && (where == "profile"))>
-                    <#if (notifyCount?? ) >
+                    <#if (notifyCount?? && notifyCount > 0) >
                     <li><a href="ProfiloPersonale?sezione=1" class="active" data-icon="&#xe08a;">Profilo<span class="notifyCount">${notifyCount}</span></a></li>
                     <#else>
                     <li><a href="ProfiloPersonale?sezione=1" class="active" data-icon="&#xe08a;">Profilo</a></li>
                     </#if>
                     <#else>
-                    <#if (notifyCount?? ) >
+                    <#if (notifyCount?? && notifyCount > 0) >
                     <li><a href="ProfiloPersonale?sezione=1" data-icon="&#xe08a;">Profilo<span class="notifyCount">${notifyCount}</span></a></li>
                     <#else>
                     <li><a href="ProfiloPersonale?sezione=1" data-icon="&#xe08a;">Profilo</a></li>
@@ -77,7 +78,7 @@
                     </li>
                     <!-- controllo sulla sessione dell'utente -->
                     <#if user??>
-                    <#if (user.group?? && (user.group.ID == 1))><!-- da rimpiazzare con isAdmin che mi passerà la logica -->
+                    <#if (user.group?? && (user.group.ID == 1))>
                     <#if (where?? && (where == "back"))>
                     <li id="littleScreenAdminSettings"><a href="GestioneNews?sezione=1" class="active"><span class="icon_tools"></span></a></li>
                     <#else>
@@ -120,7 +121,7 @@
 
             <div id="outlineHeader" class="row">
                 <!-- sarà sempre lo stesso -->
-                <div id="logo">LOGO REST</div>
+                <div id="logo"></div>
             </div><!-- FINE header -->
 
 
@@ -181,6 +182,6 @@
             </div><!-- FINE footer -->
         </div><!-- FINE container body -->
 
-        <script src="js/outline.js" type="text/javascript"></script>
+
     </body>
 </html>

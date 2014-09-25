@@ -190,8 +190,6 @@ var MyDatePicker = (function() {
 
         document.addEventListener("click", function(e) {
             if (e.target !== myDatePicker.firstChild && datePickerInput.parentNode.lastChild === myDatePicker) {
-                console.log(datePickerInput.parentNode.lastChild === myDatePicker);
-                console.log("rimuovendo");
                 datePickerInput.parentNode.removeChild(myDatePicker);
                 e.stopPropagation();
             } else if (e.target === datePickerInput && datePickerInput.parentNode.lastChild !== myDatePicker) {
@@ -237,7 +235,6 @@ var MyDatePicker = (function() {
                         days[i].removeClass("activeDay");
                     }
                 }
-
                 activeDay = e.target.val;
                 e.target.addClass("activeDay");
                 e.stopPropagation();
@@ -267,6 +264,7 @@ var MyDatePicker = (function() {
         return myDatePicker;
     };
 })();
+
 // singleton
 var MyTimePicker = (function() {
 
@@ -330,8 +328,6 @@ var MyTimePicker = (function() {
     }
 
     function setMyTimePickerValue(hours, minutes) {
-        console.log(hours);
-        console.log(minutes);
         hoursValue.val = hours;
         hoursValue.val <= 9 ? hoursValue.innerHTML = "0" + hoursValue.val : hoursValue.innerHTML = hoursValue.val;
         minutesValue.val = minutes;
@@ -415,7 +411,6 @@ var MyTimePicker = (function() {
 
     return function(DOMelement) {
         timePickerInput = DOMelement;
-        console.log(timePickerInput);
 
         if (!myTimePicker) {
             createMyTimePicker();
@@ -439,11 +434,9 @@ window.onload = function() {
         }; // mozilla & chrome
     }
 
-
     // DATE PICKER
     var datePickerInputs = document.querySelectorAll(".myDatePickerInput");
     for (var i = 0; i < datePickerInputs.length; i++) {
-        console.log(datePickerInputs[i]);
         datePickerInputs[i].addEventListener("click", function(e) {
             MyDatePicker(e.target);
         });
@@ -451,10 +444,8 @@ window.onload = function() {
     // TIME PICKER
     var timePickerInputs = document.querySelectorAll(".myTimePickerInput");
     for (var i = 0; i < timePickerInputs.length; i++) {
-        console.log(timePickerInputs[i]);
         timePickerInputs[i].addEventListener("click", function(e) {
             MyTimePicker(e.target);
         });
     }
-
 };

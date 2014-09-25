@@ -7,6 +7,7 @@ import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.mam.REST.utility.RESTSortLayer;
+import it.mam.REST.utility.RESTUtility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -25,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SeriesList extends RESTBaseController {
 
+    public static final int SERIES_PER_PAGE = 24;
+
     // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
@@ -38,7 +41,6 @@ public class SeriesList extends RESTBaseController {
         request.setAttribute("where", "series");
         List<Series> seriesList = getDataLayer().getSeries();
         //Start Page Management ===========================================================================
-        // Collections.reverse(seriesList);
         RESTSortLayer.trendify(seriesList);
         int page; //page number 
         if (request.getParameter("page") != null) {
@@ -47,11 +49,10 @@ public class SeriesList extends RESTBaseController {
             page = 1;
         }
         request.setAttribute("currentPage", page);
-        int seriesPerPage = 10; // number of series per page
-        int numberOfPages = (int) Math.ceil((double) seriesList.size() / seriesPerPage); // total number of pages
+        int numberOfPages = (int) Math.ceil((double) seriesList.size() / SeriesList.SERIES_PER_PAGE); // total number of pages
         request.setAttribute("totalPages", numberOfPages);
         if (page == numberOfPages) {
-            request.setAttribute("series", seriesList.subList((page * seriesPerPage) - seriesPerPage, seriesList.size()));
+            request.setAttribute("series", seriesList.subList((page * SeriesList.SERIES_PER_PAGE) - SeriesList.SERIES_PER_PAGE, seriesList.size()));
         } else if (seriesList.isEmpty()) {
             request.setAttribute("series", seriesList);
         } else if (page > numberOfPages || page < 1) {
@@ -59,7 +60,7 @@ public class SeriesList extends RESTBaseController {
             System.err.println("Errore in action_series_list in SeriesList.java: il numero di pagina corrente è superiore al numero totale di pagine o è minore di 1");
             return;
         } else {
-            request.setAttribute("series", seriesList.subList((page * seriesPerPage) - seriesPerPage, (page * seriesPerPage)));
+            request.setAttribute("series", seriesList.subList((page * SeriesList.SERIES_PER_PAGE) - SeriesList.SERIES_PER_PAGE, (page * SeriesList.SERIES_PER_PAGE)));
         }
         // End Page Management =======================================================================
 
@@ -68,7 +69,7 @@ public class SeriesList extends RESTBaseController {
             if (SecurityLayer.checkSession(request) != null) {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
             }
         } catch (NumberFormatException ex) {
             //User id is not a number
@@ -91,7 +92,7 @@ public class SeriesList extends RESTBaseController {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
                 request.setAttribute("series", getDataLayer().getHintSeries(user));
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
             } //else nothing, this list can be seen without being logged in
         } catch (NumberFormatException ex) {
             //User id is not a number

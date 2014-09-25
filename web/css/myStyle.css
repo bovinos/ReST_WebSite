@@ -54,10 +54,6 @@
     max-height: 0px;
     opacity: 0; } }
 #message {
-  max-height: 0;
-  /* animazione */
-  opacity: 0;
-  /* animazione */
   width: 50%;
   margin: 20px auto 20px auto;
   text-align: center;
@@ -196,7 +192,8 @@
           color: #1695A3;
           transition: color 0.3s ease-in-out;
           -webkit-transition: color 0.3s ease-in-out;
-          -moz-transition: color 0.3s ease-in-out; }
+          -moz-transition: color 0.3s ease-in-out;
+          -o-transition: color 0.3s ease-in-out; }
           #myDatePickerContainer #myDatePicker table thead #previousMonth:hover, #myDatePickerContainer #myDatePicker table thead #nextMonth:hover {
             color: #EB7F00; }
         #myDatePickerContainer #myDatePicker table thead #previousMonth {
@@ -256,7 +253,8 @@
       cursor: pointer;
       transition: color 0.3s ease-in-out;
       -webkit-transition: color 0.3s ease-in-out;
-      -moz-transition: color 0.3s ease-in-out; }
+      -moz-transition: color 0.3s ease-in-out;
+      -o-transition: color 0.3s ease-in-out; }
       #myTimePickerContainer #myTimePicker .arrow:hover {
         color: #EB7F00; }
 
@@ -265,12 +263,6 @@
 @font-face {
   font-family: 'OpenSans';
   src: url(../font/OpenSans-Regular.ttf) format("truetype"); }
-@font-face {
-  font-family: 'Lato';
-  src: url(../font/Lato-Regular.ttf) format("truetype"); }
-@font-face {
-  font-family: 'Roboto';
-  src: url(../font/Roboto-Regular.ttf) format("truetype"); }
 @font-face {
   font-family: 'Laila';
   src: url(../font/Laila-Regular.ttf) format("truetype"); }
@@ -340,8 +332,7 @@ input:invalid {
   vertical-align: middle; }
 
 html, body {
-  font-family: OpenSans, Verdana, Arial, Helvetica;
-  /* pi├╣ in l├á inserire web font e gestire la tipografia in generale */
+  font-family: OpenSans, Helvetica, Verdana, Arial, Sans-Serif;
   font-size: 10px;
   background: #FFFFFF;
   height: 100%; }
@@ -351,21 +342,25 @@ a {
   color: #1695A3;
   transition: color 0.3s ease-in-out;
   -webkit-transition: color 0.3s ease-in-out;
-  -moz-transition: color 0.3s ease-in-out; }
+  -moz-transition: color 0.3s ease-in-out;
+  -o-transition: color 0.3s ease-in-out; }
   a:hover {
     color: #EB7F00;
     transition: color 0.3s ease-in-out;
     -webkit-transition: color 0.3s ease-in-out;
-    -moz-transition: color 0.3s ease-in-out; }
+    -moz-transition: color 0.3s ease-in-out;
+    -o-transition: color 0.3s ease-in-out; }
   a:before {
     color: #1695A3;
     transition: color 0.3s ease-in-out;
     -webkit-transition: color 0.3s ease-in-out;
-    -moz-transition: color 0.3s ease-in-out; }
+    -moz-transition: color 0.3s ease-in-out;
+    -o-transition: color 0.3s ease-in-out; }
   a:before:hover {
     transition: color 0.3s ease-in-out;
     -webkit-transition: color 0.3s ease-in-out;
-    -moz-transition: color 0.3s ease-in-out; }
+    -moz-transition: color 0.3s ease-in-out;
+    -o-transition: color 0.3s ease-in-out; }
 
 button {
   border: none;
@@ -374,7 +369,8 @@ button {
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
   -webkit-transition: background-color 0.3s ease-in-out;
-  -moz-transition: background-color 0.3s ease-in-out; }
+  -moz-transition: background-color 0.3s ease-in-out;
+  -o-transition: background-color 0.3s ease-in-out; }
   button:hover {
     background-color: #EB7F00; }
 
@@ -395,6 +391,7 @@ button {
     transition: background-color 0.3s ease-in-out;
     -webkit-transition: background-color 0.3s ease-in-out;
     -moz-transition: background-color 0.3s ease-in-out;
+    -o-transition: background-color 0.3s ease-in-out;
     color: #FFFFFF; }
     .pageList ul li:hover {
       background-color: #EB7F00; }
@@ -426,7 +423,8 @@ button {
     background-color: #225378;
     transition: background-color 0.3s ease-in-out;
     -webkit-transition: background-color 0.3s ease-in-out;
-    -moz-transition: background-color 0.3s ease-in-out; }
+    -moz-transition: background-color 0.3s ease-in-out;
+    -o-transition: background-color 0.3s ease-in-out; }
     .moreComments a:hover {
       background-color: #EB7F00; }
 
@@ -469,7 +467,8 @@ button {
       font-size: 2.5rem;
       transition: color 0.3s ease-in-out;
       -webkit-transition: color 0.3s ease-in-out;
-      -moz-transition: color 0.3s ease-in-out; }
+      -moz-transition: color 0.3s ease-in-out;
+      -o-transition: color 0.3s ease-in-out; }
     .formContainer form input[type="checkbox"]:checked + label:before, .formContainer form input[type="radio"]:checked + label:before {
       color: #EB7F00; }
     .formContainer form input[type="checkbox"]:not(:checked) + label:before, .formContainer form input[type="radio"]:not(:checked) + label:before {
@@ -529,7 +528,8 @@ button {
           font-size: 3rem;
           transition: all 0.5s ease-in-out;
           -webkit-transition: all 0.5s ease-in-out;
-          -moz-transition: all 0.5s ease-in-out; }
+          -moz-transition: all 0.5s ease-in-out;
+          -o-transition: all 0.5s ease-in-out; }
       .formContainer form .mySelectContainer .mySingleSelect input[type="checkbox"].mySingleSelectArrow:checked + label:before {
         -webkit-transform: rotate(180deg);
         -moz-transform: rotate(180deg);
@@ -601,7 +601,7 @@ button {
       bottom: 15px;
       z-index: 100;
       visibility: hidden;
-      /* coloro i le label ( che fingono da radio button ) nel momento in cui il radio button ├¿ attivo */
+      /* coloro le label ( che fingono da radio button ) nel momento in cui il radio button ├¿ attivo */
       /* sposto la lista a seconda dell'immagine che scelgo: */
       /* immagine 1: left: 0 ( in questo modo si visualizza l'immagine 1 ) */
       /* immagine 1: left: -100% ( in questo modo si visualizza l'immagine 2 ) */
@@ -661,6 +661,7 @@ button {
       transition: background 0.2s ease-in-out;
       -webkit-transition: background 0.2s ease-in-out;
       -moz-transition: background 0.2s ease-in-out;
+      -o-transition: background 0.2s ease-in-out;
       cursor: pointer; }
       #slider #slideshow-wrap label:not(.arrows):active {
         bottom: -46px; }
@@ -690,13 +691,13 @@ button {
         /* la posiziono alla prima immagine */
         transition: left 0.8s ease-in-out;
         -webkit-transition: left 0.8s ease-in-out;
-        -moz-transition: left 0.8s ease-in-out; }
+        -moz-transition: left 0.8s ease-in-out;
+        -o-transition: left 0.8s ease-in-out; }
         #slider #slideshow-wrap #slideshow-inner ul li {
           width: 20%;
           /* 20% perch├® la width totale era il 500%, quindi viene il 100%. ma se fosse stata del 1000% (cio├¿ 10 immagini) qui ci andava 10%*/
           height: 320px;
           float: left;
-          /* cos├¼ le immagini sono affiancate */
           position: relative; }
           #slider #slideshow-wrap #slideshow-inner ul li img {
             margin: auto;
@@ -716,6 +717,7 @@ button {
       transition: opacity 0.2s ease-in-out;
       -webkit-transition: opacity 0.2s ease-in-out;
       -moz-transition: opacity 0.2s ease-in-out;
+      -o-transition: opacity 0.2s ease-in-out;
       text-shadow: 0px 0px 3px #1695A3; }
       #slider #slideshow-wrap label.arrows:hover {
         opacity: 1; }
@@ -729,19 +731,18 @@ button {
   padding: 10px; }
   .accordion .accordionSection {
     overflow: hidden;
-    /* accordion verticale */
     width: 100%;
     height: 40px;
     max-height: 40px;
     line-height: 40px;
     transition: max-height 2s ease-in-out;
     -webkit-transition: max-height 2s ease-in-out;
-    -moz-transition: max-height 2s ease-in-out; }
+    -moz-transition: max-height 2s ease-in-out;
+    -o-transition: max-height 2s ease-in-out; }
     .accordion .accordionSection:hover {
       background-color: #225378; }
     .accordion .accordionSection:target {
       background: #FFFFFF;
-      /* accordion verticale */
       height: auto;
       max-height: 6000px;
       width: 100%; }
@@ -765,7 +766,8 @@ button {
       background-color: #1695A3;
       transition: background-color 0.3s ease-in-out;
       -webkit-transition: background-color 0.3s ease-in-out;
-      -moz-transition: background-color 0.3s ease-in-out; }
+      -moz-transition: background-color 0.3s ease-in-out;
+      -o-transition: background-color 0.3s ease-in-out; }
       .accordion .accordionSection .accordionSectionTitle a:hover {
         background-color: #225378; }
 
@@ -802,7 +804,8 @@ button {
     background: none;
     transition: color 0.3s ease-in-out;
     -webkit-transition: color 0.3s ease-in-out;
-    -moz-transition: color 0.3s ease-in-out; }
+    -moz-transition: color 0.3s ease-in-out;
+    -o-transition: color 0.3s ease-in-out; }
     #leftCol form .leftColRealForm #searchButtonFilter:hover {
       color: #EB7F00; }
   #leftCol form .leftColRealForm input[type="text"] {
@@ -820,12 +823,14 @@ button {
     -moz-border-radius: 0px;
     transition: border-bottom-color 0.3s ease-in-out;
     -webkit-transition: border-bottom-color 0.3s ease-in-out;
-    -moz-transition: border-bottom-color 0.3s ease-in-out; }
+    -moz-transition: border-bottom-color 0.3s ease-in-out;
+    -o-transition: border-bottom-color 0.3s ease-in-out; }
     #leftCol form .leftColRealForm input[type="text"].search:focus {
       border-bottom-color: #EB7F00;
       transition: border-bottom-color 0.3s ease-in-out;
       -webkit-transition: border-bottom-color 0.3s ease-in-out;
-      -moz-transition: border-bottom-color 0.3s ease-in-out; }
+      -moz-transition: border-bottom-color 0.3s ease-in-out;
+      -o-transition: border-bottom-color 0.3s ease-in-out; }
   #leftCol form .leftColRealForm button {
     width: 100%;
     padding: 10px 0;
@@ -863,7 +868,8 @@ button {
         color: #FFFFFF;
         transition: color 0.3s ease-in-out;
         -webkit-transition: color 0.3s ease-in-out;
-        -moz-transition: color 0.3s ease-in-out; }
+        -moz-transition: color 0.3s ease-in-out;
+        -o-transition: color 0.3s ease-in-out; }
         #topBar ul li a:hover:before {
           color: #EB7F00; }
         #topBar ul li a:before {
@@ -887,13 +893,17 @@ button {
             color: #ACF0F2;
             font-size: 1.5rem;
             width: 0;
+            max-width: 0;
+            /* per safari */
             transition: all 0.5s ease-in-out;
             -webkit-transition: all 0.5s ease-in-out;
-            -moz-transition: all 0.5s ease-in-out; }
+            -moz-transition: all 0.5s ease-in-out;
+            -o-transition: all 0.5s ease-in-out; }
             #topBar ul li#search #searchForm input:focus {
               opacity: 1;
               border-bottom-color: #EB7F00;
-              width: 200px; }
+              width: 200px;
+              max-width: 200px; }
           #topBar ul li#search #searchForm button {
             border: none;
             background: none;
@@ -902,12 +912,14 @@ button {
             color: #1695A3;
             transition: color 0.3s ease-in-out;
             -webkit-transition: color 0.3s ease-in-out;
-            -moz-transition: color 0.3s ease-in-out; }
+            -moz-transition: color 0.3s ease-in-out;
+            -o-transition: color 0.3s ease-in-out; }
             #topBar ul li#search #searchForm button:hover {
               color: #EB7F00; }
           #topBar ul li#search #searchForm:hover input {
             opacity: 1;
-            width: 200px; }
+            width: 200px;
+            max-width: 200px; }
       #topBar ul li#LogIn, #topBar ul li#LogOut {
         float: right;
         padding: 0 10px 2px 10px;
@@ -921,12 +933,14 @@ button {
         cursor: pointer;
         transition: background 0.3s ease-in-out;
         -webkit-transition: background 0.3s ease-in-out;
-        -moz-transition: background 0.3s ease-in-out; }
+        -moz-transition: background 0.3s ease-in-out;
+        -o-transition: background 0.3s ease-in-out; }
         #topBar ul li#LogIn:hover, #topBar ul li#LogOut:hover {
           background: #EB7F00;
           transition: background 0.3s ease-in-out;
           -webkit-transition: background 0.3s ease-in-out;
-          -moz-transition: background 0.3s ease-in-out; }
+          -moz-transition: background 0.3s ease-in-out;
+          -o-transition: background 0.3s ease-in-out; }
 
 #littleScreenTopBar {
   z-index: 9999;
@@ -950,7 +964,8 @@ button {
         color: #FFFFFF;
         transition: color 0.3s ease-in-out;
         -webkit-transition: color 0.3s ease-in-out;
-        -moz-transition: color 0.3s ease-in-out; }
+        -moz-transition: color 0.3s ease-in-out;
+        -o-transition: color 0.3s ease-in-out; }
         #littleScreenTopBar ul li a:hover, #littleScreenTopBar ul li a.active {
           color: #EB7F00; }
       #littleScreenTopBar ul li#littleScreenSearch {
@@ -980,7 +995,8 @@ button {
             font-size: 2rem;
             transition: color 0.3s ease-in-out;
             -webkit-transition: color 0.3s ease-in-out;
-            -moz-transition: color 0.3s ease-in-out; }
+            -moz-transition: color 0.3s ease-in-out;
+            -o-transition: color 0.3s ease-in-out; }
             #littleScreenTopBar ul li#littleScreenSearch form button:hover {
               color: #EB7F00; }
         #littleScreenTopBar ul li#littleScreenSearch:target {
@@ -991,9 +1007,11 @@ button {
 /* HEADER
 =============================================================================================== */
 #outlineHeader #logo {
-  background: transparent url("../img/placeholder.jpg") no-repeat;
-  background-size: cover;
-  height: 300px; }
+  background-image: url("../img/logo.png"), url("../img/background.jpg");
+  background-size: contain, cover;
+  background-position: center center;
+  background-repeat: no-repeat, no-repeat;
+  height: 500px; }
 
 /* BODY
 =============================================================================================== */
@@ -1050,12 +1068,14 @@ button {
       opacity: 0.3;
       transition: opacity 0.3s ease-in-out;
       -webkit-transition: opacity 0.3s ease-in-out;
-      -moz-transition: opacity 0.3s ease-in-out; }
+      -moz-transition: opacity 0.3s ease-in-out;
+      -o-transition: opacity 0.3s ease-in-out; }
     #outlineFooter #googlePlay:hover:after {
       opacity: 1;
       transition: opacity 0.3s ease-in-out;
       -webkit-transition: opacity 0.3s ease-in-out;
-      -moz-transition: opacity 0.3s ease-in-out; }
+      -moz-transition: opacity 0.3s ease-in-out;
+      -o-transition: opacity 0.3s ease-in-out; }
 
 /* NEWS LIST PAGE
 =============================================================================================== */
@@ -1071,8 +1091,8 @@ button {
     text-align: center;
     margin-bottom: 15px; }
     #newsList .news .head a.right {
-      position: absolute;
-      right: 5%;
+      float: right;
+      margin-right: 5px;
       font-size: 2.5rem; }
     #newsList .news .head .center {
       font-family: Laila;
@@ -1125,12 +1145,14 @@ button {
       max-height: 25px;
       transition: max-height 0.5s ease-in-out;
       -webkit-transition: max-height 0.5s ease-in-out;
-      -moz-transition: max-height 0.5s ease-in-out; }
+      -moz-transition: max-height 0.5s ease-in-out;
+      -o-transition: max-height 0.5s ease-in-out; }
       #seriesList .seriesBox a:hover > .seriesDescription > h1 {
         opacity: 1;
         transition: opacity 0.8s ease-in-out;
         -webkit-transition: opacity 0.8s ease-in-out;
-        -moz-transition: opacity 0.8s ease-in-out; }
+        -moz-transition: opacity 0.8s ease-in-out;
+        -o-transition: opacity 0.8s ease-in-out; }
     #seriesList .seriesBox a .imgContainer {
       display: inline-block;
       width: 100%;
@@ -1142,7 +1164,8 @@ button {
         overflow: hidden;
         transition: all 0.5s ease-in-out;
         -webkit-transition: all 0.5s ease-in-out;
-        -moz-transition: all 0.5s ease-in-out; }
+        -moz-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out; }
     #seriesList .seriesBox a .seriesDescription {
       background-color: rgba(0, 0, 0, 0.7);
       height: 25px;
@@ -1155,7 +1178,8 @@ button {
       max-height: 0px;
       transition: max-height 0.5s ease-in-out;
       -webkit-transition: max-height 0.5s ease-in-out;
-      -moz-transition: max-height 0.5s ease-in-out; }
+      -moz-transition: max-height 0.5s ease-in-out;
+      -o-transition: max-height 0.5s ease-in-out; }
       #seriesList .seriesBox a .seriesDescription h1 {
         font-family: Laila;
         color: #FFFFFF;
@@ -1163,7 +1187,8 @@ button {
         opacity: 0;
         transition: opacity 0.8s ease-in-out;
         -webkit-transition: opacity 0.8s ease-in-out;
-        -moz-transition: opacity 0.8s ease-in-out; }
+        -moz-transition: opacity 0.8s ease-in-out;
+        -o-transition: opacity 0.8s ease-in-out; }
 
 /* SERIES CARD PAGE
 =============================================================================================== */
@@ -1240,7 +1265,8 @@ button {
       line-height: 60px;
       transition: background-color 0.3s ease-in-out;
       -webkit-transition: background-color 0.3s ease-in-out;
-      -moz-transition: background-color 0.3s ease-in-out; }
+      -moz-transition: background-color 0.3s ease-in-out;
+      -o-transition: background-color 0.3s ease-in-out; }
       #seriesCard #buttons a:hover {
         background-color: #EB7F00; }
       #seriesCard #buttons a.fullPage {
@@ -1352,14 +1378,16 @@ button {
         margin-right: 3px;
         transition: color 0.3s ease-in-out;
         -webkit-transition: color 0.3s ease-in-out;
-        -moz-transition: color 0.3s ease-in-out; }
+        -moz-transition: color 0.3s ease-in-out;
+        -o-transition: color 0.3s ease-in-out; }
       #commentsList .footer .right .like:hover:before {
         color: #33cc00; }
     #commentsList .footer .right .dislike:before {
       margin-right: 3px;
       transition: color 0.3s ease-in-out;
       -webkit-transition: color 0.3s ease-in-out;
-      -moz-transition: color 0.3s ease-in-out; }
+      -moz-transition: color 0.3s ease-in-out;
+      -o-transition: color 0.3s ease-in-out; }
     #commentsList .footer .right .dislike:hover:before {
       color: #cc0000; }
 
@@ -1413,7 +1441,8 @@ button {
         padding: 3px 5px;
         transition: background-color 0.3s ease-in-out;
         -webkit-transition: background-color 0.3s ease-in-out;
-        -moz-transition: background-color 0.3s ease-in-out; }
+        -moz-transition: background-color 0.3s ease-in-out;
+        -o-transition: background-color 0.3s ease-in-out; }
         #newsCard > .footer .left.tag p a:hover {
           background-color: #EB7F00; }
   #newsCard > .footer .right {
@@ -1428,14 +1457,16 @@ button {
         margin-right: 3px;
         transition: color 0.3s ease-in-out;
         -webkit-transition: color 0.3s ease-in-out;
-        -moz-transition: color 0.3s ease-in-out; }
+        -moz-transition: color 0.3s ease-in-out;
+        -o-transition: color 0.3s ease-in-out; }
       #newsCard > .footer .right .like:hover:before {
         color: #33cc00; }
     #newsCard > .footer .right .dislike:before {
       margin-right: 3px;
       transition: color 0.3s ease-in-out;
       -webkit-transition: color 0.3s ease-in-out;
-      -moz-transition: color 0.3s ease-in-out; }
+      -moz-transition: color 0.3s ease-in-out;
+      -o-transition: color 0.3s ease-in-out; }
     #newsCard > .footer .right .dislike:hover:before {
       color: #cc0000; }
 
@@ -1550,7 +1581,8 @@ button {
       padding: 10px;
       transition: background-color 0.3s ease-in-out;
       -webkit-transition: background-color 0.3s ease-in-out;
-      -moz-transition: background-color 0.3s ease-in-out; }
+      -moz-transition: background-color 0.3s ease-in-out;
+      -o-transition: background-color 0.3s ease-in-out; }
       #userSeries #seriesHint #viewAllHint:hover {
         background-color: #EB7F00; }
     #userSeries #seriesHint .seriesBox {
@@ -1585,7 +1617,8 @@ button {
             overflow: hidden;
             transition: all 0.5s ease-in-out;
             -webkit-transition: all 0.5s ease-in-out;
-            -moz-transition: all 0.5s ease-in-out; }
+            -moz-transition: all 0.5s ease-in-out;
+            -o-transition: all 0.5s ease-in-out; }
         #userSeries #seriesHint .seriesBox a .seriesDescription {
           background-color: rgba(0, 0, 0, 0.7);
           line-height: 25px;
@@ -1597,7 +1630,8 @@ button {
           max-height: 0px;
           transition: max-height 0.5s ease-in-out;
           -webkit-transition: max-height 0.5s ease-in-out;
-          -moz-transition: max-height 0.5s ease-in-out; }
+          -moz-transition: max-height 0.5s ease-in-out;
+          -o-transition: max-height 0.5s ease-in-out; }
           #userSeries #seriesHint .seriesBox a .seriesDescription p {
             font-family: Laila;
             color: #FFFFFF;
@@ -1605,7 +1639,8 @@ button {
             opacity: 0;
             transition: opacity 0.8s ease-in-out;
             -webkit-transition: opacity 0.8s ease-in-out;
-            -moz-transition: opacity 0.8s ease-in-out; }
+            -moz-transition: opacity 0.8s ease-in-out;
+            -o-transition: opacity 0.8s ease-in-out; }
   #userSeries .series {
     padding: 5px;
     -webkit-box-shadow: 0 0 3px #1695A3;
@@ -1622,7 +1657,8 @@ button {
         font-size: 2.5rem;
         transition: color 0.3s ease-in-out;
         -webkit-transition: color 0.3s ease-in-out;
-        -moz-transition: color 0.3s ease-in-out; }
+        -moz-transition: color 0.3s ease-in-out;
+        -o-transition: color 0.3s ease-in-out; }
       #userSeries .series .head a.left {
         position: absolute;
         left: 0; }
@@ -1672,6 +1708,8 @@ button {
 
 /* USER BROADCAST PROGRAMMING PAGE
 =============================================================================================== */
+#userBroadcastProgramming .today > a {
+  background-color: #EB7F00; }
 #userBroadcastProgramming .dayEpisode {
   padding: 5px;
   -webkit-box-shadow: 0 0 3px #1695A3;
@@ -1757,7 +1795,18 @@ button {
 #removeServiceGroup {
   width: 70%; }
 
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+  html, body {
+    font-size: 9px; } }
 @media only screen and (max-width: 767px) {
+  html, body {
+    font-size: 10px; }
+
+  #outlineHeader #logo {
+    background-size: contain, 300% 300%;
+    background-position: center center, -200px -100px;
+    height: 150px; }
+
   /* ERROR MESSAGE
   =============================================================================================== */
   #errorMessage {
@@ -2022,4 +2071,4 @@ button {
     #myTimePickerContainer #myTimePicker .arrow {
       font-size: 3rem; } }
 
-/*# sourceMappingURL=provando_SASS.css.map */
+/*# sourceMappingURL=myStyle.css.map */

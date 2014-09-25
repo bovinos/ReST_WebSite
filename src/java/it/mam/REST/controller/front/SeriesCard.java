@@ -9,6 +9,7 @@ import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
 import it.mam.REST.utility.RESTSortLayer;
+import it.mam.REST.utility.RESTUtility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -103,7 +104,7 @@ public class SeriesCard extends RESTBaseController {
                     UserSeries us = getDataLayer().getUserSeries(user, s);
                     favourite = (us != null);
                     request.setAttribute("favourite", favourite);
-                    RESTSortLayer.checkNotifications(user, request, response);      
+                    RESTUtility.checkNotifications(user, request, response);      
                 } catch (NumberFormatException ex) {
                     //User id is not a number
                 }

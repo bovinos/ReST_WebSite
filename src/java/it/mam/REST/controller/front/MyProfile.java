@@ -7,6 +7,7 @@ import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
 import it.mam.REST.utility.RESTSortLayer;
+import it.mam.REST.utility.RESTUtility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -41,26 +42,31 @@ public class MyProfile extends RESTBaseController {
             if (SecurityLayer.checkSession(request) != null) {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("userProfileContent_tpl", "userBroadcastProgramming.ftl.html");
                 Calendar iterationCalendar = Calendar.getInstance();
                 Calendar episodeCalendar = Calendar.getInstance();
                 List<List<ChannelEpisode>> schedule = new ArrayList();
                 List<Date> days = new ArrayList();
                 List<ChannelEpisode> ceList = getDataLayer().getChannelEpisode();
+                Date now = new Date();
                 for (int i = 0; i < 7; i++) {
                     List<ChannelEpisode> ceResult = new ArrayList();
-                    iterationCalendar.setTimeInMillis(new Date().getTime() + (i * RESTSortLayer.DAY_IN_MILLISECONDS));
+                    iterationCalendar.setTimeInMillis(now.getTime() + (i * RESTSortLayer.DAY_IN_MILLISECONDS));
                     days.add(iterationCalendar.getTime());
                     for (ChannelEpisode ce : ceList) {
                         episodeCalendar.setTimeInMillis(ce.getDate().getTime());
+                        System.err.println(getDataLayer().getUserSeries(user, ce.getEpisode().getSeries()));
+                        if (getDataLayer().getUserSeries(user, ce.getEpisode().getSeries()) == null) {
+                            continue;
+                        }
                         if (episodeCalendar.get(Calendar.DAY_OF_MONTH) == iterationCalendar.get(Calendar.DAY_OF_MONTH)
                                 && episodeCalendar.get(Calendar.MONTH) == iterationCalendar.get(Calendar.MONTH)
                                 && episodeCalendar.get(Calendar.YEAR) == iterationCalendar.get(Calendar.YEAR)
-                                && (episodeCalendar.get(Calendar.HOUR) * RESTSortLayer.HOUR_IN_MILLISECONDS
+                                && (episodeCalendar.get(Calendar.HOUR_OF_DAY) * RESTSortLayer.HOUR_IN_MILLISECONDS
                                 + episodeCalendar.get(Calendar.MINUTE) * RESTSortLayer.MINUTE_IN_MILLISECONDS
                                 + episodeCalendar.get(Calendar.SECOND) * RESTSortLayer.SECOND_IN_MILLISECONDS)
-                                > (iterationCalendar.get(Calendar.HOUR) * RESTSortLayer.HOUR_IN_MILLISECONDS
+                                > (iterationCalendar.get(Calendar.HOUR_OF_DAY) * RESTSortLayer.HOUR_IN_MILLISECONDS
                                 + iterationCalendar.get(Calendar.MINUTE) * RESTSortLayer.MINUTE_IN_MILLISECONDS
                                 + iterationCalendar.get(Calendar.SECOND) * RESTSortLayer.SECOND_IN_MILLISECONDS)
                                 && (getDataLayer().getUserSeries(user, ce.getEpisode().getSeries()).getSeason()) == ce.getEpisode().getSeason()
@@ -183,7 +189,7 @@ public class MyProfile extends RESTBaseController {
                     }
                     getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
                     // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
-                    // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima xD
+                    // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima
                     response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
 
                 }
@@ -251,7 +257,7 @@ public class MyProfile extends RESTBaseController {
                 }
                 getDataLayer().storeUserSeries(RESTSecurityLayer.addSlashes(us));
                 // con questa sendRedirect il caricamento della nuova pagina andrà a finire sempre sulla serie in cui l'utente ha
-                // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima xD
+                // appena modificato la valutazione, in questo modo ritroverà la pagina esattamente dov'era prima
                 response.sendRedirect("ProfiloPersonale?sezione=1#s" + series.getID());
 
             } else {

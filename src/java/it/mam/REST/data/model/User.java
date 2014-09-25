@@ -108,11 +108,6 @@ public interface User {
 
     void removeAllMessages();
 
-    /**
-     * We assumed that news are created only by admins
-     *
-     * @return
-     */
     List<News> getNews();
 
     void setNews(List<News> news);

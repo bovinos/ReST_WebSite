@@ -5,7 +5,7 @@ import it.mam.REST.data.model.Genre;
 import it.mam.REST.data.model.User;
 import it.mam.REST.data.model.UserSeries;
 import it.mam.REST.utility.RESTSortLayer;
-import it.mam.REST.utility.Utility;
+import it.mam.REST.utility.RESTUtility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -40,7 +40,7 @@ public class MyProfileEdit extends RESTBaseController {
 
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("userProfileContent_tpl", "userSignUpData.ftl.html");
                 result.activate("userProfile/userProfileOutline.ftl.html", request, response);
             } else {
@@ -71,11 +71,11 @@ public class MyProfileEdit extends RESTBaseController {
                 }
 
                 if (request.getParameter("oldpassword") != null && request.getParameter("oldpassword").length() > 0
-                        && (Utility.stringToMD5(Utility.stringToMD5(request.getParameter("oldpassword")))).equals(user.getPassword())
+                        && (RESTUtility.stringToMD5(RESTUtility.stringToMD5(request.getParameter("oldpassword")))).equals(user.getPassword())
                         && (request.getParameter("newpassword") != null && request.getParameter("newpassword").length() > 0)
                         && (request.getParameter("confirmpassword") != null && request.getParameter("confirmpassword").length() > 0)
                         && (request.getParameter("newpassword").equals(request.getParameter("confirmpassword")))) {
-                    user.setPassword(Utility.stringToMD5(Utility.stringToMD5(request.getParameter("newpassword"))));
+                    user.setPassword(RESTUtility.stringToMD5(RESTUtility.stringToMD5(request.getParameter("newpassword"))));
                 }
                 getDataLayer().storeUser(RESTSecurityLayer.addSlashes(user));
                 request.setAttribute("success", "Dati di registrazione modificati correttamente!");
@@ -101,7 +101,7 @@ public class MyProfileEdit extends RESTBaseController {
 
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("genres", getDataLayer().getGenres());
                 request.setAttribute("userProfileContent_tpl", "userOptionalData.ftl.html");
                 result.activate("userProfile/userProfileOutline.ftl.html", request, response);
@@ -196,7 +196,7 @@ public class MyProfileEdit extends RESTBaseController {
             if (SecurityLayer.checkSession(request) != null) {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("userProfileContent_tpl", "userNotifySettings.ftl.html");
                 result.activate("userProfile/userProfileOutline.ftl.html", request, response);
             } else {

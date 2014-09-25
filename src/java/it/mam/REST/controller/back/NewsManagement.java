@@ -5,7 +5,7 @@ import it.mam.REST.data.model.Group;
 import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
-import it.mam.REST.utility.RESTSortLayer;
+import it.mam.REST.utility.RESTUtility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -45,7 +45,7 @@ public class NewsManagement extends RESTBaseController {
                 }
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("series", getDataLayer().getSeries());
                 request.setAttribute("where", "back");
                 request.setAttribute("backContent_tpl", "insertNews.ftl.html");
@@ -102,7 +102,6 @@ public class NewsManagement extends RESTBaseController {
                     return;
                 }
                 news.setUser(user);
-                System.err.println(news);
                 getDataLayer().storeNews(RESTSecurityLayer.addSlashes(news));
             } else {
                 //User session is no longer valid
@@ -134,7 +133,7 @@ public class NewsManagement extends RESTBaseController {
                 }
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("news", getDataLayer().getNews());
                 request.setAttribute("where", "back");
                 request.setAttribute("backContent_tpl", "removeNews.ftl.html");

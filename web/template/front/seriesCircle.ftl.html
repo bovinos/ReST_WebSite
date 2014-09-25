@@ -36,7 +36,7 @@
                     </div>
                     <div class="footer">
                         <div class="right">
-                            <p>${strip_slashes(m.user.username)?html}, ${m.date?datetime} </p>
+                            <p>${strip_slashes(m.user.username)?html}, ${m.date?string("dd/MM/yyyy HH:mm")} </p>
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ import it.mam.REST.data.model.News;
 import it.mam.REST.data.model.Series;
 import it.mam.REST.data.model.User;
 import it.mam.REST.utility.RESTSortLayer;
+import it.mam.REST.utility.RESTUtility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -24,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class NewsList extends RESTBaseController {
 
+    public static final int NEWS_PER_PAGE = 12;
+
     // Creates the default error template and prints the message just received on it
     private void action_error(HttpServletRequest request, HttpServletResponse response, String message) {
         FailureResult fail = new FailureResult(getServletContext());
@@ -33,46 +36,43 @@ public class NewsList extends RESTBaseController {
     //Activates the newsList template
     private void action_news_list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
-        List<News> newsList =getDataLayer().getNews();
+        List<News> newsList = getDataLayer().getNews();
         request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
         request.setAttribute("where", "news");
         request.setAttribute("series", RESTSortLayer.sortSeriesByName(getDataLayer().getSeries())); // for filters
-        
-        
 
         //Start Page Management =======================================================================
         Collections.reverse(newsList);
         int page; //page number 
-        if(request.getParameter("page") != null) {
-        page = SecurityLayer.checkNumeric(request.getParameter("page"));
+        if (request.getParameter("page") != null) {
+            page = SecurityLayer.checkNumeric(request.getParameter("page"));
         } else {
             page = 1;
         }
         request.setAttribute("currentPage", page);
-        int newsPerPage = 10; // number of news per page
-        int numberOfPages = Math.round(newsList.size()/newsPerPage) + 1; // total number of pages
+        int numberOfPages = Math.round(newsList.size() / NewsList.NEWS_PER_PAGE) + 1; // total number of pages
         request.setAttribute("totalPages", numberOfPages);
-        if(page == numberOfPages) {
-            request.setAttribute("news", newsList.subList((page*newsPerPage)-newsPerPage, newsList.size()));
-       } else if(newsList.isEmpty()){
-             request.setAttribute("series", newsList);
+        if (page == numberOfPages) {
+            request.setAttribute("news", newsList.subList((page * NewsList.NEWS_PER_PAGE) - NewsList.NEWS_PER_PAGE, newsList.size()));
+        } else if (newsList.isEmpty()) {
+            request.setAttribute("series", newsList);
         } else if (page > numberOfPages || page < 1) {
             action_error(request, response, "Riprova di nuovo!");
             System.err.println("Errore in NewsList.java, nel metodo action_news_list: la pagina corrente è maggiore del numero totale di pagine o è minore di 1");
             return;
         } else {
-            request.setAttribute("news", newsList.subList((page *newsPerPage)-newsPerPage, (page *newsPerPage)));
+            request.setAttribute("news", newsList.subList((page * NewsList.NEWS_PER_PAGE) - NewsList.NEWS_PER_PAGE, (page * NewsList.NEWS_PER_PAGE)));
         }
         // End Page Management =======================================================================
-        
+
         //User session checking
         if (SecurityLayer.checkSession(request) != null) {
             try {
                 User user = getDataLayer().getUser(SecurityLayer.checkNumeric((request.getSession().getAttribute("userid")).toString()));
                 request.setAttribute("user", user);
                 //Series Notification checking
-                RESTSortLayer.checkNotifications(user, request, response);
-                
+                RESTUtility.checkNotifications(user, request, response);
+
             } catch (NumberFormatException ex) {
                 //User id is not a number
             }
@@ -200,18 +200,18 @@ public class NewsList extends RESTBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-     try {
-        if (request.getParameter("s") != null) {
+        try {
+            if (request.getParameter("s") != null) {
 
                 action_FilterAndOrder_newslist(request, response);
-        } else {
+            } else {
 
                 action_news_list(request, response);
-        }
-         } catch (IOException ex) {
-                action_error(request, response, "Riprova di nuovo!");
-                System.err.println("Errore nella Process Request di NewsList.java: IOException");
             }
+        } catch (IOException ex) {
+            action_error(request, response, "Riprova di nuovo!");
+            System.err.println("Errore nella Process Request di NewsList.java: IOException");
+        }
     }
 
     @Override

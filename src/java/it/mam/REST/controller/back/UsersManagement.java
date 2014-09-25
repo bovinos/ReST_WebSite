@@ -4,13 +4,14 @@ import it.mam.REST.controller.RESTBaseController;
 import it.mam.REST.data.model.Group;
 import it.mam.REST.data.model.Service;
 import it.mam.REST.data.model.User;
-import it.mam.REST.utility.RESTSortLayer;
+import it.mam.REST.utility.RESTUtility;
 import it.univaq.f4i.iw.framework.result.FailureResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.RESTSecurityLayer;
 import it.univaq.f4i.iw.framework.security.SecurityLayer;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +43,7 @@ public class UsersManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("services", getDataLayer().getServices());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "insertGroup.ftl.html");
@@ -76,13 +77,6 @@ public class UsersManagement extends RESTBaseController {
                 if (checkGroupInputData(request, response)) {
                     group.setName(request.getParameter("groupName"));
                     group.setDescription(request.getParameter("groupDescription"));
-
-//                String[] services = request.getParameterValues("series");
-//                List<Service> serviceList = new ArrayList();
-//                for (String s : services) {
-//                    serviceList.add(getDataLayer().getService(SecurityLayer.checkNumeric(s)));
-//                }
-//                group.setServices(serviceList);
                 } else {
                     request.setAttribute("error", "Uno dei campi è vuoto!");
                     action_insert_group(request, response);
@@ -116,7 +110,7 @@ public class UsersManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("groups", getDataLayer().getGroups());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "insertService.ftl.html");
@@ -150,13 +144,6 @@ public class UsersManagement extends RESTBaseController {
                 if (checkServiceInputData(request, response)) {
                     service.setName(request.getParameter("serviceName"));
                     service.setDescription(request.getParameter("serviceDescription"));
-
-//                String[] groups = request.getParameterValues("groups");
-//                List<Group> groupList = new ArrayList();
-//                for (String g : groups) {
-//                    groupList.add(getDataLayer().getGroup(SecurityLayer.checkNumeric(g)));
-//                }
-//                service.setGroups(groupList);
                 } else {
                     request.setAttribute("error", "Uno dei campi è vuoto!");
                     action_insert_service(request, response);
@@ -190,7 +177,7 @@ public class UsersManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("services", getDataLayer().getServices());
                 request.setAttribute("groups", getDataLayer().getGroups());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -262,8 +249,11 @@ public class UsersManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
-                request.setAttribute("groups", getDataLayer().getGroups());
+                RESTUtility.checkNotifications(user, request, response);
+                List<Group> groups = getDataLayer().getGroups();
+                groups.remove(getDataLayer().getGroup(Group.ADMIN));
+                groups.remove(getDataLayer().getGroup(Group.USER));
+                request.setAttribute("groups", groups);
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "removeGroup.ftl.html");
                 result.activate("../back/backOutline.ftl.html", request, response);
@@ -331,7 +321,7 @@ public class UsersManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("services", getDataLayer().getServices());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
                 request.setAttribute("backContent_tpl", "removeService.ftl.html");
@@ -403,7 +393,7 @@ public class UsersManagement extends RESTBaseController {
                 }
                 request.setAttribute("where", "back");
                 request.setAttribute("user", user);
-                RESTSortLayer.checkNotifications(user, request, response);
+                RESTUtility.checkNotifications(user, request, response);
                 request.setAttribute("services", getDataLayer().getServices());
                 request.setAttribute("groups", getDataLayer().getGroups());
                 request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
@@ -547,19 +537,15 @@ public class UsersManagement extends RESTBaseController {
     private boolean checkGroupInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("groupName") != null && request.getParameter("groupName").length() > 0
                 && request.getParameter("groupDescription") != null && request.getParameter("groupDescription").length() > 0;
-        // && request.getParameterValues("services") != null && request.getParameterValues("services").length > 0;
     }
 
     // Checks if all the input fields have been filled
-
     private boolean checkServiceInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("serviceName") != null && request.getParameter("serviceName").length() > 0
                 && request.getParameter("serviceDescription") != null && request.getParameter("serviceDescription").length() > 0;
-        //&& request.getParameterValues("groups") != null && request.getParameterValues("groups").length > 0;
     }
 
     // Checks if all the input fields have been filled
-
     private boolean checkServiceGroupInputData(HttpServletRequest request, HttpServletResponse response) {
         return request.getParameter("service") != null && request.getParameter("service").length() > 0
                 && request.getParameter("group") != null && request.getParameter("group").length() > 0;

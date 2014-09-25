@@ -1671,7 +1671,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 uMessage.executeUpdate();
             } else { // Insert
                 iMessage.setString(1, message.getTitle());
-                System.err.println("TESTO DEL MESSAGGIO: " + message.getText());
                 iMessage.setString(2, message.getText());
                 iMessage.setTimestamp(3, new java.sql.Timestamp(new Date().getTime()));
                 if (message.getUser() != null) {
@@ -3519,8 +3518,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 uUserSeries.setInt(6, userSeries.getSeason());
                 uUserSeries.setInt(7, userSeries.getEpisode());
                 uUserSeries.setInt(8, ID);
-                System.err.println(uUserSeries);
-                System.err.println("UPDATE USER SERIES");
                 uUserSeries.executeUpdate();
             } else { // insert
                 if (userSeries.getUser() != null) {
@@ -3542,8 +3539,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 iUserSeries.setDate(5, new java.sql.Date(new Date().getTime()));
                 iUserSeries.setInt(6, userSeries.getSeason());
                 iUserSeries.setInt(7, userSeries.getEpisode());
-                System.err.println(iUserSeries);
-                System.err.println("INSERT USER SERIES");
                 if (iUserSeries.executeUpdate() == 1) {
                     rs = iUserSeries.getGeneratedKeys();
                     if (rs.next()) {
@@ -3552,7 +3547,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
                 }
             }
             if (ID > 0) {
-                System.err.println("COPY FROM USER SERIES");
                 userSeries.copyFrom(getUserSeries(ID));
             }
             userSeries.setDirty(false);
@@ -3583,7 +3577,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
             } else {
                 dUserSeries.setNull(2, java.sql.Types.INTEGER);
             }
-            System.err.println("PRIMA DI DELETE USER SERIES");
             dUserSeries.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -3850,9 +3843,6 @@ public class RESTDataLayerMySQL extends DataLayerMysqlImpl implements RESTDataLa
         try {
             dServiceGroup.setInt(1, serviceID);
             dServiceGroup.setInt(2, groupID);
-            System.err.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
-            System.err.println(dServiceGroup);
-            System.err.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
             dServiceGroup.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RESTDataLayerMySQL.class.getName()).log(Level.SEVERE, null, ex);

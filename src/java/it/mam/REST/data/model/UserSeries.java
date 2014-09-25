@@ -29,9 +29,6 @@ public interface UserSeries {
 
     void setRating(String rating);
 
-    /**
-     * <Date? sul DB è Time!! >
-     */
     Date getAnticipationNotification();
 
     void setAnticipationNotification(Date anticipation);
